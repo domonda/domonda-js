@@ -6,7 +6,7 @@
     "lint": "eslint 'packages/*/src/**/*.{js,jsx,ts,tsx}'",
     "lint:fix": "npm run lint -- --fix",
     "tsc": "lerna run tsc --parallel",
-    "tsc:watch": "lerna run tsc:watch --parallel"
+    "start": "lerna run start --parallel"
   },
   "devDependencies": {
     "@types/jest": "^24.0.15",
