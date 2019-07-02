@@ -1,0 +1,44 @@
+{
+  "name": "@domonda/form",
+  "version": "0.0.0",
+  "description": "Powerful yet simple form library built on top of RxJS.",
+  "keywords": [
+    "domonda",
+    "form",
+    "rxjs"
+  ],
+  "homepage": "https://github.com/domonda/domonda-js#readme",
+  "license": "ISC",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/domonda/domonda-js.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "prepublishOnly": "tsc",
+    "tsc": "tsc",
+    "tsc:watch": "npm run tsc -- --watch --preserveWatchOutput"
+  },
+  "bugs": {
+    "url": "https://github.com/domonda/domonda-js/issues"
+  },
+  "dependencies": {
+    "lodash.clone": "^4.5.0",
+    "lodash.get": "^4.4.2",
+    "lodash.omit": "^4.5.0",
+    "lodash.setwith": "^4.3.2",
+    "rxjs": "^6.5.2"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.135"
+  }
+}
