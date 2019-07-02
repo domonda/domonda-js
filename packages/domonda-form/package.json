@@ -24,9 +24,8 @@
   },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
-    "prepublishOnly": "tsc",
-    "tsc": "tsc",
-    "start": "tsc --watch --preserveWatchOutput"
+    "build": "tsc",
+    "start": "npm run build -- --watch --preserveWatchOutput"
   },
   "bugs": {
     "url": "https://github.com/domonda/domonda-js/issues"
