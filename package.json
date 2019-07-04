@@ -6,7 +6,7 @@
     "publish": "lerna publish from-package",
     "test": "jest",
     "test:watch": "jest --watch",
-    "lint": "eslint 'packages/*/src/**/*.{js,jsx,ts,tsx}'",
+    "lint": "eslint 'packages/**/src/**/*.{js,jsx,ts,tsx}'",
     "lint:fix": "npm run lint -- --fix",
     "build": "lerna run build",
     "start": "lerna run start --parallel"
