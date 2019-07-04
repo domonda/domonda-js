@@ -3,7 +3,7 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "bump": "lerna version --conventional-commits -m \"chore(release): bump\" --create-release github",
-    "publish": "lerna publish from-package",
+    "publish": "lerna publish from-package --contents lib",
     "test": "jest",
     "test:watch": "jest --watch",
     "lint": "eslint 'packages/**/src/**/*.{js,jsx,ts,tsx}'",
