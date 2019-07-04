@@ -1,6 +1,7 @@
 {
   "private": true,
   "scripts": {
+    "bump": "lerna version --conventional-commits -m \"chore(release): publish\" --no-push",
     "test": "jest",
     "test:watch": "jest --watch",
     "lint": "eslint 'packages/*/src/**/*.{js,jsx,ts,tsx}'",

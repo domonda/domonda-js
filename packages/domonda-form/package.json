@@ -1,6 +1,6 @@
 {
   "name": "@domonda/form",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Powerful yet simple form library built on top of RxJS.",
   "keywords": [
     "domonda",
