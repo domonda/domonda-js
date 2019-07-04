@@ -27,7 +27,8 @@
   },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
-    "build": "tsc",
+    "clean": "rimraf ./lib/*",
+    "build": "npm run clean && tsc",
     "start": "npm run build -- --watch --preserveWatchOutput"
   },
   "bugs": {
@@ -41,6 +42,7 @@
     "rxjs": "^6.5.2"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.135"
+    "@types/lodash": "^4.14.135",
+    "rimraf": "^2.6.3"
   }
 }
