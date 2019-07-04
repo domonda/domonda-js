@@ -2,6 +2,7 @@
   "private": true,
   "scripts": {
     "bump": "lerna version --conventional-commits -m \"chore(release): bump\" --create-release github",
+    "publish": "lerna publish from-package",
     "test": "jest",
     "test:watch": "jest --watch",
     "lint": "eslint 'packages/*/src/**/*.{js,jsx,ts,tsx}'",
