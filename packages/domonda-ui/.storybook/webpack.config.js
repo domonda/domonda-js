@@ -10,10 +10,7 @@ module.exports = ({ config }) => {
     use: [
       {
         loader: require.resolve('ts-loader'),
-        options: {
-          // reportFiles: ['!src/**/*.test.{ts,tsx}'],
-          ...(dev ? { transpileOnly: true, experimentalWatchApi: true } : undefined),
-        },
+        options: dev ? { transpileOnly: true, experimentalWatchApi: true } : {},
       },
       {
         loader: require.resolve('react-docgen-typescript-loader'),
