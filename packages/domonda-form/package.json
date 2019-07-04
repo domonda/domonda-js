@@ -21,7 +21,8 @@
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
     "clean": "rimraf ./lib/*",
-    "build": "npm run clean && tsc",
+    "build:copy-files": "node ../../scripts/copy-files.js",
+    "build": "npm run clean && tsc && npm run build:copy-files",
     "start": "npm run build -- --watch --preserveWatchOutput"
   },
   "bugs": {
