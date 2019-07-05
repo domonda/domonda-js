@@ -61,7 +61,9 @@ const Grid = React.forwardRef<HTMLElement, GridProps & Decorate>(function Grid(p
   );
 });
 
-Grid.displayName = 'Grid';
+if (process.env.NODE_ENV !== 'production') {
+  Grid.displayName = 'Grid';
+}
 
 const StyledGrid = decorate(Grid);
 export { StyledGrid as Grid };

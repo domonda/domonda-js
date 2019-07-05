@@ -51,7 +51,9 @@ const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps & Decorate>(funct
   );
 });
 
-MenuItem.displayName = 'MenuItem';
+if (process.env.NODE_ENV !== 'production') {
+  MenuItem.displayName = 'MenuItem';
+}
 
 const StyledMenuItem = decorate(MenuItem);
 export { StyledMenuItem as MenuItem };

@@ -86,7 +86,9 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps & WithStyles
   },
 );
 
-TextField.displayName = 'TextField';
+if (process.env.NODE_ENV !== 'production') {
+  TextField.displayName = 'TextField';
+}
 
 const Styled = withStyles(styles)(TextField);
 export { Styled as TextField };

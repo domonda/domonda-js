@@ -30,7 +30,9 @@ const Menu = React.forwardRef<HTMLElement, MenuProps & Decorate>(function Menu(p
   );
 });
 
-Menu.displayName = 'Menu';
+if (process.env.NODE_ENV !== 'production') {
+  Menu.displayName = 'Menu';
+}
 
 const StyledMenu = decorate(Menu);
 export { StyledMenu as Menu };

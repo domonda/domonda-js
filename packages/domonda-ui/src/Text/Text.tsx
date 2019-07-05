@@ -80,7 +80,9 @@ const Text = React.forwardRef<HTMLHeadingElement, TextProps & Decorate>(function
   );
 });
 
-Text.displayName = 'Text';
+if (process.env.NODE_ENV !== 'production') {
+  Text.displayName = 'Text';
+}
 
 const StyledText = decorate(Text);
 export { StyledText as Text };
