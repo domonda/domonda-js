@@ -16,19 +16,15 @@ export function install() {
             return (_0, sheet) => {
               ruleCounter += 1;
 
-              let prefix = '';
               let jssId = '';
               if (sheet) {
-                if (sheet.options.classNamePrefix) {
-                  prefix = sheet.options.classNamePrefix;
-                }
                 // id can indeed exist (copied from the official JSS repo)
                 if ((sheet.options.jss as any).id != null) {
                   jssId = String((sheet.options.jss as any).id);
                 }
               }
 
-              return `${prefix || 'c'}${jssId}${ruleCounter}`;
+              return `c${jssId}${ruleCounter}`;
             };
           }
         : undefined,
