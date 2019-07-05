@@ -51,6 +51,5 @@ module.exports = {
 
     'react/no-unescaped-entities': 'off',
     'react/prop-types': 'off',
-    'react/display-name': 'off',
   },
 };

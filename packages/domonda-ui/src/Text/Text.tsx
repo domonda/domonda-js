@@ -80,5 +80,7 @@ const Text = React.forwardRef<HTMLHeadingElement, TextProps & Decorate>(function
   );
 });
 
+Text.displayName = 'Text';
+
 const StyledText = decorate(Text);
 export { StyledText as Text };

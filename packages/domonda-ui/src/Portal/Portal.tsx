@@ -79,3 +79,5 @@ export const Portal = React.forwardRef<Element | null, PortalProps>(function Por
 
   return mountNode ? ReactDOM.createPortal(children, mountNode) : mountNode;
 });
+
+Portal.displayName = 'Portal';

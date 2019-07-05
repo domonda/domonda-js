@@ -112,5 +112,7 @@ const NativeSelect = React.forwardRef<
   );
 });
 
+NativeSelect.displayName = 'NativeSelect';
+
 const StyledNativeSelect = withStyles(styles)(NativeSelect);
 export { StyledNativeSelect as NativeSelect };

@@ -194,3 +194,5 @@ export const Popper = React.forwardRef<Element | null, PopperProps>(function Pop
     </Portal>
   );
 });
+
+Popper.displayName = 'Popper';

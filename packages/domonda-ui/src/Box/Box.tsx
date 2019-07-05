@@ -55,5 +55,7 @@ const Box = React.forwardRef<HTMLElement, BoxProps & Decorate>(function Box(prop
   );
 });
 
+Box.displayName = 'Box';
+
 const StyledBox = decorate(Box);
 export { StyledBox as Box };

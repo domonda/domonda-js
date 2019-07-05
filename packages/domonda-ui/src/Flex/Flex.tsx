@@ -78,5 +78,7 @@ const Flex = React.forwardRef<HTMLElement, FlexProps & Decorate>(function Flex(p
   );
 });
 
+Flex.displayName = 'Flex';
+
 const StyledFlex = decorate(Flex);
 export { StyledFlex as Flex };

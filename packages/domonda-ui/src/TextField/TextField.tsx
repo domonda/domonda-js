@@ -86,5 +86,7 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps & WithStyles
   },
 );
 
+TextField.displayName = 'TextField';
+
 const Styled = withStyles(styles)(TextField);
 export { Styled as TextField };
