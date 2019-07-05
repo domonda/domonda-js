@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.5](https://github.com/domonda/domonda-js/compare/@domonda/ui@1.0.4...@domonda/ui@1.0.5) (2019-07-05)
+
+
+### Features
+
+* **jss:** omit class name prefix on prod build ([b5585d0](https://github.com/domonda/domonda-js/commit/b5585d0))
+
+
+
+
+
 ## [1.0.4](https://github.com/domonda/domonda-js/compare/@domonda/ui@1.0.3...@domonda/ui@1.0.4) (2019-07-05)
 
 
