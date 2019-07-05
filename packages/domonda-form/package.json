@@ -23,7 +23,7 @@
     "clean": "rimraf ./lib/*",
     "build:copy-files": "node ../../scripts/copy-files.js",
     "build": "npm run clean && tsc && npm run build:copy-files",
-    "start": "npm run build -- --watch --preserveWatchOutput"
+    "start": "tsc --watch --preserveWatchOutput"
   },
   "bugs": {
     "url": "https://github.com/domonda/domonda-js/issues"
