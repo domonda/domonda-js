@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.4](https://github.com/domonda/domonda-js/compare/@domonda/ui@1.0.3...@domonda/ui@1.0.4) (2019-07-05)
+
+
+### Bug Fixes
+
+* ensure all components have a displayName ([2688d68](https://github.com/domonda/domonda-js/commit/2688d68))
+
+
+### Features
+
+* **jss:** minify class names on in production ([bfcf968](https://github.com/domonda/domonda-js/commit/bfcf968))
+
+
+
+
+
 ## [1.0.3](https://github.com/domonda/domonda-js/compare/@domonda/ui@1.0.2...@domonda/ui@1.0.3) (2019-07-05)
 
 
