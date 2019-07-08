@@ -7,4 +7,5 @@ export * from './shadows';
 export * from './theme';
 export * from './createStyles';
 export * from './withStyles';
+export * from './makeStyles';
 export * from './generateStaticClassName';
