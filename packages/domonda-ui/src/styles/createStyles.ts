@@ -1,4 +1,4 @@
-import { StyleRules, ThemedStyleRules } from './withStyles';
+import { StyleRules, ThemedStyleRules } from './styles';
 
 /**
  * This function doesn't really "do anything" at runtime, it's just the identity
@@ -8,7 +8,7 @@ import { StyleRules, ThemedStyleRules } from './withStyles';
  * @param styles a set of style mappings
  * @returns the same styles that were passed in
  */
-export function createStyles<P extends object, C extends string = string>(
+export function createStyles<P extends {}, C extends string = string>(
   styles: StyleRules<P, C> | ThemedStyleRules<P, C>,
 ): StyleRules<P, C> | ThemedStyleRules<P, C> {
   return styles;
@@ -21,7 +21,7 @@ export function createStyles<P extends object, C extends string = string>(
  * @param styles a set of style mappings
  * @returns the same styles that were passed in
  */
-export function makeCreateStyles<P extends object>(): <C extends string>(
+export function makeCreateStyles<P extends {}>(): <C extends string>(
   styles: StyleRules<P, C> | ThemedStyleRules<P, C>,
 ) => StyleRules<P, C> | ThemedStyleRules<P, C> {
   return createStyles;
