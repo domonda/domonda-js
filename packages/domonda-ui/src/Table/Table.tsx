@@ -10,13 +10,16 @@ const styles = createStyles({
   },
 });
 
-export interface TableProps extends React.ButtonHTMLAttributes<HTMLTableElement> {
-  classes?: WithStyles<typeof styles>['classes'];
-}
+export interface TableProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 const Table: React.FC<TableProps & WithStyles<typeof styles>> = (props) => {
-  const { classes, className, children } = props;
-  return <div className={clsx(classes.root, className)}>{children}</div>;
+  const { className, classes, children, ...rest } = props;
+
+  return (
+    <div {...rest} className={clsx(classes.root, className)}>
+      {children}
+    </div>
+  );
 };
 
 const StyledTable = withStyles(styles)(Table);

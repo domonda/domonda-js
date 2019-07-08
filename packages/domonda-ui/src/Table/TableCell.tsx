@@ -4,7 +4,6 @@ import clsx from 'clsx';
 
 const styles = createStyles(({ spacing }) => ({
   root: {
-    flexGrow: 1,
     padding: spacing(1.5, 1),
     verticalAlign: 'middle',
     minWidth: 48,
@@ -12,29 +11,32 @@ const styles = createStyles(({ spacing }) => ({
     overflow: 'hidden',
     textOverflow: 'ellipsis',
   },
-  sticky: {
-    position: 'sticky',
-    zIndex: 2,
-    left: 0,
+  rtl: {
+    textAlign: 'right',
   },
 }));
 
-interface Props {
-  children: React.ReactNode;
-  sticky?: boolean;
+export interface TableCellProps extends React.HTMLAttributes<HTMLDivElement> {
+  basis?: React.CSSProperties['flexBasis'];
+  grow?: React.CSSProperties['flexGrow'];
+  shrink?: React.CSSProperties['flexShrink'];
+  rtl?: boolean;
 }
 
-export const tableCellStickyClassName = generateStaticClassName('TableCell--sticky');
 export const tableCellClassName = generateStaticClassName('TableCell');
 
-const TableCell: React.FC<Props & WithStyles<typeof styles>> = (props) => {
-  const { classes, children, sticky } = props;
-  const className = clsx(tableCellClassName, classes.root, {
-    [classes.sticky]: sticky,
-    [tableCellStickyClassName]: sticky,
-  });
+const TableCell: React.FC<TableCellProps & WithStyles<typeof styles>> = (props) => {
+  const { classes, className, children, style, basis, grow, shrink, rtl, ...rest } = props;
 
-  return <div className={className}>{children}</div>;
+  return (
+    <div
+      {...rest}
+      className={clsx(tableCellClassName, classes.root, rtl && classes.rtl, className)}
+      style={{ flexBasis: basis, flexGrow: grow, flexShrink: shrink, ...style }}
+    >
+      {children}
+    </div>
+  );
 };
 
 const StyledTableCell = withStyles(styles)(TableCell);

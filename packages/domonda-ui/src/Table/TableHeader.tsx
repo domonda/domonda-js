@@ -1,33 +1,29 @@
 import * as React from 'react';
 import { withStyles, WithStyles, createStyles } from '../styles';
-import { tableCellStickyClassName, tableCellClassName } from './TableCell';
+import clsx from 'clsx';
 
-const styles = createStyles(({ palette, spacing }) => ({
+const styles = createStyles(({ palette, typography }) => ({
   root: {
-    display: 'table-header-group',
-    fontSize: 12,
-    fontWeight: 700,
-    color: palette.light('textPrimary'),
     zIndex: 1,
-    backgroundColor: palette.dark('background'),
+    display: 'table-header-group',
+    fontSize: typography.caption.fontSize,
+    fontWeight: typography.weights.bold,
     textTransform: 'uppercase',
     borderBottom: `1px solid ${palette.border}`,
-    [`& .${tableCellClassName}`]: {
-      padding: spacing(1, 1),
-    },
-    [`& .${tableCellStickyClassName}`]: {
-      zIndex: 3,
-    },
+    color: palette.light('textPrimary'),
+    backgroundColor: palette.dark('background'),
   },
 }));
 
-interface Props {
-  children: React.ReactNode;
-}
+export interface TableHeaderProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-const TableHeader: React.FC<Props & WithStyles<typeof styles>> = (props) => {
-  const { classes, children } = props;
-  return <div className={classes.root}>{children}</div>;
+const TableHeader: React.FC<TableHeaderProps & WithStyles<typeof styles>> = (props) => {
+  const { classes, className, children, ...rest } = props;
+  return (
+    <div {...rest} className={clsx(classes.root, className)}>
+      {children}
+    </div>
+  );
 };
 
 const StyledTableHeader = withStyles(styles)(TableHeader);
