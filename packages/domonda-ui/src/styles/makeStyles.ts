@@ -1,6 +1,6 @@
 // @ts-ignore since `createUseStyles` is missing type definitions
 import { createUseStyles } from 'react-jss';
-import { Styles, ClassNameMap, ClassKeyOfStyles, PropsOfStyles } from './styles';
+import { Styles, ClassNameMap, ClassKeyOfStyles, PropsOfStyles } from './createStyles';
 import { WithStylesOptions } from './withStyles';
 
 export interface MakeStylesOptions extends Omit<WithStylesOptions, 'injectTheme'> {

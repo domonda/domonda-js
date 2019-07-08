@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Theme } from './theme';
 import { default as jssWithStyles } from 'react-jss';
-import { Styles, ClassNameMap, ClassKeyOfStyles, PropsOfStyles } from './styles';
+import { Styles, ClassNameMap, ClassKeyOfStyles, PropsOfStyles } from './createStyles';
 
 export interface WithStylesOptions {
   index?: number;
