@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.7](https://github.com/domonda/domonda-js/compare/@domonda/ui@1.0.6...@domonda/ui@1.0.7) (2019-07-08)
+
+
+### Bug Fixes
+
+* move `styles.d` definitions to `createStyles` ([95f858d](https://github.com/domonda/domonda-js/commit/95f858d))
+
+
+
+
+
 ## [1.0.6](https://github.com/domonda/domonda-js/compare/@domonda/ui@1.0.5...@domonda/ui@1.0.6) (2019-07-08)
 
 
