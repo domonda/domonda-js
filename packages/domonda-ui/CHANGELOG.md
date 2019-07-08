@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.6](https://github.com/domonda/domonda-js/compare/@domonda/ui@1.0.5...@domonda/ui@1.0.6) (2019-07-08)
+
+
+### Features
+
+* **makeStyles:** implement `makeStyles` hook ([e3ae160](https://github.com/domonda/domonda-js/commit/e3ae160))
+* **Table:** improvements ([f61d217](https://github.com/domonda/domonda-js/commit/f61d217))
+* dont set displayNames in production ([cfa2d76](https://github.com/domonda/domonda-js/commit/cfa2d76))
+
+
+
+
+
 ## [1.0.5](https://github.com/domonda/domonda-js/compare/@domonda/ui@1.0.4...@domonda/ui@1.0.5) (2019-07-05)
 
 
