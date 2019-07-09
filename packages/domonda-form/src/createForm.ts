@@ -17,7 +17,7 @@ import { createFormField } from './createFormField';
 const DEFAULT_AUTO_SUBMIT_DELAY = 300;
 
 export function createForm<DefaultValues extends FormDefaultValues>(
-  defaultValues: DefaultValues,
+  defaultValues: DefaultValues = {} as DefaultValues,
   initialConfig: FormConfig<DefaultValues> = {},
 ): [Form<DefaultValues>, FormDestroy] {
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
