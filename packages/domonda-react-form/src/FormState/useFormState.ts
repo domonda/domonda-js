@@ -17,6 +17,7 @@ export function useFormState<DefaultValues extends object, V>(
   const form = useFormContext<DefaultValues>();
 
   const value = useValue(() => form.$.pipe(map(selector)), () => selector(form.$.value), [
+    form,
     selector,
   ]);
 
