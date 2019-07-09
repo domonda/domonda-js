@@ -197,6 +197,30 @@ describe('Update', () => {
   });
 });
 
+describe('Validation', () => {
+  const [form] = createForm(defaultValues);
+  const Wrapper: React.FC = ({ children }) => (
+    <FormContext.Provider value={form}>{children}</FormContext.Provider>
+  );
+  const path = pathToDenis + '.name';
+
+  test('should properly handle validation props', () => {
+    const validationMessage = 'Very invalid!';
+    const initialProps: UseFormFieldProps<string> = {
+      path,
+      immediateValidate: true,
+      validate: () => validationMessage,
+    };
+
+    const { result } = renderHook(useFormField, {
+      initialProps,
+      wrapper: Wrapper,
+    });
+
+    expect(result.current.state.validityMessage).toBe(validationMessage);
+  });
+});
+
 describe('Cleanup', () => {
   const [form] = createForm(defaultValues);
   const Wrapper: React.FC = ({ children }) => (

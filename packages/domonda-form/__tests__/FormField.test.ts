@@ -1,12 +1,13 @@
 import { createForm } from '../src/createForm';
 import get from 'lodash/get';
-import { skip } from 'rxjs/operators';
+import { skip, map } from 'rxjs/operators';
 
 const path = 'some.path[1].to.0';
+const valueAtPath = { value: '2nd' };
 
 const defaultValues = {
   some: {
-    path: [{ to: [{ value: '1st' }] }, { to: [{ value: '2nd' }] }],
+    path: [{ to: [{ value: '1st' }] }, { to: [valueAtPath] }],
   },
 };
 
@@ -24,7 +25,7 @@ describe('Creation', () => {
 
     const [field] = form.makeFormField(path);
 
-    expect(field.state.defaultValue).toBe(get(form.state.defaultValues, path));
+    expect(field.state.defaultValue).toBe(valueAtPath);
     expect(field.value).toBe(get(form.values, path));
   });
 
@@ -44,7 +45,7 @@ describe('Creation', () => {
 
     field.$.subscribe((state) => {
       expect(state).toEqual({
-        defaultValue: get(form.state.defaultValues, path),
+        defaultValue: valueAtPath,
         value: get(form.values, path),
         validityMessage: null,
         changed: false,
@@ -125,6 +126,75 @@ describe('Change', () => {
     field.setValue(field.value);
 
     expect(spy).toBeCalledTimes(0);
+  });
+});
+
+describe('Validation', () => {
+  const [form] = createForm(defaultValues);
+
+  test('should receive value for validation', (done) => {
+    const spy = jest.fn((_0) => null);
+
+    const [field] = form.makeFormField(path, {
+      immediateValidate: true,
+      validate: spy,
+    });
+
+    // ghost change
+    field.setValue(valueAtPath);
+
+    const nextValue = { value: '3rd' };
+    field.setValue(nextValue);
+
+    setTimeout(() => {
+      expect(spy).toBeCalledTimes(2);
+      expect(spy.mock.calls[0][0]).toBe(valueAtPath);
+      expect(spy.mock.calls[1][0]).toBe(nextValue);
+      done();
+    }, 0);
+  });
+
+  test('should validate immediatly', (done) => {
+    const validityMessage = 'Much invalid!';
+
+    const [field] = form.makeFormField(path, {
+      immediateValidate: true,
+      validate: () => validityMessage,
+    });
+
+    const spy = jest.fn();
+    field.$.pipe(map(({ validityMessage }) => validityMessage)).subscribe(spy);
+
+    const steps = [null, validityMessage];
+
+    setTimeout(() => {
+      expect(spy).toBeCalledTimes(2);
+      expect(spy.mock.calls[0][0]).toBe(steps[0]);
+      expect(spy.mock.calls[1][0]).toBe(steps[1]);
+      done();
+    }, 0);
+  });
+
+  test('should validate on value change', (done) => {
+    const validityMessage = 'Much invalid!';
+
+    const [field] = form.makeFormField(path, {
+      validate: () => validityMessage,
+    });
+
+    const spy = jest.fn();
+    field.$.pipe(map(({ validityMessage }) => validityMessage)).subscribe(spy);
+    field.setValue({ value: '3rd' });
+
+    const steps = [null, null, validityMessage];
+
+    setTimeout(() => {
+      expect(spy).toBeCalledTimes(3);
+      expect(spy.mock.calls[0][0]).toBe(steps[0]);
+      expect(spy.mock.calls[1][0]).toBe(steps[1]);
+      expect(spy.mock.calls[2][0]).toBe(steps[2]);
+      done();
+    }, 0);
   });
 });
 
