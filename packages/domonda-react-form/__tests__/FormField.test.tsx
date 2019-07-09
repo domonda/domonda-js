@@ -198,9 +198,12 @@ describe('Update', () => {
 });
 
 describe('Cleanup', () => {
-  test('should complete field stream on unmount', () => {
-    const [form] = createForm(defaultValues);
+  const [form] = createForm(defaultValues);
+  const Wrapper: React.FC = ({ children }) => (
+    <FormContext.Provider value={form}>{children}</FormContext.Provider>
+  );
 
+  test('should complete field stream on unmount', () => {
     const path = pathToDenis + '.name';
     const initialProps: UseFormFieldProps<string> = { path };
 
@@ -220,6 +223,50 @@ describe('Cleanup', () => {
     });
 
     unmount();
+
+    expect(spy).toBeCalled();
+  });
+
+  test('should complete previous field on path change', () => {
+    const path = pathToDenis + '.name';
+    const initialProps: UseFormFieldProps<string> = { path };
+
+    const {
+      result: { current: field },
+      rerender,
+    } = renderHook(useFormField, {
+      initialProps,
+      wrapper: Wrapper,
+    });
+
+    const spy = jest.fn();
+    field.$.subscribe({
+      complete: spy,
+    });
+
+    act(() => rerender({ path: pathToErik + '.name' }));
+
+    expect(spy).toBeCalled();
+  });
+
+  test('should complete previous field on validation update', () => {
+    const path = pathToDenis + '.name';
+    const initialProps: UseFormFieldProps<string> = { path, validate: () => null };
+
+    const {
+      result: { current: field },
+      rerender,
+    } = renderHook(useFormField, {
+      initialProps,
+      wrapper: Wrapper,
+    });
+
+    const spy = jest.fn();
+    field.$.subscribe({
+      complete: spy,
+    });
+
+    act(() => rerender({ path, validate: () => null }));
 
     expect(spy).toBeCalled();
   });
