@@ -4,6 +4,11 @@ module.exports = {
   moduleFileExtensions: ['ts', 'tsx', 'js'],
   testRegex: '(/__tests__/.*|(\\.|/)(test))\\.tsx?$',
   testPathIgnorePatterns: ['/node_modules/', '(/__tests__/.*|(\\.|/)(test))\\.d.ts$'],
+  moduleNameMapper: {
+    '^@domonda/ui(.*)$': '<rootDir>/packages/domonda-ui/src/$1',
+    '^@domonda/form(.*)$': '<rootDir>/packages/domonda-form/src/$1',
+    '^@domonda/reac-form(.*)$': '<rootDir>/packages/domonda-react-form/src/$1',
+  },
   globals: {
     'ts-jest': {
       tsConfig: 'tsconfig.test.json',

@@ -13,9 +13,6 @@
   "license": "ISC",
   "main": "lib/src/index.js",
   "typings": "lib/src/index.d.ts",
-  "files": [
-    "lib/src"
-  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/domonda/domonda-js.git"
@@ -24,13 +21,12 @@
     "access": "public"
   },
   "scripts": {
-    "prepublishOnly": "node ../../scripts/prepublishOnly.js",
     "test": "echo \"Error: run tests from root\" && exit 1",
     "clean": "rimraf lib/*",
-    "build:storybook": "npm run clean:storybook && build-storybook -o ./lib/storybook",
-    "build": "npm run clean && tsc",
+    "build:storybook": "npm run clean && build-storybook -o ./lib/storybook",
+    "build": "npm run clean && tsc && node ../../scripts/copyFiles.js",
     "start:storybook": "start-storybook --ci -p 6006",
-    "start": "npm run build -- --watch --preserveWatchOutput"
+    "start": "npm run clean && tsc --watch --preserveWatchOutput"
   },
   "bugs": {
     "url": "https://github.com/domonda/domonda-js/issues"

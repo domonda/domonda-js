@@ -18,8 +18,15 @@ async function getLibDir() {
   return path.dirname(packageData.main);
 }
 
-async function includeFileInLib(file) {
+async function includeFileInLib(file, permissive) {
   const sourcePath = path.resolve(packagePath, file);
+
+  // the file might not exist
+  const exists = fse.existsSync(sourcePath);
+  if (permissive && !exists) {
+    return;
+  }
+
   const libDir = await getLibDir();
   const targetPath = path.resolve(libDir, path.basename(file));
 
@@ -43,11 +50,11 @@ async function createLibPackage() {
     'dependencies',
   ];
 
-  const packageData = await readPackageData();
+  const { main, typings, ...packageData } = await readPackageData();
   const libPackageData = {
     ...pick(packageData, includedLibPackageDataKeys),
-    main: 'index.js',
-    typings: 'index.d.ts',
+    main: path.basename(main),
+    typings: path.basename(typings),
   };
 
   const libDir = await getLibDir();
@@ -90,7 +97,8 @@ async function flattenLib() {
 async function run() {
   try {
     await createLibPackage();
-    await Promise.all(['CHANGELOG.md', 'LICENSE'].map((file) => includeFileInLib(file)));
+    await includeFileInLib('CHANGELOG.md', true);
+    await includeFileInLib('LICENSE');
     await flattenLib();
   } catch (err) {
     console.error(err);
