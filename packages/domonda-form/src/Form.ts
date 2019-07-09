@@ -11,8 +11,11 @@ export class FormConfigRef<DefaultValues extends FormDefaultValues> {
   private submitHandler: (event: Event) => void;
   private config: FormConfig<DefaultValues>;
   constructor(config: FormConfig<DefaultValues>, submitHandler: (event: Event) => void) {
-    this.config = config;
     this.submitHandler = submitHandler;
+    this.config = config;
+    if (this.config.el) {
+      this.config.el.addEventListener('submit', this.submitHandler);
+    }
   }
   get current() {
     return this.config;
