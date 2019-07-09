@@ -1,5 +1,5 @@
 import { ThemeProvider as JSSThemeProvider, withTheme as jssWithTheme } from 'react-jss';
-import * as deepmerge from 'deepmerge';
+import deepmerge from 'deepmerge';
 import { createSpacing, Spacing } from './spacing';
 import { defaultShadows, Shadows } from './shadows';
 import { defaultShape, Shape } from './shape';
