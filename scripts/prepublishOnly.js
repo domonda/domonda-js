@@ -15,7 +15,7 @@ async function readPackageData() {
 
 async function getLibDir() {
   const packageData = await readPackageData();
-  return packageData.libDir || contents;
+  return path.dirname(packageData.main);
 }
 
 async function includeFileInLib(file) {

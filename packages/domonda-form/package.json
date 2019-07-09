@@ -9,8 +9,11 @@
   ],
   "homepage": "https://github.com/domonda/domonda-js#readme",
   "license": "ISC",
-  "main": "index.js",
-  "typings": "index.d.ts",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/domonda/domonda-js.git"
@@ -21,7 +24,7 @@
   "scripts": {
     "prepublishOnly": "node ../../scripts/prepublishOnly.js",
     "test": "echo \"Error: run tests from root\" && exit 1",
-    "clean": "rimraf ./lib/*",
+    "clean": "rimraf lib/*",
     "build": "npm run clean && tsc",
     "start": "npm run build -- --watch --preserveWatchOutput"
   },
