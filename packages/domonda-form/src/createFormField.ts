@@ -102,14 +102,24 @@ export function createFormField<DefaultValues extends FormDefaultValues, Value>(
 
   const { immediateValidate, validate, validateDebounce = 0 } = config;
   if (validate) {
+    const validator =
+      validateDebounce > 0
+        ? $.pipe(
+            // we skip the first iteration since we don't want to invalidate initially
+            skip(immediateValidate ? 0 : 1),
+            // we don't care about the validity, just the value
+            distinctUntilChanged(({ value: prev }, { value: curr }) => equal(prev, curr)),
+            debounceTime(validateDebounce),
+          )
+        : $.pipe(
+            // we skip the first iteration since we don't want to invalidate initially
+            skip(immediateValidate ? 0 : 1),
+            // we don't care about the validity, just the value
+            distinctUntilChanged(({ value: prev }, { value: curr }) => equal(prev, curr)),
+          );
+
     let counter = 0;
-    $.pipe(
-      // we skip the first iteration since we don't want to invalidate initially
-      skip(immediateValidate ? 0 : 1),
-      // we don't care about the validity, just the value
-      distinctUntilChanged(({ value: prev }, { value: curr }) => equal(prev, curr)),
-      debounceTime(validateDebounce),
-    ).subscribe(async (state) => {
+    validator.subscribe(async (state) => {
       const { value, validityMessage, ...rest } = state!;
 
       const pendingValidityMessage = validate(value);
