@@ -129,7 +129,7 @@ export function createForm<DefaultValues extends FormDefaultValues>(
     if (!configRef.current.el) {
       await handleSubmit(null);
     } else if (configRef.current.el.reportValidity()) {
-      configRef.current.el.dispatchEvent(new Event('submit'));
+      configRef.current.el.dispatchEvent(new Event('submit', { cancelable: true }));
     }
   }
 
