@@ -40,9 +40,17 @@ const styles = makeCreateStyles<FlexProps>()(({ spacing }) => ({
   maxWidth: ({ maxWidth = 0 }) => ({
     maxWidth,
   }),
-  fill: {
-    width: '100%',
-    height: '100%',
+  fill: ({ spacing: spacingProp }) => {
+    if (spacingProp) {
+      return {
+        width: `calc(100% + ${spacing(spacingProp)})`,
+        height: `calc(100% + ${spacing(spacingProp)})`,
+      };
+    }
+    return {
+      width: '100%',
+      height: '100%',
+    };
   },
   overflowing: {
     overflow: 'auto',
