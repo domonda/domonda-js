@@ -45,7 +45,7 @@ describe('Selectors', () => {
     <FormContext.Provider value={form}>{children}</FormContext.Provider>
   );
 
-  test('should get default values for related selector', () => {
+  it('should get default values for related selector', () => {
     const {
       result: {
         current: [value],
@@ -58,7 +58,7 @@ describe('Selectors', () => {
     expect(value).toBe(form.state.defaultValues);
   });
 
-  test('should get default value at path for related selector', () => {
+  it('should get default value at path for related selector', () => {
     const {
       result: {
         current: [value],
@@ -71,7 +71,7 @@ describe('Selectors', () => {
     expect(value).toBe(get(form.state.defaultValues, path));
   });
 
-  test('should get values for related selector', () => {
+  it('should get values for related selector', () => {
     const {
       result: {
         current: [value],
@@ -84,7 +84,7 @@ describe('Selectors', () => {
     expect(value).toBe(form.values);
   });
 
-  test('should get value at path for related selector', () => {
+  it('should get value at path for related selector', () => {
     const {
       result: {
         current: [value],
@@ -97,7 +97,7 @@ describe('Selectors', () => {
     expect(value).toBe(get(form.values, path));
   });
 
-  test('should get submit error for related selector', () => {
+  it('should get submit error for related selector', () => {
     const {
       result: {
         current: [value],
@@ -110,7 +110,7 @@ describe('Selectors', () => {
     expect(value).toBe(form.state.submitError);
   });
 
-  test('should get submitting flag for related selector', () => {
+  it('should get submitting flag for related selector', () => {
     const {
       result: {
         current: [value],
@@ -130,7 +130,7 @@ describe('Updating', () => {
     <FormContext.Provider value={form}>{children}</FormContext.Provider>
   );
 
-  test('should update when selected value changes', () => {
+  it('should update when selected value changes', () => {
     const [field] = form.makeFormField(path);
 
     const valueSelector = makeValueSelector<object>(path);
@@ -149,7 +149,7 @@ describe('Updating', () => {
     expect(result.current[0]).toBe(nextValue);
   });
 
-  test('should not update when selected value stays the same', () => {
+  it('should not update when selected value stays the same', () => {
     const [field] = form.makeFormField(path);
     const valueSelector = makeValueSelector<object>(path);
 

@@ -37,7 +37,7 @@ const pathToDenis = 'person.1f!rst[0]';
 const pathToErik = 'person.2sec@nd[0]';
 
 describe('Creation', () => {
-  test('should properly instantiate form field', () => {
+  it('should properly instantiate form field', () => {
     const [form] = createForm(defaultValues);
 
     const path = pathToDenis + '.name';
@@ -62,7 +62,7 @@ describe('Creation', () => {
 });
 
 describe('Update', () => {
-  test('should properly handle field path change', () => {
+  it('should properly handle field path change', () => {
     const [form] = createForm(defaultValues);
 
     let denisNamePath = pathToDenis + '.name';
@@ -84,7 +84,7 @@ describe('Update', () => {
     expect(form.$.value.fields[erikNamePath]).toBeDefined();
   });
 
-  test('should get new value if changed on form', () => {
+  it('should get new value if changed on form', () => {
     const [form] = createForm(defaultValues);
 
     let path = pathToDenis + '.name';
@@ -113,7 +113,7 @@ describe('Update', () => {
     expect(result.current.value).toBe(nextValue);
   });
 
-  test('should properly handle value update', () => {
+  it('should properly handle value update', () => {
     const [form] = createForm(defaultValues);
 
     let path = pathToDenis + '.name';
@@ -135,7 +135,7 @@ describe('Update', () => {
     expect(get(form.values, path)).toBe(nextValue);
   });
 
-  test('should reset to default value on reset call', () => {
+  it('should reset to default value on reset call', () => {
     const [form] = createForm(defaultValues);
 
     let path = pathToDenis + '.name';
@@ -162,7 +162,7 @@ describe('Update', () => {
     expect(result.current.state.defaultValue).toBe(result.current.value);
   });
 
-  test('should call subscribers only when value changes', () => {
+  it('should call subscribers only when value changes', () => {
     const [form] = createForm(defaultValues);
 
     let path = pathToDenis + '.name';
@@ -204,7 +204,7 @@ describe('Validation', () => {
   // );
   // const path = pathToDenis + '.name';
 
-  test('should properly handle validation props', () => {
+  it('should properly handle validation props', () => {
     // const validationMessage = 'Very invalid!';
     // const initialProps: UseFormFieldProps<string> = {
     //   path,
@@ -233,7 +233,7 @@ describe('Cleanup', () => {
     <FormContext.Provider value={form}>{children}</FormContext.Provider>
   );
 
-  test('should complete field stream on unmount', () => {
+  it('should complete field stream on unmount', () => {
     const path = pathToDenis + '.name';
     const initialProps: UseFormFieldProps<string> = { path };
 
@@ -257,7 +257,7 @@ describe('Cleanup', () => {
     expect(spy).toBeCalled();
   });
 
-  test('should complete previous field on path change', () => {
+  it('should complete previous field on path change', () => {
     const path = pathToDenis + '.name';
     const initialProps: UseFormFieldProps<string> = { path };
 
@@ -279,7 +279,7 @@ describe('Cleanup', () => {
     expect(spy).toBeCalled();
   });
 
-  test('should complete previous field on validation update', () => {
+  it('should complete previous field on validation update', () => {
     const path = pathToDenis + '.name';
     const initialProps: UseFormFieldProps<string> = { path, validate: () => null };
 

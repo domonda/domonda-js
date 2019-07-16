@@ -3,7 +3,7 @@ import { createStyles, withStyles, WithStyles } from '../../styles';
 const styles = createStyles(({ palette, spacing, transition, typography }) => {
   const highlightedProps = {
     color: palette.primary,
-    backgroundColor: palette.lightest('primary'),
+    backgroundColor: palette.lighit('primary'),
   };
 
   return {
@@ -39,7 +39,7 @@ const styles = createStyles(({ palette, spacing, transition, typography }) => {
     },
     selected: {
       color: palette.secondary,
-      backgroundColor: palette.lightest('secondary'),
+      backgroundColor: palette.lighit('secondary'),
     },
     highlighted: highlightedProps,
   };

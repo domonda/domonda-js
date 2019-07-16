@@ -12,7 +12,7 @@ const defaultValues = {
 };
 
 describe('Creation', () => {
-  test('should create a field entry in the form', () => {
+  it('should create a field entry in the form', () => {
     const [form] = createForm(defaultValues);
 
     form.makeFormField(path);
@@ -20,7 +20,7 @@ describe('Creation', () => {
     expect(form.state.fields[path]).toBeDefined();
   });
 
-  test('should pick value and defaultValue at path from form state', () => {
+  it('should pick value and defaultValue at path from form state', () => {
     const [form] = createForm(defaultValues);
 
     const [field] = form.makeFormField(path);
@@ -29,7 +29,7 @@ describe('Creation', () => {
     expect(field.value).toBe(get(form.values, path));
   });
 
-  test('should not add value to form field', () => {
+  it('should not add value to form field', () => {
     const [form] = createForm(defaultValues);
 
     form.makeFormField(path);
@@ -38,7 +38,7 @@ describe('Creation', () => {
     expect(form.state.fields[path].value).toBeUndefined();
   });
 
-  test('should get initial state when subscribing', (done) => {
+  it('should get initial state when subscribing', (done) => {
     const [form] = createForm(defaultValues);
 
     const [field] = form.makeFormField(path);
@@ -56,7 +56,7 @@ describe('Creation', () => {
 });
 
 describe('Change', () => {
-  test('should modify form state properly', () => {
+  it('should modify form state properly', () => {
     const [form] = createForm(defaultValues);
 
     const [field] = form.makeFormField(path);
@@ -74,7 +74,7 @@ describe('Change', () => {
     expect(form.state.fields[path].defaultValue).toBeUndefined();
   });
 
-  test('should create value at path if it didnt exist', () => {
+  it('should create value at path if it didnt exist', () => {
     const [form] = createForm(defaultValues);
 
     const [field] = form.makeFormField('other.non.existant[0].path');
@@ -86,7 +86,7 @@ describe('Change', () => {
     expect(field.value).toBe(next);
   });
 
-  test('should notify subscribers about state change', (done) => {
+  it('should notify subscribers about state change', (done) => {
     const [form] = createForm(defaultValues);
 
     const [field] = form.makeFormField(path);
@@ -102,7 +102,7 @@ describe('Change', () => {
     field.setValue(next);
   });
 
-  test('should reset value to default', () => {
+  it('should reset value to default', () => {
     const [form] = createForm(defaultValues);
 
     const [field] = form.makeFormField(path);
@@ -115,7 +115,7 @@ describe('Change', () => {
     expect(field.value).toBe(field.state.defaultValue);
   });
 
-  test('should omit value sets when the value didnt change', () => {
+  it('should omit value sets when the value didnt change', () => {
     const [form] = createForm(defaultValues);
 
     const [field] = form.makeFormField(path);
@@ -135,7 +135,7 @@ describe('Validation', () => {
     return form;
   }
 
-  test('should call validator immediatly', (done) => {
+  it('should call validator immediatly', (done) => {
     const spy = jest.fn((_0) => null);
 
     makeForm().makeFormField(path, {
@@ -150,7 +150,7 @@ describe('Validation', () => {
     }, 0);
   });
 
-  test('should validate immediatly', (done) => {
+  it('should validate immediatly', (done) => {
     const validityMessage = 'Much invalid!';
 
     const [field] = makeForm().makeFormField(path, {
@@ -186,7 +186,7 @@ describe('Validation', () => {
     }, 0);
   });
 
-  test('should receive value for validation', (done) => {
+  it('should receive value for validation', (done) => {
     const spy = jest.fn((_0) => null);
 
     const [field] = makeForm().makeFormField(path, {
@@ -220,7 +220,7 @@ describe('Validation', () => {
     }, 0);
   });
 
-  test('should validate on value change', (done) => {
+  it('should validate on value change', (done) => {
     const validityMessage = 'Much invalid!';
 
     const [field] = makeForm().makeFormField(path, {
@@ -275,7 +275,7 @@ describe('Validation', () => {
 });
 
 describe('Cleanup', () => {
-  test('should call field complete on field stream complete', () => {
+  it('should call field complete on field stream complete', () => {
     const [form] = createForm(defaultValues);
 
     const [field] = form.makeFormField(path);
@@ -289,7 +289,7 @@ describe('Cleanup', () => {
     expect(spy).toBeCalled();
   });
 
-  test('should not complete form stream on field stream complete', () => {
+  it('should not complete form stream on field stream complete', () => {
     const [form] = createForm(defaultValues);
 
     const spy = jest.fn();
@@ -303,7 +303,7 @@ describe('Cleanup', () => {
     expect(spy).toBeCalledTimes(0);
   });
 
-  test('should complete field stream on destroy', () => {
+  it('should complete field stream on destroy', () => {
     const [form] = createForm(defaultValues);
 
     const [field, destroy] = form.makeFormField(path);
@@ -317,7 +317,7 @@ describe('Cleanup', () => {
     expect(spy).toBeCalled();
   });
 
-  test('should remove field from form on destroy', () => {
+  it('should remove field from form on destroy', () => {
     const [form] = createForm(defaultValues);
 
     const [, destroy] = form.makeFormField(path);

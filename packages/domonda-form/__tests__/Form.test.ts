@@ -5,7 +5,7 @@ const defaultValues = {
 };
 
 describe('Creation', () => {
-  test('should handle passed values on creation', () => {
+  it('should handle passed values on creation', () => {
     const config = {};
     const [form] = createForm(defaultValues, config);
 
@@ -17,7 +17,7 @@ describe('Creation', () => {
 });
 
 describe('Submitting', () => {
-  test('should trigger onSubmit when calling submit', async (done) => {
+  it('should trigger onSubmit when calling submit', async (done) => {
     const spy = jest.fn();
 
     const [form] = createForm(defaultValues, {
@@ -30,7 +30,7 @@ describe('Submitting', () => {
     done();
   });
 
-  test('should send values to onSubmit', (done) => {
+  it('should send values to onSubmit', (done) => {
     const [form] = createForm(defaultValues, {
       onSubmit: (values) => {
         expect(values).toBe(defaultValues);
@@ -41,7 +41,7 @@ describe('Submitting', () => {
     form.submit();
   });
 
-  test('should use new submit after configRef update', async (done) => {
+  it('should use new submit after configRef update', async (done) => {
     const old = jest.fn();
     const neu = jest.fn();
 
@@ -59,7 +59,7 @@ describe('Submitting', () => {
     done();
   });
 
-  test('should not submit with invalid fields', async (done) => {
+  it('should not submit with invalid fields', async (done) => {
     const spy = jest.fn();
 
     const [form] = createForm(defaultValues, {
@@ -92,13 +92,13 @@ describe('Submitting', () => {
       },
     });
 
-    test('should catch onSubmit errors and put then in submitError', async (done) => {
+    it('should catch onSubmit errors and put then in submitError', async (done) => {
       await form.submit();
       expect(form.state.submitError).toBe(err);
       done();
     });
 
-    test('should reset submitError on reset', async (done) => {
+    it('should reset submitError on reset', async (done) => {
       await form.submit();
       form.reset();
       expect(form.state.submitError).toBe(null);
@@ -108,7 +108,7 @@ describe('Submitting', () => {
 });
 
 describe('Cleanup', () => {
-  test('should complete stream on destroy', () => {
+  it('should complete stream on destroy', () => {
     const [form, destroy] = createForm(defaultValues);
 
     const spy = jest.fn();
@@ -122,7 +122,7 @@ describe('Cleanup', () => {
     expect(spy).toBeCalled();
   });
 
-  test('should complete all field streams on destroy', () => {
+  it('should complete all field streams on destroy', () => {
     const [form, destroy] = createForm(defaultValues);
 
     const spy = jest.fn();

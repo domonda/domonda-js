@@ -23,7 +23,7 @@ const defaultValues: DefaultValues = {
 };
 
 describe('Creation', () => {
-  test('should properly instantiate form', () => {
+  it('should properly instantiate form', () => {
     const checkForm = (form: RxForm<DefaultValues>) => {
       expect(form).toBeDefined();
       expect(form.state.defaultValues).toBe(defaultValues);
@@ -42,7 +42,7 @@ describe('Creation', () => {
 });
 
 describe('Submitting', () => {
-  test('should call submit on submit event', (done) => {
+  it('should call submit on submit event', (done) => {
     const spy = jest.fn();
 
     const { container } = render(
@@ -61,7 +61,7 @@ describe('Submitting', () => {
 });
 
 describe('Updating', () => {
-  test('should getForm only once per instance', () => {
+  it('should getForm only once per instance', () => {
     const spy = jest.fn();
 
     const Tree = (
@@ -77,7 +77,7 @@ describe('Updating', () => {
     expect(spy).toBeCalledTimes(1);
   });
 
-  test('should handle default values', (done) => {
+  it('should handle default values', (done) => {
     let form: RxForm<DefaultValues>;
 
     const { rerender } = render(
@@ -113,7 +113,7 @@ describe('Updating', () => {
 });
 
 describe('Cleanup', () => {
-  test('should complete stream on unmount', () => {
+  it('should complete stream on unmount', () => {
     const spy = jest.fn();
 
     const checkForm = (form: RxForm<DefaultValues>) => {

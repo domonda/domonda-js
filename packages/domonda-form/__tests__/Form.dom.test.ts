@@ -5,7 +5,7 @@
 import { createForm } from '../src/createForm';
 
 describe('Config', () => {
-  test('should handle passed form element on creation', () => {
+  it('should handle passed form element on creation', () => {
     const formEl = document.createElement('form');
     const [form] = createForm(
       {},
@@ -16,7 +16,7 @@ describe('Config', () => {
     expect(form.configRef.current.el).toBe(formEl);
   });
 
-  test('should update form element when changing config', () => {
+  it('should update form element when changing config', () => {
     const [form] = createForm(
       {},
       {
@@ -34,7 +34,7 @@ describe('Config', () => {
 });
 
 describe('Submitting', () => {
-  test('should trigger submit on passed form element', (done) => {
+  it('should trigger submit on passed form element', (done) => {
     const spy = jest.fn();
 
     const formEl = document.createElement('form');
@@ -56,7 +56,7 @@ describe('Submitting', () => {
     }, 0);
   });
 
-  test('should not trigger submit from superseded form', (done) => {
+  it('should not trigger submit from superseded form', (done) => {
     const spy = jest.fn();
 
     const formEl1 = document.createElement('form');
