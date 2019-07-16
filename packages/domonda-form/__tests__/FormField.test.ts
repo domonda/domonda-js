@@ -1,6 +1,6 @@
 import { createForm } from '../src/createForm';
 import get from 'lodash/get';
-import { skip, map, distinctUntilChanged } from 'rxjs/operators';
+import { skip, map, distinctUntilChanged, filter } from 'rxjs/operators';
 
 const path = 'some.path[1].to.0';
 const valueAtPath = { value: '2nd' };
@@ -162,8 +162,9 @@ describe('Validation', () => {
     field.$.pipe(map(({ validityMessage }) => validityMessage)).subscribe(spy);
 
     setTimeout(() => {
-      expect(spy).toBeCalledTimes(1);
-      expect(spy.mock.calls[0][0]).toBe(validityMessage);
+      expect(spy).toBeCalledTimes(2);
+      expect(spy.mock.calls[0][0]).toBe(null);
+      expect(spy.mock.calls[1][0]).toBe(validityMessage);
       done();
     }, 0);
   });
@@ -222,7 +223,7 @@ describe('Validation', () => {
   test('should validate on value change', (done) => {
     const validityMessage = 'Much invalid!';
 
-    const [field] = makeForm().makeFormField('separejecentralan', {
+    const [field] = makeForm().makeFormField(path, {
       validate: () => validityMessage,
     });
 
@@ -241,46 +242,37 @@ describe('Validation', () => {
     }, 0);
   });
 
-  // it('should handle subsequent validation requests gracefully', (done) => {
-  //   const validityMessage = 'Much invalid!';
+  it('should handle subsequent validation requests gracefully', (done) => {
+    const validityMessage = 'Much invalid!';
 
-  //   const validator = jest.fn(async (_0) => {
-  //     await new Promise((resolve) => setTimeout(resolve, 0));
-  //     return validityMessage;
-  //   });
+    const validator = jest.fn(async (_0) => {
+      await new Promise((resolve) => setTimeout(resolve, 0));
+      return validityMessage;
+    });
 
-  //   const [field] = makeForm().makeFormField(path, {
-  //     validate: validator,
-  //   });
+    const [field] = makeForm().makeFormField('separe', {
+      validate: validator,
+    });
 
-  //   const spy = jest.fn();
-  //   field.$.pipe(
-  //     map(({ validityMessage }) => validityMessage),
-  //     distinctUntilChanged(),
-  //   ).subscribe(spy);
+    const spy = jest.fn();
+    field.$.pipe(
+      map((value) => value.validityMessage),
+      distinctUntilChanged(),
+    ).subscribe(spy);
 
-  //   let ready = false;
-  //   field.$.subscribe(() => {
-  //     if (ready) {
-  //       // expect(validator).toBeCalledTimes(rounds);
-  //       expect(spy).toBeCalledTimes(3); // pending promises get canceled if newer one is called
-  //       expect(spy.mock.calls[0][0]).toBe(null);
-  //       expect(spy.mock.calls[1][0]).toBe(undefined);
-  //       expect(spy.mock.calls[2][0]).toBe(validityMessage);
-  //       done();
-  //     }
-  //   });
+    field.$.pipe(filter((value) => value.validityMessage === validityMessage)).subscribe(() => {
+      expect(spy).toBeCalledTimes(3); // pending promises get canceled if newer one is called
+      expect(spy.mock.calls[0][0]).toBe(null);
+      expect(spy.mock.calls[1][0]).toBe(undefined);
+      expect(spy.mock.calls[2][0]).toBe(validityMessage);
+      done();
+    });
 
-  //   ready = true;
-  //   // const rounds = 10;
-  //   // for (let i = 0; i <= rounds; i++) {
-  //   //   field.setValue(i);
-
-  //   //   if (i === rounds) {
-  //   //     ready = true;
-  //   //   }
-  //   // }
-  // });
+    const rounds = 10;
+    for (let i = 0; i <= rounds; i++) {
+      field.setValue(i);
+    }
+  });
 });
 
 describe('Cleanup', () => {

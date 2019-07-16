@@ -119,32 +119,35 @@ export function createFormField<DefaultValues extends FormDefaultValues, Value>(
           );
 
     let counter = 0;
-    validator.subscribe((state) => {
-      const { value, validityMessage, ...rest } = state!;
+    validator.subscribe((state) =>
+      // we perform the validation after all subscribers have been notified about the value change
+      setTimeout(() => {
+        const { value, validityMessage, ...rest } = state!;
 
-      const pendingValidityMessage = validate(value);
+        const pendingValidityMessage = validate(value);
 
-      if (!(pendingValidityMessage instanceof Promise)) {
-        if (pendingValidityMessage !== validityMessage) {
-          $.next({ ...rest, value, validityMessage: pendingValidityMessage });
+        if (!(pendingValidityMessage instanceof Promise)) {
+          if (pendingValidityMessage !== validityMessage) {
+            $.next({ ...rest, value, validityMessage: pendingValidityMessage });
+          }
+          return;
         }
-        return;
-      }
 
-      // we use the counter as a simple cancel mechanism
-      const internalCounter = counter;
-      counter++;
+        // we use the counter as a simple cancel mechanism
+        const internalCounter = counter;
+        counter++;
 
-      if (validityMessage !== undefined) {
-        $.next({ ...rest, value, validityMessage: undefined });
-      }
-      pendingValidityMessage.then((nextValidityMessage) => {
-        // if the internalCounter does not match the outer counter that means that another, newer, validity check is pending
-        if (internalCounter + 1 === counter) {
-          $.next({ ...rest, value, validityMessage: nextValidityMessage });
+        if (validityMessage !== undefined) {
+          $.next({ ...rest, value, validityMessage: undefined });
         }
-      });
-    });
+        pendingValidityMessage.then((nextValidityMessage) => {
+          // if the internalCounter does not match the outer counter that means that another, newer, validity check is pending
+          if (internalCounter + 1 === counter) {
+            $.next({ ...rest, value, validityMessage: nextValidityMessage });
+          }
+        });
+      }, 0),
+    );
   }
 
   function getState() {
