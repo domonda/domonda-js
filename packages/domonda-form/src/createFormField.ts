@@ -71,7 +71,7 @@ export function createFormField<DefaultValues extends FormDefaultValues, Value>(
           values: setWith(clone, path, field.value, form$.value.values),
           fields: {
             ...form$.value.fields,
-            [path]: field,
+            [path]: omit(['value', 'defaultValue'], field),
           },
         });
       },
