@@ -119,7 +119,7 @@ export function createFormField<DefaultValues extends FormDefaultValues, Value>(
           );
 
     let counter = 0;
-    validator.subscribe(async (state) => {
+    validator.subscribe((state) => {
       const { value, validityMessage, ...rest } = state!;
 
       const pendingValidityMessage = validate(value);
@@ -138,12 +138,12 @@ export function createFormField<DefaultValues extends FormDefaultValues, Value>(
       if (validityMessage !== undefined) {
         $.next({ ...rest, value, validityMessage: undefined });
       }
-      const nextValidityMessage = await pendingValidityMessage;
-
-      // if the internalCounter does not match the outer counter that means that another, newer, validity check is pending
-      if (internalCounter + 1 === counter) {
-        $.next({ ...rest, value, validityMessage: nextValidityMessage });
-      }
+      pendingValidityMessage.then((nextValidityMessage) => {
+        // if the internalCounter does not match the outer counter that means that another, newer, validity check is pending
+        if (internalCounter + 1 === counter) {
+          $.next({ ...rest, value, validityMessage: nextValidityMessage });
+        }
+      });
     });
   }
 
