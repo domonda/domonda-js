@@ -118,16 +118,18 @@ export function createFormField<DefaultValues extends FormDefaultValues, Value>(
             distinctUntilChanged(({ value: prev }, { value: curr }) => equal(prev, curr)),
           );
 
+    let currValidationMessage: string | null | undefined = null;
     let counter = 0;
     validator.subscribe((state) =>
       // we perform the validation after all subscribers have been notified about the value change
       setTimeout(() => {
-        const { value, validityMessage, ...rest } = state!;
+        const { value, ...rest } = state!;
 
         const pendingValidityMessage = validate(value);
 
         if (!(pendingValidityMessage instanceof Promise)) {
-          if (pendingValidityMessage !== validityMessage) {
+          if (pendingValidityMessage !== currValidationMessage) {
+            currValidationMessage = pendingValidityMessage;
             $.next({ ...rest, value, validityMessage: pendingValidityMessage });
           }
           return;
@@ -137,12 +139,14 @@ export function createFormField<DefaultValues extends FormDefaultValues, Value>(
         const internalCounter = counter;
         counter++;
 
-        if (validityMessage !== undefined) {
-          $.next({ ...rest, value, validityMessage: undefined });
+        if (currValidationMessage !== undefined) {
+          currValidationMessage = undefined;
+          $.next({ ...rest, value, validityMessage: currValidationMessage });
         }
         pendingValidityMessage.then((nextValidityMessage) => {
           // if the internalCounter does not match the outer counter that means that another, newer, validity check is pending
           if (internalCounter + 1 === counter) {
+            currValidationMessage = nextValidityMessage;
             $.next({ ...rest, value, validityMessage: nextValidityMessage });
           }
         });

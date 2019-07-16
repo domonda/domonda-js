@@ -1,6 +1,6 @@
 import { createForm } from '../src/createForm';
 import get from 'lodash/get';
-import { skip, map, distinctUntilChanged, filter } from 'rxjs/operators';
+import { skip, map, filter } from 'rxjs/operators';
 
 const path = 'some.path[1].to.0';
 const valueAtPath = { value: '2nd' };
@@ -255,20 +255,19 @@ describe('Validation', () => {
     });
 
     const spy = jest.fn();
-    field.$.pipe(
-      map((value) => value.validityMessage),
-      distinctUntilChanged(),
-    ).subscribe(spy);
+    field.$.pipe(map((value) => value.validityMessage)).subscribe(spy);
+
+    const rounds = 10;
 
     field.$.pipe(filter((value) => value.validityMessage === validityMessage)).subscribe(() => {
-      expect(spy).toBeCalledTimes(3); // pending promises get canceled if newer one is called
-      expect(spy.mock.calls[0][0]).toBe(null);
-      expect(spy.mock.calls[1][0]).toBe(undefined);
-      expect(spy.mock.calls[2][0]).toBe(validityMessage);
+      const calledTimes = rounds + 4; // 4 because of the initial value and the 3 validation changes
+      expect(spy).toBeCalledTimes(calledTimes);
+      expect(spy.mock.calls[calledTimes - 3][0]).toBe(null);
+      expect(spy.mock.calls[calledTimes - 2][0]).toBe(undefined);
+      expect(spy.mock.calls[calledTimes - 1][0]).toBe(validityMessage);
       done();
     });
 
-    const rounds = 10;
     for (let i = 0; i <= rounds; i++) {
       field.setValue(i);
     }
