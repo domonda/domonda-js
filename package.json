@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "bump": "lerna version --conventional-commits -m \"chore(release): bump\" --create-release github",
+    "bump": "lerna version",
     "publish": "lerna publish from-package --contents lib",
     "test": "jest",
     "test:watch": "jest --watch",
