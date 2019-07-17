@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/domonda/domonda-js/compare/@domonda/form@1.0.2...@domonda/form@1.1.0) (2019-07-17)
+
+
+### Bug Fixes
+
+* **FormField:** correctly handle change ([f9ce7dd](https://github.com/domonda/domonda-js/commit/f9ce7dd))
+* **FormField:** pass validation tests ([719c20c](https://github.com/domonda/domonda-js/commit/719c20c))
+* **FormField:** values should not be on the form field ([1609abb](https://github.com/domonda/domonda-js/commit/1609abb))
+* dispatched submit is cancelable ([cada13a](https://github.com/domonda/domonda-js/commit/cada13a))
+
+
+### Features
+
+* **validation:** debounce only if necessary ([187d9c2](https://github.com/domonda/domonda-js/commit/187d9c2))
+
+
+### Performance Improvements
+
+* **FormField:** store curr validaiton message locally ([b9afc91](https://github.com/domonda/domonda-js/commit/b9afc91))
+
+
+
+
+
 ## [1.0.2](https://github.com/domonda/domonda-js/compare/@domonda/form@1.0.1...@domonda/form@1.0.2) (2019-07-09)
 
 
