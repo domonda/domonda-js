@@ -46,7 +46,7 @@ export interface ThemeProviderProps {
   children: React.ReactNode;
 }
 
-export const ThemeProvider = (JSSThemeProvider as any) as React.ComponentType<ThemeProviderProps>;
+export const ThemeProvider: React.ComponentType<ThemeProviderProps> = JSSThemeProvider as any;
 
 export interface WithTheme {
   theme: Theme;
