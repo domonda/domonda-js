@@ -3,6 +3,10 @@ import { Theme } from './theme';
 import { default as jssWithStyles } from 'react-jss';
 import { Styles, ClassNameMap, ClassKeyOfStyles, PropsOfStyles } from './createStyles';
 
+// auto-install
+import { install, jss } from './jss';
+install();
+
 export interface WithStylesOptions {
   index?: number;
   media?: string;
@@ -29,5 +33,6 @@ export function withStyles<S extends Styles<any, any>, Options extends WithStyle
   return jssWithStyles(styles, {
     injectTheme: options && options.injectTheme,
     ...options,
+    jss,
   });
 }

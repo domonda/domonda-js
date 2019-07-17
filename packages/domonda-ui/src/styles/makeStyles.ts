@@ -3,6 +3,10 @@ import { createUseStyles } from 'react-jss';
 import { Styles, ClassNameMap, ClassKeyOfStyles, PropsOfStyles } from './createStyles';
 import { WithStylesOptions } from './withStyles';
 
+// auto-install
+import { install, jss } from './jss';
+install();
+
 export interface MakeStylesOptions extends Omit<WithStylesOptions, 'injectTheme'> {
   /**
    * `name` is required because of DX. Navigating the HTML element inspector
@@ -17,5 +21,5 @@ export function makeStyles<S extends Styles<any, any>>(
 ): keyof PropsOfStyles<S> extends never // empty interface (`{}`) check
   ? () => ClassNameMap<ClassKeyOfStyles<S>>
   : (props: PropsOfStyles<S>) => ClassNameMap<ClassKeyOfStyles<S>> {
-  return createUseStyles(styles, options);
+  return createUseStyles(styles, { ...options, jss });
 }

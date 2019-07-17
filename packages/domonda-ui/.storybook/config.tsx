@@ -1,5 +1,5 @@
 import React from 'react';
-import { install, createTheme, ThemeProvider } from '../src/styles';
+import { createTheme, ThemeProvider } from '../src/styles';
 import { Baseline } from '../src/Baseline';
 import { configure, addDecorator } from '@storybook/react';
 
@@ -9,7 +9,6 @@ function loadStories() {
   req.keys().forEach(req);
 }
 
-install();
 const theme = createTheme();
 
 addDecorator((story) => (
