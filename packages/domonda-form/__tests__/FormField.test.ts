@@ -67,11 +67,14 @@ describe('Change', () => {
     expect(field.state.changed).toBe(true);
     expect(get(form.state.defaultValues, path)).toBe(field.state.defaultValue);
     expect(get(form.values, path)).toBe(next);
-    expect(form.state.fields[path]).toBeDefined();
     // @ts-ignore in favor of the test
     expect(form.state.fields[path].value).toBeUndefined();
     // @ts-ignore in favor of the test
     expect(form.state.fields[path].defaultValue).toBeUndefined();
+    expect(form.state.fields[path]).toEqual({
+      changed: field.state.changed,
+      validityMessage: field.state.validityMessage,
+    });
   });
 
   it('should create value at path if it didnt exist', () => {

@@ -9,6 +9,7 @@ import get from 'lodash/get';
 import setWith from 'lodash/fp/setWith';
 import clone from 'lodash/fp/clone';
 import omit from 'lodash/fp/omit';
+import pick from 'lodash/fp/pick';
 import { AnonymousSubject } from 'rxjs/internal/Subject';
 
 // $
@@ -26,6 +27,7 @@ import {
 function deriveState<T extends FormDefaultValues, V>(
   path: string,
   state: FormState<T>,
+  isLocalNext: boolean,
 ): FormFieldStateWithValues<V> | undefined {
   const { fields, defaultValues, values } = state;
 
@@ -36,6 +38,14 @@ function deriveState<T extends FormDefaultValues, V>(
 
   const defaultValue = get(defaultValues, path);
   const value = get(values, path);
+
+  if (isLocalNext) {
+    return {
+      ...field,
+      defaultValue,
+      value,
+    };
+  }
   return {
     ...field,
     defaultValue,
@@ -63,17 +73,24 @@ export function createFormField<DefaultValues extends FormDefaultValues, Value>(
     },
   });
 
+  // a flag which prevents double checking the value equality
+  // when the field sends the next signal. if the form sends a new
+  // value then the check will be performed while deriving the state
+  let localNext = false;
+
   const $ = new AnonymousSubject(
     {
       next: (field) => {
+        localNext = true;
         form$.next({
           ...form$.value,
           values: setWith(clone, path, field.value, form$.value.values),
           fields: {
             ...form$.value.fields,
-            [path]: omit(['value', 'defaultValue'], field),
+            [path]: pick(['changed', 'validityMessage'], field),
           },
         });
+        localNext = false;
       },
       error: () => {
         form$.next({
@@ -92,7 +109,7 @@ export function createFormField<DefaultValues extends FormDefaultValues, Value>(
       // we assert non-null here because the stream will complete when
       // this map gets an undefined value (field is removed from form)
       // its just a type hack so that we dont assert everywhere else...
-      map((state) => deriveState<DefaultValues, Value>(path, state)!),
+      map((state) => deriveState<DefaultValues, Value>(path, state, localNext)!),
       // complete stream when the field gets removed
       takeWhile((state) => !!state),
       // publish only changed state
@@ -155,7 +172,7 @@ export function createFormField<DefaultValues extends FormDefaultValues, Value>(
   }
 
   function getState() {
-    const state = deriveState<DefaultValues, Value>(path, form$.value);
+    const state = deriveState<DefaultValues, Value>(path, form$.value, false);
     if (!state) {
       throw new Error('domonda-form: Field state should be available here!');
     }
@@ -176,11 +193,12 @@ export function createFormField<DefaultValues extends FormDefaultValues, Value>(
         return getValue();
       },
       setValue: (nextValue) => {
-        $.next({ ...getState(), value: nextValue });
+        const curr = getState();
+        $.next({ ...curr, changed: !equal(curr.defaultValue, nextValue), value: nextValue });
       },
       resetValue: () => {
         const curr = getState();
-        $.next({ ...curr, value: curr.defaultValue });
+        $.next({ ...curr, changed: false, value: curr.defaultValue });
       },
     },
     () => $.complete(),
