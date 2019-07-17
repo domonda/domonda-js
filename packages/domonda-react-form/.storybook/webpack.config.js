@@ -1,3 +1,4 @@
+const path = require('path');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 /**
@@ -35,6 +36,10 @@ module.exports = ({ config }) => {
   const dev = config.mode === 'development';
 
   config.resolve.extensions.push('.ts', '.tsx');
+  config.resolve.alias = {
+    '@domonda/form': path.resolve(__dirname, '../../domonda-form/src'),
+    '@domonda/ui': path.resolve(__dirname, '../../domonda-ui/src'),
+  };
 
   config.module.rules.push({
     test: /\.(ts|tsx)$/,
