@@ -41,6 +41,7 @@ export function createForm<DefaultValues extends FormDefaultValues>(
           equal(prevValues, currValues),
         ),
         filter(({ defaultValues, values }) => !equal(defaultValues, values)),
+        // since functions are hoisted
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
       ).subscribe(submit);
     }
