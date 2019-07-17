@@ -41,7 +41,7 @@ export type FormDefaultValues = object;
 export type FormSubmitHandler<T extends FormDefaultValues> = (
   values: T,
   form: Form<T>,
-) => void | Promise<void>;
+) => any | Promise<any>;
 
 export interface FormConfig<T extends FormDefaultValues> {
   /** If the submit succeeds, reset the values to the `defaultValues`. */
