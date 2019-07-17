@@ -39,7 +39,7 @@ const styles = createStyles(({ palette, spacing, transition, typography }) => {
     },
     selected: {
       color: palette.secondary,
-      backgroundColor: palette.light('secondary'),
+      backgroundColor: palette.lighter('secondary'),
     },
     highlighted: highlightedProps,
   };

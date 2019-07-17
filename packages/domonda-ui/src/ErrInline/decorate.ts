@@ -6,7 +6,7 @@ const styles = createStyles(({ palette, shape, spacing }) => ({
     alignItems: 'center',
     borderRadius: shape.borderRadius,
     border: `1px solid ${palette.error}`,
-    backgroundColor: palette.light('error'),
+    backgroundColor: palette.lighter('error'),
     padding: spacing(1),
   },
   message: {
