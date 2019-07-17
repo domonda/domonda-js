@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@1.0.7...@domonda/ui@1.1.0) (2019-07-17)
+
+
+### Bug Fixes
+
+* **Flex:** fill considering spacing ([4ada098](https://github.com/domonda/domonda-js/commit/4ada098)), closes [#4](https://github.com/domonda/domonda-js/issues/4)
+
+
+### Features
+
+* **jss:** auto-install and explicit instance usage ([dfc1f00](https://github.com/domonda/domonda-js/commit/dfc1f00))
+
+
+
+
+
 ## [1.0.7](https://github.com/domonda/domonda-js/compare/@domonda/ui@1.0.6...@domonda/ui@1.0.7) (2019-07-08)
 
 
