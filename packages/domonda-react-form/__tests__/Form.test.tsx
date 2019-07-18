@@ -126,6 +126,36 @@ describe('Updating', () => {
     expect(spy).toBeCalledTimes(1);
   });
 
+  it('should shallowly compare default values', (done) => {
+    let form: RxForm<DefaultValues>;
+
+    const { rerender } = render(
+      <Form defaultValues={defaultValues} getForm={(f) => (form = f)}>
+        <div />
+      </Form>,
+    );
+
+    // @ts-ignore because form should indeed be set here
+    if (!form) {
+      throw new Error('form instance should be set here!');
+    }
+
+    const spy = jest.fn();
+
+    form.$.subscribe(spy);
+
+    rerender(
+      <Form defaultValues={{ ...defaultValues }}>
+        <span />
+      </Form>,
+    );
+
+    setTimeout(() => {
+      expect(spy).toBeCalledTimes(1);
+      done();
+    }, 0);
+  });
+
   it('should handle default values', (done) => {
     let form: RxForm<DefaultValues>;
 

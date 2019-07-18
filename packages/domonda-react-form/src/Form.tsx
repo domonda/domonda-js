@@ -6,7 +6,13 @@
 
 import React, { PropsWithChildren, useMemo, useEffect, useState } from 'react';
 import { FormContext } from './FormContext';
-import { createForm, Form as RxForm, FormConfig, FormDefaultValues } from '@domonda/form';
+import {
+  createForm,
+  Form as RxForm,
+  FormConfig,
+  FormDefaultValues,
+  shallowEqual,
+} from '@domonda/form';
 export { FormSubmitHandler } from '@domonda/form';
 
 export type FormProps<V extends FormDefaultValues> = FormConfig<V> &
@@ -67,7 +73,11 @@ export function Form<DefaultValues extends FormDefaultValues>(
 
   useEffect(() => () => destroy(), []);
 
-  useEffect(() => form.$.next({ ...form.$.value, defaultValues }), [defaultValues]);
+  useEffect(() => {
+    if (!shallowEqual(form.state.defaultValues, defaultValues)) {
+      form.$.next({ ...form.$.value, defaultValues });
+    }
+  }, [defaultValues]);
 
   useEffect(() => {
     if (getForm) {
