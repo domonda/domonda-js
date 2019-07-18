@@ -189,6 +189,32 @@ describe('Updating', () => {
       done();
     }, 0);
   });
+
+  it('should reset on default values change when enabled', () => {
+    let form: RxForm<DefaultValues>;
+
+    const { rerender } = render(
+      <Form resetOnDefaultValuesChange defaultValues={defaultValues} getForm={(f) => (form = f)}>
+        <div />
+      </Form>,
+    );
+
+    // @ts-ignore because form should indeed be set here
+    if (!form) {
+      throw new Error('form instance should be set here!');
+    }
+
+    expect(form.state.values).toBe(defaultValues);
+
+    const nextDefaultValues = {};
+    rerender(
+      <Form resetOnDefaultValuesChange defaultValues={nextDefaultValues}>
+        <div />
+      </Form>,
+    );
+
+    expect(form.state.values).toBe(nextDefaultValues);
+  });
 });
 
 describe('Cleanup', () => {

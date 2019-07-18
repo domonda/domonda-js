@@ -21,6 +21,7 @@ export type FormProps<V extends FormDefaultValues> = FormConfig<V> &
     'onSubmit' | 'defaultValue' | 'defaultChecked'
   > & {
     defaultValues?: V;
+    resetOnDefaultValuesChange?: boolean; // should this be `true` by default?
     getForm?: (form: RxForm<V>) => void;
     children:
       | ((form: RxForm<V>) => React.ReactElement | React.ReactElement | null)
@@ -35,6 +36,7 @@ export function Form<DefaultValues extends FormDefaultValues>(
   const {
     // RxFormProps
     defaultValues = {} as DefaultValues,
+    resetOnDefaultValuesChange,
     resetOnSuccessfulSubmit,
     resetOnFailedSubmit,
     onSubmit,
@@ -75,9 +77,13 @@ export function Form<DefaultValues extends FormDefaultValues>(
 
   useEffect(() => {
     if (!shallowEqual(form.state.defaultValues, defaultValues)) {
-      form.$.next({ ...form.$.value, defaultValues });
+      form.$.next({
+        ...form.$.value,
+        defaultValues,
+        values: resetOnDefaultValuesChange ? defaultValues : form.$.value.values,
+      });
     }
-  }, [defaultValues]);
+  }, [defaultValues, resetOnDefaultValuesChange]);
 
   useEffect(() => {
     if (getForm) {
