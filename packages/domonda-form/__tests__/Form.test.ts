@@ -83,6 +83,135 @@ describe('Submitting', () => {
     done();
   });
 
+  it('should not auto-submit initially', (done) => {
+    const spy = jest.fn();
+
+    createForm(defaultValues, {
+      autoSubmit: true,
+      onSubmit: spy,
+    });
+
+    setTimeout(() => {
+      expect(spy).toBeCalledTimes(0);
+      done();
+    }, 0);
+  });
+
+  it('should not auto-submit when values have not changed', (done) => {
+    const spy = jest.fn();
+
+    const [form] = createForm(defaultValues, {
+      autoSubmit: true,
+      onSubmit: spy,
+    });
+
+    form.$.next({
+      ...form.$.value,
+      values: defaultValues,
+    });
+
+    setTimeout(() => {
+      expect(spy).toBeCalledTimes(0);
+      done();
+    }, 0);
+  });
+
+  it('should auto-submit on values change', (done) => {
+    const spy = jest.fn();
+
+    const [form] = createForm(defaultValues, {
+      autoSubmit: true,
+      autoSubmitDelay: 0,
+      onSubmit: spy,
+    });
+
+    const nextValues = {};
+    form.$.next({
+      ...form.$.value,
+      values: nextValues,
+    });
+
+    setTimeout(() => {
+      expect(spy).toBeCalledTimes(1);
+      expect(spy.mock.calls[0][0]).toBe(nextValues);
+      done();
+    }, 0);
+  });
+
+  it('should auto-submit after delay', (done) => {
+    const spy = jest.fn();
+
+    const delay = 10;
+    const [form] = createForm(defaultValues, {
+      autoSubmit: true,
+      autoSubmitDelay: delay,
+      onSubmit: spy,
+    });
+
+    const nextValues = {};
+    form.$.next({
+      ...form.$.value,
+      values: nextValues,
+    });
+
+    setTimeout(() => {
+      expect(spy).toBeCalledTimes(1);
+      expect(spy.mock.calls[0][0]).toBe(nextValues);
+      done();
+    }, delay + 1);
+  });
+
+  it('should not auto-submit when resetting changed form', (done) => {
+    const spy = jest.fn();
+
+    const [form] = createForm(defaultValues, {
+      autoSubmit: true,
+      autoSubmitDelay: 0,
+      onSubmit: spy,
+    });
+
+    setTimeout(() => {
+      const nextValues = {};
+      form.$.next({
+        ...form.$.value,
+        values: nextValues,
+      });
+
+      setTimeout(() => {
+        form.reset();
+
+        setTimeout(() => {
+          expect(spy).toBeCalledTimes(1);
+          done();
+        }, 0);
+      }, 0);
+    }, 0);
+  });
+
+  it('should not auto-submit when changing both values and defaultValues', (done) => {
+    const spy = jest.fn();
+
+    const [form] = createForm(defaultValues, {
+      autoSubmit: true,
+      autoSubmitDelay: 0,
+      onSubmit: spy,
+    });
+
+    setTimeout(() => {
+      const nextValues = {};
+      form.$.next({
+        ...form.$.value,
+        defaultValues: nextValues,
+        values: nextValues,
+      });
+
+      setTimeout(() => {
+        expect(spy).toBeCalledTimes(0);
+        done();
+      }, 0);
+    }, 0);
+  });
+
   describe('Error handling', () => {
     const err = new Error();
 
