@@ -23,11 +23,38 @@ const defaultValues: DefaultValues = {
 };
 
 describe('Creation', () => {
-  it('should properly instantiate form', () => {
+  it('should call getForm once per form instance', () => {
+    const spy = jest.fn();
+
+    const { rerender } = render(
+      <Form defaultValues={defaultValues} getForm={spy}>
+        <div />
+      </Form>,
+    );
+
+    rerender(
+      <Form defaultValues={defaultValues} getForm={spy}>
+        <span />
+      </Form>,
+    );
+
+    rerender(
+      <Form defaultValues={defaultValues} getForm={spy}>
+        <li />
+      </Form>,
+    );
+
+    expect(spy).toBeCalledTimes(1);
+  });
+
+  it('should get same form in getForm and render prop', () => {
+    let currForm: RxForm<DefaultValues>;
     const checkForm = (form: RxForm<DefaultValues>) => {
-      expect(form).toBeDefined();
-      expect(form.state.defaultValues).toBe(defaultValues);
-      expect(form.state.values).toBe(defaultValues);
+      if (!currForm) {
+        currForm = form;
+        return;
+      }
+      expect(currForm).toBe(form);
     };
 
     render(
@@ -38,6 +65,28 @@ describe('Creation', () => {
         }}
       </Form>,
     );
+  });
+
+  it('should properly instantiate form', (done) => {
+    const spy = jest.fn();
+
+    const checkForm = (form: RxForm<DefaultValues>) => {
+      expect(form).toBeDefined();
+      form.$.subscribe(spy);
+      expect(form.state.defaultValues).toBe(defaultValues);
+      expect(form.state.values).toBe(defaultValues);
+    };
+
+    render(
+      <Form defaultValues={defaultValues} getForm={checkForm}>
+        <div />
+      </Form>,
+    );
+
+    setTimeout(() => {
+      expect(spy).toBeCalledTimes(1);
+      done();
+    }, 0);
   });
 });
 
