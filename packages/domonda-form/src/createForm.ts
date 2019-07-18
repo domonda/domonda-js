@@ -11,7 +11,15 @@ import { BehaviorSubject } from 'rxjs';
 import { map, distinctUntilChanged, takeWhile, skip, debounceTime, filter } from 'rxjs/operators';
 
 // form
-import { FormConfigRef, FormState, FormDefaultValues, FormConfig, Form, FormDestroy } from './Form';
+import {
+  FormConfigRef,
+  FormState,
+  FormDefaultValues,
+  FormConfig,
+  Form,
+  FormDestroy,
+  FormFields,
+} from './Form';
 import { createFormField } from './createFormField';
 
 const DEFAULT_AUTO_SUBMIT_DELAY = 300;
@@ -60,7 +68,16 @@ export function createForm<DefaultValues extends FormDefaultValues>(
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
     submit,
     reset: () =>
-      $.next({ ...$.value, values: $.value.defaultValues, submitting: false, submitError: null }),
+      $.next({
+        ...$.value,
+        values: $.value.defaultValues,
+        submitting: false,
+        submitError: null,
+        fields: Object.keys($.value.fields).reduce<FormFields>(
+          (acc, curr) => ({ ...acc, [curr]: { ...$.value.fields[curr], changed: false } }),
+          {},
+        ),
+      }),
     resetSubmitError: () => $.next({ ...$.value, submitting: false, submitError: null }),
     makeFormField: (path, config) => createFormField($, path, config),
   };

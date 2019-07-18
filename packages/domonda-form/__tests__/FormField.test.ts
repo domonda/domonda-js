@@ -105,7 +105,7 @@ describe('Change', () => {
     field.setValue(next);
   });
 
-  it('should reset value to default', () => {
+  it('should correctly reset from field', () => {
     const [form] = createForm(defaultValues);
 
     const [field] = form.makeFormField(path);
@@ -116,6 +116,23 @@ describe('Change', () => {
     field.resetValue();
 
     expect(field.value).toBe(field.state.defaultValue);
+    expect(field.state.changed).toBe(false);
+    expect(form.state.fields[path].changed).toBe(field.state.changed);
+  });
+
+  it('should correctly reset from form', () => {
+    const [form] = createForm(defaultValues);
+
+    const [field] = form.makeFormField(path);
+
+    const next = {};
+    field.setValue(next);
+
+    form.reset();
+
+    expect(field.value).toBe(field.state.defaultValue);
+    expect(field.state.changed).toBe(false);
+    expect(form.state.fields[path].changed).toBe(field.state.changed);
   });
 
   it('should omit value sets when the value didnt change', () => {
