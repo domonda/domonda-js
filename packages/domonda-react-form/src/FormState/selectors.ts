@@ -24,3 +24,9 @@ export const submittingSelector = ({ submitting }: RxFormState<any>) => submitti
 export const submitErrorSelector = ({ submitError }: RxFormState<any>) => submitError;
 
 export const fieldsSelector = ({ fields }: RxFormState<any>) => fields;
+
+export const changedSelector = ({ fields }: RxFormState<any>) =>
+  Object.keys(fields).some((key) => fields[key].changed);
+
+export const invalidSelector = ({ fields }: RxFormState<any>) =>
+  Object.keys(fields).some((key) => fields[key].validityMessage !== null);
