@@ -42,16 +42,27 @@ export function createForm<DefaultValues extends FormDefaultValues>(
   function applyConfig(usingConfig: FormConfig<DefaultValues>) {
     const { autoSubmit, autoSubmitDelay = DEFAULT_AUTO_SUBMIT_DELAY } = usingConfig;
     if (autoSubmit) {
-      $.pipe(
-        skip(1),
-        debounceTime(autoSubmitDelay),
-        distinctUntilChanged(({ values: prevValues }, { values: currValues }) =>
-          equal(prevValues, currValues),
-        ),
-        filter(({ defaultValues, values }) => !equal(defaultValues, values)),
-        // since functions are hoisted
-        // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      ).subscribe(submit);
+      const submit$ =
+        autoSubmitDelay > 0
+          ? $.pipe(
+              skip(1),
+              debounceTime(autoSubmitDelay),
+              distinctUntilChanged(({ values: prevValues }, { values: currValues }) =>
+                equal(prevValues, currValues),
+              ),
+              filter(({ defaultValues, values }) => !equal(defaultValues, values)),
+            )
+          : $.pipe(
+              skip(1),
+              distinctUntilChanged(({ values: prevValues }, { values: currValues }) =>
+                equal(prevValues, currValues),
+              ),
+              filter(({ defaultValues, values }) => !equal(defaultValues, values)),
+            );
+
+      // since functions are hoisted
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      submit$.subscribe(submit);
     }
   }
   applyConfig(configRef.current);
