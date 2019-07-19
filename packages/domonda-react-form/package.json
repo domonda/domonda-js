@@ -44,7 +44,7 @@
     "text-mask-core": "^5.1.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.5.4",
+    "@babel/core": "^7.5.5",
     "@storybook/addon-info": "^5.1.9",
     "@storybook/react": "^5.1.9",
     "@testing-library/react": "^8.0.5",
