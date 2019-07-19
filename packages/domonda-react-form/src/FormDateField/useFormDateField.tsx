@@ -5,32 +5,27 @@
  */
 
 import React, { useCallback, useMemo, useEffect, useState } from 'react';
-import ReactDatePicker, { ReactDatePickerProps } from 'react-datepicker';
 import { parseISOToDate, stripTime } from './date';
-import clsx from 'clsx';
 import { UseFormFieldProps, FormFieldAPI, FormFieldValidate } from '../FormField';
 import { useFormContext } from '../FormContext';
 import { createFormField } from '@domonda/form/createFormField';
 import { useValue, useDeepMemoOnValue } from '../hooks';
-
-// decorate
-import 'react-datepicker/dist/react-datepicker.min.css';
-import { decorate, Decorate } from './decorate';
+import { DateInput, DateInputProps } from './DateInput';
 import { distinctUntilChanged } from 'rxjs/operators';
 
 export type FormDateFieldValidate = FormFieldValidate<Date | string | null>;
-
-export type DateInputProps = Pick<
-  ReactDatePickerProps,
-  Exclude<keyof ReactDatePickerProps, 'required' | 'selected' | 'onChange'>
-> & { classes?: Decorate['classes']; inputRef?: React.Ref<HTMLInputElement> };
 
 export interface UseFormDateFieldProps extends UseFormFieldProps<Date | string | null> {
   required?: boolean;
 }
 
+export type FormDateFieldDateInputProps = Omit<
+  DateInputProps,
+  'required' | 'selected' | 'onChange'
+>;
+
 export interface FormDateFieldAPI extends FormFieldAPI<Date | string | null> {
-  DateInput: React.FC<DateInputProps>;
+  DateInput: React.FC<FormDateFieldDateInputProps>;
 }
 
 export function useFormDateField(props: UseFormDateFieldProps): FormDateFieldAPI {
@@ -47,14 +42,12 @@ export function useFormDateField(props: UseFormDateFieldProps): FormDateFieldAPI
   // destroy the field on unmount
   useEffect(() => () => destroyField(), []);
 
-  const DateInput = useMemo<React.FC<DateInputProps>>(() => {
-    const DateInput: React.FC<DateInputProps & Decorate> = ({
+  const FormDateInput = useMemo<React.FC<FormDateFieldDateInputProps>>(() => {
+    const FormDateInput: React.FC<FormDateFieldDateInputProps> = ({
       children,
-      classes,
       className,
       popperClassName,
       calendarClassName,
-      inputRef,
       ...rest
     }) => {
       const { value, validityMessage } = useValue(
@@ -74,7 +67,7 @@ export function useFormDateField(props: UseFormDateFieldProps): FormDateFieldAPI
         }
       }, [validityMessage || '']);
 
-      const handleChange = useCallback<ReactDatePickerProps['onChange']>(
+      const handleChange = useCallback<DateInputProps['onChange']>(
         (date) => {
           field.setValue(date ? stripTime(date) : null);
 
@@ -90,54 +83,30 @@ export function useFormDateField(props: UseFormDateFieldProps): FormDateFieldAPI
         [field.setValue],
       );
 
-      const handleRef = useCallback(
-        (datePicker: any) => {
-          if (datePicker) {
-            setInputEl(datePicker.input || null);
-
-            if (inputRef) {
-              if (typeof inputRef === 'function') {
-                inputRef(datePicker.input || null);
-              } else {
-                (inputRef as any).current = datePicker.input || null;
-              }
-            }
-          }
-        },
-        [inputRef],
-      );
+      const handleRef = useCallback((dateInput: any) => {
+        if (dateInput) {
+          setInputEl(dateInput.input || null);
+        }
+      }, []);
 
       return (
-        <div className={clsx(classes.root, className)}>
-          <ReactDatePicker
-            dateFormat="dd.MM.yyyy"
-            popperPlacement="bottom"
-            popperModifiers={{
-              preventOverflow: {
-                enabled: true,
-              },
-            }}
-            {...rest}
-            popperClassName={clsx(classes.popper, popperClassName)}
-            calendarClassName={clsx(classes.calendar, calendarClassName)}
-            required={required}
-            selected={
-              value && typeof value === 'string' ? parseISOToDate(value) : (value as (Date | null))
-            }
-            onChange={handleChange}
-            ref={handleRef}
-          />
-        </div>
+        <DateInput
+          {...rest}
+          ref={handleRef}
+          required={required}
+          selected={
+            value && typeof value === 'string' ? parseISOToDate(value) : (value as (Date | null))
+          }
+          onChange={handleChange}
+        />
       );
     };
 
-    // why `any` you ask again? haha
-    const StyledDateInput: any = decorate(DateInput);
-    return StyledDateInput;
+    return FormDateInput;
   }, [field, required]);
 
   return {
     ...field,
-    DateInput,
+    DateInput: FormDateInput,
   };
 }
