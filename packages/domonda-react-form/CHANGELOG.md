@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.1](https://github.com/domonda/domonda-js/compare/@domonda/react-form@1.2.0...@domonda/react-form@1.2.1) (2019-07-19)
+
+
+### Bug Fixes
+
+* **Form:** update fields on reset on default values change ([40077f2](https://github.com/domonda/domonda-js/commit/40077f2))
+* **FormDateField:** use portal for picker ([eb22f16](https://github.com/domonda/domonda-js/commit/eb22f16))
+* **storybook:** use same react instance ([2dcbf93](https://github.com/domonda/domonda-js/commit/2dcbf93))
+
+
+
+
+
 # [1.2.0](https://github.com/domonda/domonda-js/compare/@domonda/react-form@1.1.0...@domonda/react-form@1.2.0) (2019-07-19)
 
 

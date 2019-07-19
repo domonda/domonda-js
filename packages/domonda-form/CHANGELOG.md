@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/domonda/domonda-js/compare/@domonda/form@1.1.1...@domonda/form@1.2.0) (2019-07-19)
+
+
+### Bug Fixes
+
+* **Form:** update fields on reset after submit ([94a6403](https://github.com/domonda/domonda-js/commit/94a6403))
+
+
+### Features
+
+* **FormField:** guarantee changed flag consistency ([deaa987](https://github.com/domonda/domonda-js/commit/deaa987))
+
+
+
+
+
 ## [1.1.1](https://github.com/domonda/domonda-js/compare/@domonda/form@1.1.0...@domonda/form@1.1.1) (2019-07-19)
 
 
