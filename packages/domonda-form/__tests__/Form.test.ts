@@ -153,6 +153,48 @@ describe('Submitting', () => {
     done();
   });
 
+  it('should set changed to false on fields after reset on successful submit', async (done) => {
+    const spy = jest.fn();
+
+    const [form] = createForm(defaultValues, {
+      onSubmit: spy,
+      resetOnSuccessfulSubmit: true,
+    });
+
+    const path = 'path';
+    const [field] = form.makeFormField(path);
+
+    field.setValue('othervalue');
+
+    await form.submit();
+
+    expect(field.state.changed).toBeFalsy();
+    expect(form.state.fields[path].changed).toBe(field.state.changed);
+    done();
+  });
+
+  it('should set changed to false on fields after reset on failed submit', async (done) => {
+    const spy = jest.fn(() => {
+      throw new Error('Oops!');
+    });
+
+    const [form] = createForm(defaultValues, {
+      onSubmit: spy,
+      resetOnFailedSubmit: true,
+    });
+
+    const path = 'path';
+    const [field] = form.makeFormField(path);
+
+    field.setValue('othervalue');
+
+    await form.submit();
+
+    expect(field.state.changed).toBeFalsy();
+    expect(form.state.fields[path].changed).toBe(field.state.changed);
+    done();
+  });
+
   it('should not auto-submit initially', (done) => {
     const spy = jest.fn();
 

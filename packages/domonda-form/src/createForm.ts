@@ -24,6 +24,13 @@ import { createFormField } from './createFormField';
 
 const DEFAULT_AUTO_SUBMIT_DELAY = 300;
 
+export function setChangedOnAllFormFields(fields: FormFields, changed: boolean) {
+  return Object.keys(fields).reduce<FormFields>(
+    (acc, curr) => ({ ...acc, [curr]: { ...fields[curr], changed } }),
+    {},
+  );
+}
+
 export function createForm<DefaultValues extends FormDefaultValues>(
   defaultValues: DefaultValues = {} as DefaultValues,
   initialConfig: FormConfig<DefaultValues> = {},
@@ -84,10 +91,7 @@ export function createForm<DefaultValues extends FormDefaultValues>(
         values: $.value.defaultValues,
         submitting: false,
         submitError: null,
-        fields: Object.keys($.value.fields).reduce<FormFields>(
-          (acc, curr) => ({ ...acc, [curr]: { ...$.value.fields[curr], changed: false } }),
-          {},
-        ),
+        fields: setChangedOnAllFormFields($.value.fields, false),
       }),
     resetSubmitError: () => $.next({ ...$.value, submitting: false, submitError: null }),
     makeFormField: (path, config) => createFormField($, path, config),
@@ -140,15 +144,21 @@ export function createForm<DefaultValues extends FormDefaultValues>(
 
         $.next({
           ...$.value,
-          values: resetOnSuccessfulSubmit ? $.value.defaultValues : $.value.values,
           submitting: false,
+          values: resetOnSuccessfulSubmit ? $.value.defaultValues : $.value.values,
+          fields: resetOnSuccessfulSubmit
+            ? setChangedOnAllFormFields($.value.fields, false)
+            : $.value.fields,
         });
       } catch (error) {
         $.next({
           ...$.value,
-          values: resetOnFailedSubmit ? $.value.defaultValues : $.value.values,
           submitting: false,
           submitError: error,
+          values: resetOnFailedSubmit ? $.value.defaultValues : $.value.values,
+          fields: resetOnFailedSubmit
+            ? setChangedOnAllFormFields($.value.fields, false)
+            : $.value.fields,
         });
       }
     }
