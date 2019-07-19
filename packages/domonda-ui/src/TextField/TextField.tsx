@@ -14,9 +14,7 @@ const styles = createStyles(({ palette, spacing, shadows, shape, typography }) =
     fontFamily: 'inherit',
     border: `1px solid ${palette.dark('border')}`,
     borderRadius: shape.borderRadius,
-    paddingTop: spacing(2),
-    paddingLeft: spacing(),
-    paddingBottom: spacing(0.35),
+    padding: spacing(0.35, 1),
     textAlign: 'inherit',
     position: 'relative',
     background: 'transparent',
@@ -26,23 +24,38 @@ const styles = createStyles(({ palette, spacing, shadows, shape, typography }) =
     },
     '&:invalid': {
       color: palette.warning,
-      borderColor: 'currentColor',
+      borderColor: palette.warning,
       '& + $label': {
         color: palette.warning,
       },
     },
+    '&:hover': {
+      borderColor: palette.darkest('border'),
+    },
     '&:focus': {
-      backgroundColor: palette.surface,
       boxShadow: shadows[5],
       outline: 'none',
       borderColor: palette.darkest('border'),
       '& + $label': {
         zIndex: 1,
       },
+      backgroundColor: palette.surface,
+      '&:invalid': {
+        backgroundColor: palette.lightest('warning'),
+      },
     },
     '&$disabled': {
       color: palette.textSecondary,
     },
+  },
+  inputWithLabel: {
+    padding: spacing(2, 1, 0.35, 1),
+  },
+  inputDense: {
+    padding: spacing(0, 0.35),
+  },
+  inputDenseWithLabel: {
+    padding: spacing(1.35, 0.35, 0, 0.35),
   },
   label: {
     transition: 'font-size 100ms, color 200ms',
@@ -50,37 +63,49 @@ const styles = createStyles(({ palette, spacing, shadows, shape, typography }) =
     alignItems: 'flex-start',
     position: 'absolute',
     lineHeight: 1,
-    paddingTop: spacing(0.5),
-    paddingBottom: spacing(0.5),
     top: 0,
     bottom: 0,
-    left: spacing(),
+    left: 0,
     textTransform: 'uppercase',
     fontSize: '.75rem',
     color: palette.dark('textSecondary'),
     fontWeight: typography.weights.semiBold,
+    paddingTop: spacing(0.5),
+    paddingLeft: spacing(1),
+  },
+  labelDense: {
+    paddingLeft: spacing(0.35),
   },
   disabled: {},
 }));
 
 export interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: React.ReactNode;
+  dense?: boolean;
 }
 
 export const textFieldClassName = generateStaticClassName('TextField');
 
 const TextField = React.forwardRef<HTMLInputElement, TextFieldProps & WithStyles<typeof styles>>(
   function TextField(props, ref) {
-    const { classes, className, label, disabled, ...rest } = props;
+    const { classes, className, label, dense, disabled, ...rest } = props;
     return (
       <div className={clsx(classes.root, textFieldClassName, className)}>
         <input
           {...rest}
-          disabled={disabled}
-          className={clsx(classes.input, disabled && classes.disabled)}
           ref={ref}
+          disabled={disabled}
+          className={clsx(
+            classes.input,
+            label && classes.inputWithLabel,
+            dense && classes.inputDense,
+            dense && label && classes.inputDenseWithLabel,
+            disabled && classes.disabled,
+          )}
         />
-        {label && <label className={classes.label}>{label}</label>}
+        {label && (
+          <label className={clsx(classes.label, dense && classes.labelDense)}>{label}</label>
+        )}
       </div>
     );
   },
