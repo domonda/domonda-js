@@ -10,48 +10,57 @@ import clsx from 'clsx';
 import { svgIconClassName } from '../SvgIcon';
 import { SvgExpandMoreIcon } from '../SvgIcon/SvgExpandMoreIcon';
 
-const styles = createStyles(({ typography, palette, spacing, shape }) => ({
+const styles = createStyles(({ typography, palette, spacing, shape, shadows }) => ({
   root: {
     position: 'relative',
-    width: '100%',
-    border: `1px solid ${palette.border}`,
-    borderRadius: shape.borderRadius,
-    overflow: 'hidden',
+    textAlign: 'left',
   },
   select: {
+    zIndex: 1,
     position: 'relative',
-    zIndex: 2,
     fontSize: 'inherit',
     fontFamily: 'inherit',
     '-moz-appearance': 'none', // Reset
     '-webkit-appearance': 'none', // Reset
+    outline: 'none',
     userSelect: 'none',
-    borderRadius: 0, // Reset
-    lineHeight: '24px',
     minWidth: 16,
     width: '100%',
-    paddingTop: spacing(2),
-    paddingRight: spacing(4),
-    paddingBottom: spacing(0.5),
-    paddingLeft: spacing(1),
+    padding: spacing(0.35, 1),
     background: 'transparent',
-    border: 0,
     cursor: 'pointer',
+    border: `1px solid ${palette.dark('border')}`,
+    borderRadius: shape.borderRadius,
+    overflow: 'hidden',
+    '&::placeholder': {
+      color: palette.textSecondary,
+    },
     '&::-ms-expand': {
       display: 'none',
     },
-    '&$disabled': {
-      cursor: 'default',
-      color: palette.textSecondary,
-    },
-    '&:focus, &:active': {
-      outline: 'none',
-      backgroundColor: palette.surface,
-      '& + $label': {
-        zIndex: 2,
+    '&:invalid': {
+      color: palette.warning,
+      borderColor: palette.warning,
+      '& + $icon, & + $label + $icon, & + $label': {
+        color: palette.warning,
       },
-      '& + $label + $icon': {
-        zIndex: 2,
+    },
+    '&:hover, &:focus': {
+      borderColor: palette.darkest('border'),
+      '&:not($disabled)': {
+        '& + $icon, & + $label + $icon': {
+          color: palette.textPrimary,
+        },
+      },
+    },
+    '&:focus': {
+      boxShadow: shadows[5],
+      '& + $icon, & + $label + $icon, & + $label': {
+        zIndex: 1,
+      },
+      backgroundColor: palette.surface,
+      '&:invalid': {
+        backgroundColor: palette.lightest('warning'),
       },
     },
     '&:active': {
@@ -59,57 +68,86 @@ const styles = createStyles(({ typography, palette, spacing, shape }) => ({
         transform: 'rotate(-180deg)',
       },
     },
-  },
-  icon: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    right: spacing(),
-    display: 'inline-flex',
-    alignItems: 'center',
-    [`& > .${svgIconClassName}`]: {
-      color: palette.textPrimary,
-      transition: 'transform 100ms',
+    '&$disabled': {
+      cursor: 'not-allowed',
+      color: palette.textSecondary,
+      borderColor: palette.border,
     },
   },
-  label: {
-    alignItems: 'flex-start',
+  selectWithLabel: {
+    padding: spacing(2, 1, 0.35, 1),
+  },
+  selectDense: {
+    padding: spacing(0, 0.35),
+  },
+  selectDenseWithLabel: {
+    padding: spacing(1.35, 0.35, 0, 0.35),
+  },
+  icon: {
+    zIndex: 0,
+    position: 'absolute',
+    display: 'inline-flex',
+    top: 0,
     bottom: 0,
+    right: 0,
+    paddingRight: spacing(1),
+    alignItems: 'center',
+    color: palette.textSecondary,
+    [`& > .${svgIconClassName}`]: {
+      color: 'inherit',
+    },
+  },
+  iconDense: {
+    paddingRight: spacing(0.35),
+  },
+  label: {
+    zIndex: 0,
+    alignItems: 'flex-start',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    paddingTop: spacing(0.5),
+    paddingLeft: spacing(1),
     color: palette.dark('textSecondary'),
     display: 'inline-flex',
     fontSize: '.75rem',
     fontWeight: typography.weights.semiBold,
     lineHeight: 1,
-    paddingBottom: spacing(0.5),
-    paddingTop: spacing(0.5),
     position: 'absolute',
-    left: spacing(),
     textTransform: 'uppercase',
-    top: 0,
-    zIndex: 0,
+  },
+  labelDense: {
+    paddingLeft: spacing(0.35),
   },
   disabled: {},
 }));
 
 export interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   label?: React.ReactNode;
+  dense?: boolean; // tOdO
 }
 
 const Select = React.forwardRef<HTMLSelectElement, SelectProps & WithStyles<typeof styles>>(
   function Select(props, ref) {
-    const { children, classes, className, label, disabled, ...rest } = props;
+    const { children, classes, className, label, dense, disabled, ...rest } = props;
     return (
       <div className={clsx(classes.root, className)}>
         <select
           {...rest}
           disabled={disabled}
-          className={clsx({ [classes.disabled]: disabled }, classes.select)}
+          className={clsx(
+            classes.select,
+            label && classes.selectWithLabel,
+            dense && classes.selectDense,
+            dense && label && classes.selectDenseWithLabel,
+            disabled && classes.disabled,
+          )}
           ref={ref}
         >
           {children}
         </select>
-        {label && <div className={classes.label}>{label}</div>}
-        <div className={classes.icon}>
+        {label && <div className={clsx(classes.label, dense && classes.labelDense)}>{label}</div>}
+        <div className={clsx(classes.icon, dense && classes.iconDense)}>
           <SvgExpandMoreIcon />
         </div>
       </div>
