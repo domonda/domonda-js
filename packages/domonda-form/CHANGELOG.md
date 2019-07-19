@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.1](https://github.com/domonda/domonda-js/compare/@domonda/form@1.1.0...@domonda/form@1.1.1) (2019-07-19)
+
+
+### Bug Fixes
+
+* **Form:** correctly reset form ([cd79d95](https://github.com/domonda/domonda-js/commit/cd79d95))
+* **Form:** submit handler can return whatever ([0a9e42b](https://github.com/domonda/domonda-js/commit/0a9e42b))
+
+
+
+
+
 # [1.1.0](https://github.com/domonda/domonda-js/compare/@domonda/form@1.0.2...@domonda/form@1.1.0) (2019-07-17)
 
 

@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@1.1.0...@domonda/ui@2.0.0) (2019-07-19)
+
+
+### Bug Fixes
+
+* **MenuItem:** lighter hover background ([9b8d07e](https://github.com/domonda/domonda-js/commit/9b8d07e))
+* **TextField:** nicer disabled state ([1ce5d5f](https://github.com/domonda/domonda-js/commit/1ce5d5f))
+
+
+### Code Refactoring
+
+* **Select:** rename `NativeSelect` to `Select` ([a16ea94](https://github.com/domonda/domonda-js/commit/a16ea94))
+
+
+### Features
+
+* **Select:** improvements and stories ([14378c8](https://github.com/domonda/domonda-js/commit/14378c8))
+* **TextField:** improvements and `dense` mode ([30065c9](https://github.com/domonda/domonda-js/commit/30065c9))
+
+
+### BREAKING CHANGES
+
+* **Select:** `NativeSelect` has been renamed to `Select`.
+
+
+
+
+
 # [1.1.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@1.0.7...@domonda/ui@1.1.0) (2019-07-17)
 
 
