@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
-import { NativeSelect } from '../src/NativeSelect';
+import { Select } from '../src/Select';
 
-const stories = storiesOf('NativeSelect', module);
+const stories = storiesOf('Select', module);
 
 stories.add('Overview', () => (
-  <NativeSelect label="Document Type" name="doc_type" value={10}>
+  <Select label="Team size" value={10}>
     <option value="" />
     <option value={10}>Ten</option>
     <option value={20}>Twenty</option>
     <option value={30}>Thirty</option>
-  </NativeSelect>
+  </Select>
 ));

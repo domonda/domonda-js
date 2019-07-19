@@ -1,4 +1,10 @@
-import * as React from 'react';
+/**
+ *
+ * Select
+ *
+ */
+
+import React from 'react';
 import { createStyles, withStyles, WithStyles } from '../styles';
 import clsx from 'clsx';
 import { svgIconClassName } from '../SvgIcon';
@@ -85,36 +91,35 @@ const styles = createStyles(({ typography, palette, spacing, shape }) => ({
   disabled: {},
 }));
 
-export interface NativeSelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
+export interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   label?: React.ReactNode;
 }
 
-const NativeSelect = React.forwardRef<
-  HTMLSelectElement,
-  NativeSelectProps & WithStyles<typeof styles>
->(function NativeSelect(props, ref) {
-  const { children, classes, className, label, disabled, ...rest } = props;
-  return (
-    <div className={clsx(classes.root, className)}>
-      <select
-        {...rest}
-        disabled={disabled}
-        className={clsx({ [classes.disabled]: disabled }, classes.select)}
-        ref={ref}
-      >
-        {children}
-      </select>
-      {label && <div className={classes.label}>{label}</div>}
-      <div className={classes.icon}>
-        <SvgExpandMoreIcon />
+const Select = React.forwardRef<HTMLSelectElement, SelectProps & WithStyles<typeof styles>>(
+  function Select(props, ref) {
+    const { children, classes, className, label, disabled, ...rest } = props;
+    return (
+      <div className={clsx(classes.root, className)}>
+        <select
+          {...rest}
+          disabled={disabled}
+          className={clsx({ [classes.disabled]: disabled }, classes.select)}
+          ref={ref}
+        >
+          {children}
+        </select>
+        {label && <div className={classes.label}>{label}</div>}
+        <div className={classes.icon}>
+          <SvgExpandMoreIcon />
+        </div>
       </div>
-    </div>
-  );
-});
+    );
+  },
+);
 
 if (process.env.NODE_ENV !== 'production') {
-  NativeSelect.displayName = 'NativeSelect';
+  Select.displayName = 'Select';
 }
 
-const StyledNativeSelect = withStyles(styles)(NativeSelect);
-export { StyledNativeSelect as NativeSelect };
+const StyledSelect = withStyles(styles)(Select);
+export { StyledSelect as Select };

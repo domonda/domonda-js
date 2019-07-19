@@ -5,7 +5,7 @@ export * from './Menu';
 export * from './SvgIcon';
 export * from './Table';
 export * from './TextField';
-export * from './NativeSelect';
+export * from './Select';
 export * from './Err';
 export * from './ErrBoundry';
 export * from './ErrInline';
