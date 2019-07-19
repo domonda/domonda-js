@@ -1,3 +1,9 @@
+/**
+ *
+ * TableRow
+ *
+ */
+
 import * as React from 'react';
 import clsx from 'clsx';
 import { generateStaticClassName, withStyles, WithStyles, createStyles } from '../styles';

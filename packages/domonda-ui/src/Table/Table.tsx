@@ -1,3 +1,9 @@
+/**
+ *
+ * Table
+ *
+ */
+
 import * as React from 'react';
 import clsx from 'clsx';
 import { createStyles, withStyles, WithStyles } from '../styles';

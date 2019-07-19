@@ -1,3 +1,9 @@
+/**
+ *
+ * TableHeader
+ *
+ */
+
 import * as React from 'react';
 import { withStyles, WithStyles, createStyles } from '../styles';
 import clsx from 'clsx';

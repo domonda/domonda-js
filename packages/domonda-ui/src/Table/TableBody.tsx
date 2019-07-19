@@ -1,3 +1,9 @@
+/**
+ *
+ * TableBody
+ *
+ */
+
 import * as React from 'react';
 import { createStyles, withStyles, WithStyles } from '../styles';
 import { tableRowClassName } from './TableRow';

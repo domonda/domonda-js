@@ -1,3 +1,9 @@
+/**
+ *
+ * SvgIcon
+ *
+ */
+
 import * as React from 'react';
 import clsx from 'clsx';
 import { withStyles, WithStyles, generateStaticClassName } from '../styles';

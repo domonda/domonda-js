@@ -1,3 +1,9 @@
+/**
+ *
+ * Button
+ *
+ */
+
 import * as React from 'react';
 import clsx from 'clsx';
 import { Color, generateStaticClassName, ColorVariant } from '../styles';
