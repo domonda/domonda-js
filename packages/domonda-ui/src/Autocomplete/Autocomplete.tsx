@@ -24,6 +24,7 @@ export interface AutocompleteProps<T>
   onInputValueChange?: (value: string | null) => void;
   // TextField
   label?: React.ReactNode;
+  dense?: boolean;
   required?: boolean;
   disabled?: boolean;
   autoFocus?: boolean;
@@ -37,6 +38,7 @@ function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement | null
     onInputValueChange,
     // TextField
     label,
+    dense,
     required,
     disabled,
     autoFocus,
@@ -84,6 +86,7 @@ function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement | null
           <div>
             <TextField
               label={label}
+              dense={dense}
               {...textFieldProps}
               {...restInputProps}
               required={required}
