@@ -27,6 +27,7 @@ import {
 function deriveState<T extends FormDefaultValues, V>(
   path: string,
   state: FormState<T>,
+  setState: (nextState: FormState<T>) => void,
   isLocalNext: boolean,
 ): FormFieldStateWithValues<V> | undefined {
   const { fields, defaultValues, values } = state;
@@ -46,11 +47,28 @@ function deriveState<T extends FormDefaultValues, V>(
       value,
     };
   }
+
+  // update the `changed` flag if it is not consistent with the field itself
+  // this case will happen when the value gets changed externally (from the form)
+  const changed = !equal(defaultValue, value);
+  if (field.changed !== changed) {
+    setState({
+      ...state,
+      fields: {
+        ...state.fields,
+        [path]: {
+          ...field,
+          changed,
+        },
+      },
+    });
+  }
+
   return {
     ...field,
     defaultValue,
     value,
-    changed: !equal(defaultValue, value),
+    changed,
   };
 }
 
@@ -109,7 +127,15 @@ export function createFormField<DefaultValues extends FormDefaultValues, Value>(
       // we assert non-null here because the stream will complete when
       // this map gets an undefined value (field is removed from form)
       // its just a type hack so that we dont assert everywhere else...
-      map((state) => deriveState<DefaultValues, Value>(path, state, localNext)!),
+      map(
+        (state) =>
+          deriveState<DefaultValues, Value>(
+            path,
+            state,
+            (nextState) => form$.next(nextState),
+            localNext,
+          )!,
+      ),
       // complete stream when the field gets removed
       takeWhile((state) => !!state),
       // publish only changed state
@@ -172,7 +198,12 @@ export function createFormField<DefaultValues extends FormDefaultValues, Value>(
   }
 
   function getState() {
-    const state = deriveState<DefaultValues, Value>(path, form$.value, false);
+    const state = deriveState<DefaultValues, Value>(
+      path,
+      form$.value,
+      (nextState) => form$.next(nextState),
+      false,
+    );
     if (!state) {
       throw new Error('domonda-form: Field state should be available here!');
     }
