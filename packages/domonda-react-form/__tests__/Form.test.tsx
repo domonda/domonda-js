@@ -215,6 +215,42 @@ describe('Updating', () => {
 
     expect(form.state.values).toBe(nextDefaultValues);
   });
+
+  it('should set changed to false on fields after reset on default values change', () => {
+    let form: RxForm<DefaultValues>;
+
+    const { rerender } = render(
+      <Form resetOnDefaultValuesChange defaultValues={defaultValues} getForm={(f) => (form = f)}>
+        <div />
+      </Form>,
+    );
+
+    // @ts-ignore because form should indeed be set here
+    if (!form) {
+      throw new Error('form instance should be set here!');
+    }
+
+    expect(form.state.values).toBe(defaultValues);
+
+    const path = 'name';
+    const [field] = form.makeFormField(path);
+
+    field.setValue({});
+
+    expect(field.state.changed).toBeTruthy();
+    expect(form.state.fields[path].changed).toBe(field.state.changed);
+
+    const nextDefaultValues = {};
+    rerender(
+      <Form resetOnDefaultValuesChange defaultValues={nextDefaultValues}>
+        <div />
+      </Form>,
+    );
+
+    expect(form.state.values).toBe(nextDefaultValues);
+    expect(field.state.changed).toBeFalsy();
+    expect(form.state.fields[path].changed).toBe(field.state.changed);
+  });
 });
 
 describe('Cleanup', () => {

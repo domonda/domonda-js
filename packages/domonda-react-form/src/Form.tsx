@@ -12,6 +12,7 @@ import {
   FormConfig,
   FormDefaultValues,
   shallowEqual,
+  setChangedOnAllFormFields,
 } from '@domonda/form';
 export { FormSubmitHandler } from '@domonda/form';
 
@@ -81,6 +82,9 @@ export function Form<DefaultValues extends FormDefaultValues>(
         ...form.$.value,
         defaultValues,
         values: resetOnDefaultValuesChange ? defaultValues : form.$.value.values,
+        fields: resetOnDefaultValuesChange
+          ? setChangedOnAllFormFields(form.$.value.fields, false)
+          : form.$.value.fields,
       });
     }
   }, [defaultValues, resetOnDefaultValuesChange]);
