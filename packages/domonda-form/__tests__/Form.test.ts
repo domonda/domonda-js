@@ -16,6 +16,24 @@ describe('Creation', () => {
   });
 });
 
+describe('Updating', () => {
+  it('should reset form and fields correctly', () => {
+    const [form] = createForm(defaultValues);
+
+    const path = 'path';
+    const [field] = form.makeFormField(path);
+
+    const next = {};
+    field.setValue(next);
+
+    form.reset();
+
+    expect(field.value).toBe(field.state.defaultValue);
+    expect(field.state.changed).toBeFalsy();
+    expect(form.state.fields[path].changed).toBe(field.state.changed);
+  });
+});
+
 describe('Submitting', () => {
   it('should trigger onSubmit when calling submit', async (done) => {
     const spy = jest.fn();
