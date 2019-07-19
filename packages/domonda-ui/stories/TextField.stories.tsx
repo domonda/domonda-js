@@ -24,5 +24,8 @@ stories.add('Overview', () => (
     <p>
       <TextField label="Amount" required={true} />
     </p>
+    <p>
+      <TextField disabled label="Disabled" value="Cannot change" />
+    </p>
   </>
 ));

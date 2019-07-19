@@ -45,7 +45,9 @@ const styles = createStyles(({ palette, spacing, shadows, shape, typography }) =
       },
     },
     '&$disabled': {
+      cursor: 'not-allowed',
       color: palette.textSecondary,
+      borderColor: palette.border,
     },
   },
   inputWithLabel: {
