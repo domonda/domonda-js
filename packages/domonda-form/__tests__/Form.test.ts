@@ -83,6 +83,76 @@ describe('Submitting', () => {
     done();
   });
 
+  it('should reset on successful submit', async (done) => {
+    const spy = jest.fn();
+
+    const [form] = createForm(defaultValues, {
+      onSubmit: spy,
+      resetOnSuccessfulSubmit: true,
+    });
+
+    form.$.next({ ...form.$.value, values: {} });
+
+    await form.submit();
+
+    expect(form.state.values).toBe(form.state.defaultValues);
+    done();
+  });
+
+  it('should not reset on failed submit with reset on successful submit flag', async (done) => {
+    const spy = jest.fn(() => {
+      throw new Error('Oops!');
+    });
+
+    const [form] = createForm(defaultValues, {
+      onSubmit: spy,
+      resetOnSuccessfulSubmit: true,
+    });
+
+    const nextValues = {} as any;
+    form.$.next({ ...form.$.value, values: nextValues });
+
+    await form.submit();
+
+    expect(form.state.values).toBe(nextValues);
+    done();
+  });
+
+  it('should reset on failed submit', async (done) => {
+    const spy = jest.fn(() => {
+      throw new Error('Oops!');
+    });
+
+    const [form] = createForm(defaultValues, {
+      onSubmit: spy,
+      resetOnFailedSubmit: true,
+    });
+
+    form.$.next({ ...form.$.value, values: {} as any });
+
+    await form.submit();
+
+    expect(form.state.values).toBe(form.state.defaultValues);
+    done();
+  });
+
+  it('should not reset on successful submit with reset on failed submit flag', async (done) => {
+    const spy = jest.fn();
+
+    const [form] = createForm(defaultValues, {
+      onSubmit: spy,
+      resetOnFailedSubmit: true,
+    });
+
+    const nextValues = {} as any;
+    form.$.next({ ...form.$.value, values: nextValues });
+
+    await form.submit();
+
+    expect(form.state.values).toBe(nextValues);
+    done();
+  });
+
   it('should not auto-submit initially', (done) => {
     const spy = jest.fn();
 
