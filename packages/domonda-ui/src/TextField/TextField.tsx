@@ -19,6 +19,7 @@ const styles = createStyles(({ palette, spacing, shadows, shape, typography }) =
     position: 'relative',
     background: 'transparent',
     zIndex: 1,
+    outline: 'none',
     '&::placeholder': {
       color: palette.textSecondary,
     },
@@ -34,7 +35,6 @@ const styles = createStyles(({ palette, spacing, shadows, shape, typography }) =
     },
     '&:focus': {
       boxShadow: shadows[5],
-      outline: 'none',
       borderColor: palette.darkest('border'),
       '& + $label': {
         zIndex: 1,
@@ -60,7 +60,6 @@ const styles = createStyles(({ palette, spacing, shadows, shape, typography }) =
     padding: spacing(1.35, 0.35, 0, 0.35),
   },
   label: {
-    transition: 'font-size 100ms, color 200ms',
     display: 'inline-flex',
     alignItems: 'flex-start',
     position: 'absolute',
