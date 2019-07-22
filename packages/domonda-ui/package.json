@@ -46,7 +46,7 @@
     "jss-plugin-rule-value-function": "^10.0.0-alpha.22",
     "jss-plugin-vendor-prefixer": "^10.0.0-alpha.22",
     "popper.js": "^1.15.0",
-    "react-jss": "^10.0.0-alpha.22",
+    "react-jss": "^10.0.0-alpha.23",
     "react-virtualized": "^9.21.1",
     "resize-observer-polyfill": "^1.5.1"
   },
