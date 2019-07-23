@@ -4,7 +4,7 @@ import { default as jssWithStyles } from 'react-jss';
 import { Styles, ClassNameMap, ClassKeyOfStyles, PropsOfStyles } from './createStyles';
 
 // auto-install
-import { install, jss } from './jss';
+import { install } from './jss';
 install();
 
 export interface WithStylesOptions {
@@ -33,6 +33,5 @@ export function withStyles<S extends Styles<any, any>, Options extends WithStyle
   return jssWithStyles(styles, {
     injectTheme: options && options.injectTheme,
     ...options,
-    jss,
   });
 }
