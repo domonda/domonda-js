@@ -6,7 +6,7 @@
 
 import React, { useRef, useCallback } from 'react';
 import Downshift, { DownshiftProps } from 'downshift';
-import { AutoSizer, List } from 'react-virtualized';
+import { AutoSizer, List, ListProps } from 'react-virtualized';
 
 // ui
 import { TextField, TextFieldProps } from '../TextField';
@@ -29,6 +29,7 @@ export interface AutocompleteProps<T>
   disabled?: boolean;
   autoFocus?: boolean;
   TextFieldProps?: TextFieldProps;
+  ListProps?: Partial<Omit<ListProps, 'height' | 'rowRenderer' | 'rowCount' | 'scrollToIndex'>>;
 }
 
 function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement | null {
@@ -43,6 +44,7 @@ function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement | null
     disabled,
     autoFocus,
     TextFieldProps,
+    ListProps,
     ...rest
   } = props;
 
@@ -124,9 +126,10 @@ function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement | null
                   >
                     <List
                       width={width}
-                      height={Math.min(rowHeight * 7, items.length * rowHeight)}
                       tabIndex={-1}
                       rowHeight={rowHeight}
+                      {...ListProps}
+                      height={Math.min(rowHeight * 7, items.length * rowHeight)}
                       rowCount={items.length}
                       scrollToIndex={
                         !highlightedIndex && highlightedIndex !== 0 ? undefined : highlightedIndex
