@@ -14,7 +14,7 @@ export function install() {
     return;
   }
   DOMONDA_UI_JSS_INSTALLED = true;
-  return jss.setup({
+  jss.setup({
     createGenerateId:
       process.env.NODE_ENV === 'production'
         ? () => {

@@ -4,7 +4,7 @@ import { Styles, ClassNameMap, ClassKeyOfStyles, PropsOfStyles } from './createS
 import { WithStylesOptions } from './withStyles';
 
 // auto-install
-import { install, jss } from './jss';
+import { install } from './jss';
 install();
 
 export interface MakeStylesOptions extends Omit<WithStylesOptions, 'injectTheme'> {
@@ -15,11 +15,10 @@ export interface MakeStylesOptions extends Omit<WithStylesOptions, 'injectTheme'
   name: string;
 }
 
-export function makeStyles<S extends Styles<any, any>>(
-  styles: S,
-  options: MakeStylesOptions,
-): keyof PropsOfStyles<S> extends never // empty interface (`{}`) check
-  ? () => ClassNameMap<ClassKeyOfStyles<S>>
-  : (props: PropsOfStyles<S>) => ClassNameMap<ClassKeyOfStyles<S>> {
-  return createUseStyles(styles, { ...options, jss });
+export function makeStyles<S extends Styles<any, any>>(styles: S, options: MakeStylesOptions) {
+  return createUseStyles<ClassKeyOfStyles<S>>(styles, options) as keyof PropsOfStyles<
+    S
+  > extends never // empty interface (`{}`) check
+    ? () => ClassNameMap<ClassKeyOfStyles<S>>
+    : (props: PropsOfStyles<S>) => ClassNameMap<ClassKeyOfStyles<S>>;
 }
