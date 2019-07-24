@@ -40,12 +40,17 @@ const defaultValues = {
 const path = 'some[0].12.%@$.obj';
 
 describe('Selectors', () => {
-  const [form] = createForm(defaultValues);
-  const wrapper: React.FC = ({ children }) => (
-    <FormContext.Provider value={form}>{children}</FormContext.Provider>
-  );
+  function makeForm(): [Form<typeof defaultValues>, React.FC] {
+    const [form] = createForm(defaultValues);
+    return [
+      form,
+      ({ children }) => <FormContext.Provider value={form}>{children}</FormContext.Provider>,
+    ];
+  }
 
   it('should get default values for related selector', () => {
+    const [form, wrapper] = makeForm();
+
     const {
       result: {
         current: [value],
@@ -59,6 +64,8 @@ describe('Selectors', () => {
   });
 
   it('should get default value at path for related selector', () => {
+    const [form, wrapper] = makeForm();
+
     const {
       result: {
         current: [value],
@@ -72,6 +79,8 @@ describe('Selectors', () => {
   });
 
   it('should get values for related selector', () => {
+    const [form, wrapper] = makeForm();
+
     const {
       result: {
         current: [value],
@@ -85,6 +94,8 @@ describe('Selectors', () => {
   });
 
   it('should get value at path for related selector', () => {
+    const [form, wrapper] = makeForm();
+
     const {
       result: {
         current: [value],
@@ -98,6 +109,8 @@ describe('Selectors', () => {
   });
 
   it('should get submit error for related selector', () => {
+    const [form, wrapper] = makeForm();
+
     const {
       result: {
         current: [value],
@@ -111,6 +124,8 @@ describe('Selectors', () => {
   });
 
   it('should get submitting flag for related selector', () => {
+    const [form, wrapper] = makeForm();
+
     const {
       result: {
         current: [value],
