@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { FormContext } from '../src/FormContext';
-import { createForm, Form as RxForm, FormConfig } from '@domonda/form';
+import { createForm, Form as RxForm, FormConfig, FormField } from '@domonda/form';
 import get from 'lodash/get';
 import {
   useFormState,
@@ -16,11 +16,27 @@ import {
   submittingSelector,
   changedSelector,
   FormState,
+  FormChangedState,
 } from '../src/FormState';
+import { Form } from '../src/Form';
 
 // t
 import { renderHook, act } from '@testing-library/react-hooks';
 import { render, cleanup } from '@testing-library/react';
+
+/**
+ * Suppress React 16.8 act() warnings globally.
+ * The react teams fix won't be out of alpha until 16.9.0.
+ * https://github.com/facebook/react/issues/14769#issuecomment-514589856
+ */
+const consoleError = console.error;
+beforeAll(() => {
+  jest.spyOn(console, 'error').mockImplementation((...args) => {
+    if (!args[0].includes('Warning: An update to %s inside a test was not wrapped in act')) {
+      consoleError(...args);
+    }
+  });
+});
 
 afterEach(cleanup);
 
@@ -202,5 +218,47 @@ describe('Updating', () => {
     rerender(Tree);
 
     expect(spy).toBeCalledTimes(1);
+  });
+
+  it('should correctly handle changed status when the path to a field does not exist on default values update', () => {
+    const spy = jest.fn((_0) => null);
+
+    let form: RxForm<DefaultValues>;
+
+    const { rerender } = render(
+      <Form getForm={(f) => (form = f)} defaultValues={defaultValues} resetOnDefaultValuesChange>
+        <FormChangedState>{spy}</FormChangedState>
+      </Form>,
+    );
+
+    // @ts-ignore because form should indeed be set here
+    if (!form) {
+      throw new Error('form instance should be set here!');
+    }
+
+    let field: FormField<unknown>;
+    act(() => {
+      [field] = form.makeFormField(path);
+    });
+
+    // @ts-ignore because field should indeed be set here
+    if (!field) {
+      throw new Error('field instance should be set here!');
+    }
+
+    act(() => {
+      field.setValue({ te: 'st' });
+    });
+
+    rerender(
+      <Form defaultValues={{ te: 'st' }} resetOnDefaultValuesChange>
+        <FormChangedState>{spy}</FormChangedState>
+      </Form>,
+    );
+
+    expect(spy).toBeCalledTimes(3);
+    expect(spy.mock.calls[0][0]).toBeFalsy();
+    expect(spy.mock.calls[1][0]).toBeTruthy();
+    expect(spy.mock.calls[2][0]).toBeTruthy();
   });
 });

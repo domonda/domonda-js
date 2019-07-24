@@ -5,6 +5,7 @@
  */
 
 import { equal } from './equality';
+import has from 'lodash/has';
 
 // $
 import { BehaviorSubject } from 'rxjs';
@@ -24,11 +25,18 @@ import { createFormField } from './createFormField';
 
 const DEFAULT_AUTO_SUBMIT_DELAY = 300;
 
-export function setChangedOnAllFormFields(fields: FormFields, changed: boolean) {
-  return Object.keys(fields).reduce<FormFields>(
-    (acc, curr) => ({ ...acc, [curr]: { ...fields[curr], changed } }),
-    {},
-  );
+export function setChangedOnAllFormFields(
+  defaultValues: FormDefaultValues,
+  fields: FormFields,
+  changed: boolean,
+) {
+  return Object.keys(fields).reduce<FormFields>((acc, curr) => {
+    return {
+      ...acc,
+      // if the value under a path does not exist, the field definitely changed!
+      [curr]: { ...fields[curr], changed: has(defaultValues, curr) ? changed : true },
+    };
+  }, {});
 }
 
 export function createForm<DefaultValues extends FormDefaultValues>(
@@ -91,7 +99,7 @@ export function createForm<DefaultValues extends FormDefaultValues>(
         values: $.value.defaultValues,
         submitting: false,
         submitError: null,
-        fields: setChangedOnAllFormFields($.value.fields, false),
+        fields: setChangedOnAllFormFields($.value.defaultValues, $.value.fields, false),
       }),
     resetSubmitError: () => $.next({ ...$.value, submitting: false, submitError: null }),
     makeFormField: (path, config) => createFormField($, path, config),
@@ -147,7 +155,7 @@ export function createForm<DefaultValues extends FormDefaultValues>(
           submitting: false,
           values: resetOnSuccessfulSubmit ? $.value.defaultValues : $.value.values,
           fields: resetOnSuccessfulSubmit
-            ? setChangedOnAllFormFields($.value.fields, false)
+            ? setChangedOnAllFormFields($.value.defaultValues, $.value.fields, false)
             : $.value.fields,
         });
       } catch (error) {
@@ -157,7 +165,7 @@ export function createForm<DefaultValues extends FormDefaultValues>(
           submitError: error,
           values: resetOnFailedSubmit ? $.value.defaultValues : $.value.values,
           fields: resetOnFailedSubmit
-            ? setChangedOnAllFormFields($.value.fields, false)
+            ? setChangedOnAllFormFields($.value.defaultValues, $.value.fields, false)
             : $.value.fields,
         });
       }

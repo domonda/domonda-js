@@ -83,7 +83,7 @@ export function Form<DefaultValues extends FormDefaultValues>(
         defaultValues,
         values: resetOnDefaultValuesChange ? defaultValues : form.$.value.values,
         fields: resetOnDefaultValuesChange
-          ? setChangedOnAllFormFields(form.$.value.fields, false)
+          ? setChangedOnAllFormFields(defaultValues, form.$.value.fields, false)
           : form.$.value.fields,
       });
     }
