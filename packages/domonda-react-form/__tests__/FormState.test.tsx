@@ -311,4 +311,58 @@ describe('Updating', () => {
     expect(spy.mock.calls[2][0]).toBeTruthy(); // react render cycle
     expect(spy.mock.calls[3][0]).toBeFalsy();
   });
+
+  it('should correctly handle changed status when submitting and default values update', async (done) => {
+    const spy = jest.fn((_0) => null);
+
+    let form: RxForm<DefaultValues>;
+
+    const submit = () => new Promise((resolve) => setTimeout(() => resolve, 0));
+
+    const { rerender } = render(
+      <Form
+        getForm={(f) => (form = f)}
+        onSubmit={submit}
+        defaultValues={defaultValues}
+        resetOnDefaultValuesChange
+      >
+        <FormChangedState>{spy}</FormChangedState>
+      </Form>,
+    );
+
+    // @ts-ignore because form should indeed be set here
+    if (!form) {
+      throw new Error('form instance should be set here!');
+    }
+
+    let field: FormField<unknown>;
+    act(() => {
+      [field] = form.makeFormField(path);
+    });
+
+    // @ts-ignore because field should indeed be set here
+    if (!field) {
+      throw new Error('field instance should be set here!');
+    }
+
+    act(() => {
+      field.setValue('denis');
+    });
+
+    await form.submit();
+
+    rerender(
+      <Form onSubmit={submit} defaultValues={{ te: 'st' }} resetOnDefaultValuesChange>
+        <FormChangedState>{spy}</FormChangedState>
+      </Form>,
+    );
+
+    expect(spy).toBeCalledTimes(4);
+    expect(spy.mock.calls[0][0]).toBeFalsy();
+    expect(spy.mock.calls[1][0]).toBeTruthy();
+    expect(spy.mock.calls[2][0]).toBeTruthy(); // react render cycle
+    expect(spy.mock.calls[3][0]).toBeFalsy();
+
+    done();
+  });
 });
