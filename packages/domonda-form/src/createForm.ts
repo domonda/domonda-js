@@ -5,7 +5,6 @@
  */
 
 import { equal } from './equality';
-import has from 'lodash/has';
 
 // $
 import { BehaviorSubject } from 'rxjs';
@@ -167,7 +166,6 @@ export function createForm<DefaultValues extends FormDefaultValues>(
       }
     }
   }
-
   async function submit() {
     if (!configRef.current.el) {
       await handleSubmit(null);
