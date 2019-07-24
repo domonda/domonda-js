@@ -220,7 +220,7 @@ describe('Updating', () => {
     expect(spy).toBeCalledTimes(1);
   });
 
-  it('should correctly handle changed status when default values change', (done) => {
+  it('should correctly handle changed status when default values change', () => {
     const spy = jest.fn((_0) => null);
 
     const dv = {
@@ -231,7 +231,7 @@ describe('Updating', () => {
 
     let form: RxForm<typeof dv>;
 
-    const { rerender } = render(
+    let { rerender } = render(
       <Form getForm={(f) => (form = f)} defaultValues={dv} resetOnDefaultValuesChange>
         <FormChangedState>{spy}</FormChangedState>
       </Form>,
@@ -262,11 +262,11 @@ describe('Updating', () => {
       </Form>,
     );
 
-    expect(spy).toBeCalledTimes(3);
+    expect(spy).toBeCalledTimes(4);
     expect(spy.mock.calls[0][0]).toBeFalsy();
     expect(spy.mock.calls[1][0]).toBeTruthy();
-    expect(spy.mock.calls[2][0]).toBeFalsy();
-    done();
+    expect(spy.mock.calls[2][0]).toBeTruthy(); // react render cycle
+    expect(spy.mock.calls[3][0]).toBeFalsy();
   });
 
   it('should correctly handle changed status when the path to a field does not exist on default values update', () => {
@@ -305,9 +305,10 @@ describe('Updating', () => {
       </Form>,
     );
 
-    expect(spy).toBeCalledTimes(3);
+    expect(spy).toBeCalledTimes(4);
     expect(spy.mock.calls[0][0]).toBeFalsy();
     expect(spy.mock.calls[1][0]).toBeTruthy();
-    expect(spy.mock.calls[2][0]).toBeTruthy();
+    expect(spy.mock.calls[2][0]).toBeTruthy(); // react render cycle
+    expect(spy.mock.calls[3][0]).toBeFalsy();
   });
 });

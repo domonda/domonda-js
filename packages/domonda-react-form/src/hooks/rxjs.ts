@@ -7,7 +7,7 @@
  */
 
 import { Observable } from 'rxjs';
-import { distinctUntilChanged, filter } from 'rxjs/operators';
+import { distinctUntilChanged } from 'rxjs/operators';
 import { useState, useEffect, DependencyList } from 'react';
 
 /** Subscribes to the observable and dispatches distinct values. */
@@ -28,12 +28,7 @@ export function useValue<V>(
     // make the source stream
     const source$ = makeObservable();
     // subscribe to it with the `distinctUntilChanged` operator to prevent unnecessary updates
-    const subscription = source$
-      .pipe(
-        distinctUntilChanged(),
-        filter((arrivingValue) => arrivingValue !== value), // filter out values which are the same as the current one
-      )
-      .subscribe(setValue);
+    const subscription = source$.pipe(distinctUntilChanged()).subscribe(setValue);
     // cleanup by unsubscribing
     return () => subscription.unsubscribe();
   }, deps || []);
