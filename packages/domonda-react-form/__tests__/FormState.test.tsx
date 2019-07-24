@@ -144,7 +144,7 @@ describe('Selectors', () => {
 
     const [field] = form.makeFormField(path);
 
-    const { result, rerender } = renderHook(useFormState, {
+    const { result } = renderHook(useFormState, {
       initialProps: changedSelector,
       wrapper,
     });
@@ -154,8 +154,6 @@ describe('Selectors', () => {
     act(() => {
       field.setValue({ te: 'st' });
     });
-
-    rerender();
 
     expect(result.current[0]).toBe(true);
   });
