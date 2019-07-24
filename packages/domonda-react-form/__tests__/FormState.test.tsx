@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { FormContext } from '../src/FormContext';
-import { createForm } from '@domonda/form';
+import { createForm, Form } from '@domonda/form';
 import get from 'lodash/get';
 import {
   useFormState,
@@ -14,6 +14,7 @@ import {
   makeValueSelector,
   submitErrorSelector,
   submittingSelector,
+  changedSelector,
   FormState,
 } from '../src/FormState';
 
@@ -136,6 +137,27 @@ describe('Selectors', () => {
     });
 
     expect(value).toBe(form.state.submitting);
+  });
+
+  it('should get changed for related selector', () => {
+    const [form, wrapper] = makeForm();
+
+    const [field] = form.makeFormField(path);
+
+    const { result, rerender } = renderHook(useFormState, {
+      initialProps: changedSelector,
+      wrapper,
+    });
+
+    expect(result.current[0]).toBe(false);
+
+    act(() => {
+      field.setValue({ te: 'st' });
+    });
+
+    rerender();
+
+    expect(result.current[0]).toBe(true);
   });
 });
 
