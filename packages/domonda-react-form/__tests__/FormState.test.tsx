@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { FormContext } from '../src/FormContext';
-import { createForm, Form } from '@domonda/form';
+import { createForm, Form as RxForm, FormConfig } from '@domonda/form';
 import get from 'lodash/get';
 import {
   useFormState,
@@ -38,17 +38,19 @@ const defaultValues = {
   ],
 };
 
+type DefaultValues = typeof defaultValues;
+
 const path = 'some[0].12.%@$.obj';
 
-describe('Selectors', () => {
-  function makeForm(): [Form<typeof defaultValues>, React.FC] {
-    const [form] = createForm(defaultValues);
-    return [
-      form,
-      ({ children }) => <FormContext.Provider value={form}>{children}</FormContext.Provider>,
-    ];
-  }
+function makeForm(config?: FormConfig<DefaultValues>): [RxForm<DefaultValues>, React.FC] {
+  const [form] = createForm(defaultValues, config);
+  return [
+    form,
+    ({ children }) => <FormContext.Provider value={form}>{children}</FormContext.Provider>,
+  ];
+}
 
+describe('Selectors', () => {
   it('should get default values for related selector', () => {
     const [form, wrapper] = makeForm();
 
@@ -160,18 +162,15 @@ describe('Selectors', () => {
 });
 
 describe('Updating', () => {
-  const [form] = createForm(defaultValues);
-  const Wrapper: React.FC = ({ children }) => (
-    <FormContext.Provider value={form}>{children}</FormContext.Provider>
-  );
-
   it('should update when selected value changes', () => {
+    const [form, wrapper] = makeForm();
+
     const [field] = form.makeFormField(path);
 
     const valueSelector = makeValueSelector<object>(path);
     const { result } = renderHook(useFormState, {
       initialProps: valueSelector,
-      wrapper: Wrapper,
+      wrapper,
     });
 
     expect(result.current[0]).toBe(get(form.values, path));
@@ -185,6 +184,8 @@ describe('Updating', () => {
   });
 
   it('should not update when selected value stays the same', () => {
+    const [form, wrapper] = makeForm();
+
     const [field] = form.makeFormField(path);
     const valueSelector = makeValueSelector<object>(path);
 
@@ -193,7 +194,7 @@ describe('Updating', () => {
     const Tree = <FormState selector={valueSelector}>{spy}</FormState>;
 
     const { rerender } = render(Tree, {
-      wrapper: Wrapper,
+      wrapper,
     });
 
     field.setValue(get(form.values, path));
