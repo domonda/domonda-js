@@ -220,6 +220,55 @@ describe('Updating', () => {
     expect(spy).toBeCalledTimes(1);
   });
 
+  it('should correctly handle changed status when default values change', (done) => {
+    const spy = jest.fn((_0) => null);
+
+    const dv = {
+      some: {
+        path: 'toavalue',
+      },
+    };
+
+    let form: RxForm<typeof dv>;
+
+    const { rerender } = render(
+      <Form getForm={(f) => (form = f)} defaultValues={dv} resetOnDefaultValuesChange>
+        <FormChangedState>{spy}</FormChangedState>
+      </Form>,
+    );
+
+    // @ts-ignore because form should indeed be set here
+    if (!form) {
+      throw new Error('form instance should be set here!');
+    }
+
+    let field: FormField<unknown>;
+    act(() => {
+      [field] = form.makeFormField('some.path');
+    });
+
+    // @ts-ignore because field should indeed be set here
+    if (!field) {
+      throw new Error('field instance should be set here!');
+    }
+
+    act(() => {
+      field.setValue('differentvalue');
+    });
+
+    rerender(
+      <Form defaultValues={{ some: { path: 'toanothervalue' } }} resetOnDefaultValuesChange>
+        <FormChangedState>{spy}</FormChangedState>
+      </Form>,
+    );
+
+    expect(spy).toBeCalledTimes(3);
+    expect(spy.mock.calls[0][0]).toBeFalsy();
+    expect(spy.mock.calls[1][0]).toBeTruthy();
+    expect(spy.mock.calls[2][0]).toBeFalsy();
+    done();
+  });
+
   it('should correctly handle changed status when the path to a field does not exist on default values update', () => {
     const spy = jest.fn((_0) => null);
 
