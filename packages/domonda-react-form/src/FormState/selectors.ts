@@ -30,3 +30,9 @@ export const changedSelector = ({ fields }: RxFormState<any>) =>
 
 export const invalidSelector = ({ fields }: RxFormState<any>) =>
   Object.keys(fields).some((key) => fields[key].validityMessage !== null);
+
+export const lockedSelector = (state: RxFormState<any>) => {
+  const submitting = submittingSelector(state);
+  const changed = changedSelector(state);
+  return submitting || !changed;
+};
