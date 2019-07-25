@@ -17,6 +17,7 @@ import {
   changedSelector,
   FormState,
   FormChangedState,
+  FormSubmittingState,
 } from '../src/FormState';
 import { Form } from '../src/Form';
 
@@ -364,5 +365,93 @@ describe('Updating', () => {
     expect(spy.mock.calls[3][0]).toBeFalsy();
 
     done();
+  });
+
+  it('should correctly handle nested states with changed status default values update', async (done) => {
+    const spy = jest.fn((_0) => null);
+
+    let form: RxForm<DefaultValues>;
+
+    const submit = () => Promise.resolve;
+
+    const { rerender } = render(
+      <Form
+        getForm={(f) => (form = f)}
+        onSubmit={submit}
+        defaultValues={defaultValues}
+        resetOnDefaultValuesChange
+      >
+        <FormChangedState>
+          {(changed) => (
+            <FormSubmittingState>
+              {(submitting) => spy({ submitting, changed })}
+            </FormSubmittingState>
+          )}
+        </FormChangedState>
+      </Form>,
+    );
+
+    // @ts-ignore because form should indeed be set here
+    if (!form) {
+      throw new Error('form instance should be set here!');
+    }
+
+    let field: FormField<unknown>;
+    act(() => {
+      [field] = form.makeFormField(path);
+    });
+
+    // @ts-ignore because field should indeed be set here
+    if (!field) {
+      throw new Error('field instance should be set here!');
+    }
+
+    act(() => {
+      field.setValue('denis');
+    });
+
+    await form.submit();
+
+    rerender(
+      <Form onSubmit={submit} defaultValues={{ te: 'st' }} resetOnDefaultValuesChange>
+        <FormChangedState>
+          {(changed) => (
+            <FormSubmittingState>
+              {(submitting) => spy({ submitting, changed })}
+            </FormSubmittingState>
+          )}
+        </FormChangedState>
+      </Form>,
+    );
+
+    setTimeout(() => {
+      expect(spy).toBeCalledTimes(6);
+      expect(spy.mock.calls[0][0]).toEqual({
+        submitting: false,
+        changed: false,
+      }); // init
+      expect(spy.mock.calls[1][0]).toEqual({
+        submitting: false,
+        changed: true,
+      }); // field.setValue
+      expect(spy.mock.calls[2][0]).toEqual({
+        submitting: true,
+        changed: true,
+      }); // form.submit
+      expect(spy.mock.calls[3][0]).toEqual({
+        submitting: true,
+        changed: true,
+      }); // react render cycle
+      expect(spy.mock.calls[4][0]).toEqual({
+        submitting: true,
+        changed: false,
+      }); // default values change
+      expect(spy.mock.calls[5][0]).toEqual({
+        submitting: false,
+        changed: false,
+      }); // form.submit completes
+
+      done();
+    }, 0);
   });
 });
