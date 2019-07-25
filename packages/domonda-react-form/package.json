@@ -47,7 +47,7 @@
     "@babel/core": "^7.5.5",
     "@storybook/addon-info": "^5.1.9",
     "@storybook/react": "^5.1.9",
-    "@testing-library/react": "^8.0.5",
+    "@testing-library/react": "^8.0.6",
     "@testing-library/react-hooks": "^1.1.0",
     "@types/lodash": "^4.14.136",
     "@types/react-datepicker": "^2.8.1",
