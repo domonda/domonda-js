@@ -22,13 +22,18 @@ export function useValue<V>(
   getInitialValue?: () => V,
   deps?: DependencyList,
 ): V | undefined {
-  const [value, setValue] = useState(getInitialValue && getInitialValue());
+  const [value, setValue] = useState(() => getInitialValue && getInitialValue());
 
   useEffect(() => {
     // make the source stream
     const source$ = makeObservable();
     // subscribe to it with the `distinctUntilChanged` operator to prevent unnecessary updates
-    const subscription = source$.pipe(distinctUntilChanged()).subscribe(setValue);
+    const subscription = source$
+      .pipe(distinctUntilChanged())
+      // we set the value in a `setTimeout` because we want
+      // to finish the current event loop before updating.
+      // guaranteeing that the hook will receiving ALL dispatched values
+      .subscribe((arrivingValue) => setTimeout(() => setValue(arrivingValue), 0));
     // cleanup by unsubscribing
     return () => subscription.unsubscribe();
   }, deps || []);

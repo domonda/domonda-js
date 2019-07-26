@@ -1,5 +1,9 @@
 /**
  * @jest-environment jsdom
+ *
+ * NOTE: we wrap some `expects` in a `setTimeout` because we want the current
+ * event loop to finish (react render in this case) before checking the value
+ *
  */
 
 import React from 'react';
@@ -10,6 +14,20 @@ import get from 'lodash/get';
 
 // t
 import { renderHook, act } from '@testing-library/react-hooks';
+
+/**
+ * Suppress React 16.8 act() warnings globally.
+ * The react teams fix won't be out of alpha until 16.9.0.
+ * https://github.com/facebook/react/issues/14769#issuecomment-514589856
+ */
+const consoleError = console.error;
+beforeAll(() => {
+  jest.spyOn(console, 'error').mockImplementation((...args) => {
+    if (!args[0].includes('Warning: An update to %s inside a test was not wrapped in act')) {
+      consoleError(...args);
+    }
+  });
+});
 
 interface DefaultValues {
   person: {
@@ -62,7 +80,7 @@ describe('Creation', () => {
 });
 
 describe('Update', () => {
-  it('should properly handle field path change', () => {
+  it('should properly handle field path change', async (done) => {
     const [form] = createForm(defaultValues);
 
     let denisNamePath = pathToDenis + '.name';
@@ -76,15 +94,21 @@ describe('Update', () => {
       ),
     });
 
+    expect(result.current.value).toBe(denis.name);
+
     act(() => rerender({ path: erikNamePath }));
 
-    expect(result.current.value).toBe(erik.name);
+    setTimeout(() => {
+      expect(result.current.value).toBe(erik.name);
 
-    expect(form.$.value.fields[denisNamePath]).toBeUndefined();
-    expect(form.$.value.fields[erikNamePath]).toBeDefined();
+      expect(form.$.value.fields[denisNamePath]).toBeUndefined();
+      expect(form.$.value.fields[erikNamePath]).toBeDefined();
+
+      done();
+    }, 0);
   });
 
-  it('should get new value if changed on form', () => {
+  it('should get new value if changed on form', (done) => {
     const [form] = createForm(defaultValues);
 
     let path = pathToDenis + '.name';
@@ -110,7 +134,10 @@ describe('Update', () => {
       });
     });
 
-    expect(result.current.value).toBe(nextValue);
+    setTimeout(() => {
+      expect(result.current.value).toBe(nextValue);
+      done();
+    }, 0);
   });
 
   it('should properly handle value update', () => {
@@ -135,7 +162,7 @@ describe('Update', () => {
     expect(get(form.values, path)).toBe(nextValue);
   });
 
-  it('should reset to default value on reset call', () => {
+  it('should reset to default value on reset call', async (done) => {
     const [form] = createForm(defaultValues);
 
     let path = pathToDenis + '.name';
@@ -149,17 +176,23 @@ describe('Update', () => {
     });
 
     const nextValue = 'New denis';
+
     act(() => {
       result.current.setValue(nextValue);
     });
 
-    expect(result.current.value).toBe(nextValue);
+    setTimeout(() => {
+      expect(result.current.value).toBe(nextValue);
 
-    act(() => {
-      result.current.resetValue();
-    });
+      act(() => {
+        result.current.resetValue();
+      });
 
-    expect(result.current.state.defaultValue).toBe(result.current.value);
+      setTimeout(() => {
+        expect(result.current.state.defaultValue).toBe(result.current.value);
+        done();
+      }, 0);
+    }, 0);
   });
 
   it('should call subscribers only when value changes', () => {
@@ -194,36 +227,6 @@ describe('Update', () => {
 
     // 2 times because of the initial value
     expect(spy).toBeCalledTimes(2);
-  });
-});
-
-describe('Validation', () => {
-  // const [form] = createForm(defaultValues);
-  // const Wrapper: React.FC = ({ children }) => (
-  //   <FormContext.Provider value={form}>{children}</FormContext.Provider>
-  // );
-  // const path = pathToDenis + '.name';
-
-  it('should properly handle validation props', () => {
-    // const validationMessage = 'Very invalid!';
-    // const initialProps: UseFormFieldProps<string> = {
-    //   path,
-    //   immediateValidate: true,
-    //   validate: () => validationMessage,
-    // };
-    // const { result } = renderHook(useFormField, {
-    //   initialProps,
-    //   wrapper: Wrapper,
-    // });
-    // test result behavior
-    // const spy = jest.fn();
-    // result.current.$.pipe(map((state) => state.validityMessage)).subscribe(spy);
-    // setTimeout(() => {
-    //   expect(spy).toBeCalledTimes(2);
-    //   expect(spy.mock.calls[0][0]).toBe(null); // initial value is always null
-    //   expect(spy.mock.calls[1][0]).toBe(validationMessage); // initial value is always null
-    //   done();
-    // }, 0);
   });
 });
 
