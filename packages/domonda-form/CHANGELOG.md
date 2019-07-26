@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.1](https://github.com/domonda/domonda-js/compare/@domonda/form@1.2.0...@domonda/form@1.2.1) (2019-07-26)
+
+
+### Bug Fixes
+
+* **FormState:** correctly handle changed state ([ce4514b](https://github.com/domonda/domonda-js/commit/ce4514b))
+* **FormState:** correctly handle default value changes for non-existant field paths ([8f3d233](https://github.com/domonda/domonda-js/commit/8f3d233))
+
+
+
+
+
 # [1.2.0](https://github.com/domonda/domonda-js/compare/@domonda/form@1.1.1...@domonda/form@1.2.0) (2019-07-19)
 
 

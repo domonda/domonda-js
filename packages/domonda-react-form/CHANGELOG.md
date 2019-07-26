@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/domonda/domonda-js/compare/@domonda/react-form@1.2.1...@domonda/react-form@1.3.0) (2019-07-26)
+
+
+### Bug Fixes
+
+* **FormState:** correctly handle changed state ([ce4514b](https://github.com/domonda/domonda-js/commit/ce4514b))
+* **FormState:** correctly handle default value changes for non-existant field paths ([8f3d233](https://github.com/domonda/domonda-js/commit/8f3d233))
+* **hooks/useValue:** test and correct behaviour ([2a0234a](https://github.com/domonda/domonda-js/commit/2a0234a))
+
+
+### Features
+
+* **FormChangedState:** introduce ([27496de](https://github.com/domonda/domonda-js/commit/27496de))
+* **FormLockedState:** introduce ([d475ccf](https://github.com/domonda/domonda-js/commit/d475ccf))
+
+
+### Performance Improvements
+
+* **useValue:** filter out stream values which match the state ([8090ae8](https://github.com/domonda/domonda-js/commit/8090ae8))
+
+
+
+
+
 ## [1.2.1](https://github.com/domonda/domonda-js/compare/@domonda/react-form@1.2.0...@domonda/react-form@1.2.1) (2019-07-19)
 
 

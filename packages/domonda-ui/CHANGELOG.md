@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@2.0.0...@domonda/ui@2.1.0) (2019-07-26)
+
+
+### Features
+
+* **Autocomplete:** expose `ListProps` ([1cc8728](https://github.com/domonda/domonda-js/commit/1cc8728))
+* **Row:** introduce ([468f7f2](https://github.com/domonda/domonda-js/commit/468f7f2))
+
+
+
+
+
 # [2.0.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@1.1.0...@domonda/ui@2.0.0) (2019-07-19)
 
 
