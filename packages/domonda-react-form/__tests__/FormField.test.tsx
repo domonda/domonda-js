@@ -9,7 +9,7 @@
 import React from 'react';
 import { FormContext } from '../src/FormContext';
 import { useFormField, UseFormFieldProps } from '../src/FormField';
-import { createForm } from '@domonda/form';
+import { createForm, Form } from '@domonda/form';
 import get from 'lodash/get';
 
 // t
@@ -231,12 +231,17 @@ describe('Update', () => {
 });
 
 describe('Cleanup', () => {
-  const [form] = createForm(defaultValues);
-  const Wrapper: React.FC = ({ children }) => (
-    <FormContext.Provider value={form}>{children}</FormContext.Provider>
-  );
+  function makeForm<T extends object>(dv: T): [Form<T>, React.FC] {
+    const [form] = createForm(dv);
+    return [
+      form,
+      ({ children }) => <FormContext.Provider value={form}>{children}</FormContext.Provider>,
+    ];
+  }
 
   it('should complete field stream on unmount', () => {
+    const [, wrapper] = makeForm(defaultValues);
+
     const path = pathToDenis + '.name';
     const initialProps: UseFormFieldProps<string> = { path };
 
@@ -245,9 +250,7 @@ describe('Cleanup', () => {
       unmount,
     } = renderHook(useFormField, {
       initialProps,
-      wrapper: ({ children }) => (
-        <FormContext.Provider value={form}>{children}</FormContext.Provider>
-      ),
+      wrapper,
     });
 
     const spy = jest.fn();
@@ -261,6 +264,8 @@ describe('Cleanup', () => {
   });
 
   it('should complete previous field on path change', () => {
+    const [, wrapper] = makeForm(defaultValues);
+
     const path = pathToDenis + '.name';
     const initialProps: UseFormFieldProps<string> = { path };
 
@@ -269,7 +274,7 @@ describe('Cleanup', () => {
       rerender,
     } = renderHook(useFormField, {
       initialProps,
-      wrapper: Wrapper,
+      wrapper,
     });
 
     const spy = jest.fn();
@@ -283,6 +288,8 @@ describe('Cleanup', () => {
   });
 
   it('should complete previous field on validation update', () => {
+    const [, wrapper] = makeForm(defaultValues);
+
     const path = pathToDenis + '.name';
     const initialProps: UseFormFieldProps<string> = { path, validate: () => null };
 
@@ -291,7 +298,7 @@ describe('Cleanup', () => {
       rerender,
     } = renderHook(useFormField, {
       initialProps,
-      wrapper: Wrapper,
+      wrapper,
     });
 
     const spy = jest.fn();
