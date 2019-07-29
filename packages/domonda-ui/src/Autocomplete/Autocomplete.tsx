@@ -68,7 +68,7 @@ function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement | null
         getInputProps,
         openMenu,
         getMenuProps,
-        isOpen,
+        isOpen: downshiftIsOpen,
         getItemProps,
         itemToString,
         highlightedIndex,
@@ -84,6 +84,8 @@ function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement | null
           },
         });
 
+        const isOpen = downshiftIsOpen && items.length > 0;
+
         return (
           <div>
             <TextField
@@ -96,68 +98,70 @@ function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement | null
               autoFocus={autoFocus}
               ref={ref as React.Ref<HTMLInputElement>}
             />
-            <AutoSizer disableHeight>
-              {({ width }) => (
-                <Popper
-                  open={isOpen && items.length > 0}
-                  anchorEl={anchorEl.current}
-                  placement="bottom-start"
-                  modifiers={{
-                    flip: {
-                      enabled: true,
-                    },
-                    preventOverflow: {
-                      enabled: true,
-                      boundariesElement: 'scrollParent',
-                    },
-                  }}
-                >
-                  <Menu
-                    {...getMenuProps(
-                      {
-                        style: {
-                          marginTop: 5,
-                          padding: 0,
-                          width,
-                        },
+            {isOpen && (
+              <AutoSizer disableHeight>
+                {({ width }) => (
+                  <Popper
+                    open={isOpen}
+                    anchorEl={anchorEl.current}
+                    placement="bottom-start"
+                    modifiers={{
+                      flip: {
+                        enabled: true,
                       },
-                      { suppressRefError: true },
-                    )}
+                      preventOverflow: {
+                        enabled: true,
+                        boundariesElement: 'scrollParent',
+                      },
+                    }}
                   >
-                    <List
-                      width={width}
-                      tabIndex={-1}
-                      rowHeight={rowHeight}
-                      {...ListProps}
-                      height={Math.min(rowHeight * 7, items.length * rowHeight)}
-                      rowCount={items.length}
-                      scrollToIndex={
-                        !highlightedIndex && highlightedIndex !== 0 ? undefined : highlightedIndex
-                      }
-                      rowRenderer={({ key, index, style }) => {
-                        const item = items[index];
-                        const itemId = getItemId(item);
-                        return (
-                          <MenuItem
-                            {...getItemProps({
-                              key,
-                              index,
-                              item,
-                              selected: selectedItem === itemId,
-                              tabIndex: -1,
-                              style,
-                            })}
-                            highlighted={highlightedIndex === index}
-                          >
-                            {itemToString(item)}
-                          </MenuItem>
-                        );
-                      }}
-                    />
-                  </Menu>
-                </Popper>
-              )}
-            </AutoSizer>
+                    <Menu
+                      {...getMenuProps(
+                        {
+                          style: {
+                            marginTop: 5,
+                            padding: 0,
+                            width,
+                          },
+                        },
+                        { suppressRefError: true },
+                      )}
+                    >
+                      <List
+                        width={width}
+                        tabIndex={-1}
+                        rowHeight={rowHeight}
+                        {...ListProps}
+                        height={Math.min(rowHeight * 7, items.length * rowHeight)}
+                        rowCount={items.length}
+                        scrollToIndex={
+                          !highlightedIndex && highlightedIndex !== 0 ? undefined : highlightedIndex
+                        }
+                        rowRenderer={({ key, index, style }) => {
+                          const item = items[index];
+                          const itemId = getItemId(item);
+                          return (
+                            <MenuItem
+                              {...getItemProps({
+                                key,
+                                index,
+                                item,
+                                selected: selectedItem === itemId,
+                                tabIndex: -1,
+                                style,
+                              })}
+                              highlighted={highlightedIndex === index}
+                            >
+                              {itemToString(item)}
+                            </MenuItem>
+                          );
+                        }}
+                      />
+                    </Menu>
+                  </Popper>
+                )}
+              </AutoSizer>
+            )}
           </div>
         );
       }}
