@@ -32,9 +32,6 @@ export function useFormField<Value>(props: UseFormFieldProps<Value>): FormFieldA
   // destroy on field change
   useEffect(() => () => destroy(), [field]);
 
-  // destroy the field on unmount
-  useEffect(() => () => destroy(), []);
-
   const state = useValue(() => field.$.pipe(distinctUntilChanged()), () => field.state, [field]);
 
   return {
