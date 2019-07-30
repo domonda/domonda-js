@@ -14,6 +14,20 @@ export type Color =
   | 'background'
   | 'surface';
 export type Colors = { [color in Color]: string };
+export const COLORS: Color[] = [
+  'default',
+  'primary',
+  'secondary',
+  'textPrimary',
+  'textSecondary',
+  'textLight',
+  'success',
+  'error',
+  'warning',
+  'border',
+  'background',
+  'surface',
+];
 
 export type ColorVariant =
   | 'contrastText'
@@ -24,6 +38,15 @@ export type ColorVariant =
   | 'darker'
   | 'darkest';
 export type ColorVariants = { [variant in ColorVariant]: ((color: Color) => string) };
+export const COLOR_VARIANTS: ColorVariant[] = [
+  'contrastText',
+  'lightest',
+  'lighter',
+  'light',
+  'dark',
+  'darker',
+  'darkest',
+];
 
 export type Palette = Colors &
   ColorVariants & {

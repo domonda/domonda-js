@@ -1,5 +1,6 @@
 export type TypographyFont = 'header' | 'body';
 export type TypographyFonts = { [font in TypographyFont]: string };
+export const TYPOGRAPHY_FONTS: TypographyFont[] = ['header', 'body'];
 export const defaultFonts: TypographyFonts = {
   header: 'Roboto Mono, monospace',
   body: 'Open Sans, sans-serif',
@@ -7,6 +8,13 @@ export const defaultFonts: TypographyFonts = {
 
 export type TypographyWeight = 'bold' | 'semiBold' | 'medium' | 'regular' | 'light';
 export type TypographyWeights = { [weight in TypographyWeight]: number };
+export const TYPOGRAPHY_WEIGHTS: TypographyWeight[] = [
+  'bold',
+  'semiBold',
+  'medium',
+  'regular',
+  'light',
+];
 export const defaultFontWeights: TypographyWeights = {
   bold: 700,
   semiBold: 600,
@@ -29,6 +37,14 @@ export type TypographyVariants = {
     fontWeight: number;
   };
 };
+export const TYPOGRAPHY_VARIANTS: TypographyVariant[] = [
+  'headline',
+  'subheading',
+  'title',
+  'subtitle',
+  'body',
+  'caption',
+];
 
 export type Typography = { fonts: TypographyFonts } & {
   weights: TypographyWeights;
