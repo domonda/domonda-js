@@ -66,14 +66,7 @@ const Text = React.forwardRef<HTMLHeadingElement, TextProps & Decorate>(function
     const manipulator = colorVariant
       ? theme.palette[colorVariant]
       : (color: Color) => theme.palette[color];
-
-    return {
-      ...theme.typography[variant],
-      color: color === 'inherit' ? 'inherit' : manipulator(color),
-      fontWeight: weight ? theme.typography.weights[weight] : undefined,
-      fontFamily: font ? theme.typography.fonts[font] : undefined,
-      ...style,
-    };
+    return { color: color === 'inherit' ? 'inherit' : manipulator(color), ...style };
   }
 
   return (
@@ -84,6 +77,9 @@ const Text = React.forwardRef<HTMLHeadingElement, TextProps & Decorate>(function
         classes.root,
         inline ? classes.inline : classes.block,
         (gutterBottom || paragraph) && classes.gutterBottom,
+        classes[`variant-${variant}` as keyof typeof classes],
+        weight && classes[`weight-${weight}` as keyof typeof classes],
+        font && classes[`font-${font}` as keyof typeof classes],
         className,
       )}
       style={deriveStyle()}
