@@ -1,33 +1,58 @@
-import { Color, makeCreateStyles, withStyles, WithStyles } from '../styles';
-import { TextProps } from './Text';
+import {
+  createStyles,
+  withStyles,
+  WithStyles,
+  TYPOGRAPHY_VARIANTS,
+  TYPOGRAPHY_WEIGHTS,
+  TYPOGRAPHY_FONTS,
+} from '../styles';
 
-const styles = makeCreateStyles<TextProps>()((theme) => ({
-  root: {
-    margin: 0,
-    color: theme.palette.textPrimary,
-  },
-  block: {
-    display: 'block',
-  },
-  inline: {
-    display: 'inline',
-  },
-  gutterBottom: {
-    marginBottom: theme.spacing(1),
-  },
-  color: ({ color = 'textPrimary', colorVariant }) => {
-    const manipulator = colorVariant
-      ? theme.palette[colorVariant]
-      : (color: Color) => theme.palette[color];
-    return {
-      color: color === 'inherit' ? 'inherit' : manipulator(color),
-    };
-  },
-  variant: ({ variant = 'body' }) => ({ ...theme.typography[variant] }),
-  weight: ({ weight }) => ({ fontWeight: weight ? theme.typography.weights[weight] : undefined }),
-  font: ({ font }) => ({ fontFamily: font ? theme.typography.fonts[font] : undefined }),
-}));
+const styles = createStyles(({ typography, palette, spacing }) => {
+  return {
+    root: {
+      margin: 0,
+      color: palette.textPrimary,
+    },
+    block: {
+      display: 'block',
+    },
+    inline: {
+      display: 'inline',
+    },
+    gutterBottom: {
+      marginBottom: spacing(1),
+    },
+    // variant-{variant}
+    ...TYPOGRAPHY_VARIANTS.reduce(
+      (acc, variant) => ({
+        ...acc,
+        [`variant-${variant}`]: typography[variant],
+      }),
+      {},
+    ),
+    // weight-{weight}
+    ...TYPOGRAPHY_WEIGHTS.reduce(
+      (acc, weight) => ({
+        ...acc,
+        [`weight-${weight}`]: {
+          fontWeight: typography.weights[weight],
+        },
+      }),
+      {},
+    ),
+    // font-{font}
+    ...TYPOGRAPHY_FONTS.reduce(
+      (acc, font) => ({
+        ...acc,
+        [`font-${font}`]: {
+          fontFamily: typography.fonts[font],
+        },
+      }),
+      {},
+    ),
+  };
+});
 
-export type Decorate = WithStyles<typeof styles>;
+export type Decorate = WithStyles<typeof styles, true>;
 
-export const decorate = withStyles(styles);
+export const decorate = withStyles(styles, { injectTheme: true });

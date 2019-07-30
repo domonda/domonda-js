@@ -1,10 +1,16 @@
-import * as React from 'react';
+/**
+ *
+ * IconButton
+ *
+ */
+
+import React from 'react';
 import clsx from 'clsx';
-import { withStyles, WithStyles, makeCreateStyles, generateStaticClassName } from '../styles';
+import { withStyles, WithStyles, createStyles, generateStaticClassName } from '../styles';
 import { Button, ButtonProps } from './Button';
 import { svgIconClassName } from '../SvgIcon';
 
-const styles = makeCreateStyles<ButtonProps>()(({ spacing }) => ({
+const styles = createStyles(({ spacing }) => ({
   root: {
     padding: spacing(0.4, 0.6),
     display: 'flex',

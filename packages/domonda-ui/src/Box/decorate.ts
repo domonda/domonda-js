@@ -1,29 +1,8 @@
-import { makeCreateStyles, withStyles, WithStyles } from '../styles';
-import { BoxProps } from './Box';
+import { createStyles, withStyles, WithStyles } from '../styles';
 
-const styles = makeCreateStyles<BoxProps>()((theme) => ({
+const styles = createStyles({
   root: {
     width: '100%',
-  },
-  padding: ({ padding = 0 }) => {
-    if (Array.isArray(padding)) {
-      return {
-        padding: (theme as any).spacing(...padding),
-      };
-    }
-    return {
-      padding: theme.spacing(padding),
-    };
-  },
-  margin: ({ margin = 0 }) => {
-    if (Array.isArray(margin)) {
-      return {
-        margin: (theme as any).spacing(...margin),
-      };
-    }
-    return {
-      margin: theme.spacing(margin),
-    };
   },
   fill: {
     width: '100%',
@@ -36,8 +15,8 @@ const styles = makeCreateStyles<BoxProps>()((theme) => ({
     transform: 'translateZ(0)',
     backfaceVisibility: 'hidden',
   },
-}));
+});
 
-export type Decorate = WithStyles<typeof styles>;
+export type Decorate = WithStyles<typeof styles, true>;
 
-export const decorate = withStyles(styles);
+export const decorate = withStyles(styles, { injectTheme: true });

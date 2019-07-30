@@ -19,8 +19,9 @@ export interface FlexProps extends React.HTMLAttributes<HTMLElement> {
   direction?: React.CSSProperties['flexDirection'];
   justify?: React.CSSProperties['justifyContent'];
   align?: React.CSSProperties['alignItems'];
-  self?: React.CSSProperties['justifySelf'] & React.CSSProperties['alignSelf'];
-  spacing?: number;
+  justifySelf?: React.CSSProperties['justifySelf'];
+  alignSelf?: React.CSSProperties['alignSelf'];
+  spacing?: 1 | 2 | 3 | 4;
   minWidth?: number | string;
   maxWidth?: number | string;
   autoWidth?: boolean;
@@ -31,6 +32,7 @@ export interface FlexProps extends React.HTMLAttributes<HTMLElement> {
 const Flex = React.forwardRef<HTMLElement, FlexProps & Decorate>(function Flex(props, ref) {
   const {
     children,
+    theme,
     classes,
     className,
     component: Component = 'div' as React.ElementType<React.ComponentPropsWithRef<'div'>>,
@@ -41,14 +43,46 @@ const Flex = React.forwardRef<HTMLElement, FlexProps & Decorate>(function Flex(p
     direction,
     justify,
     align,
-    self,
+    justifySelf,
+    alignSelf,
     spacing,
     minWidth,
     maxWidth,
     overflowing,
     fill,
+    style,
     ...rest
   } = props;
+
+  function deriveStyle() {
+    if (
+      flex === undefined &&
+      !direction &&
+      !justify &&
+      !align &&
+      !justifySelf &&
+      !alignSelf &&
+      minWidth === undefined &&
+      maxWidth === undefined &&
+      !fill
+    ) {
+      return undefined;
+    }
+
+    return {
+      flex,
+      flexDirection: direction,
+      justifyContent: justify,
+      alignItems: align,
+      justifySelf,
+      alignSelf,
+      minWidth,
+      maxWidth,
+      width: fill ? (spacing ? `calc(100% + ${theme.spacing(spacing)})` : '100%') : undefined,
+      height: fill ? (spacing ? `calc(100% + ${theme.spacing(spacing)})` : '100%') : undefined,
+      ...style,
+    };
+  }
 
   return (
     <Component
@@ -58,20 +92,13 @@ const Flex = React.forwardRef<HTMLElement, FlexProps & Decorate>(function Flex(p
         clsx(
           container && classes.container,
           item && classes.item,
-          flex && classes.flex,
           noWrap && classes.noWrap,
-          direction && classes.direction,
-          justify && classes.justify,
-          align && classes.align,
-          self && classes.self,
-          spacing && classes.spacing,
-          minWidth && classes.minWidth,
-          maxWidth && classes.maxWidth,
-          fill && classes.fill,
+          spacing && classes[`spacing-${spacing}` as keyof typeof classes],
           overflowing && classes.overflowing,
           className,
         ) || undefined
       }
+      style={deriveStyle()}
     >
       {children}
     </Component>

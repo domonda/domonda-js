@@ -1,20 +1,10 @@
-import { makeCreateStyles, withStyles, WithStyles } from '../styles';
-import { GridProps } from './Grid';
+import { createStyles, withStyles, WithStyles } from '../styles';
 
-const styles = makeCreateStyles<GridProps>()((theme) => ({
+const styles = createStyles({
   container: {
     display: 'grid',
     width: '100%',
   },
-  template: ({ template }) => ({
-    gridTemplate: typeof template === 'function' ? template(theme) : template,
-  }),
-  area: ({ area }) => ({
-    gridArea: area,
-  }),
-  gap: ({ gap }) => ({
-    gridGap: typeof gap === 'function' ? gap(theme) : gap,
-  }),
   fill: {
     width: '100%',
     height: '100%',
@@ -26,8 +16,8 @@ const styles = makeCreateStyles<GridProps>()((theme) => ({
     transform: 'translateZ(0)',
     backfaceVisibility: 'hidden',
   },
-}));
+});
 
-export type Decorate = WithStyles<typeof styles>;
+export type Decorate = WithStyles<typeof styles, true>;
 
-export const decorate = withStyles(styles);
+export const decorate = withStyles(styles, { injectTheme: true });
