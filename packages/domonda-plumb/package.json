@@ -1,0 +1,35 @@
+{
+  "name": "@domonda/plumb",
+  "version": "1.0.0",
+  "description": "Simple state management inspired by Observables.",
+  "keywords": [
+    "domonda",
+    "state",
+    "observables",
+    "plumb"
+  ],
+  "homepage": "https://github.com/domonda/domonda-js#readme",
+  "license": "ISC",
+  "main": "lib/src/index.js",
+  "typings": "lib/src/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/domonda/domonda-js.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "clean": "rimraf lib/*",
+    "build": "npm run clean && tsc && node ../../scripts/copyFiles.js",
+    "start": "npm run clean && tsc --watch --preserveWatchOutput"
+  },
+  "bugs": {
+    "url": "https://github.com/domonda/domonda-js/issues"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "rimraf": "^2.6.3"
+  }
+}
