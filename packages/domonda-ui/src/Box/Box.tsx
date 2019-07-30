@@ -28,14 +28,38 @@ const Box = React.forwardRef<HTMLElement, BoxProps & Decorate>(function Box(prop
   const {
     component: Component = 'div' as React.ElementType<React.ComponentPropsWithRef<'div'>>,
     children,
+    theme,
     classes,
     className,
     padding,
     margin,
     fill,
     overflowing,
+    style,
     ...rest
   } = props;
+
+  function deriveStyle() {
+    if (padding == null && margin == null && !style) {
+      return undefined;
+    }
+
+    return {
+      padding:
+        padding != null
+          ? Array.isArray(padding)
+            ? (theme as any).spacing(...padding)
+            : theme.spacing(padding)
+          : undefined,
+      margin:
+        margin != null
+          ? Array.isArray(margin)
+            ? (theme as any).spacing(...margin)
+            : theme.spacing(margin)
+          : undefined,
+      ...style,
+    };
+  }
 
   return (
     <Component
@@ -43,12 +67,11 @@ const Box = React.forwardRef<HTMLElement, BoxProps & Decorate>(function Box(prop
       ref={ref as any}
       className={clsx(
         classes.root,
-        padding != null && classes.padding,
-        margin != null && classes.margin,
         fill && classes.fill,
         overflowing && classes.overflowing,
         className,
       )}
+      style={deriveStyle()}
     >
       {children}
     </Component>
