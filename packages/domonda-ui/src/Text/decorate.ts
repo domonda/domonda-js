@@ -1,7 +1,6 @@
-import { Color, makeCreateStyles, withStyles, WithStyles } from '../styles';
-import { TextProps } from './Text';
+import { createStyles, withStyles, WithStyles } from '../styles';
 
-const styles = makeCreateStyles<TextProps>()((theme) => ({
+const styles = createStyles((theme) => ({
   root: {
     margin: 0,
     color: theme.palette.textPrimary,
@@ -15,19 +14,8 @@ const styles = makeCreateStyles<TextProps>()((theme) => ({
   gutterBottom: {
     marginBottom: theme.spacing(1),
   },
-  color: ({ color = 'textPrimary', colorVariant }) => {
-    const manipulator = colorVariant
-      ? theme.palette[colorVariant]
-      : (color: Color) => theme.palette[color];
-    return {
-      color: color === 'inherit' ? 'inherit' : manipulator(color),
-    };
-  },
-  variant: ({ variant = 'body' }) => ({ ...theme.typography[variant] }),
-  weight: ({ weight }) => ({ fontWeight: weight ? theme.typography.weights[weight] : undefined }),
-  font: ({ font }) => ({ fontFamily: font ? theme.typography.fonts[font] : undefined }),
 }));
 
-export type Decorate = WithStyles<typeof styles>;
+export type Decorate = WithStyles<typeof styles, true>;
 
-export const decorate = withStyles(styles);
+export const decorate = withStyles(styles, { injectTheme: true });

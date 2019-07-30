@@ -22,9 +22,9 @@ export interface TextProps extends React.HTMLAttributes<HTMLHeadingElement> {
   inline?: boolean;
   gutterBottom?: boolean;
   paragraph?: boolean;
-  color?: 'inherit' | Color;
+  color?: 'inherit' | Color; // default: `textPrimary`
   colorVariant?: ColorVariant;
-  variant?: TypographyVariant;
+  variant?: TypographyVariant; // default: `body`
   weight?: TypographyWeight;
   font?: TypographyFont;
 }
@@ -32,16 +32,18 @@ export interface TextProps extends React.HTMLAttributes<HTMLHeadingElement> {
 const Text = React.forwardRef<HTMLHeadingElement, TextProps & Decorate>(function Text(props, ref) {
   const {
     children,
+    theme,
     classes,
     className,
     inline,
     gutterBottom,
     paragraph,
-    color,
+    color = 'textPrimary',
     colorVariant,
-    variant,
+    variant = 'body',
     weight,
     font,
+    style,
     ...rest
   } = props;
 
@@ -60,20 +62,31 @@ const Text = React.forwardRef<HTMLHeadingElement, TextProps & Decorate>(function
     }
   }, [variant]);
 
+  function deriveStyle() {
+    const manipulator = colorVariant
+      ? theme.palette[colorVariant]
+      : (color: Color) => theme.palette[color];
+
+    return {
+      ...theme.typography[variant],
+      color: color === 'inherit' ? 'inherit' : manipulator(color),
+      fontWeight: weight ? theme.typography.weights[weight] : undefined,
+      fontFamily: font ? theme.typography.fonts[font] : undefined,
+      ...style,
+    };
+  }
+
   return (
     <Component
       {...rest}
       ref={ref}
       className={clsx(
         classes.root,
-        (color || colorVariant) && classes.color,
-        variant && classes.variant,
-        weight && classes.weight,
-        font && classes.font,
         inline ? classes.inline : classes.block,
         (gutterBottom || paragraph) && classes.gutterBottom,
         className,
       )}
+      style={deriveStyle()}
     >
       {children}
     </Component>
