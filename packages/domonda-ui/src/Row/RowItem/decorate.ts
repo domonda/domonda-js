@@ -11,14 +11,23 @@ const styles = createStyles((theme) => {
       backgroundColor: theme.palette.light('background'),
       borderBottom: `1px solid ${theme.palette.border}`,
       '&:nth-child(even)': {
-        backgroundColor: theme.palette.surface,
+        backgroundColor: theme.palette.dark('surface'),
       },
-    },
-    clickable: {
-      outline: 'none',
-      cursor: 'pointer',
-      '&:hover, &:focus': {
-        backgroundColor: `rgba(0, 0, 0, 0.08) !important`,
+      'a&': {
+        transition: theme.transition.create(['box-shadow', 'background-color']),
+        cursor: 'pointer',
+        boxShadow: 'none',
+        textDecoration: 'inherit',
+        color: 'inherit',
+        '&:hover, &:focus': {
+          zIndex: 1,
+          boxShadow: theme.shadows[2],
+          borderColor: 'transparent',
+          backgroundColor: theme.palette.surface,
+        },
+        '&:focus': {
+          outline: `3px solid ${theme.palette.light('primary')}`,
+        },
       },
     },
   };
