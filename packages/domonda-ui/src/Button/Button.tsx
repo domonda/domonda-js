@@ -28,7 +28,7 @@ const Button: React.FC<ButtonProps & Decorate> = (props) => {
     color = 'default',
     variant = 'text',
     className,
-    size,
+    size = 'md',
     disabled,
     component: Component = 'button' as React.ElementType<React.ComponentPropsWithRef<'button'>>,
     ...rest
@@ -42,7 +42,7 @@ const Button: React.FC<ButtonProps & Decorate> = (props) => {
       className={clsx(
         buttonClassName,
         classes.root,
-        size && classes[`size-${size}` as keyof typeof classes],
+        classes[`size-${size}` as keyof typeof classes],
         {
           [classes[`text-${color}` as keyof typeof classes]]: variant === 'text',
           [classes[`contained-${color}` as keyof typeof classes]]: variant === 'contained',
