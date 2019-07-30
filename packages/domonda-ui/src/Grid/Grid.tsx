@@ -28,6 +28,7 @@ export interface GridProps extends React.HTMLAttributes<HTMLElement> {
 const Grid = React.forwardRef<HTMLElement, GridProps & Decorate>(function Grid(props, ref) {
   const {
     children,
+    theme,
     classes,
     className,
     component: Component = 'div' as React.ElementType<React.ComponentPropsWithRef<'div'>>,
@@ -37,8 +38,26 @@ const Grid = React.forwardRef<HTMLElement, GridProps & Decorate>(function Grid(p
     gap,
     fill,
     overflowing,
+    style,
     ...rest
   } = props;
+
+  function deriveStyle() {
+    if (!template && !area && !gap && !style) {
+      return undefined;
+    }
+
+    return {
+      ...style,
+      gridTemplate: template
+        ? typeof template === 'function'
+          ? template(theme)
+          : template
+        : undefined,
+      gridArea: area ? area : undefined,
+      gridGap: gap ? (typeof gap === 'function' ? gap(theme) : gap) : undefined,
+    };
+  }
 
   return (
     <Component
@@ -47,14 +66,12 @@ const Grid = React.forwardRef<HTMLElement, GridProps & Decorate>(function Grid(p
       className={
         clsx(
           container && classes.container,
-          template && classes.template,
-          area && classes.area,
-          gap && classes.gap,
           fill && classes.fill,
           overflowing && classes.overflowing,
           className,
         ) || undefined
       }
+      style={deriveStyle()}
     >
       {children}
     </Component>
