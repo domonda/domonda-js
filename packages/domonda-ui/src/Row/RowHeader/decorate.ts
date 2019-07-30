@@ -9,7 +9,7 @@ const styles = createStyles((theme) => {
       ...row,
       zIndex: 2,
       boxShadow: theme.shadows[1],
-      backgroundColor: theme.palette.background,
+      backgroundColor: theme.palette.dark('background'),
     },
     cell: {
       ...cell,
