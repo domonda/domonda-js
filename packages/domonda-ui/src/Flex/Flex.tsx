@@ -70,7 +70,6 @@ const Flex = React.forwardRef<HTMLElement, FlexProps & Decorate>(function Flex(p
     }
 
     return {
-      ...style,
       flex,
       flexDirection: direction,
       justifyContent: justify,
@@ -81,6 +80,7 @@ const Flex = React.forwardRef<HTMLElement, FlexProps & Decorate>(function Flex(p
       maxWidth,
       width: fill ? (spacing ? `calc(100% + ${theme.spacing(spacing)})` : '100%') : undefined,
       height: fill ? (spacing ? `calc(100% + ${theme.spacing(spacing)})` : '100%') : undefined,
+      ...style,
     };
   }
 
