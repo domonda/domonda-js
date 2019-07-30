@@ -6,16 +6,15 @@
 
 import * as React from 'react';
 import clsx from 'clsx';
-import { Color, generateStaticClassName, ColorVariant } from '../styles';
+import { Color, generateStaticClassName } from '../styles';
 
 // decorate
-import { decorate, Decorate } from './decorate';
+import { decorate, Decorate, SIZES } from './decorate';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  color?: Color;
-  colorVariant?: ColorVariant;
+  color?: Color; // default: `default`
   variant?: 'text' | 'contained' | 'outlined'; // default: `text`
-  size?: 'sm' | 'md';
+  size?: typeof SIZES[0]; // default: `md`
   component?: string | React.ComponentType<React.HTMLAttributes<HTMLElement>>;
 }
 
@@ -26,8 +25,7 @@ const Button: React.FC<ButtonProps & Decorate> = (props) => {
   const {
     children,
     classes,
-    color,
-    colorVariant,
+    color = 'default',
     variant = 'text',
     className,
     size,
@@ -44,11 +42,11 @@ const Button: React.FC<ButtonProps & Decorate> = (props) => {
       className={clsx(
         buttonClassName,
         classes.root,
-        classes.size,
+        size && classes[`size-${size}` as keyof typeof classes],
         {
-          [classes.text]: variant === 'text',
-          [classes.contained]: variant === 'contained',
-          [classes.outlined]: variant === 'outlined',
+          [classes[`text-${color}` as keyof typeof classes]]: variant === 'text',
+          [classes[`contained-${color}` as keyof typeof classes]]: variant === 'contained',
+          [classes[`outlined-${color}` as keyof typeof classes]]: variant === 'outlined',
           [classes.disabled]: disabled,
         },
         className,
