@@ -17,7 +17,7 @@ import {
 // decorate
 import { decorate, Decorate } from './decorate';
 
-export interface TextProps extends React.HTMLAttributes<HTMLHeadingElement> {
+export interface TextProps extends React.HTMLAttributes<HTMLElement> {
   classes?: Decorate['classes'];
   inline?: boolean;
   gutterBottom?: boolean;
@@ -27,9 +27,10 @@ export interface TextProps extends React.HTMLAttributes<HTMLHeadingElement> {
   variant?: TypographyVariant; // default: `body`
   weight?: TypographyWeight;
   font?: TypographyFont;
+  Component?: keyof React.ReactHTML;
 }
 
-const Text = React.forwardRef<HTMLHeadingElement, TextProps & Decorate>(function Text(props, ref) {
+const Text = React.forwardRef<HTMLElement, TextProps & Decorate>(function Text(props, ref) {
   const {
     children,
     theme,
@@ -44,10 +45,15 @@ const Text = React.forwardRef<HTMLHeadingElement, TextProps & Decorate>(function
     weight,
     font,
     style,
+    Component: PropComponent,
     ...rest
   } = props;
 
   const Component = useMemo(() => {
+    if (PropComponent) {
+      return PropComponent as any;
+    }
+
     switch (variant) {
       case 'title':
         return 'h3';
@@ -60,7 +66,7 @@ const Text = React.forwardRef<HTMLHeadingElement, TextProps & Decorate>(function
       default:
         return 'span';
     }
-  }, [variant]);
+  }, [PropComponent, variant]);
 
   function deriveStyle() {
     const manipulator = colorVariant
