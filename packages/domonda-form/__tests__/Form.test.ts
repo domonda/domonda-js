@@ -9,28 +9,10 @@ describe('Creation', () => {
     const config = {};
     const [form] = createForm(defaultValues, config);
 
-    expect(form.$.value.defaultValues).toBe(defaultValues);
-    expect(form.$.value.values).toBe(defaultValues);
+    expect(form.state.defaultValues).toBe(defaultValues);
+    expect(form.state.values).toBe(defaultValues);
     expect(form.values).toBe(defaultValues);
     expect(form.configRef.current).toBe(config);
-  });
-});
-
-describe('Updating', () => {
-  it('should reset form and fields correctly', () => {
-    const [form] = createForm(defaultValues);
-
-    const path = 'path';
-    const [field] = form.makeFormField(path);
-
-    const next = {};
-    field.setValue(next);
-
-    form.reset();
-
-    expect(field.value).toBe(field.state.defaultValue);
-    expect(field.state.changed).toBeFalsy();
-    expect(form.state.fields[path].changed).toBe(field.state.changed);
   });
 });
 
@@ -84,10 +66,10 @@ describe('Submitting', () => {
       onSubmit: spy,
     });
 
-    form.$.next({
-      ...form.$.value,
+    form.plumb.next({
+      ...form.state,
       fields: {
-        ...form.$.value.fields,
+        ...form.state.fields,
         ['invalidField']: {
           changed: false,
           validityMessage: 'Failing!',
@@ -109,7 +91,7 @@ describe('Submitting', () => {
       resetOnSuccessfulSubmit: true,
     });
 
-    form.$.next({ ...form.$.value, values: {} });
+    form.plumb.next({ ...form.state, values: {} });
 
     await form.submit();
 
@@ -128,7 +110,7 @@ describe('Submitting', () => {
     });
 
     const nextValues = {} as any;
-    form.$.next({ ...form.$.value, values: nextValues });
+    form.plumb.next({ ...form.state, values: nextValues });
 
     await form.submit();
 
@@ -146,7 +128,10 @@ describe('Submitting', () => {
       resetOnFailedSubmit: true,
     });
 
-    form.$.next({ ...form.$.value, values: {} as any });
+    form.plumb.next({
+      ...form.state,
+      values: {} as any,
+    });
 
     await form.submit();
 
@@ -163,53 +148,11 @@ describe('Submitting', () => {
     });
 
     const nextValues = {} as any;
-    form.$.next({ ...form.$.value, values: nextValues });
+    form.plumb.next({ ...form.state, values: nextValues });
 
     await form.submit();
 
     expect(form.state.values).toBe(nextValues);
-    done();
-  });
-
-  it('should set changed to false on fields after reset on successful submit', async (done) => {
-    const spy = jest.fn();
-
-    const [form] = createForm(defaultValues, {
-      onSubmit: spy,
-      resetOnSuccessfulSubmit: true,
-    });
-
-    const path = 'path';
-    const [field] = form.makeFormField(path);
-
-    field.setValue('othervalue');
-
-    await form.submit();
-
-    expect(field.state.changed).toBeFalsy();
-    expect(form.state.fields[path].changed).toBe(field.state.changed);
-    done();
-  });
-
-  it('should set changed to false on fields after reset on failed submit', async (done) => {
-    const spy = jest.fn(() => {
-      throw new Error('Oops!');
-    });
-
-    const [form] = createForm(defaultValues, {
-      onSubmit: spy,
-      resetOnFailedSubmit: true,
-    });
-
-    const path = 'path';
-    const [field] = form.makeFormField(path);
-
-    field.setValue('othervalue');
-
-    await form.submit();
-
-    expect(field.state.changed).toBeFalsy();
-    expect(form.state.fields[path].changed).toBe(field.state.changed);
     done();
   });
 
@@ -221,10 +164,8 @@ describe('Submitting', () => {
       onSubmit: spy,
     });
 
-    setTimeout(() => {
-      expect(spy).toBeCalledTimes(0);
-      done();
-    }, 0);
+    expect(spy).toBeCalledTimes(0);
+    done();
   });
 
   it('should not auto-submit when values have not changed', (done) => {
@@ -235,15 +176,13 @@ describe('Submitting', () => {
       onSubmit: spy,
     });
 
-    form.$.next({
-      ...form.$.value,
+    form.plumb.next({
+      ...form.state,
       values: defaultValues,
     });
 
-    setTimeout(() => {
-      expect(spy).toBeCalledTimes(0);
-      done();
-    }, 0);
+    expect(spy).toBeCalledTimes(0);
+    done();
   });
 
   it('should auto-submit on values change', (done) => {
@@ -256,11 +195,12 @@ describe('Submitting', () => {
     });
 
     const nextValues = {};
-    form.$.next({
-      ...form.$.value,
+    form.plumb.next({
+      ...form.state,
       values: nextValues,
     });
 
+    // submit is a promise, thats why we wrap with timeout
     setTimeout(() => {
       expect(spy).toBeCalledTimes(1);
       expect(spy.mock.calls[0][0]).toBe(nextValues);
@@ -279,11 +219,12 @@ describe('Submitting', () => {
     });
 
     const nextValues = {};
-    form.$.next({
-      ...form.$.value,
+    form.plumb.next({
+      ...form.state,
       values: nextValues,
     });
 
+    // submit is a promise, thats why we wrap with timeout
     setTimeout(() => {
       expect(spy).toBeCalledTimes(1);
       expect(spy.mock.calls[0][0]).toBe(nextValues);
@@ -300,21 +241,18 @@ describe('Submitting', () => {
       onSubmit: spy,
     });
 
+    const nextValues = {};
+    form.plumb.next({
+      ...form.state,
+      values: nextValues,
+    });
+
+    form.reset();
+
+    // submit is a promise, thats why we wrap with timeout
     setTimeout(() => {
-      const nextValues = {};
-      form.$.next({
-        ...form.$.value,
-        values: nextValues,
-      });
-
-      setTimeout(() => {
-        form.reset();
-
-        setTimeout(() => {
-          expect(spy).toBeCalledTimes(1);
-          done();
-        }, 0);
-      }, 0);
+      expect(spy).toBeCalledTimes(1);
+      done();
     }, 0);
   });
 
@@ -327,18 +265,17 @@ describe('Submitting', () => {
       onSubmit: spy,
     });
 
-    setTimeout(() => {
-      const nextValues = {};
-      form.$.next({
-        ...form.$.value,
-        defaultValues: nextValues,
-        values: nextValues,
-      });
+    const nextValues = {};
+    form.plumb.next({
+      ...form.state,
+      defaultValues: nextValues,
+      values: nextValues,
+    });
 
-      setTimeout(() => {
-        expect(spy).toBeCalledTimes(0);
-        done();
-      }, 0);
+    // submit is a promise, thats why we wrap with timeout
+    setTimeout(() => {
+      expect(spy).toBeCalledTimes(0);
+      done();
     }, 0);
   });
 
@@ -367,13 +304,13 @@ describe('Submitting', () => {
 });
 
 describe('Cleanup', () => {
-  it('should complete stream on destroy', () => {
+  it('should dispose plumb on destroy', () => {
     const [form, destroy] = createForm(defaultValues);
 
     const spy = jest.fn();
 
-    form.$.subscribe({
-      complete: spy,
+    form.plumb.subscribe({
+      dispose: spy,
     });
 
     destroy();
@@ -381,19 +318,19 @@ describe('Cleanup', () => {
     expect(spy).toBeCalled();
   });
 
-  it('should complete all field streams on destroy', () => {
+  it('should dispose all field plumbs on destroy', () => {
     const [form, destroy] = createForm(defaultValues);
 
     const spy = jest.fn();
 
     const [field1] = form.makeFormField('some');
-    field1.$.subscribe({ complete: spy });
+    field1.plumb.subscribe({ dispose: spy });
 
     const [field2] = form.makeFormField('some.path');
-    field2.$.subscribe({ complete: spy });
+    field2.plumb.subscribe({ dispose: spy });
 
     const [field3] = form.makeFormField('some.other.path');
-    field3.$.subscribe({ complete: spy });
+    field3.plumb.subscribe({ dispose: spy });
 
     destroy();
 

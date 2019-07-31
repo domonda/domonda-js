@@ -4,8 +4,8 @@
  *
  */
 
-import { BehaviorSubject } from 'rxjs';
 import { FormField, FormFieldConfig, FormFieldDestroy } from './FormField';
+import { Plumb } from '@domonda/plumb';
 
 export class FormConfigRef<DefaultValues extends FormDefaultValues> {
   private submitHandler: (event: Event) => void;
@@ -87,10 +87,8 @@ export interface FormState<T extends FormDefaultValues> {
   submitError: null | Error;
 }
 
-export type Form$<T extends FormDefaultValues> = BehaviorSubject<FormState<T>>;
-
 export interface Form<T extends FormDefaultValues> {
-  readonly $: Form$<T>;
+  readonly plumb: Plumb<FormState<T>>;
   readonly state: FormState<T>;
   readonly values: T;
   configRef: FormConfigRef<T>;
@@ -100,5 +98,4 @@ export interface Form<T extends FormDefaultValues> {
   makeFormField: <T>(path: string, config?: FormFieldConfig<T>) => [FormField<T>, FormFieldDestroy];
 }
 
-// Alias for: Form$.complete()
 export type FormDestroy = () => void;
