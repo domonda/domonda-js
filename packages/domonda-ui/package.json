@@ -52,8 +52,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
-    "@storybook/addon-info": "^5.1.9",
-    "@storybook/react": "^5.1.9",
+    "@storybook/addon-info": "^5.1.10",
+    "@storybook/react": "^5.1.10",
     "@testing-library/react": "^8.0.7",
     "@testing-library/react-hooks": "^1.1.0",
     "@types/faker": "^4.1.5",
