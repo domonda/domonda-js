@@ -208,6 +208,36 @@ describe('Plumb', () => {
       expect(personSubscriber.mock.calls[0][0]).toBe(jane);
     });
 
+    it('should filter properly', () => {
+      const plumb = createPlumb(initialState);
+
+      const john = selector(plumb.state);
+
+      const updater = jest.fn((state) => state);
+      const person = plumb.pipe({
+        selector,
+        updater,
+        filter: (person) => person === john,
+      });
+
+      const spy = jest.fn();
+      person.subscribe(spy);
+
+      const jane = {
+        id: '2',
+        name: 'Jane',
+      };
+      plumb.next({
+        people: [jane],
+      });
+
+      expect(selector(plumb.state)).toBe(jane);
+
+      expect(updater).toBeCalledTimes(1);
+      expect(spy).toBeCalledTimes(0);
+      expect(person.state).toBe(john);
+    });
+
     describe('dispose', () => {
       it('should cleanup', () => {
         const plumb = createPlumb(initialState);

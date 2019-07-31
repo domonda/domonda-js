@@ -70,7 +70,11 @@ export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plum
     const { selector, updater, filter = () => true } = props;
 
     function pipeHandler(state: T) {
-      return updater(state, selector(state));
+      const selectedState = selector(state);
+      if (filter(selectedState)) {
+        return updater(state, selectedState);
+      }
+      return state;
     }
 
     const nextState = pipeHandler(internalState);
