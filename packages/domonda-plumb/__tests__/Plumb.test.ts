@@ -233,7 +233,7 @@ describe('Plumb', () => {
 
       expect(selector(plumb.state)).toBe(jane);
 
-      expect(updater).toBeCalledTimes(1);
+      expect(updater).toBeCalledTimes(2);
       expect(spy).toBeCalledTimes(0);
       expect(person.state).toBe(john);
     });
