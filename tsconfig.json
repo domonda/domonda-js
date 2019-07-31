@@ -19,7 +19,9 @@
       "@domonda/form": ["domonda-form/src"],
       "@domonda/form/*": ["domonda-form/src/*"],
       "@domonda/react-form": ["domonda-react-form/src"],
-      "@domonda/react-form/*": ["domonda-react-form/src/*"]
+      "@domonda/react-form/*": ["domonda-react-form/src/*"],
+      "@domonda/plumb": ["domonda-plumb/src"],
+      "@domonda/plumb/*": ["domonda-plumb/src/*"]
     }
   },
   "exclude": ["node_modules"]
