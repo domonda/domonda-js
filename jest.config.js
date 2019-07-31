@@ -7,7 +7,7 @@ module.exports = {
   moduleNameMapper: {
     '^@domonda/ui(.*)$': '<rootDir>/packages/domonda-ui/src/$1',
     '^@domonda/form(.*)$': '<rootDir>/packages/domonda-form/src/$1',
-    '^@domonda/reac-form(.*)$': '<rootDir>/packages/domonda-react-form/src/$1',
+    '^@domonda/react-form(.*)$': '<rootDir>/packages/domonda-react-form/src/$1',
   },
   globals: {
     'ts-jest': {
