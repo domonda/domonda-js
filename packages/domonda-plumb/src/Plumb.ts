@@ -25,7 +25,7 @@ export type Selector<T, K> = (state: Readonly<T>) => K;
 
 export type Updater<T, K> = (state: Readonly<T>, selectedState: Readonly<K>) => T;
 
-export interface PipeProps<T, K> {
+export interface ChainProps<T, K> {
   selector: Selector<T, K>;
   updater: Updater<T, K>;
   filter?: Filter<K>;
@@ -38,7 +38,7 @@ export interface PlumbProps<T> {
 export interface Plumb<T> extends Disposable {
   readonly state: T;
   readonly subscribers: Subscriber<T>[];
-  pipe: <K>(props: PipeProps<T, K>) => Plumb<K>;
+  chain: <K>(props: ChainProps<T, K>) => Plumb<K>;
   next: (state: T) => void;
   subscribe: (subscriber: Subscriber<T>) => Subscription;
 }

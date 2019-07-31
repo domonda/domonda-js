@@ -74,7 +74,7 @@ describe('Plumb', () => {
     });
   });
 
-  describe('pipe', () => {
+  describe('chain', () => {
     interface State {
       people: {
         id: string;
@@ -95,19 +95,19 @@ describe('Plumb', () => {
       return state.people[0];
     }
 
-    it('should create pipe correctly', () => {
+    it('should create chain correctly', () => {
       const plumb = createPlumb(initialState);
 
       const spy = jest.fn();
       plumb.subscribe(spy);
 
-      const person = plumb.pipe({
+      const person = plumb.chain({
         selector,
         updater: () => initialState,
       });
 
       expect(spy).toBeCalledTimes(0);
-      expect(plumb.subscribers.length).toBe(2); // spy subscription and the pipe
+      expect(plumb.subscribers.length).toBe(2); // spy subscription and the chain
       expect(person.state).toBe(selector(plumb.state));
     });
 
@@ -127,7 +127,7 @@ describe('Plumb', () => {
         done();
       });
 
-      const person = plumb.pipe({
+      const person = plumb.chain({
         selector,
         updater: () => {
           return {
@@ -148,7 +148,7 @@ describe('Plumb', () => {
           people: [personState],
         };
       });
-      const person = plumb.pipe({
+      const person = plumb.chain({
         selector,
         updater,
       });
@@ -184,7 +184,7 @@ describe('Plumb', () => {
         };
       });
 
-      const person = plumb.pipe({
+      const person = plumb.chain({
         selector,
         updater,
       });
@@ -214,7 +214,7 @@ describe('Plumb', () => {
       const john = selector(plumb.state);
 
       const updater = jest.fn((state) => state);
-      const person = plumb.pipe({
+      const person = plumb.chain({
         selector,
         updater,
         filter: (person) => person === john,
@@ -245,7 +245,7 @@ describe('Plumb', () => {
         const plumbSubscriber = { dispose: jest.fn() };
         plumb.subscribe(plumbSubscriber);
 
-        const person = plumb.pipe({
+        const person = plumb.chain({
           selector,
           updater: () => initialState,
         });
@@ -285,7 +285,7 @@ describe('Plumb', () => {
       expect(() => {
         plumb.subscribers;
       }).toThrow();
-      expect(() => plumb.pipe({ selector: () => {}, updater: () => '' })).toThrow();
+      expect(() => plumb.chain({ selector: () => {}, updater: () => '' })).toThrow();
       expect(() => plumb.next('')).toThrow();
       expect(() => plumb.subscribe(() => {})).toThrow();
       expect(() => plumb.dispose()).toThrow();

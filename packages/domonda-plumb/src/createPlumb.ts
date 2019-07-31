@@ -5,7 +5,7 @@
  */
 
 import { shallowEqual } from './equality';
-import { Subscriber, Handler, PipeProps, PlumbProps, Plumb } from './Plumb';
+import { Subscriber, Handler, ChainProps, PlumbProps, Plumb } from './Plumb';
 
 export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plumb<T> {
   const { handler } = props;
@@ -13,7 +13,7 @@ export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plum
   let disposed = false;
   let internalState = initialState;
 
-  // when the piped plumb triggers next it internally handles
+  // when the chained plumb triggers next it internally handles
   // the value before sending it to next, this flag is used to
   // skip re-handling the value
   let skipHandler: Handler<T> | null = null;
@@ -62,14 +62,14 @@ export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plum
     }
   }
 
-  function pipe<K>(props: PipeProps<T, K>): Plumb<K> {
+  function chain<K>(props: ChainProps<T, K>): Plumb<K> {
     if (disposed) {
-      throw new Error('cannot pipe a disposed plumb');
+      throw new Error('cannot chain a disposed plumb');
     }
 
     const { selector, updater, filter = () => true } = props;
 
-    function pipeHandler(state: T) {
+    function chainHandler(state: T) {
       const selectedState = selector(state);
       if (filter(selectedState)) {
         return updater(state, selectedState);
@@ -77,24 +77,24 @@ export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plum
       return state;
     }
 
-    const nextState = pipeHandler(internalState);
+    const nextState = chainHandler(internalState);
     if (!shallowEqual(internalState, nextState)) {
       next(nextState);
     }
 
-    handlers.push(pipeHandler);
+    handlers.push(chainHandler);
 
     let selectedState = selector(internalState);
 
     let outside = false; // next is triggered by the parent plumb
-    let inside = false; // next is triggered on the piped plump
-    const piped = createPlumb(selectedState, {
+    let inside = false; // next is triggered on the chained plump
+    const chained = createPlumb(selectedState, {
       handler: (selectedState) => {
         if (!outside) {
           const nextState = updater(internalState, selectedState);
           if (!shallowEqual(internalState, nextState)) {
             inside = true;
-            skipHandler = pipeHandler;
+            skipHandler = chainHandler;
             next(nextState);
             skipHandler = null;
             inside = false;
@@ -110,20 +110,20 @@ export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plum
         selectedState = selector(state);
         if (filter(selectedState)) {
           outside = true;
-          piped.next(selectedState);
+          chained.next(selectedState);
           outside = false;
         }
       }
     });
 
-    piped.subscribe({
+    chained.subscribe({
       dispose: () => {
         subscription.dispose();
-        handlers.splice(handlers.indexOf(pipeHandler));
+        handlers.splice(handlers.indexOf(chainHandler));
       },
     });
 
-    return piped;
+    return chained;
   }
 
   function dispose() {
@@ -157,7 +157,7 @@ export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plum
     },
     next,
     subscribe,
-    pipe,
+    chain,
     dispose,
   };
 }
