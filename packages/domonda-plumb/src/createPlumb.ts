@@ -10,6 +10,7 @@ import { Subscriber, Handler, ChainProps, PlumbProps, Plumb } from './Plumb';
 export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plumb<T> {
   const { handler } = props;
 
+  let disposeHandlers: (() => void)[] = [];
   let disposed = false;
   let internalState = initialState;
 
@@ -29,7 +30,7 @@ export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plum
     subscribers.push(subscriber);
     return {
       dispose: () => {
-        subscribers.splice(subscribers.indexOf(subscriber));
+        subscribers.splice(subscribers.indexOf(subscriber), 0);
       },
     };
   }
@@ -112,10 +113,16 @@ export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plum
       }
     });
 
+    const chainedDispose = () => {
+      chained.dispose();
+    };
+    disposeHandlers.push(chainedDispose);
+
     chained.subscribe({
       dispose: () => {
         subscription.dispose();
-        handlers.splice(handlers.indexOf(chainHandler));
+        handlers.splice(handlers.indexOf(chainHandler), 0);
+        disposeHandlers.splice(disposeHandlers.indexOf(chainedDispose), 0);
       },
     });
 
@@ -135,6 +142,9 @@ export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plum
 
     subscribers.splice(0, subscribers.length);
     internalState = (undefined as any) as T;
+    for (const disposeHandler of disposeHandlers) {
+      disposeHandler();
+    }
     disposed = true;
   }
 
