@@ -36,16 +36,26 @@ describe('Plumb', () => {
       it('should remove the subscriber', () => {
         const plumb = createPlumb('');
 
-        const spy = jest.fn();
+        const others = [() => {}, () => {}, () => {}, () => {}];
 
+        others.forEach((sub) => {
+          plumb.subscribe(sub);
+        });
+
+        const spy = jest.fn();
         const subscription = plumb.subscribe(spy);
+
+        others.forEach((sub) => {
+          plumb.subscribe(sub);
+        });
+
         subscription.dispose();
 
         [1, 2, 3].forEach((index) => {
           plumb.next(index.toString());
         });
 
-        expect(plumb.subscribers.length).toBe(0);
+        expect(plumb.subscribers).toEqual([...others, ...others]);
         expect(spy).toBeCalledTimes(0);
       });
     });
@@ -239,15 +249,44 @@ describe('Plumb', () => {
     });
 
     describe('dispose', () => {
-      it('should cleanup', () => {
+      it('should properly dispose', () => {
         const plumb = createPlumb(initialState);
+
+        const subscribeSpies = [
+          jest.fn((val) => val),
+          jest.fn((val) => val),
+          jest.fn((val) => val),
+        ];
+        subscribeSpies.forEach((spy) => {
+          plumb.subscribe(spy);
+        });
 
         const plumbSubscriber = { dispose: jest.fn() };
         plumb.subscribe(plumbSubscriber);
 
+        const selectorSpy = jest.fn((val) => val);
+        const updaterSpy = jest.fn((val) => val);
         const person = plumb.chain({
-          selector,
-          updater: () => initialState,
+          selector: selectorSpy,
+          updater: updaterSpy,
+        });
+
+        const pipeSpies = [
+          {
+            selector: jest.fn((val) => val),
+            updater: jest.fn((val) => val),
+          },
+          {
+            selector: jest.fn((val) => val),
+            updater: jest.fn((val) => val),
+          },
+          {
+            selector: jest.fn((val) => val),
+            updater: jest.fn((val) => val),
+          },
+        ];
+        pipeSpies.forEach((spy) => {
+          plumb.chain(spy);
         });
 
         const personDisposeSpy = jest.fn();
@@ -255,9 +294,64 @@ describe('Plumb', () => {
 
         person.dispose();
 
+        [1, 2, 3].forEach((index) => {
+          plumb.next(index as any);
+        });
+
         expect(plumbSubscriber.dispose).toBeCalledTimes(0);
-        expect(plumb.subscribers).toEqual([plumbSubscriber]);
+        expect(selectorSpy).toBeCalledTimes(1);
+        expect(updaterSpy).toBeCalledTimes(1);
+        expect(plumb.subscribers).toEqual([
+          ...subscribeSpies,
+          plumbSubscriber,
+          ...pipeSpies.map(() => expect.any(Function)), // because the pipes have different internal handlers
+        ]);
         expect(personDisposeSpy).toBeCalled();
+        subscribeSpies.forEach((spy) => {
+          expect(spy).toBeCalledTimes(3);
+        });
+        pipeSpies.forEach((spy) => {
+          // initial + 3 updates
+          expect(spy.selector).toBeCalledTimes(1 + 3);
+          expect(spy.updater).toBeCalledTimes(1 + 3);
+        });
+      });
+
+      it('should dispose child plumbs on parent dispose', () => {
+        const plumb = createPlumb(initialState);
+
+        const disposeSpy = jest.fn();
+
+        const person1 = plumb.chain({
+          selector,
+          updater: () => initialState,
+        });
+        person1.subscribe({ dispose: disposeSpy });
+
+        const person2 = plumb.chain({
+          selector,
+          updater: () => initialState,
+        });
+        person2.subscribe({ dispose: disposeSpy });
+
+        const person3 = plumb.chain({
+          selector,
+          updater: () => initialState,
+        });
+        person3.subscribe({ dispose: disposeSpy });
+
+        plumb.dispose();
+
+        expect(disposeSpy).toBeCalledTimes(3);
+        expect(() => {
+          person1.next(0 as any);
+        }).toThrow();
+        expect(() => {
+          person2.next(0 as any);
+        }).toThrow();
+        expect(() => {
+          person3.next(0 as any);
+        }).toThrow();
       });
     });
   });

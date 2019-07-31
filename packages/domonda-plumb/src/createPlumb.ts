@@ -10,6 +10,7 @@ import { Subscriber, Handler, ChainProps, PlumbProps, Plumb } from './Plumb';
 export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plumb<T> {
   const { handler } = props;
 
+  let disposeHandlers: (() => void)[] = [];
   let disposed = false;
   let internalState = initialState;
 
@@ -29,7 +30,7 @@ export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plum
     subscribers.push(subscriber);
     return {
       dispose: () => {
-        subscribers.splice(subscribers.indexOf(subscriber));
+        subscribers.splice(subscribers.indexOf(subscriber), 1);
       },
     };
   }
@@ -69,31 +70,32 @@ export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plum
 
     const { selector, updater, filter = () => true } = props;
 
-    function chainHandler(state: T) {
-      return updater(state, selectedState);
-    }
+    let selectedState = selector(internalState);
 
-    const nextState = updater(internalState, selector(internalState));
+    const nextState = updater(internalState, selectedState);
     if (!shallowEqual(internalState, nextState)) {
       next(nextState);
+      selectedState = selector(internalState);
     }
 
     handlers.push(chainHandler);
 
-    let selectedState = selector(internalState);
+    function chainHandler(state: T) {
+      return updater(state, selectedState);
+    }
 
-    let outside = false; // next is triggered by the parent plumb
-    let inside = false; // next is triggered on the chained plump
+    let parent = false; // next is triggered by the parent plumb
+    let child = false; // next is triggered on the chained plump
     const chained = createPlumb(selectedState, {
       handler: (selectedState) => {
-        if (!outside) {
+        if (!parent) {
           const nextState = updater(internalState, selectedState);
           if (!shallowEqual(internalState, nextState)) {
-            inside = true;
+            child = true;
             skipHandler = chainHandler;
             next(nextState);
             skipHandler = null;
-            inside = false;
+            child = false;
             return selector(internalState);
           }
         }
@@ -102,20 +104,33 @@ export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plum
     });
 
     const subscription = subscribe((state) => {
-      if (!inside) {
+      if (!child) {
         selectedState = selector(state);
         if (filter(selectedState)) {
-          outside = true;
+          parent = true;
           chained.next(selectedState);
-          outside = false;
+          parent = false;
         }
       }
     });
 
+    // indicates that dispose was called from the parent
+    let parentDispose = false;
+    function chainedDispose() {
+      parentDispose = true;
+      chained.dispose();
+    }
+    disposeHandlers.push(chainedDispose);
+
     chained.subscribe({
       dispose: () => {
         subscription.dispose();
-        handlers.splice(handlers.indexOf(chainHandler));
+
+        // when parent disposals happen, the handlers will get deleted by the parent
+        if (!parentDispose) {
+          handlers.splice(handlers.indexOf(chainHandler), 1);
+          disposeHandlers.splice(disposeHandlers.indexOf(chainedDispose), 1);
+        }
       },
     });
 
@@ -134,7 +149,14 @@ export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plum
     }
 
     subscribers.splice(0, subscribers.length);
+    handlers.splice(0, handlers.length);
     internalState = (undefined as any) as T;
+
+    for (const disposeHandler of disposeHandlers) {
+      disposeHandler();
+    }
+    disposeHandlers.splice(0, disposeHandlers.length);
+
     disposed = true;
   }
 
