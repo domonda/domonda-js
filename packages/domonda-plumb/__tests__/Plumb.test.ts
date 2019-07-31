@@ -52,7 +52,7 @@ describe('Plumb', () => {
   });
 
   describe('handler', () => {
-    it('should call the handler, then subscribers when using next', () => {
+    it('should call the handler first, then subscribers when using next', () => {
       const handledState = { second: 2 };
       const handler = jest.fn((_0) => handledState);
 
