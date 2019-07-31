@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.1](https://github.com/domonda/domonda-js/compare/@domonda/react-form@1.3.0...@domonda/react-form@1.3.1) (2019-07-31)
+
+
+### Bug Fixes
+
+* **useValue:** avoid setting state when unmounted ([c4e3dcc](https://github.com/domonda/domonda-js/commit/c4e3dcc))
+
+
+
+
+
 # [1.3.0](https://github.com/domonda/domonda-js/compare/@domonda/react-form@1.2.1...@domonda/react-form@1.3.0) (2019-07-26)
 
 

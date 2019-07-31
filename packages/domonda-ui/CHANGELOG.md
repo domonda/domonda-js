@@ -3,6 +3,40 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@2.1.0...@domonda/ui@3.0.0) (2019-07-31)
+
+
+### Bug Fixes
+
+* **Row:** export in index ([72fa842](https://github.com/domonda/domonda-js/commit/72fa842))
+
+
+### Features
+
+* **RowItem:** style anchor ([f681de9](https://github.com/domonda/domonda-js/commit/f681de9))
+* **styles:** expose constants for palette and typography ([685760a](https://github.com/domonda/domonda-js/commit/685760a))
+* **Text:** introduce `Component` prop ([daa2665](https://github.com/domonda/domonda-js/commit/daa2665))
+
+
+### Performance Improvements
+
+* **Autocomplete:** mount `AutoSizer` when opening ([5a4dd8f](https://github.com/domonda/domonda-js/commit/5a4dd8f))
+* **Box:** remove dynamic styles ([811960c](https://github.com/domonda/domonda-js/commit/811960c))
+* **Button:** remove dynamic styles ([b3a4c85](https://github.com/domonda/domonda-js/commit/b3a4c85))
+* **Divider:** remove dynamic styles ([d7bdb0f](https://github.com/domonda/domonda-js/commit/d7bdb0f))
+* **Flex:** remove dynamic styles ([29ffba6](https://github.com/domonda/domonda-js/commit/29ffba6))
+* **Grid:** remove dynamic styles ([ba6600f](https://github.com/domonda/domonda-js/commit/ba6600f))
+* **Text:** remove dynamic styles ([8d234b6](https://github.com/domonda/domonda-js/commit/8d234b6))
+
+
+### BREAKING CHANGES
+
+* **Button:** removed prop `colorVariant` from `Button`
+
+
+
+
+
 # [2.1.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@2.0.0...@domonda/ui@2.1.0) (2019-07-26)
 
 

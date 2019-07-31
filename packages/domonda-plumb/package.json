@@ -1,6 +1,6 @@
 {
   "name": "@domonda/plumb",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Simple state management inspired by Observables.",
   "keywords": [
     "domonda",
@@ -28,7 +28,6 @@
   "bugs": {
     "url": "https://github.com/domonda/domonda-js/issues"
   },
-  "dependencies": {},
   "devDependencies": {
     "rimraf": "^2.6.3"
   }
