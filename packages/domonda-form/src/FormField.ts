@@ -12,13 +12,12 @@ export interface FormFieldStateWithValues<T> extends FormFieldState {
   value: Readonly<T>;
 }
 
-export type FormFieldValidityMessage = string | null | undefined; // `undefined` means validity is loading
+export type FormFieldValidityMessage = string | null;
 
-export type FormFieldValidate<T> = (value: Readonly<T>) => Promise<string | null> | (string | null);
+export type FormFieldValidate<T> = (value: Readonly<T>) => FormFieldValidityMessage;
 
 export interface FormFieldConfig<T> {
   validate?: FormFieldValidate<T>;
-  validateDebounce?: number;
   immediateValidate?: boolean;
 }
 

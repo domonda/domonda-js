@@ -4,7 +4,8 @@
  *
  */
 
-import { createPlumb, equal, Subscription } from '@domonda/plumb';
+import { createPlumb, equal } from '@domonda/plumb';
+import { FormFieldValidityMessage } from './FormField';
 
 // form
 import { FormConfigRef, FormState, FormDefaultValues, FormConfig, Form, FormDispose } from './Form';
@@ -109,40 +110,17 @@ export function createForm<DefaultValues extends FormDefaultValues>(
         submitError: null,
       });
 
-      // TODO-db-190626 validate fields which haven't changed
-
-      // TODO-db-190731 handle never-resolving promise
-
-      type ValidityMessages = (string | null | undefined)[];
-
-      // wait for all validations to finish before continuing
-      const validityMessages = await new Promise<ValidityMessages>((resolve) => {
-        let subscription: Subscription;
-        function check(fields: FormState<DefaultValues>['fields']): boolean {
-          const validityMessages = Object.keys(fields).reduce(
-            (acc, key) => {
-              const field = fields[key];
-              if (!field) {
-                return acc;
-              }
-              return [...acc, field.validityMessage];
-            },
-            [] as ValidityMessages,
-          );
-          if (validityMessages.every((validityMessage) => validityMessage !== undefined)) {
-            if (subscription) {
-              subscription.dispose();
-            }
-            resolve(validityMessages);
-            return true;
+      const { fields } = plumb.state;
+      const validityMessages = Object.keys(fields).reduce(
+        (acc, key) => {
+          const field = fields[key];
+          if (!field) {
+            return acc;
           }
-          return false;
-        }
-
-        if (!check(plumb.state.fields)) {
-          subscription = plumb.subscribe(({ fields }) => check(fields));
-        }
-      });
+          return [...acc, field.validityMessage];
+        },
+        [] as FormFieldValidityMessage[],
+      );
 
       if (validityMessages.some((validityMessages) => validityMessages != null)) {
         plumb.next({
