@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/domonda/domonda-js/compare/@domonda/form@1.2.2...@domonda/form@2.0.0) (2019-08-01)
+
+
+### Bug Fixes
+
+* **Form:** plumb might be disposed before submit finishes ([e8e06d9](https://github.com/domonda/domonda-js/commit/e8e06d9))
+
+
+### Features
+
+* **plumb:** replace RxJS with plumb ([d37439b](https://github.com/domonda/domonda-js/commit/d37439b))
+
+
+### BREAKING CHANGES
+
+* **plumb:** RxJS is not used for the form anymore. We use domonda-plumb instead.
+
+
+
+
+
 ## [1.2.2](https://github.com/domonda/domonda-js/compare/@domonda/form@1.2.1...@domonda/form@1.2.2) (2019-07-31)
 
 **Note:** Version bump only for package @domonda/form

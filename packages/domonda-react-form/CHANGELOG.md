@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/domonda/domonda-js/compare/@domonda/react-form@1.3.1...@domonda/react-form@2.0.0) (2019-08-01)
+
+
+### Bug Fixes
+
+* **FormField:** dispose on unmount ([5900800](https://github.com/domonda/domonda-js/commit/5900800))
+* **useFormDateField:** correctly dispose plumb ([70f5a2f](https://github.com/domonda/domonda-js/commit/70f5a2f))
+* **useFormField:** dispose only if neccessary ([73739ae](https://github.com/domonda/domonda-js/commit/73739ae))
+* **usePlump:** better state management ([208a5b7](https://github.com/domonda/domonda-js/commit/208a5b7))
+
+
+### Features
+
+* **plumb:** replace RxJS with plumb ([d37439b](https://github.com/domonda/domonda-js/commit/d37439b))
+* **usePlumb:** introduce `setWithTimeout` ([72ac263](https://github.com/domonda/domonda-js/commit/72ac263))
+
+
+### BREAKING CHANGES
+
+* **plumb:** RxJS is not used for the form anymore. We use domonda-plumb instead.
+
+
+
+
+
 ## [1.3.1](https://github.com/domonda/domonda-js/compare/@domonda/react-form@1.3.0...@domonda/react-form@1.3.1) (2019-07-31)
 
 
