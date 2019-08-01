@@ -4,7 +4,7 @@
  *
  */
 
-import { FormFieldState, FormFieldValidityMessage } from './Form';
+import { FormFieldState } from './Form';
 import { Plumb } from '@domonda/plumb';
 
 export interface FormFieldStateWithValues<T> extends FormFieldState {
