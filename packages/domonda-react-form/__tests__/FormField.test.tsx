@@ -8,11 +8,13 @@
 
 import React from 'react';
 import { FormContext } from '../src/FormContext';
-import { useFormField, UseFormFieldProps } from '../src/FormField';
-import { createForm, Form } from '@domonda/form';
+import { Form } from '../src/Form';
+import { useFormField, UseFormFieldProps, FormField } from '../src/FormField';
+import { createForm, Form as DomondaForm } from '@domonda/form';
 import get from 'lodash/get';
 
 // t
+import { render, cleanup } from '@testing-library/react';
 import { renderHook, act } from '@testing-library/react-hooks';
 
 /**
@@ -28,6 +30,8 @@ beforeAll(() => {
     }
   });
 });
+
+afterEach(cleanup);
 
 interface DefaultValues {
   person: {
@@ -215,10 +219,90 @@ describe('Update', () => {
 
     expect(spy).toBeCalledTimes(1);
   });
+
+  it('should handle arrays when resetting values on default values change', (done) => {
+    interface DV {
+      people: {
+        id: string;
+        name: string;
+      }[];
+    }
+
+    const dv: DV = {
+      people: [
+        {
+          id: '962c7383',
+          name: 'Denis',
+        },
+        {
+          id: 'a9091de3',
+          name: 'Foo',
+        },
+        {
+          id: '0f83e892',
+          name: 'Bar',
+        },
+      ],
+    };
+
+    let form: DomondaForm<DV>;
+    const { rerender } = render(
+      <Form getForm={(f) => (form = f)} resetOnDefaultValuesChange defaultValues={dv}>
+        {dv.people.map((person, index) => (
+          <FormField key={person.id} path={`people[${index}].id`}>
+            {() => null}
+          </FormField>
+        ))}
+      </Form>,
+    );
+
+    // @ts-ignore because form should indeed be set here
+    if (!form) {
+      throw new Error('form instance should be set here!');
+    }
+
+    expect(Object.keys(form.state.fields).length).toBe(dv.people.length);
+
+    const nextDv: DV = {
+      people: [
+        {
+          id: 'a9091de3',
+          name: 'Foo',
+        },
+        {
+          id: 'd1b7a4e8',
+          name: 'John',
+        },
+        {
+          id: '962c7383',
+          name: 'Denis',
+        },
+        {
+          id: '26dc0551',
+          name: 'Jane',
+        },
+      ],
+    };
+
+    rerender(
+      <Form resetOnDefaultValuesChange defaultValues={nextDv}>
+        {nextDv.people.map((person, index) => (
+          <FormField key={person.id} path={`people[${index}].id`}>
+            {() => null}
+          </FormField>
+        ))}
+      </Form>,
+    );
+
+    setTimeout(() => {
+      expect(Object.keys(form.state.fields).length).toBe(nextDv.people.length);
+      done();
+    }, 0);
+  });
 });
 
 describe('Cleanup', () => {
-  function makeForm<T extends object>(dv: T): [Form<T>, React.FC] {
+  function makeForm<T extends object>(dv: T): [DomondaForm<T>, React.FC] {
     const [form] = createForm(dv);
     return [
       form,
