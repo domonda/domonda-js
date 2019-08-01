@@ -367,6 +367,7 @@ describe('Updating', () => {
       expect(spy).toBeCalledTimes(4);
       expect(spy.mock.calls[0][0]).toBeFalsy();
       expect(spy.mock.calls[1][0]).toBeTruthy();
+      expect(spy.mock.calls[2][0]).toBeTruthy(); // react
       expect(spy.mock.calls[3][0]).toBeFalsy();
 
       done();
