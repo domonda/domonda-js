@@ -6,7 +6,7 @@ import { createPlumb } from '@domonda/plumb';
 import { useMappedPlumb } from '../src/hooks/plumb';
 
 // t
-import { renderHook, act } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react-hooks';
 
 /**
  * Suppress React 16.8 act() warnings globally.
