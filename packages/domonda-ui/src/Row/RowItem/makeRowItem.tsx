@@ -27,7 +27,7 @@ export function makeRowItem<Item>(config: Config<Item>) {
   const { columns } = config;
 
   const RowItem: React.FC<Decorate & RowItemProps<Item>> = (props) => {
-    const { classes, item, className, Component = 'div' } = props;
+    const { classes, item, className, component: Component = 'div' } = props;
     const children = useMemo(
       () =>
         columns.map(

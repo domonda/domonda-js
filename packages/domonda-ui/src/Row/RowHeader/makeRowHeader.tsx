@@ -21,7 +21,7 @@ export function makeRowHeader<Item>(config: Config<Item>) {
   const { columns } = config;
 
   const RowHeader: React.FC<RowHeaderProps & Decorate> = (props) => {
-    const { children: _0, classes, className, Component = 'div', ...rest } = props;
+    const { children: _0, classes, className, component: Component = 'div', ...rest } = props;
 
     const children = useMemo(
       () =>

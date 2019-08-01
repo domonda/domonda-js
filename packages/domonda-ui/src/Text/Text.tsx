@@ -45,7 +45,7 @@ const Text = React.forwardRef<HTMLElement, TextProps & Decorate>(function Text(p
     weight,
     font,
     style,
-    Component: PropComponent,
+    component: PropComponent,
     ...rest
   } = props;
 

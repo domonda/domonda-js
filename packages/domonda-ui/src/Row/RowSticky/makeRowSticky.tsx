@@ -19,7 +19,7 @@ export interface RowStickyProps {
 
 export function makeRowSticky<Item>(_0: Config<Item>) {
   const RowSticky: React.FC<Decorate & RowStickyProps> = (props) => {
-    const { children, classes, className, Component = 'div' } = props;
+    const { children, classes, className, component: Component = 'div' } = props;
     return (
       <Component className={clsx(classes.root, className)} role="row">
         {children}
