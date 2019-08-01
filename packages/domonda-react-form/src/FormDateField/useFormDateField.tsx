@@ -47,6 +47,15 @@ export function useFormDateField(props: UseFormDateFieldProps): FormDateFieldAPI
     plumbRef.current = field.plumb;
   }
 
+  useEffect(
+    () => () => {
+      if (plumbRef.current && !plumbRef.current.disposed) {
+        plumbRef.current.dispose();
+      }
+    },
+    [],
+  );
+
   const FormDateInput = useMemo<React.FC<FormDateFieldDateInputProps>>(() => {
     const FormDateInput: React.FC<FormDateFieldDateInputProps> = ({
       children,
