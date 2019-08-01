@@ -493,5 +493,12 @@ describe('Plumb', () => {
 
       plumb.dispose();
     });
+
+    it('should flag as disposed when disposed', () => {
+      const state = {};
+      const plumb = createPlumb(state);
+      plumb.dispose();
+      expect(plumb.disposed).toBeTruthy();
+    });
   });
 });

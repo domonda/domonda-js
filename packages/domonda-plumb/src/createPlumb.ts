@@ -203,6 +203,9 @@ export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plum
       }
       return subscribers;
     },
+    get disposed() {
+      return disposed;
+    },
     next,
     subscribe,
     chain,
