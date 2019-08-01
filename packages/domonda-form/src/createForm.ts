@@ -156,18 +156,22 @@ export function createForm<DefaultValues extends FormDefaultValues>(
       try {
         await onSubmit(plumb.state.values, form);
 
-        plumb.next({
-          ...plumb.state,
-          submitting: false,
-          values: resetOnSuccessfulSubmit ? plumb.state.defaultValues : plumb.state.values,
-        });
+        if (!plumb.disposed) {
+          plumb.next({
+            ...plumb.state,
+            submitting: false,
+            values: resetOnSuccessfulSubmit ? plumb.state.defaultValues : plumb.state.values,
+          });
+        }
       } catch (error) {
-        plumb.next({
-          ...plumb.state,
-          submitting: false,
-          submitError: error,
-          values: resetOnFailedSubmit ? plumb.state.defaultValues : plumb.state.values,
-        });
+        if (!plumb.disposed) {
+          plumb.next({
+            ...plumb.state,
+            submitting: false,
+            submitError: error,
+            values: resetOnFailedSubmit ? plumb.state.defaultValues : plumb.state.values,
+          });
+        }
       }
     }
   }
