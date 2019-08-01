@@ -6,12 +6,7 @@
 
 import React, { PropsWithChildren, useMemo, useEffect, useState } from 'react';
 import { FormContext } from './FormContext';
-import {
-  createForm,
-  Form as DomondaForm,
-  FormConfig,
-  FormDefaultValues,
-} from '@domonda/form';
+import { createForm, Form as DomondaForm, FormConfig, FormDefaultValues } from '@domonda/form';
 export { FormSubmitHandler } from '@domonda/form';
 import { shallowEqual } from '@domonda/plumb';
 
