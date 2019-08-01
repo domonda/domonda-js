@@ -9,7 +9,20 @@
 import { useState, useLayoutEffect, useRef } from 'react';
 import { Plumb, shallowEqual } from '@domonda/plumb';
 
-export function usePlumb<T>(plumb: Plumb<T>): T {
+export interface UsePlumbProps {
+  /**
+   * when many updates happen immediatly react often displays
+   * the order of received values incorrectly. setting this
+   * flag to true will update the state in a `setTimeout(() => {}, 0)`
+   * therefore guarenteeing the value order because it allows
+   * react renders to finish before triggering `setState`
+   */
+  setWithTimeout?: boolean;
+}
+
+export function usePlumb<T>(plumb: Plumb<T>, props: UsePlumbProps = {}): T {
+  const { setWithTimeout } = props;
+
   const [state, setState] = useState(() => plumb.state);
 
   const stateRef = useRef<T>(state);
@@ -26,19 +39,33 @@ export function usePlumb<T>(plumb: Plumb<T>): T {
 
   useLayoutEffect(() => {
     const subscription = plumb.subscribe((nextState) => {
-      if (!shallowEqual(stateRef.current, nextState)) {
-        setState(nextState);
+      const performSetState = () => {
+        if (!shallowEqual(stateRef.current, nextState)) {
+          setState(nextState);
+        }
+      };
+
+      if (setWithTimeout) {
+        setTimeout(performSetState, 0);
+      } else {
+        performSetState();
       }
     });
     return () => {
       subscription.dispose();
     };
-  }, [plumb]);
+  }, [plumb, setWithTimeout]);
 
   return state;
 }
 
-export function useMappedPlumb<T, K>(plumb: Plumb<T>, mapper: (state: T) => K): K {
+export function useMappedPlumb<T, K>(
+  plumb: Plumb<T>,
+  mapper: (state: T) => K,
+  props: UsePlumbProps = {},
+): K {
+  const { setWithTimeout } = props;
+
   const [state, setState] = useState(() => mapper(plumb.state));
 
   const stateRef = useRef<K>(state);
@@ -59,9 +86,17 @@ export function useMappedPlumb<T, K>(plumb: Plumb<T>, mapper: (state: T) => K): 
 
   useLayoutEffect(() => {
     const subscription = plumb.subscribe((nextState) => {
-      const mappedState = mapper(nextState);
-      if (!shallowEqual(stateRef.current, mappedState)) {
-        setState(mappedState);
+      const performSetState = () => {
+        const mappedState = mapper(nextState);
+        if (!shallowEqual(stateRef.current, mappedState)) {
+          setState(mappedState);
+        }
+      };
+
+      if (setWithTimeout) {
+        setTimeout(performSetState, 0);
+      } else {
+        performSetState();
       }
     });
     return () => {
