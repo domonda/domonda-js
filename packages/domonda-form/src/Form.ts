@@ -8,7 +8,7 @@ import {
   FormField,
   FormFieldConfig,
   FormFieldValidityMessage,
-  FormFieldDestroy,
+  FormFieldDispose,
 } from './FormField';
 import { Plumb } from '@domonda/plumb';
 
@@ -100,7 +100,8 @@ export interface Form<T extends FormDefaultValues> {
   submit: () => Promise<void>;
   reset: () => void;
   resetSubmitError: () => void;
-  makeFormField: <T>(path: string, config?: FormFieldConfig<T>) => [FormField<T>, FormFieldDestroy];
+  makeFormField: <T>(path: string, config?: FormFieldConfig<T>) => [FormField<T>, FormFieldDispose];
 }
 
-export type FormDestroy = () => void;
+// alias form `form.plumb.dispose()`
+export type FormDispose = () => void;

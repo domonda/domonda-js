@@ -30,4 +30,5 @@ export interface FormField<T> {
   resetValue: () => void;
 }
 
-export type FormFieldDestroy = () => void;
+// alias form `field.plumb.dispose()`
+export type FormFieldDispose = () => void;

@@ -16,7 +16,7 @@ import {
   FormField,
   FormFieldStateWithValues,
   FormFieldConfig,
-  FormFieldDestroy,
+  FormFieldDispose,
 } from './FormField';
 
 function selector<T extends FormDefaultValues, V>(
@@ -49,7 +49,7 @@ export function createFormField<DefaultValues extends FormDefaultValues, Value>(
   form: Plumb<FormState<DefaultValues>>,
   path: string, // [K in keyof FormDefaultValues]
   config: FormFieldConfig<Value> = {},
-): [FormField<Value>, FormFieldDestroy] {
+): [FormField<Value>, FormFieldDispose] {
   let defaultValue: Value;
   let value: Value;
 
