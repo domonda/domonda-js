@@ -61,12 +61,35 @@ describe('Plumb', () => {
     });
   });
 
-  describe('handler', () => {
-    it('should call the handler first, then subscribers when using next', () => {
-      const handledState = { second: 2 };
-      const handler = jest.fn((_0) => handledState);
+  describe('transformer', () => {
+    it('should transform initial state', () => {
+      const initialState = {};
+      const handledState = {};
 
-      const plumb = createPlumb({}, { handler });
+      const spy = jest.fn((_0) => handledState);
+      const plumb = createPlumb(initialState, { transformer: spy });
+
+      expect(spy).toBeCalled();
+      expect(spy.mock.calls[0][0]).toBe(initialState);
+      expect(plumb.state).toBe(handledState);
+    });
+
+    it('should skip initial transform with skipInitialTransform', () => {
+      const initialState = {};
+      const handledState = {};
+
+      const spy = jest.fn((_0) => handledState);
+      const plumb = createPlumb(initialState, { transformer: spy, skipInitialTransform: true });
+
+      expect(spy).not.toBeCalled();
+      expect(plumb.state).toBe(initialState);
+    });
+
+    it('should transform first, then notify the subscribers when using next', () => {
+      const handledState = { second: 2 };
+      const transformer = jest.fn((_0) => handledState);
+
+      const plumb = createPlumb({}, { transformer, skipInitialTransform: true });
 
       const subscriber = jest.fn();
       plumb.subscribe(subscriber);
@@ -74,8 +97,8 @@ describe('Plumb', () => {
       const nextState = { first: 1 };
       plumb.next(nextState);
 
-      expect(handler).toBeCalledTimes(1);
-      expect(handler.mock.calls[0][0]).toBe(nextState);
+      expect(transformer).toBeCalledTimes(1);
+      expect(transformer.mock.calls[0][0]).toBe(nextState);
 
       expect(subscriber).toBeCalledTimes(1);
       expect(subscriber.mock.calls[0][0]).toBe(handledState);
@@ -184,7 +207,7 @@ describe('Plumb', () => {
       expect(personSpy.mock.calls[0][0]).toBe(jane);
     });
 
-    it('should call child handlers when sending a value through the parent', () => {
+    it('should call child transformers when sending a value through the parent', () => {
       const plumb = createPlumb(initialState);
 
       const jane = { id: '2', name: 'Jane' };
@@ -248,6 +271,56 @@ describe('Plumb', () => {
       expect(person.state).toBe(john);
     });
 
+    it('should skip initial chain transformer', () => {
+      const plumb = createPlumb(initialState);
+
+      const updater = jest.fn((state) => state);
+      const transformer = jest.fn((selectedState) => selectedState);
+
+      const person = plumb.chain({
+        selector,
+        updater,
+        transformer,
+        skipInitialTransform: true,
+      });
+
+      person.next({
+        id: '2',
+        name: 'Jane',
+      });
+
+      expect(updater).toBeCalledTimes(2);
+      expect(transformer).toBeCalledTimes(1); // on next only
+    });
+
+    it('should call chain transformer before the updater', () => {
+      const plumb = createPlumb(initialState);
+
+      const order: number[] = [];
+
+      const updater = jest.fn((state) => {
+        order.push(2);
+        return state;
+      });
+      const transformer = jest.fn((selectedState) => {
+        order.push(1);
+        return selectedState;
+      });
+
+      const person = plumb.chain({
+        selector,
+        updater,
+        transformer,
+      });
+
+      person.next({
+        id: '2',
+        name: 'Jane',
+      });
+
+      expect(order).toEqual([1, 2, 1, 2]);
+    });
+
     describe('dispose', () => {
       it('should properly dispose', () => {
         const plumb = createPlumb(initialState);
@@ -266,12 +339,13 @@ describe('Plumb', () => {
 
         const selectorSpy = jest.fn((val) => val);
         const updaterSpy = jest.fn((val) => val);
+
         const person = plumb.chain({
           selector: selectorSpy,
           updater: updaterSpy,
         });
 
-        const pipeSpies = [
+        const chainSpies = [
           {
             selector: jest.fn((val) => val),
             updater: jest.fn((val) => val),
@@ -285,7 +359,8 @@ describe('Plumb', () => {
             updater: jest.fn((val) => val),
           },
         ];
-        pipeSpies.forEach((spy) => {
+
+        chainSpies.forEach((spy) => {
           plumb.chain(spy);
         });
 
@@ -304,13 +379,13 @@ describe('Plumb', () => {
         expect(plumb.subscribers).toEqual([
           ...subscribeSpies,
           plumbSubscriber,
-          ...pipeSpies.map(() => expect.any(Function)), // because the pipes have different internal handlers
+          ...chainSpies.map(() => expect.any(Function)), // because the pipes have different internal transformers
         ]);
         expect(personDisposeSpy).toBeCalled();
         subscribeSpies.forEach((spy) => {
           expect(spy).toBeCalledTimes(3);
         });
-        pipeSpies.forEach((spy) => {
+        chainSpies.forEach((spy) => {
           // initial + 3 updates
           expect(spy.selector).toBeCalledTimes(1 + 3);
           expect(spy.updater).toBeCalledTimes(1 + 3);

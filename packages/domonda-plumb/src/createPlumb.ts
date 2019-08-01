@@ -5,21 +5,27 @@
  */
 
 import { shallowEqual } from './equality';
-import { Subscriber, Handler, ChainProps, PlumbProps, Plumb } from './Plumb';
+import { Subscriber, Transformer, ChainProps, PlumbProps, Plumb } from './Plumb';
+
+// should the transformers be called initially?
 
 export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plumb<T> {
-  const { handler } = props;
+  const { transformer, skipInitialTransform } = props;
 
   let disposeHandlers: (() => void)[] = [];
   let disposed = false;
   let internalState = initialState;
 
-  // when the chained plumb triggers next it internally handles
-  // the value before sending it to next, this flag is used to
-  // skip re-handling the value
-  let skipHandler: Handler<T> | null = null;
+  if (transformer && !skipInitialTransform) {
+    internalState = transformer(internalState);
+  }
 
-  const handlers: Handler<T>[] = [];
+  // when the chained plumb triggers next it internally transforms
+  // the value before sending it to next, this flag is used to
+  // skip transforming the value twice
+  let skipTransformer: Transformer<T> | null = null;
+
+  const transformers: Transformer<T>[] = [];
   const subscribers: Subscriber<T>[] = [];
 
   function subscribe(subscriber: Subscriber<T>) {
@@ -42,16 +48,16 @@ export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plum
 
     internalState = state;
 
-    // first do all extra handlers
-    for (const handler of handlers) {
-      if (handler !== skipHandler) {
-        internalState = handler(internalState);
+    // first do all extra transformers
+    for (const transformer of transformers) {
+      if (transformer !== skipTransformer) {
+        internalState = transformer(internalState);
       }
     }
 
-    // then do main handler
-    if (handler) {
-      internalState = handler(internalState);
+    // then do main transformer
+    if (transformer) {
+      internalState = transformer(internalState);
     }
 
     for (const subscriber of subscribers) {
@@ -68,48 +74,69 @@ export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plum
       throw new Error('cannot chain a disposed plumb');
     }
 
-    const { selector, updater, filter = () => true } = props;
+    const {
+      selector,
+      updater,
+      filter = () => true,
+      transformer: chainTransformer,
+      skipInitialTransform: chainSkipInitialTransform,
+    } = props;
 
-    let selectedState = selector(internalState);
+    // we have an internal selected state here to avoid unnecessary selector calls
+    let selectedState: K;
 
-    const nextState = updater(internalState, selectedState);
-    if (!shallowEqual(internalState, nextState)) {
-      next(nextState);
-      selectedState = selector(internalState);
-    }
-
-    handlers.push(chainHandler);
-
-    function chainHandler(state: T) {
+    function parentTransformer(state: T) {
+      selectedState = selector(state);
+      if (chainTransformer) {
+        selectedState = chainTransformer(selectedState);
+      }
       return updater(state, selectedState);
     }
+    transformers.push(parentTransformer);
 
-    let parent = false; // next is triggered by the parent plumb
-    let child = false; // next is triggered on the chained plump
+    let isInitialTransform = true;
+    let parentNext = false; // next is triggered by the parent plumb
+    let chainedNext = false; // next is triggered on the chained/child plump
+
+    selectedState = selector(internalState);
     const chained = createPlumb(selectedState, {
-      handler: (selectedState) => {
-        if (!parent) {
-          const nextState = updater(internalState, selectedState);
-          if (!shallowEqual(internalState, nextState)) {
-            child = true;
-            skipHandler = chainHandler;
-            next(nextState);
-            skipHandler = null;
-            child = false;
-            return selector(internalState);
+      transformer: (selectedState) => {
+        if (chainTransformer) {
+          if (chainSkipInitialTransform && isInitialTransform) {
+            // skip initial transform
+          } else {
+            selectedState = chainTransformer(selectedState);
           }
         }
+        isInitialTransform = false;
+
+        if (!parentNext) {
+          const nextState = updater(internalState, selectedState);
+          if (!shallowEqual(internalState, nextState)) {
+            chainedNext = true;
+            skipTransformer = parentTransformer;
+            next(nextState);
+            skipTransformer = null;
+            chainedNext = false;
+
+            selectedState = selector(internalState);
+            return selectedState;
+          }
+        }
+
         return selectedState;
       },
     });
 
     const subscription = subscribe((state) => {
-      if (!child) {
-        selectedState = selector(state);
+      if (!chainedNext) {
+        if (selectedState === undefined) {
+          selectedState = selector(state);
+        }
         if (filter(selectedState)) {
-          parent = true;
+          parentNext = true;
           chained.next(selectedState);
-          parent = false;
+          parentNext = false;
         }
       }
     });
@@ -126,9 +153,9 @@ export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plum
       dispose: () => {
         subscription.dispose();
 
-        // when parent disposals happen, the handlers will get deleted by the parent
+        // when parent disposals happen, the transformers will get deleted by the parent
         if (!parentDispose) {
-          handlers.splice(handlers.indexOf(chainHandler), 1);
+          transformers.splice(transformers.indexOf(parentTransformer), 1);
           disposeHandlers.splice(disposeHandlers.indexOf(chainedDispose), 1);
         }
       },
@@ -149,7 +176,7 @@ export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plum
     }
 
     subscribers.splice(0, subscribers.length);
-    handlers.splice(0, handlers.length);
+    transformers.splice(0, transformers.length);
 
     for (const disposeHandler of disposeHandlers) {
       disposeHandler();
