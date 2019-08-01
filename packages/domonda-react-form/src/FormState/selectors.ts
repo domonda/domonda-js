@@ -4,34 +4,34 @@
  *
  */
 
-import { FormState as RxFormState } from '@domonda/form';
+import { FormState as DomondaFormState } from '@domonda/form';
 import get from 'lodash/get';
 
-export const defaultValuesSelector = <DV extends object>({ defaultValues }: RxFormState<DV>) =>
+export const defaultValuesSelector = <DV extends object>({ defaultValues }: DomondaFormState<DV>) =>
   defaultValues;
 
 export const makeDefaultValueSelector = <V>(path: string) => ({
   defaultValues,
-}: RxFormState<any>): V => get(defaultValues, path);
+}: DomondaFormState<any>): V => get(defaultValues, path);
 
-export const valuesSelector = <DV extends object>({ values }: RxFormState<DV>) => values;
+export const valuesSelector = <DV extends object>({ values }: DomondaFormState<DV>) => values;
 
-export const makeValueSelector = <V>(path: string) => ({ values }: RxFormState<any>): V | null =>
+export const makeValueSelector = <V>(path: string) => ({ values }: DomondaFormState<any>): V | null =>
   get(values, path);
 
-export const submittingSelector = ({ submitting }: RxFormState<any>) => submitting;
+export const submittingSelector = ({ submitting }: DomondaFormState<any>) => submitting;
 
-export const submitErrorSelector = ({ submitError }: RxFormState<any>) => submitError;
+export const submitErrorSelector = ({ submitError }: DomondaFormState<any>) => submitError;
 
-export const fieldsSelector = ({ fields }: RxFormState<any>) => fields;
+export const fieldsSelector = ({ fields }: DomondaFormState<any>) => fields;
 
-export const changedSelector = ({ fields }: RxFormState<any>) =>
+export const changedSelector = ({ fields }: DomondaFormState<any>) =>
   Object.keys(fields).some((key) => fields[key].changed);
 
-export const invalidSelector = ({ fields }: RxFormState<any>) =>
+export const invalidSelector = ({ fields }: DomondaFormState<any>) =>
   Object.keys(fields).some((key) => fields[key].validityMessage !== null);
 
-export const lockedSelector = (state: RxFormState<any>) => {
+export const lockedSelector = (state: DomondaFormState<any>) => {
   const submitting = submittingSelector(state);
   const changed = changedSelector(state);
   return submitting || !changed;

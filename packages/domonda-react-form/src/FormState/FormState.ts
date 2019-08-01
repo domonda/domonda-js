@@ -5,11 +5,11 @@
  */
 
 import React from 'react';
-import { Form as RxForm } from '@domonda/form';
+import { Form as DomondaForm } from '@domonda/form';
 import { UseFormStateSelector, useFormState } from './useFormState';
 
 export interface FormStateProps<DV extends object, V> {
-  children: (value: V, form: RxForm<DV>) => React.ReactElement | null;
+  children: (value: V, form: DomondaForm<DV>) => React.ReactElement | null;
   selector: UseFormStateSelector<DV, V>;
 }
 

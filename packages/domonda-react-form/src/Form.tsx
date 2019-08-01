@@ -8,11 +8,10 @@ import React, { PropsWithChildren, useMemo, useEffect, useState } from 'react';
 import { FormContext } from './FormContext';
 import {
   createForm,
-  Form as RxForm,
+  Form as DomondaForm,
   FormConfig,
   FormDefaultValues,
   shallowEqual,
-  setChangedOnAllFormFields,
 } from '@domonda/form';
 export { FormSubmitHandler } from '@domonda/form';
 
@@ -23,9 +22,9 @@ export type FormProps<V extends FormDefaultValues> = FormConfig<V> &
   > & {
     defaultValues?: V;
     resetOnDefaultValuesChange?: boolean; // should this be `true` by default?
-    getForm?: (form: RxForm<V>) => void;
+    getForm?: (form: DomondaForm<V>) => void;
     children:
-      | ((form: RxForm<V>) => React.ReactElement | React.ReactElement | null)
+      | ((form: DomondaForm<V>) => React.ReactElement | React.ReactElement | null)
       | React.ReactElement
       | React.ReactElement[]
       | null;
@@ -35,7 +34,7 @@ export function Form<DefaultValues extends FormDefaultValues>(
   props: PropsWithChildren<FormProps<DefaultValues>>,
 ): React.ReactElement | null {
   const {
-    // RxFormProps
+    // DomondaFormProps
     defaultValues = {} as DefaultValues,
     resetOnDefaultValuesChange,
     resetOnSuccessfulSubmit,
@@ -49,7 +48,7 @@ export function Form<DefaultValues extends FormDefaultValues>(
     ...rest
   } = props;
 
-  const [form, destroy] = useMemo(
+  const [form, dispose] = useMemo(
     () =>
       createForm(defaultValues, {
         resetOnSuccessfulSubmit,
@@ -74,17 +73,14 @@ export function Form<DefaultValues extends FormDefaultValues>(
     };
   }, [formEl, resetOnSuccessfulSubmit, resetOnFailedSubmit, onSubmit, autoSubmit, autoSubmitDelay]);
 
-  useEffect(() => () => destroy(), []);
+  useEffect(() => () => dispose(), []);
 
   useEffect(() => {
     if (!shallowEqual(form.state.defaultValues, defaultValues)) {
-      form.$.next({
-        ...form.$.value,
+      form.plumb.next({
+        ...form.state,
         defaultValues,
-        values: resetOnDefaultValuesChange ? defaultValues : form.$.value.values,
-        fields: resetOnDefaultValuesChange
-          ? setChangedOnAllFormFields(form.$.value.fields, false)
-          : form.$.value.fields,
+        values: resetOnDefaultValuesChange ? defaultValues : form.state.values,
       });
     }
   }, [defaultValues, resetOnDefaultValuesChange]);

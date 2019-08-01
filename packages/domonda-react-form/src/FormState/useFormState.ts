@@ -4,16 +4,16 @@
  *
  */
 
-import { Form as RxForm, FormState as RxFormState } from '@domonda/form';
+import { Form as DomondaForm, FormState as DomondaFormState } from '@domonda/form';
 import { useValue } from '../hooks';
 import { map } from 'rxjs/operators';
 import { useFormContext } from '../FormContext';
 
-export type UseFormStateSelector<DV extends object, V> = (state: RxFormState<DV>) => V;
+export type UseFormStateSelector<DV extends object, V> = (state: DomondaFormState<DV>) => V;
 
 export function useFormState<DefaultValues extends object, V>(
   selector: UseFormStateSelector<DefaultValues, V>,
-): [V, RxForm<DefaultValues>] {
+): [V, DomondaForm<DefaultValues>] {
   const form = useFormContext<DefaultValues>();
 
   const value = useValue(() => form.$.pipe(map(selector)), () => selector(form.$.value), [

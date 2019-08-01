@@ -8,7 +8,7 @@
 
 import React from 'react';
 import { FormContext } from '../src/FormContext';
-import { createForm, Form as RxForm, FormConfig, FormField } from '@domonda/form';
+import { createForm, Form as DomondaForm, FormConfig, FormField } from '@domonda/form';
 import get from 'lodash/get';
 import {
   useFormState,
@@ -64,7 +64,7 @@ type DefaultValues = typeof defaultValues;
 
 const path = 'some[0].12.%@$.obj';
 
-function makeForm(config?: FormConfig<DefaultValues>): [RxForm<DefaultValues>, React.FC] {
+function makeForm(config?: FormConfig<DefaultValues>): [DomondaForm<DefaultValues>, React.FC] {
   const [form] = createForm(defaultValues, config);
   return [
     form,
@@ -244,7 +244,7 @@ describe('Updating', () => {
       },
     };
 
-    let form: RxForm<typeof dv>;
+    let form: DomondaForm<typeof dv>;
 
     let { rerender } = render(
       <Form getForm={(f) => (form = f)} defaultValues={dv} resetOnDefaultValuesChange>
@@ -293,7 +293,7 @@ describe('Updating', () => {
   it('should correctly handle changed status when the path to a field does not exist on default values update', (done) => {
     const spy = jest.fn((_0) => null);
 
-    let form: RxForm<DefaultValues>;
+    let form: DomondaForm<DefaultValues>;
 
     const { rerender } = render(
       <Form getForm={(f) => (form = f)} defaultValues={defaultValues} resetOnDefaultValuesChange>
@@ -342,7 +342,7 @@ describe('Updating', () => {
   it('should correctly handle changed status when submitting and default values update', async (done) => {
     const spy = jest.fn((_0) => null);
 
-    let form: RxForm<DefaultValues>;
+    let form: DomondaForm<DefaultValues>;
 
     const submit = () => new Promise((resolve) => setTimeout(() => resolve, 0));
 
@@ -399,7 +399,7 @@ describe('Updating', () => {
   it('should correctly handle nested states with changed status default values update', async (done) => {
     const spy = jest.fn((_0) => null);
 
-    let form: RxForm<DefaultValues>;
+    let form: DomondaForm<DefaultValues>;
 
     const submit = () => Promise.resolve;
 
@@ -489,7 +489,7 @@ describe('Updating', () => {
   it('should handle locked locked while submitting and changing default values', async (done) => {
     const spy = jest.fn((_0) => null);
 
-    let form: RxForm<DefaultValues>;
+    let form: DomondaForm<DefaultValues>;
 
     const submit = () => Promise.resolve;
 
