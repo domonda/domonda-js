@@ -1,2 +1,2 @@
 export * from './memo';
-export * from './rxjs';
+export * from './plumb';
