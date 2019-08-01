@@ -64,7 +64,8 @@ const Flex = React.forwardRef<HTMLElement, FlexProps & Decorate>(function Flex(p
       !alignSelf &&
       minWidth === undefined &&
       maxWidth === undefined &&
-      !fill
+      !fill &&
+      !style
     ) {
       return undefined;
     }
