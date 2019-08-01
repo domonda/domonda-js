@@ -70,7 +70,7 @@ describe('Creation', () => {
       ),
     });
 
-    expect(form.$.value.fields[path]).toBeDefined();
+    expect(form.plumb.state.fields[path]).toBeDefined();
     expect(field.value).toBe(denis.name);
     expect(field.state.value).toBe(field.value);
     expect(field.state.defaultValue).toBe(denis.name);
@@ -80,7 +80,7 @@ describe('Creation', () => {
 });
 
 describe('Update', () => {
-  it('should properly handle field path change', async (done) => {
+  it('should properly handle field path change', () => {
     const [form] = createForm(defaultValues);
 
     let denisNamePath = pathToDenis + '.name';
@@ -98,17 +98,13 @@ describe('Update', () => {
 
     act(() => rerender({ path: erikNamePath }));
 
-    setTimeout(() => {
-      expect(result.current.value).toBe(erik.name);
+    expect(result.current.value).toBe(erik.name);
 
-      expect(form.$.value.fields[denisNamePath]).toBeUndefined();
-      expect(form.$.value.fields[erikNamePath]).toBeDefined();
-
-      done();
-    }, 0);
+    expect(form.plumb.state.fields[denisNamePath]).toBeUndefined();
+    expect(form.plumb.state.fields[erikNamePath]).toBeDefined();
   });
 
-  it('should get new value if changed on form', (done) => {
+  it('should get new value if changed on form', () => {
     const [form] = createForm(defaultValues);
 
     let path = pathToDenis + '.name';
@@ -124,8 +120,8 @@ describe('Update', () => {
     const nextValue = 'New denis';
 
     act(() => {
-      form.$.next({
-        ...form.$.value,
+      form.plumb.next({
+        ...form.plumb.state,
         values: {
           person: {
             '1f!rst': [{ name: nextValue }],
@@ -134,10 +130,7 @@ describe('Update', () => {
       });
     });
 
-    setTimeout(() => {
-      expect(result.current.value).toBe(nextValue);
-      done();
-    }, 0);
+    expect(result.current.value).toBe(nextValue);
   });
 
   it('should properly handle value update', () => {
@@ -162,7 +155,7 @@ describe('Update', () => {
     expect(get(form.values, path)).toBe(nextValue);
   });
 
-  it('should reset to default value on reset call', async (done) => {
+  it('should reset to default value on reset call', () => {
     const [form] = createForm(defaultValues);
 
     let path = pathToDenis + '.name';
@@ -181,18 +174,13 @@ describe('Update', () => {
       result.current.setValue(nextValue);
     });
 
-    setTimeout(() => {
-      expect(result.current.value).toBe(nextValue);
+    expect(result.current.value).toBe(nextValue);
 
-      act(() => {
-        result.current.resetValue();
-      });
+    act(() => {
+      result.current.resetValue();
+    });
 
-      setTimeout(() => {
-        expect(result.current.state.defaultValue).toBe(result.current.value);
-        done();
-      }, 0);
-    }, 0);
+    expect(result.current.state.defaultValue).toBe(result.current.value);
   });
 
   it('should call subscribers only when value changes', () => {
@@ -209,7 +197,7 @@ describe('Update', () => {
     });
 
     const spy = jest.fn();
-    result.current.$.subscribe(spy);
+    result.current.plumb.subscribe(spy);
 
     const nextValue = 'New denis';
 
@@ -225,8 +213,7 @@ describe('Update', () => {
       result.current.setValue(nextValue);
     });
 
-    // 2 times because of the initial value
-    expect(spy).toBeCalledTimes(2);
+    expect(spy).toBeCalledTimes(1);
   });
 });
 
@@ -239,7 +226,7 @@ describe('Cleanup', () => {
     ];
   }
 
-  it('should complete field stream on unmount', () => {
+  it('should dispose field plumb on unmount', () => {
     const [, wrapper] = makeForm(defaultValues);
 
     const path = pathToDenis + '.name';
@@ -254,8 +241,8 @@ describe('Cleanup', () => {
     });
 
     const spy = jest.fn();
-    field.$.subscribe({
-      complete: spy,
+    field.plumb.subscribe({
+      dispose: spy,
     });
 
     unmount();
@@ -263,7 +250,7 @@ describe('Cleanup', () => {
     expect(spy).toBeCalled();
   });
 
-  it('should complete previous field on path change', () => {
+  it('should dispose previous field on path change', () => {
     const [, wrapper] = makeForm(defaultValues);
 
     const path = pathToDenis + '.name';
@@ -278,8 +265,8 @@ describe('Cleanup', () => {
     });
 
     const spy = jest.fn();
-    field.$.subscribe({
-      complete: spy,
+    field.plumb.subscribe({
+      dispose: spy,
     });
 
     act(() => rerender({ path: pathToErik + '.name' }));
@@ -287,7 +274,7 @@ describe('Cleanup', () => {
     expect(spy).toBeCalled();
   });
 
-  it('should complete previous field on validation update', () => {
+  it('should dispose previous field on validation update', () => {
     const [, wrapper] = makeForm(defaultValues);
 
     const path = pathToDenis + '.name';
@@ -302,8 +289,8 @@ describe('Cleanup', () => {
     });
 
     const spy = jest.fn();
-    field.$.subscribe({
-      complete: spy,
+    field.plumb.subscribe({
+      dispose: spy,
     });
 
     act(() => rerender({ path, validate: () => null }));

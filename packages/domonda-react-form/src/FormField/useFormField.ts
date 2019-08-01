@@ -7,8 +7,7 @@
 import { useMemo, useEffect } from 'react';
 import { useFormContext } from '../FormContext';
 import { FormFieldConfig, FormFieldValidate, FormField } from '@domonda/form';
-import { useValue, useDeepMemoOnValue } from '../hooks';
-import { distinctUntilChanged } from 'rxjs/operators';
+import { usePlumb, useDeepMemoOnValue } from '../hooks';
 
 export { FormFieldValidate };
 
@@ -24,15 +23,15 @@ export function useFormField<Value>(props: UseFormFieldProps<Value>): FormFieldA
   const memoProps = useDeepMemoOnValue(props);
 
   const { path, ...config } = memoProps;
-  const [field, destroy] = useMemo(() => form.makeFormField<Value>(path, config), [
+  const [field, dispose] = useMemo(() => form.makeFormField<Value>(path, config), [
     form,
     memoProps,
   ]);
 
-  // destroy on field change
-  useEffect(() => () => destroy(), [field]);
+  // dispose on field change
+  useEffect(() => () => dispose(), [field]);
 
-  const state = useValue(() => field.$.pipe(distinctUntilChanged()), () => field.state, [field]);
+  const state = usePlumb(field.plumb);
 
   return {
     ...field,
