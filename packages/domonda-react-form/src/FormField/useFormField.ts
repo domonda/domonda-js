@@ -4,10 +4,11 @@
  *
  */
 
-import { useMemo, useEffect } from 'react';
+import { useMemo, useRef } from 'react';
 import { useFormContext } from '../FormContext';
 import { FormFieldConfig, FormFieldValidate, FormField } from '@domonda/form';
 import { usePlumb, useDeepMemoOnValue } from '../hooks';
+import { Disposable } from '@domonda/plumb';
 
 export { FormFieldValidate };
 
@@ -23,13 +24,19 @@ export function useFormField<Value>(props: UseFormFieldProps<Value>): FormFieldA
   const memoProps = useDeepMemoOnValue(props);
 
   const { path, ...config } = memoProps;
-  const [field, dispose] = useMemo(() => form.makeFormField<Value>(path, config), [
-    form,
-    memoProps,
-  ]);
 
-  // dispose on field change
-  useEffect(() => () => dispose(), [field]);
+  const disposeRef = useRef<Disposable['dispose'] | null>(null);
+  const [field, dispose] = useMemo(() => {
+    // dispose on field change
+    if (disposeRef.current) {
+      disposeRef.current();
+    }
+    return form.makeFormField<Value>(path, config);
+  }, [form, memoProps]);
+
+  if (disposeRef.current !== dispose) {
+    disposeRef.current = dispose;
+  }
 
   const state = usePlumb(field.plumb);
 
