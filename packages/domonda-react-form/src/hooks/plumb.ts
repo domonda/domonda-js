@@ -10,11 +10,19 @@ import { useState, useLayoutEffect, useRef } from 'react';
 import { Plumb, shallowEqual } from '@domonda/plumb';
 
 export function usePlumb<T>(plumb: Plumb<T>): T {
-  const [state, setState] = useState<T>(() => plumb.state);
+  const [state, setState] = useState(() => plumb.state);
+
   const stateRef = useRef<T>(state);
   if (stateRef.current !== state) {
     stateRef.current = state;
   }
+
+  useLayoutEffect(() => {
+    const maybeNewPlumbState = plumb.state;
+    if (stateRef.current !== maybeNewPlumbState) {
+      setState(maybeNewPlumbState);
+    }
+  }, [plumb]);
 
   useLayoutEffect(() => {
     const subscription = plumb.subscribe((nextState) => {
@@ -31,11 +39,23 @@ export function usePlumb<T>(plumb: Plumb<T>): T {
 }
 
 export function useMappedPlumb<T, K>(plumb: Plumb<T>, mapper: (state: T) => K): K {
-  const [state, setState] = useState<K>(() => mapper(plumb.state));
+  const [state, setState] = useState(() => mapper(plumb.state));
+
   const stateRef = useRef<K>(state);
   if (stateRef.current !== state) {
     stateRef.current = state;
   }
+
+  const initRef = useRef(false);
+  useLayoutEffect(() => {
+    if (initRef.current) {
+      const maybeNewPlumbState = mapper(plumb.state);
+      if (stateRef.current !== maybeNewPlumbState) {
+        setState(maybeNewPlumbState);
+      }
+    }
+    initRef.current = true;
+  }, [plumb]);
 
   useLayoutEffect(() => {
     const subscription = plumb.subscribe((nextState) => {
