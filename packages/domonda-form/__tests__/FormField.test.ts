@@ -252,7 +252,6 @@ describe('Validation', () => {
 
     const spy = jest.fn();
     field.plumb.subscribe(({ validityMessage }) => {
-      console.log(validityMessage);
       spy(validityMessage);
     });
 
@@ -262,13 +261,50 @@ describe('Validation', () => {
     expect(spy.mock.calls[0][0]).toBe(validityMessage);
   });
 
+  it('should validate with debounce', (done) => {
+    const validityMessage = 'Much invalid!';
+
+    const [field] = makeForm().makeFormField(path, {
+      validateDebounce: 1,
+      validate: () => validityMessage,
+    });
+
+    const spy = jest.fn();
+    field.plumb.subscribe(({ validityMessage }) => {
+      spy(validityMessage);
+    });
+
+    field.setValue({ value: '3rd' });
+
+    setTimeout(() => {
+      expect(spy).toBeCalledTimes(1);
+      expect(spy.mock.calls[0][0]).toBe(validityMessage);
+      done();
+    }, 1);
+  });
+
+  it('should validate promises', (done) => {
+    const validityMessage = 'Much invalid!';
+
+    const validator = jest.fn((_0) => Promise.resolve(validityMessage));
+
+    const [field] = makeForm().makeFormField('separe', {
+      immediateValidate: true,
+      validate: validator,
+    });
+
+    expect(field.state.validityMessage).toBe(undefined);
+
+    field.plumb.subscribe((state) => {
+      expect(state.validityMessage).toBe(validityMessage);
+      done();
+    });
+  });
+
   it('should handle subsequent validation requests gracefully', (done) => {
     const validityMessage = 'Much invalid!';
 
-    const validator = jest.fn(async (_0) => {
-      await new Promise((resolve) => setTimeout(resolve, 0));
-      return validityMessage;
-    });
+    const validator = jest.fn((_0) => Promise.resolve(validityMessage));
 
     const [field] = makeForm().makeFormField('separe', {
       validate: validator,

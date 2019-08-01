@@ -21,15 +21,15 @@ import {
   FormFieldValidityMessage,
 } from './FormField';
 
-type Validator<V> = (
-  state: V,
-  callback: (validityMessage: FormFieldValidityMessage) => void, // only used when the validation is async
-) => FormFieldValidityMessage;
+type Validator<V> = (state: V) => FormFieldValidityMessage;
 
-function makeValidator<V>(validate: FormFieldValidate<V>): Validator<V> {
+function makeValidator<V>(
+  validate: FormFieldValidate<V>,
+  callback: (validityMessage: FormFieldValidityMessage) => void, // used for debounced and async validations
+): Validator<V> {
   let counter = 0;
 
-  return function validator(value, callback) {
+  return function validator(value) {
     // regular synchronous validation
     const pendingValidityMessage = validate(value);
     if (!(pendingValidityMessage instanceof Promise)) {
@@ -91,25 +91,39 @@ export function createFormField<DefaultValues extends FormDefaultValues, Value>(
     immediateValidate,
     // validateDebounce = 0
   } = config;
+
+  let plumb: Plumb<FormFieldStateWithValues<Value>>;
+
   let validator: Validator<Value>;
   if (validate) {
-    validator = makeValidator<Value>(validate);
+    validator = makeValidator<Value>(validate, function asyncValidityMessage(validityMessage) {
+      // timeout prevents callstack overflow
+      setTimeout(() => {
+        if (plumb) {
+          const state = plumb.state;
+          if (state.validityMessage !== validityMessage) {
+            plumb.next({
+              ...plumb.state,
+              validityMessage,
+            });
+          }
+        }
+      }, 0);
+    });
   }
 
   let defaultValue: Value;
   let value: Value;
 
   let initialTransform = true;
-  const plumb = form.chain<FormFieldStateWithValues<Value>>({
+  plumb = form.chain<FormFieldStateWithValues<Value>>({
     selector: (state) => selector(path, state),
     transformer: (selectedState) => {
       const changed = !shallowEqual(selectedState.defaultValue, selectedState.value);
 
       let validityMessage = selectedState.validityMessage;
       if (validator && (changed || (immediateValidate && initialTransform))) {
-        validityMessage = validator(selectedState.value, () => {
-          // TODO
-        });
+        validityMessage = validator(selectedState.value);
       }
 
       initialTransform = false;
