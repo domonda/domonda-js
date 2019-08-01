@@ -11,9 +11,9 @@ import {
   Form as DomondaForm,
   FormConfig,
   FormDefaultValues,
-  shallowEqual,
 } from '@domonda/form';
 export { FormSubmitHandler } from '@domonda/form';
+import { shallowEqual } from '@domonda/plumb';
 
 export type FormProps<V extends FormDefaultValues> = FormConfig<V> &
   Omit<
