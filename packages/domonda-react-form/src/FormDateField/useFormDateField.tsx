@@ -9,9 +9,8 @@ import { parseISOToDate, stripTime } from './date';
 import { UseFormFieldProps, FormFieldAPI, FormFieldValidate } from '../FormField';
 import { useFormContext } from '../FormContext';
 import { createFormField } from '@domonda/form/createFormField';
-import { useValue, useDeepMemoOnValue } from '../hooks';
+import { usePlumb, useDeepMemoOnValue } from '../hooks';
 import { DateInput, DateInputProps } from './DateInput';
-import { distinctUntilChanged } from 'rxjs/operators';
 
 export type FormDateFieldValidate = FormFieldValidate<Date | string | null>;
 
@@ -35,7 +34,7 @@ export function useFormDateField(props: UseFormDateFieldProps): FormDateFieldAPI
 
   const { required, path, ...config } = memoProps;
   const [field, destroyField] = useMemo(
-    () => createFormField<object, Date | string | null>(form.$, path, config),
+    () => createFormField<object, Date | string | null>(form.plumb, path, config),
     [form, memoProps],
   );
 
@@ -50,11 +49,7 @@ export function useFormDateField(props: UseFormDateFieldProps): FormDateFieldAPI
       calendarClassName,
       ...rest
     }) => {
-      const { value, validityMessage } = useValue(
-        () => field.$.pipe(distinctUntilChanged()),
-        () => field.state,
-        [field],
-      );
+      const { value, validityMessage } = usePlumb(field.plumb);
 
       const [inputEl, setInputEl] = useState<HTMLInputElement | null>(null);
 
