@@ -16,8 +16,9 @@ export const makeDefaultValueSelector = <V>(path: string) => ({
 
 export const valuesSelector = <DV extends object>({ values }: DomondaFormState<DV>) => values;
 
-export const makeValueSelector = <V>(path: string) => ({ values }: DomondaFormState<any>): V | null =>
-  get(values, path);
+export const makeValueSelector = <V>(path: string) => ({
+  values,
+}: DomondaFormState<any>): V | null => get(values, path);
 
 export const submittingSelector = ({ submitting }: DomondaFormState<any>) => submitting;
 
