@@ -6,8 +6,6 @@
 
 import { Subscriber, Transformer, ChainProps, PlumbProps, Plumb } from './Plumb';
 
-// should the transformers be called initially?
-
 export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plumb<T> {
   const { transformer, skipInitialTransform } = props;
 
