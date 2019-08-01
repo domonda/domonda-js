@@ -8,7 +8,7 @@
 
 import React from 'react';
 import { FormContext } from '../src/FormContext';
-import { createForm, Form as RxForm, FormConfig, FormField } from '@domonda/form';
+import { createForm, Form as DomondaForm, FormConfig, FormField } from '@domonda/form';
 import get from 'lodash/get';
 import {
   useFormState,
@@ -64,7 +64,7 @@ type DefaultValues = typeof defaultValues;
 
 const path = 'some[0].12.%@$.obj';
 
-function makeForm(config?: FormConfig<DefaultValues>): [RxForm<DefaultValues>, React.FC] {
+function makeForm(config?: FormConfig<DefaultValues>): [DomondaForm<DefaultValues>, React.FC] {
   const [form] = createForm(defaultValues, config);
   return [
     form,
@@ -163,7 +163,7 @@ describe('Selectors', () => {
     expect(value).toBe(form.state.submitting);
   });
 
-  it('should get changed for related selector', (done) => {
+  it('should get changed for related selector', () => {
     const [form, wrapper] = makeForm();
 
     const [field] = form.makeFormField(path);
@@ -179,15 +179,12 @@ describe('Selectors', () => {
       field.setValue({ te: 'st' });
     });
 
-    setTimeout(() => {
-      expect(result.current[0]).toBe(true);
-      done();
-    }, 0);
+    expect(result.current[0]).toBe(true);
   });
 });
 
 describe('Updating', () => {
-  it('should update when selected value changes', (done) => {
+  it('should update when selected value changes', () => {
     const [form, wrapper] = makeForm();
 
     const [field] = form.makeFormField(path);
@@ -205,13 +202,10 @@ describe('Updating', () => {
       field.setValue(nextValue);
     });
 
-    setTimeout(() => {
-      expect(result.current[0]).toBe(nextValue);
-      done();
-    }, 0);
+    expect(result.current[0]).toBe(nextValue);
   });
 
-  it('should not update when selected value stays the same', (done) => {
+  it('should not update when selected value stays the same', () => {
     const [form, wrapper] = makeForm();
 
     const [field] = form.makeFormField(path);
@@ -229,13 +223,10 @@ describe('Updating', () => {
 
     rerender(Tree);
 
-    setTimeout(() => {
-      expect(spy).toBeCalledTimes(1);
-      done();
-    }, 0);
+    expect(spy).toBeCalledTimes(1);
   });
 
-  it('should correctly handle changed status when default values change', (done) => {
+  it('should correctly handle changed status when default values change', () => {
     const spy = jest.fn((_0) => null);
 
     const dv = {
@@ -244,10 +235,10 @@ describe('Updating', () => {
       },
     };
 
-    let form: RxForm<typeof dv>;
+    let form: DomondaForm<typeof dv>;
 
     let { rerender } = render(
-      <Form getForm={(f) => (form = f)} defaultValues={dv} resetOnDefaultValuesChange>
+      <Form getForm={(f) => (form = f)} resetOnDefaultValuesChange defaultValues={dv}>
         <FormChangedState>{spy}</FormChangedState>
       </Form>,
     );
@@ -271,29 +262,23 @@ describe('Updating', () => {
       field.setValue('differentvalue');
     });
 
-    setTimeout(() => {
-      rerender(
-        <Form defaultValues={{ some: { path: 'toanothervalue' } }} resetOnDefaultValuesChange>
-          <FormChangedState>{spy}</FormChangedState>
-        </Form>,
-      );
+    rerender(
+      <Form resetOnDefaultValuesChange defaultValues={{ some: { path: 'toanothervalue' } }}>
+        <FormChangedState>{spy}</FormChangedState>
+      </Form>,
+    );
 
-      setTimeout(() => {
-        expect(spy).toBeCalledTimes(4);
-        expect(spy.mock.calls[0][0]).toBeFalsy();
-        expect(spy.mock.calls[1][0]).toBeTruthy();
-        expect(spy.mock.calls[2][0]).toBeTruthy(); // settling
-        expect(spy.mock.calls[3][0]).toBeFalsy();
-
-        done();
-      }, 0);
-    }, 0);
+    expect(spy).toBeCalledTimes(4);
+    expect(spy.mock.calls[0][0]).toBeFalsy();
+    expect(spy.mock.calls[1][0]).toBeTruthy();
+    expect(spy.mock.calls[2][0]).toBeTruthy(); // react
+    expect(spy.mock.calls[3][0]).toBeFalsy();
   });
 
-  it('should correctly handle changed status when the path to a field does not exist on default values update', (done) => {
+  it('should correctly handle changed status when the path to a field does not exist on default values update', () => {
     const spy = jest.fn((_0) => null);
 
-    let form: RxForm<DefaultValues>;
+    let form: DomondaForm<DefaultValues>;
 
     const { rerender } = render(
       <Form getForm={(f) => (form = f)} defaultValues={defaultValues} resetOnDefaultValuesChange>
@@ -320,29 +305,23 @@ describe('Updating', () => {
       field.setValue({ te: 'st' });
     });
 
-    setTimeout(() => {
-      rerender(
-        <Form defaultValues={{ te: 'st' }} resetOnDefaultValuesChange>
-          <FormChangedState>{spy}</FormChangedState>
-        </Form>,
-      );
+    rerender(
+      <Form defaultValues={{ te: 'st' }} resetOnDefaultValuesChange>
+        <FormChangedState>{spy}</FormChangedState>
+      </Form>,
+    );
 
-      setTimeout(() => {
-        expect(spy).toBeCalledTimes(4);
-        expect(spy.mock.calls[0][0]).toBeFalsy();
-        expect(spy.mock.calls[1][0]).toBeTruthy();
-        expect(spy.mock.calls[2][0]).toBeTruthy(); // settling
-        expect(spy.mock.calls[3][0]).toBeFalsy();
-
-        done();
-      }, 0);
-    }, 0);
+    expect(spy).toBeCalledTimes(4);
+    expect(spy.mock.calls[0][0]).toBeFalsy();
+    expect(spy.mock.calls[1][0]).toBeTruthy();
+    expect(spy.mock.calls[2][0]).toBeTruthy(); // react
+    expect(spy.mock.calls[3][0]).toBeFalsy();
   });
 
   it('should correctly handle changed status when submitting and default values update', async (done) => {
     const spy = jest.fn((_0) => null);
 
-    let form: RxForm<DefaultValues>;
+    let form: DomondaForm<DefaultValues>;
 
     const submit = () => new Promise((resolve) => setTimeout(() => resolve, 0));
 
@@ -378,28 +357,27 @@ describe('Updating', () => {
 
     await form.submit();
 
+    rerender(
+      <Form onSubmit={submit} defaultValues={{ te: 'st' }} resetOnDefaultValuesChange>
+        <FormChangedState>{spy}</FormChangedState>
+      </Form>,
+    );
+
     setTimeout(() => {
-      rerender(
-        <Form onSubmit={submit} defaultValues={{ te: 'st' }} resetOnDefaultValuesChange>
-          <FormChangedState>{spy}</FormChangedState>
-        </Form>,
-      );
+      expect(spy).toBeCalledTimes(4);
+      expect(spy.mock.calls[0][0]).toBeFalsy();
+      expect(spy.mock.calls[1][0]).toBeTruthy();
+      expect(spy.mock.calls[2][0]).toBeTruthy(); // react
+      expect(spy.mock.calls[3][0]).toBeFalsy();
 
-      setTimeout(() => {
-        expect(spy).toBeCalledTimes(4);
-        expect(spy.mock.calls[0][0]).toBeFalsy();
-        expect(spy.mock.calls[1][0]).toBeTruthy();
-        expect(spy.mock.calls[3][0]).toBeFalsy();
-
-        done();
-      }, 0);
+      done();
     }, 0);
   });
 
   it('should correctly handle nested states with changed status default values update', async (done) => {
     const spy = jest.fn((_0) => null);
 
-    let form: RxForm<DefaultValues>;
+    let form: DomondaForm<DefaultValues>;
 
     const submit = () => Promise.resolve;
 
@@ -454,42 +432,40 @@ describe('Updating', () => {
         </Form>,
       );
 
-      setTimeout(() => {
-        expect(spy).toBeCalledTimes(6);
-        expect(spy.mock.calls[0][0]).toEqual({
-          submitting: false,
-          changed: false,
-        }); // init
-        expect(spy.mock.calls[1][0]).toEqual({
-          submitting: false,
-          changed: true,
-        }); // field.setValue
-        expect(spy.mock.calls[2][0]).toEqual({
-          submitting: true,
-          changed: true,
-        }); // form.submit
-        expect(spy.mock.calls[3][0]).toEqual({
-          submitting: true,
-          changed: true,
-        }); // settling
-        expect(spy.mock.calls[4][0]).toEqual({
-          submitting: false,
-          changed: true,
-        }); // form.submit completes
-        expect(spy.mock.calls[5][0]).toEqual({
-          submitting: false,
-          changed: false,
-        }); // default values change
+      expect(spy).toBeCalledTimes(6);
+      expect(spy.mock.calls[0][0]).toEqual({
+        submitting: false,
+        changed: false,
+      }); // init
+      expect(spy.mock.calls[1][0]).toEqual({
+        submitting: false,
+        changed: true,
+      }); // field.setValue
+      expect(spy.mock.calls[2][0]).toEqual({
+        submitting: true,
+        changed: true,
+      }); // form.submit
+      expect(spy.mock.calls[3][0]).toEqual({
+        submitting: false,
+        changed: true,
+      }); // react
+      expect(spy.mock.calls[4][0]).toEqual({
+        submitting: false,
+        changed: true,
+      }); // form.submit completes
+      expect(spy.mock.calls[5][0]).toEqual({
+        submitting: false,
+        changed: false,
+      }); // default values change
 
-        done();
-      }, 0);
+      done();
     }, 0);
   });
 
   it('should handle locked locked while submitting and changing default values', async (done) => {
     const spy = jest.fn((_0) => null);
 
-    let form: RxForm<DefaultValues>;
+    let form: DomondaForm<DefaultValues>;
 
     const submit = () => Promise.resolve;
 
@@ -532,17 +508,15 @@ describe('Updating', () => {
         </Form>,
       );
 
-      setTimeout(() => {
-        expect(spy).toBeCalledTimes(6);
-        expect(spy.mock.calls[0][0]).toBeTruthy(); // init
-        expect(spy.mock.calls[1][0]).toBeFalsy(); // changed
-        expect(spy.mock.calls[2][0]).toBeTruthy(); // form.submit
-        expect(spy.mock.calls[3][0]).toBeTruthy(); // react render cycle
-        expect(spy.mock.calls[4][0]).toBeFalsy(); // react render cycle? not sure - needs investigating
-        expect(spy.mock.calls[5][0]).toBeTruthy(); // settling
+      expect(spy).toBeCalledTimes(6);
+      expect(spy.mock.calls[0][0]).toBeTruthy(); // init
+      expect(spy.mock.calls[1][0]).toBeFalsy(); // changed
+      expect(spy.mock.calls[2][0]).toBeTruthy(); // form.submit
+      expect(spy.mock.calls[3][0]).toBeFalsy(); // react
+      expect(spy.mock.calls[4][0]).toBeFalsy(); // one more react cycle? not sure - needs investigating
+      expect(spy.mock.calls[5][0]).toBeTruthy(); // react
 
-        done();
-      }, 0);
+      done();
     }, 0);
   });
 });

@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { equal } from '@domonda/form';
+import { equal } from '@domonda/plumb';
 
 // Memoizes the passed value by performing a deep compare.
 export function useDeepMemoOnValue<T>(value: T): T {

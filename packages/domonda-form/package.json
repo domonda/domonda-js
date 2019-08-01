@@ -1,16 +1,16 @@
 {
   "name": "@domonda/form",
   "version": "1.2.2",
-  "description": "Powerful yet simple form library built on top of RxJS.",
+  "description": "Powerful yet simple form library built using @domonda/plumb.",
   "keywords": [
     "domonda",
     "form",
-    "rxjs"
+    "plumb"
   ],
   "homepage": "https://github.com/domonda/domonda-js#readme",
   "license": "ISC",
-  "main": "lib/src/index.js",
-  "typings": "lib/src/index.d.ts",
+  "main": "lib/domonda-form/src/index.js",
+  "typings": "lib/domonda-form/src/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/domonda/domonda-js.git"
@@ -28,11 +28,11 @@
     "url": "https://github.com/domonda/domonda-js/issues"
   },
   "dependencies": {
+    "@domonda/plumb": "^0.1.0",
     "lodash.clone": "^4.5.0",
     "lodash.get": "^4.4.2",
     "lodash.omit": "^4.5.0",
-    "lodash.setwith": "^4.3.2",
-    "rxjs": "^6.5.2"
+    "lodash.setwith": "^4.3.2"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.136",

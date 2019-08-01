@@ -5,26 +5,25 @@
  */
 
 import React from 'react';
-import { Form as RxForm } from '@domonda/form';
-import { useFormState } from './useFormState';
+import { Form as DomondaForm } from '@domonda/form';
+import { useFormState, UseFormStateProps } from './useFormState';
 import { lockedSelector } from './selectors';
 
-export function useFormLockedState<DefaultValues extends object>(): [
-  boolean,
-  RxForm<DefaultValues>,
-] {
-  const [value, form] = useFormState<DefaultValues, boolean>(lockedSelector);
+export function useFormLockedState<DefaultValues extends object>(
+  props?: UseFormStateProps,
+): [boolean, DomondaForm<DefaultValues>] {
+  const [value, form] = useFormState<DefaultValues, boolean>(lockedSelector, props);
   return [value, form];
 }
 
-export interface FormLockedStateProps<DV extends object> {
-  children: (value: boolean, form: RxForm<DV>) => React.ReactElement | null;
+export interface FormLockedStateProps<DV extends object> extends UseFormStateProps {
+  children: (value: boolean, form: DomondaForm<DV>) => React.ReactElement | null;
 }
 
 export function FormLockedState<DefaultValues extends object>(
   props: FormLockedStateProps<DefaultValues>,
 ): React.ReactElement | null {
-  const { children } = props;
-  const [value, form] = useFormLockedState<DefaultValues>();
+  const { children, ...rest } = props;
+  const [value, form] = useFormLockedState<DefaultValues>(rest);
   return children(value, form);
 }

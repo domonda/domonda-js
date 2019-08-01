@@ -4,11 +4,11 @@
  *
  */
 
-import { useMemo, useEffect } from 'react';
+import { useMemo, useRef, useEffect } from 'react';
 import { useFormContext } from '../FormContext';
 import { FormFieldConfig, FormFieldValidate, FormField } from '@domonda/form';
-import { useValue, useDeepMemoOnValue } from '../hooks';
-import { distinctUntilChanged } from 'rxjs/operators';
+import { usePlumb, useDeepMemoOnValue } from '../hooks';
+import { Plumb } from '@domonda/plumb';
 
 export { FormFieldValidate };
 
@@ -24,15 +24,30 @@ export function useFormField<Value>(props: UseFormFieldProps<Value>): FormFieldA
   const memoProps = useDeepMemoOnValue(props);
 
   const { path, ...config } = memoProps;
-  const [field, destroy] = useMemo(() => form.makeFormField<Value>(path, config), [
-    form,
-    memoProps,
-  ]);
 
-  // destroy on field change
-  useEffect(() => () => destroy(), [field]);
+  const plumbRef = useRef<Plumb<any> | null>(null);
+  const [field] = useMemo(() => {
+    // dispose on field change
+    if (plumbRef.current && !plumbRef.current.disposed) {
+      plumbRef.current.dispose();
+    }
+    return form.makeFormField<Value>(path, config);
+  }, [form, memoProps]);
 
-  const state = useValue(() => field.$.pipe(distinctUntilChanged()), () => field.state, [field]);
+  if (plumbRef.current !== field.plumb) {
+    plumbRef.current = field.plumb;
+  }
+
+  useEffect(
+    () => () => {
+      if (plumbRef.current && !plumbRef.current.disposed) {
+        plumbRef.current.dispose();
+      }
+    },
+    [],
+  );
+
+  const state = usePlumb(field.plumb);
 
   return {
     ...field,

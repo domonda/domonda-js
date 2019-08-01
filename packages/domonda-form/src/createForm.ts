@@ -4,44 +4,23 @@
  *
  */
 
-import { equal } from './equality';
-
-// $
-import { BehaviorSubject } from 'rxjs';
-import { map, distinctUntilChanged, takeWhile, skip, debounceTime, filter } from 'rxjs/operators';
+import { createPlumb, equal } from '@domonda/plumb';
+import { FormFieldValidityMessage } from './FormField';
 
 // form
-import {
-  FormConfigRef,
-  FormState,
-  FormDefaultValues,
-  FormConfig,
-  Form,
-  FormDestroy,
-  FormFields,
-} from './Form';
+import { FormConfigRef, FormState, FormDefaultValues, FormConfig, Form, FormDispose } from './Form';
 import { createFormField } from './createFormField';
 
 const DEFAULT_AUTO_SUBMIT_DELAY = 300;
 
-export function setChangedOnAllFormFields(fields: FormFields, changed: boolean) {
-  return Object.keys(fields).reduce<FormFields>((acc, curr) => {
-    return {
-      ...acc,
-      // if the value under a path does not exist, the field definitely changed!
-      [curr]: { ...fields[curr], changed },
-    };
-  }, {});
-}
-
 export function createForm<DefaultValues extends FormDefaultValues>(
   defaultValues: DefaultValues = {} as DefaultValues,
   initialConfig: FormConfig<DefaultValues> = {},
-): [Form<DefaultValues>, FormDestroy] {
+): [Form<DefaultValues>, FormDispose] {
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
   const configRef = new FormConfigRef(initialConfig, handleSubmit);
 
-  const $ = new BehaviorSubject<FormState<DefaultValues>>({
+  const plumb = createPlumb<FormState<DefaultValues>>({
     defaultValues,
     values: defaultValues,
     fields: {},
@@ -52,52 +31,69 @@ export function createForm<DefaultValues extends FormDefaultValues>(
   function applyConfig(usingConfig: FormConfig<DefaultValues>) {
     const { autoSubmit, autoSubmitDelay = DEFAULT_AUTO_SUBMIT_DELAY } = usingConfig;
     if (autoSubmit) {
-      const submit$ =
-        autoSubmitDelay > 0
-          ? $.pipe(
-              skip(1),
-              debounceTime(autoSubmitDelay),
-              distinctUntilChanged(({ values: prevValues }, { values: currValues }) =>
-                equal(prevValues, currValues),
-              ),
-              filter(({ defaultValues, values }) => !equal(defaultValues, values)),
-            )
-          : $.pipe(
-              skip(1),
-              distinctUntilChanged(({ values: prevValues }, { values: currValues }) =>
-                equal(prevValues, currValues),
-              ),
-              filter(({ defaultValues, values }) => !equal(defaultValues, values)),
-            );
+      let currState = plumb.state;
+      let currTimeout: any;
 
-      // since functions are hoisted
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      submit$.subscribe(submit);
+      plumb.subscribe((nextState) => {
+        (() => {
+          if (nextState.submitting) {
+            return;
+          }
+
+          if (
+            equal(currState.values, nextState.values) ||
+            equal(nextState.defaultValues, nextState.values)
+          ) {
+            return;
+          }
+
+          if (autoSubmitDelay > 0) {
+            if (currTimeout) {
+              clearTimeout(currTimeout);
+            }
+            currTimeout = setTimeout(() => {
+              // eslint-disable-next-line @typescript-eslint/no-use-before-define
+              submit();
+            }, autoSubmitDelay);
+          } else {
+            // eslint-disable-next-line @typescript-eslint/no-use-before-define
+            submit();
+          }
+        })();
+
+        currState = nextState;
+      });
     }
   }
   applyConfig(configRef.current);
 
   const form: Form<DefaultValues> = {
-    $,
+    plumb,
     get state() {
-      return $.value;
+      return plumb.state;
     },
     get values() {
-      return $.value.values;
+      return plumb.state.values;
     },
     configRef,
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
     submit,
-    reset: () =>
-      $.next({
-        ...$.value,
-        values: $.value.defaultValues,
+    reset: () => {
+      plumb.next({
+        ...plumb.state,
+        values: plumb.state.defaultValues,
         submitting: false,
         submitError: null,
-        fields: setChangedOnAllFormFields($.value.fields, false),
-      }),
-    resetSubmitError: () => $.next({ ...$.value, submitting: false, submitError: null }),
-    makeFormField: (path, config) => createFormField($, path, config),
+      });
+    },
+    resetSubmitError: () => {
+      plumb.next({
+        ...plumb.state,
+        submitting: false,
+        submitError: null,
+      });
+    },
+    makeFormField: (path, config) => createFormField(plumb, path, config),
   };
 
   async function handleSubmit(event: Event | null) {
@@ -108,61 +104,52 @@ export function createForm<DefaultValues extends FormDefaultValues>(
         event.preventDefault();
       }
 
-      $.next({ ...$.value, submitting: true, submitError: null });
+      plumb.next({
+        ...plumb.state,
+        submitting: true,
+        submitError: null,
+      });
 
-      // TODO-db-190626 validate fields which haven't changed
-
-      // wait for all validations to finish before continuing
-      const validityMessages = await $.pipe(
-        map(({ fields }) =>
-          Object.keys(fields).reduce(
-            (acc, key) => {
-              const field = fields[key];
-              if (!field) {
-                return acc;
-              }
-              return [...acc, field.validityMessage];
-            },
-            [] as (string | null | undefined)[],
-          ),
-        ),
-        takeWhile(
-          // complete the observable when all validations have finished loading
-          (validityMessages) =>
-            validityMessages.some((validityMessage) => validityMessage === undefined),
-          true,
-        ),
-      )
-        // covert to promise which resolves once the stream completes
-        .toPromise();
+      const { fields } = plumb.state;
+      const validityMessages = Object.keys(fields).reduce(
+        (acc, key) => {
+          const field = fields[key];
+          if (!field) {
+            return acc;
+          }
+          return [...acc, field.validityMessage];
+        },
+        [] as FormFieldValidityMessage[],
+      );
 
       if (validityMessages.some((validityMessages) => validityMessages != null)) {
-        $.next({ ...$.value, submitting: false });
+        plumb.next({
+          ...plumb.state,
+          submitting: false,
+        });
         return;
       }
 
       // if all validations passed, continue with the submit
       try {
-        await onSubmit($.value.values, form);
+        await onSubmit(plumb.state.values, form);
 
-        $.next({
-          ...$.value,
-          submitting: false,
-          values: resetOnSuccessfulSubmit ? $.value.defaultValues : $.value.values,
-          fields: resetOnSuccessfulSubmit
-            ? setChangedOnAllFormFields($.value.fields, false)
-            : $.value.fields,
-        });
+        if (!plumb.disposed) {
+          plumb.next({
+            ...plumb.state,
+            submitting: false,
+            values: resetOnSuccessfulSubmit ? plumb.state.defaultValues : plumb.state.values,
+          });
+        }
       } catch (error) {
-        $.next({
-          ...$.value,
-          submitting: false,
-          submitError: error,
-          values: resetOnFailedSubmit ? $.value.defaultValues : $.value.values,
-          fields: resetOnFailedSubmit
-            ? setChangedOnAllFormFields($.value.fields, false)
-            : $.value.fields,
-        });
+        if (!plumb.disposed) {
+          plumb.next({
+            ...plumb.state,
+            submitting: false,
+            submitError: error,
+            values: resetOnFailedSubmit ? plumb.state.defaultValues : plumb.state.values,
+          });
+        }
       }
     }
   }
@@ -174,5 +161,5 @@ export function createForm<DefaultValues extends FormDefaultValues>(
     }
   }
 
-  return [form, () => $.complete()];
+  return [form, () => plumb.dispose()];
 }

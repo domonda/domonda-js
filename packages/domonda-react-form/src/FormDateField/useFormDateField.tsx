@@ -4,14 +4,13 @@
  *
  */
 
-import React, { useCallback, useMemo, useEffect, useState } from 'react';
+import React, { useCallback, useMemo, useEffect, useState, useRef } from 'react';
 import { parseISOToDate, stripTime } from './date';
 import { UseFormFieldProps, FormFieldAPI, FormFieldValidate } from '../FormField';
 import { useFormContext } from '../FormContext';
-import { createFormField } from '@domonda/form/createFormField';
-import { useValue, useDeepMemoOnValue } from '../hooks';
+import { usePlumb, useDeepMemoOnValue } from '../hooks';
 import { DateInput, DateInputProps } from './DateInput';
-import { distinctUntilChanged } from 'rxjs/operators';
+import { Plumb } from '@domonda/plumb';
 
 export type FormDateFieldValidate = FormFieldValidate<Date | string | null>;
 
@@ -34,13 +33,28 @@ export function useFormDateField(props: UseFormDateFieldProps): FormDateFieldAPI
   const memoProps = useDeepMemoOnValue(props);
 
   const { required, path, ...config } = memoProps;
-  const [field, destroyField] = useMemo(
-    () => createFormField<object, Date | string | null>(form.$, path, config),
-    [form, memoProps],
-  );
 
-  // destroy the field on unmount
-  useEffect(() => () => destroyField(), []);
+  const plumbRef = useRef<Plumb<any> | null>(null);
+  const [field] = useMemo(() => {
+    // dispose on field change
+    if (plumbRef.current && !plumbRef.current.disposed) {
+      plumbRef.current.dispose();
+    }
+    return form.makeFormField<Date | string | null>(path, config);
+  }, [form, memoProps]);
+
+  if (plumbRef.current !== field.plumb) {
+    plumbRef.current = field.plumb;
+  }
+
+  useEffect(
+    () => () => {
+      if (plumbRef.current && !plumbRef.current.disposed) {
+        plumbRef.current.dispose();
+      }
+    },
+    [],
+  );
 
   const FormDateInput = useMemo<React.FC<FormDateFieldDateInputProps>>(() => {
     const FormDateInput: React.FC<FormDateFieldDateInputProps> = ({
@@ -50,11 +64,7 @@ export function useFormDateField(props: UseFormDateFieldProps): FormDateFieldAPI
       calendarClassName,
       ...rest
     }) => {
-      const { value, validityMessage } = useValue(
-        () => field.$.pipe(distinctUntilChanged()),
-        () => field.state,
-        [field],
-      );
+      const { value, validityMessage } = usePlumb(field.plumb);
 
       const [inputEl, setInputEl] = useState<HTMLInputElement | null>(null);
 

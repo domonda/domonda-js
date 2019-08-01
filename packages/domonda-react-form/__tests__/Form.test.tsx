@@ -4,9 +4,8 @@
 
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
-import { Form as RxForm } from '@domonda/form';
+import { Form as DomondaForm } from '@domonda/form';
 import { Form } from '../src/Form';
-import { filter } from 'rxjs/operators';
 
 afterEach(cleanup);
 
@@ -48,8 +47,8 @@ describe('Creation', () => {
   });
 
   it('should get same form in getForm and render prop', () => {
-    let currForm: RxForm<DefaultValues>;
-    const checkForm = (form: RxForm<DefaultValues>) => {
+    let currForm: DomondaForm<DefaultValues>;
+    const checkForm = (form: DomondaForm<DefaultValues>) => {
       if (!currForm) {
         currForm = form;
         return;
@@ -68,13 +67,11 @@ describe('Creation', () => {
   });
 
   it('should properly instantiate form', (done) => {
-    const spy = jest.fn();
-
-    const checkForm = (form: RxForm<DefaultValues>) => {
+    const checkForm = (form: DomondaForm<DefaultValues>) => {
       expect(form).toBeDefined();
-      form.$.subscribe(spy);
       expect(form.state.defaultValues).toBe(defaultValues);
       expect(form.state.values).toBe(defaultValues);
+      done();
     };
 
     render(
@@ -82,11 +79,6 @@ describe('Creation', () => {
         <div />
       </Form>,
     );
-
-    setTimeout(() => {
-      expect(spy).toBeCalledTimes(1);
-      done();
-    }, 0);
   });
 });
 
@@ -127,7 +119,7 @@ describe('Updating', () => {
   });
 
   it('should shallowly compare default values', (done) => {
-    let form: RxForm<DefaultValues>;
+    let form: DomondaForm<DefaultValues>;
 
     const { rerender } = render(
       <Form defaultValues={defaultValues} getForm={(f) => (form = f)}>
@@ -142,7 +134,7 @@ describe('Updating', () => {
 
     const spy = jest.fn();
 
-    form.$.subscribe(spy);
+    form.plumb.subscribe(spy);
 
     rerender(
       <Form defaultValues={{ ...defaultValues }}>
@@ -150,14 +142,12 @@ describe('Updating', () => {
       </Form>,
     );
 
-    setTimeout(() => {
-      expect(spy).toBeCalledTimes(1);
-      done();
-    }, 0);
+    expect(spy).not.toBeCalled();
+    done();
   });
 
-  it('should handle default values', (done) => {
-    let form: RxForm<DefaultValues>;
+  it('should handle default values', () => {
+    let form: DomondaForm<DefaultValues>;
 
     const { rerender } = render(
       <Form defaultValues={defaultValues} getForm={(f) => (form = f)}>
@@ -170,10 +160,10 @@ describe('Updating', () => {
       throw new Error('form instance should be set here!');
     }
 
-    const spy = jest.fn();
-
     expect(form.state.defaultValues).toBe(defaultValues);
-    form.$.pipe(filter((state) => state.defaultValues === defaultValues)).subscribe(spy);
+
+    const spy = jest.fn();
+    form.plumb.subscribe(spy);
 
     const nextDefaultValues = {};
     rerender(
@@ -182,16 +172,13 @@ describe('Updating', () => {
       </Form>,
     );
 
-    form.$.pipe(filter((state) => state.defaultValues === nextDefaultValues)).subscribe(spy);
+    expect(form.state.defaultValues).toBe(nextDefaultValues);
 
-    setTimeout(() => {
-      expect(spy).toBeCalledTimes(2);
-      done();
-    }, 0);
+    expect(spy).toBeCalledTimes(1);
   });
 
   it('should reset on default values change when enabled', () => {
-    let form: RxForm<DefaultValues>;
+    let form: DomondaForm<DefaultValues>;
 
     const { rerender } = render(
       <Form resetOnDefaultValuesChange defaultValues={defaultValues} getForm={(f) => (form = f)}>
@@ -217,7 +204,7 @@ describe('Updating', () => {
   });
 
   it('should set changed to false on fields after reset on default values change', () => {
-    let form: RxForm<DefaultValues>;
+    let form: DomondaForm<DefaultValues>;
 
     const { rerender } = render(
       <Form resetOnDefaultValuesChange defaultValues={defaultValues} getForm={(f) => (form = f)}>
@@ -232,6 +219,9 @@ describe('Updating', () => {
 
     expect(form.state.values).toBe(defaultValues);
 
+    const spy = jest.fn();
+    form.plumb.subscribe(spy);
+
     const path = 'name';
     const [field] = form.makeFormField(path);
 
@@ -240,26 +230,27 @@ describe('Updating', () => {
     expect(field.state.changed).toBeTruthy();
     expect(form.state.fields[path].changed).toBe(field.state.changed);
 
-    const nextDefaultValues = {};
+    const nextDefaultValues = { name: 'John' };
     rerender(
       <Form resetOnDefaultValuesChange defaultValues={nextDefaultValues}>
         <div />
       </Form>,
     );
 
-    expect(form.state.values).toBe(nextDefaultValues);
+    expect(spy).toBeCalledTimes(3); // init + value change + default values change
+    expect(form.state.values).toEqual(nextDefaultValues); // we use equal because of field plumb transformers
     expect(field.state.changed).toBeFalsy();
     expect(form.state.fields[path].changed).toBe(field.state.changed);
   });
 });
 
 describe('Cleanup', () => {
-  it('should complete stream on unmount', () => {
+  it('should dispose plumb on unmount', () => {
     const spy = jest.fn();
 
-    const checkForm = (form: RxForm<DefaultValues>) => {
-      form.$.subscribe({
-        complete: spy,
+    const checkForm = (form: DomondaForm<DefaultValues>) => {
+      form.plumb.subscribe({
+        dispose: spy,
       });
     };
 

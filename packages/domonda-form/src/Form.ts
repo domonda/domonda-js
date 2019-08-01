@@ -4,8 +4,13 @@
  *
  */
 
-import { BehaviorSubject } from 'rxjs';
-import { FormField, FormFieldConfig, FormFieldDestroy } from './FormField';
+import {
+  FormField,
+  FormFieldConfig,
+  FormFieldValidityMessage,
+  FormFieldDispose,
+} from './FormField';
+import { Plumb } from '@domonda/plumb';
 
 export class FormConfigRef<DefaultValues extends FormDefaultValues> {
   private submitHandler: (event: Event) => void;
@@ -71,7 +76,7 @@ export interface FormConfig<T extends FormDefaultValues> {
 
 export interface FormFieldState {
   changed: boolean;
-  validityMessage: string | null | undefined; // `undefined` means validity is loading
+  validityMessage: FormFieldValidityMessage;
 }
 
 export interface FormFields {
@@ -87,18 +92,16 @@ export interface FormState<T extends FormDefaultValues> {
   submitError: null | Error;
 }
 
-export type Form$<T extends FormDefaultValues> = BehaviorSubject<FormState<T>>;
-
 export interface Form<T extends FormDefaultValues> {
-  readonly $: Form$<T>;
+  readonly plumb: Plumb<FormState<T>>;
   readonly state: FormState<T>;
   readonly values: T;
   configRef: FormConfigRef<T>;
   submit: () => Promise<void>;
   reset: () => void;
   resetSubmitError: () => void;
-  makeFormField: <T>(path: string, config?: FormFieldConfig<T>) => [FormField<T>, FormFieldDestroy];
+  makeFormField: <T>(path: string, config?: FormFieldConfig<T>) => [FormField<T>, FormFieldDispose];
 }
 
-// Alias for: Form$.complete()
-export type FormDestroy = () => void;
+// alias form `form.plumb.dispose()`
+export type FormDispose = () => void;
