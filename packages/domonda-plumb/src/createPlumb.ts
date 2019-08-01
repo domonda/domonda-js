@@ -81,11 +81,20 @@ export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plum
       skipInitialTransform: chainSkipInitialTransform,
     } = props;
 
-    // we have an internal selected state here to avoid unnecessary selector calls
-    let selectedState: K;
+    const memoData = {
+      state: internalState,
+      selectedState: selector(internalState),
+    };
+    function memoSelector(state: T): K {
+      if (memoData.state !== state) {
+        memoData.state = state;
+        memoData.selectedState = selector(memoData.state);
+      }
+      return memoData.selectedState;
+    }
 
     function parentTransformer(state: T) {
-      selectedState = selector(state);
+      let selectedState = memoSelector(state);
       if (chainTransformer) {
         selectedState = chainTransformer(selectedState);
       }
@@ -97,8 +106,7 @@ export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plum
     let parentNext = false; // next is triggered by the parent plumb
     let chainedNext = false; // next is triggered on the chained/child plump
 
-    selectedState = selector(internalState);
-    const chained = createPlumb(selectedState, {
+    const chained = createPlumb(memoSelector(internalState), {
       transformer: (selectedState) => {
         if (chainTransformer) {
           if (chainSkipInitialTransform && isInitialTransform) {
@@ -117,9 +125,7 @@ export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plum
             next(nextState);
             skipTransformer = null;
             chainedNext = false;
-
-            selectedState = selector(internalState);
-            return selectedState;
+            return memoSelector(internalState);
           }
         }
 
@@ -129,9 +135,7 @@ export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plum
 
     const subscription = subscribe((state) => {
       if (!chainedNext) {
-        if (selectedState === undefined) {
-          selectedState = selector(state);
-        }
+        const selectedState = memoSelector(state);
         if (filter(selectedState)) {
           parentNext = true;
           chained.next(selectedState);
