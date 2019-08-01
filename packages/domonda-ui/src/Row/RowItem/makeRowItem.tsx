@@ -14,7 +14,7 @@ import decorate, { Decorate } from './decorate';
 export interface RowItemProps<Item> {
   classes?: Decorate['classes'];
   className?: string;
-  Component?: React.ComponentType<{
+  component?: React.ComponentType<{
     item: Item;
     className: string;
     role: string;

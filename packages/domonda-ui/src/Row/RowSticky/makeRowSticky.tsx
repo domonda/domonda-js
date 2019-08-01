@@ -14,7 +14,7 @@ import decorate, { Decorate } from './decorate';
 export interface RowStickyProps {
   classes?: Decorate['classes'];
   className?: string;
-  Component?: React.ComponentType<{ className: string; role: string }>;
+  component?: React.ComponentType<{ className: string; role: string }>;
 }
 
 export function makeRowSticky<Item>(_0: Config<Item>) {

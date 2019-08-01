@@ -27,7 +27,7 @@ export interface TextProps extends React.HTMLAttributes<HTMLElement> {
   variant?: TypographyVariant; // default: `body`
   weight?: TypographyWeight;
   font?: TypographyFont;
-  Component?: keyof React.ReactHTML;
+  component?: keyof React.ReactHTML;
 }
 
 const Text = React.forwardRef<HTMLElement, TextProps & Decorate>(function Text(props, ref) {

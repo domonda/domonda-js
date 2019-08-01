@@ -14,7 +14,7 @@ import decorate, { Decorate } from './decorate';
 export interface RowHeaderProps {
   classes?: Decorate['classes'];
   className?: string;
-  Component?: React.ComponentType<{ className: string; role: string; children: React.ReactNode[] }>;
+  component?: React.ComponentType<{ className: string; role: string; children: React.ReactNode[] }>;
 }
 
 export function makeRowHeader<Item>(config: Config<Item>) {
