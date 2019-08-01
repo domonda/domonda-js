@@ -4,7 +4,12 @@
  *
  */
 
-import { FormField, FormFieldConfig, FormFieldDestroy } from './FormField';
+import {
+  FormField,
+  FormFieldConfig,
+  FormFieldValidityMessage,
+  FormFieldDestroy,
+} from './FormField';
 import { Plumb } from '@domonda/plumb';
 
 export class FormConfigRef<DefaultValues extends FormDefaultValues> {
@@ -71,7 +76,7 @@ export interface FormConfig<T extends FormDefaultValues> {
 
 export interface FormFieldState {
   changed: boolean;
-  validityMessage: string | null | undefined; // `undefined` means validity is loading
+  validityMessage: FormFieldValidityMessage;
 }
 
 export interface FormFields {

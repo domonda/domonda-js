@@ -4,13 +4,15 @@
  *
  */
 
-import { FormFieldState } from './Form';
+import { FormFieldState, FormFieldValidityMessage } from './Form';
 import { Plumb } from '@domonda/plumb';
 
 export interface FormFieldStateWithValues<T> extends FormFieldState {
   defaultValue: Readonly<T>;
   value: Readonly<T>;
 }
+
+export type FormFieldValidityMessage = string | null | undefined; // `undefined` means validity is loading
 
 export type FormFieldValidate<T> = (value: Readonly<T>) => Promise<string | null> | (string | null);
 
