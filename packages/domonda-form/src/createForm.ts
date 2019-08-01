@@ -7,7 +7,7 @@
 import { createPlumb, equal, Subscription } from '@domonda/plumb';
 
 // form
-import { FormConfigRef, FormState, FormDefaultValues, FormConfig, Form, FormDestroy } from './Form';
+import { FormConfigRef, FormState, FormDefaultValues, FormConfig, Form, FormDispose } from './Form';
 import { createFormField } from './createFormField';
 
 const DEFAULT_AUTO_SUBMIT_DELAY = 300;
@@ -15,7 +15,7 @@ const DEFAULT_AUTO_SUBMIT_DELAY = 300;
 export function createForm<DefaultValues extends FormDefaultValues>(
   defaultValues: DefaultValues = {} as DefaultValues,
   initialConfig: FormConfig<DefaultValues> = {},
-): [Form<DefaultValues>, FormDestroy] {
+): [Form<DefaultValues>, FormDispose] {
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
   const configRef = new FormConfigRef(initialConfig, handleSubmit);
 

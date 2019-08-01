@@ -175,128 +175,128 @@ describe('Change', () => {
   });
 });
 
-// describe('Validation', () => {
-//   function makeForm() {
-//     const [form] = createForm(defaultValues);
-//     return form;
-//   }
+describe('Validation', () => {
+  function makeForm() {
+    const [form] = createForm(defaultValues);
+    return form;
+  }
 
-//   it('should call validator immediatly', () => {
-//     const spy = jest.fn((_0) => null);
+  it('should call validator immediatly', () => {
+    const spy = jest.fn((_0) => null);
 
-//     makeForm().makeFormField(path, {
-//       immediateValidate: true,
-//       validate: spy,
-//     });
+    makeForm().makeFormField(path, {
+      immediateValidate: true,
+      validate: spy,
+    });
 
-//     expect(spy).toBeCalledTimes(1);
-//     expect(spy.mock.calls[0][0]).toBe(valueAtPath);
-//   });
+    expect(spy).toBeCalledTimes(1);
+    expect(spy.mock.calls[0][0]).toBe(valueAtPath);
+  });
 
-//   it('should validate immediatly', () => {
-//     const validityMessage = 'Much invalid!';
+  it('should validate immediatly', () => {
+    const validityMessage = 'Much invalid!';
 
-//     const [field] = makeForm().makeFormField(path, {
-//       immediateValidate: true,
-//       validate: () => validityMessage,
-//     });
+    const [field] = makeForm().makeFormField(path, {
+      immediateValidate: true,
+      validate: () => validityMessage,
+    });
 
-//     expect(field.plumb.state.validityMessage).toBe(validityMessage);
-//   });
+    expect(field.plumb.state.validityMessage).toBe(validityMessage);
+  });
 
-//   it('should call validator on value change', () => {
-//     const spy = jest.fn((_0) => null);
+  it('should call validator on value change', () => {
+    const spy = jest.fn((_0) => null);
 
-//     const [field] = makeForm().makeFormField(path, {
-//       validate: spy,
-//     });
+    const [field] = makeForm().makeFormField(path, {
+      validate: spy,
+    });
 
-//     expect(field.state.validityMessage).toBe(null);
+    expect(field.state.validityMessage).toBe(null);
 
-//     const newValue = {};
-//     field.setValue(newValue);
+    const newValue = {};
+    field.setValue(newValue);
 
-//     expect(spy).toBeCalledTimes(1);
-//     expect(spy.mock.calls[0][0]).toBe(newValue);
-//   });
+    expect(spy).toBeCalledTimes(1);
+    expect(spy.mock.calls[0][0]).toBe(newValue);
+  });
 
-//   it('should receive value for validation', () => {
-//     const spy = jest.fn((_0) => null);
+  it('should receive value for validation', () => {
+    const spy = jest.fn((_0) => null);
 
-//     const [field] = makeForm().makeFormField(path, {
-//       immediateValidate: true,
-//       validate: spy,
-//     });
+    const [field] = makeForm().makeFormField(path, {
+      immediateValidate: true,
+      validate: spy,
+    });
 
-//     field.setValue(valueAtPath);
+    field.setValue(valueAtPath);
 
-//     const nextValue = { value: '3rd' };
-//     field.setValue(nextValue);
+    const nextValue = { value: '3rd' };
+    field.setValue(nextValue);
 
-//     field.setValue({ ...nextValue });
+    field.setValue({ ...nextValue });
 
-//     field.setValue('');
+    field.setValue('');
 
-//     expect(spy).toBeCalledTimes(3);
-//     expect(spy.mock.calls[0][0]).toBe(valueAtPath);
-//     expect(spy.mock.calls[1][0]).toBe(nextValue);
-//     expect(spy.mock.calls[2][0]).toBe('');
-//   });
+    expect(spy).toBeCalledTimes(3);
+    expect(spy.mock.calls[0][0]).toBe(valueAtPath);
+    expect(spy.mock.calls[1][0]).toBe(nextValue);
+    expect(spy.mock.calls[2][0]).toBe('');
+  });
 
-//   it('should validate on value change', () => {
-//     const validityMessage = 'Much invalid!';
+  it('should validate on value change', () => {
+    const validityMessage = 'Much invalid!';
 
-//     const [field] = makeForm().makeFormField(path, {
-//       validate: () => validityMessage,
-//     });
+    const [field] = makeForm().makeFormField(path, {
+      validate: () => validityMessage,
+    });
 
-//     const spy = jest.fn();
-//     field.plumb.subscribe(({ validityMessage }) => {
-//       console.log(validityMessage);
-//       spy(validityMessage);
-//     });
+    const spy = jest.fn();
+    field.plumb.subscribe(({ validityMessage }) => {
+      console.log(validityMessage);
+      spy(validityMessage);
+    });
 
-//     field.setValue({ value: '3rd' });
+    field.setValue({ value: '3rd' });
 
-//     expect(spy).toBeCalledTimes(1);
-//     expect(spy.mock.calls[0][0]).toBe(validityMessage);
-//   });
+    expect(spy).toBeCalledTimes(1);
+    expect(spy.mock.calls[0][0]).toBe(validityMessage);
+  });
 
-//   it('should handle subsequent validation requests gracefully', (done) => {
-//     const validityMessage = 'Much invalid!';
+  it('should handle subsequent validation requests gracefully', (done) => {
+    const validityMessage = 'Much invalid!';
 
-//     const validator = jest.fn(async (_0) => {
-//       await new Promise((resolve) => setTimeout(resolve, 0));
-//       return validityMessage;
-//     });
+    const validator = jest.fn(async (_0) => {
+      await new Promise((resolve) => setTimeout(resolve, 0));
+      return validityMessage;
+    });
 
-//     const [field] = makeForm().makeFormField('separe', {
-//       validate: validator,
-//     });
+    const [field] = makeForm().makeFormField('separe', {
+      validate: validator,
+    });
 
-//     const spy = jest.fn();
-//     field.plumb.subscribe((state) => {
-//       spy(state.validityMessage);
-//     });
+    const spy = jest.fn();
+    field.plumb.subscribe((state) => {
+      spy(state.validityMessage);
+    });
 
-//     const rounds = 10;
+    const rounds = 10;
 
-//     field.plumb.subscribe((value) => {
-//       if (value.validityMessage === validityMessage) {
-//         const calledTimes = rounds + 4; // 4 because of the initial value and the 3 validation changes
-//         expect(spy).toBeCalledTimes(calledTimes);
-//         expect(spy.mock.calls[calledTimes - 3][0]).toBe(null);
-//         expect(spy.mock.calls[calledTimes - 2][0]).toBe(undefined);
-//         expect(spy.mock.calls[calledTimes - 1][0]).toBe(validityMessage);
-//         done();
-//       }
-//     });
+    field.plumb.subscribe((value) => {
+      if (value.validityMessage === validityMessage) {
+        const calledTimes = rounds + 4; // 4 because of the initial value and the 3 validation changes
+        expect(spy).toBeCalledTimes(calledTimes);
+        expect(spy.mock.calls[calledTimes - 3][0]).toBe(null);
+        expect(spy.mock.calls[calledTimes - 2][0]).toBe(undefined);
+        expect(spy.mock.calls[calledTimes - 1][0]).toBe(validityMessage);
+        done();
+      }
+    });
 
-//     for (let i = 0; i <= rounds; i++) {
-//       field.setValue(i);
-//     }
-//   });
-// });
+    for (let i = 0; i <= rounds; i++) {
+      field.setValue(i);
+    }
+  });
+});
 
 describe('Cleanup', () => {
   it('should call field dispose on field plumb dispose', () => {

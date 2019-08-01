@@ -17,7 +17,43 @@ import {
   FormFieldStateWithValues,
   FormFieldConfig,
   FormFieldDispose,
+  FormFieldValidate,
+  FormFieldValidityMessage,
 } from './FormField';
+
+type Validator<V> = (
+  state: V,
+  callback: (validityMessage: FormFieldValidityMessage) => void, // only used when the validation is async
+) => FormFieldValidityMessage;
+
+function makeValidator<V>(validate: FormFieldValidate<V>): Validator<V> {
+  let counter = 0;
+
+  return function validator(value, callback) {
+    // regular synchronous validation
+    const pendingValidityMessage = validate(value);
+    if (!(pendingValidityMessage instanceof Promise)) {
+      callback(pendingValidityMessage);
+      return pendingValidityMessage;
+    }
+
+    // promise validation
+
+    // we use the counter as a simple cancel mechanism
+    const internalCounter = counter;
+    counter++;
+
+    pendingValidityMessage.then((nextValidityMessage) => {
+      // if the internalCounter does not match the outer counter that means that another, newer, validity check is pending
+      if (internalCounter + 1 === counter) {
+        callback(nextValidityMessage);
+      }
+    });
+
+    callback(undefined);
+    return undefined;
+  };
+}
 
 function selector<T extends FormDefaultValues, V>(
   path: string,
@@ -50,15 +86,39 @@ export function createFormField<DefaultValues extends FormDefaultValues, Value>(
   path: string, // [K in keyof FormDefaultValues]
   config: FormFieldConfig<Value> = {},
 ): [FormField<Value>, FormFieldDispose] {
+  const {
+    validate,
+    immediateValidate,
+    // validateDebounce = 0
+  } = config;
+  let validator: Validator<Value>;
+  if (validate) {
+    validator = makeValidator<Value>(validate);
+  }
+
   let defaultValue: Value;
   let value: Value;
 
+  let initialTransform = true;
   const plumb = form.chain<FormFieldStateWithValues<Value>>({
     selector: (state) => selector(path, state),
-    transformer: (selectedState) => ({
-      ...selectedState,
-      changed: !shallowEqual(selectedState.defaultValue, selectedState.value),
-    }),
+    transformer: (selectedState) => {
+      const changed = !shallowEqual(selectedState.defaultValue, selectedState.value);
+
+      let validityMessage = selectedState.validityMessage;
+      if (validator && (changed || (immediateValidate && initialTransform))) {
+        validityMessage = validator(selectedState.value, () => {
+          // TODO
+        });
+      }
+
+      initialTransform = false;
+      return {
+        ...selectedState,
+        changed,
+        validityMessage,
+      };
+    },
     updater: (state, { changed, validityMessage, ...rest }) => ({
       ...state,
       values: setWith(clone, path, rest.value, form.state.values),
@@ -88,59 +148,6 @@ export function createFormField<DefaultValues extends FormDefaultValues, Value>(
       });
     },
   });
-
-  const {
-    immediateValidate,
-    validate,
-    //validateDebounce = 0
-  } = config;
-  if (validate) {
-    // let currValue = plumb.state.value; // first try using the value from above
-    let counter = 0;
-    function performValidate(state: FormFieldStateWithValues<Value>) {
-      if (!validate) {
-        return;
-      }
-
-      // regular synchronous validation
-      const pendingValidityMessage = validate(state.value);
-      if (!(pendingValidityMessage instanceof Promise)) {
-        if (pendingValidityMessage !== state.validityMessage) {
-          console.log(1);
-          plumb.next({
-            ...state,
-            validityMessage: pendingValidityMessage,
-          });
-        }
-        return;
-      }
-
-      // promise validation
-
-      // we use the counter as a simple cancel mechanism
-      const internalCounter = counter;
-      counter++;
-
-      if (state.validityMessage !== undefined) {
-        plumb.next({ ...state, validityMessage: undefined });
-      }
-      pendingValidityMessage.then((nextValidityMessage) => {
-        // if the internalCounter does not match the outer counter that means that another, newer, validity check is pending
-        if (internalCounter + 1 === counter) {
-          plumb.next({ ...state, validityMessage: nextValidityMessage });
-        }
-      });
-    }
-
-    if (immediateValidate) {
-      performValidate(plumb.state);
-    }
-    plumb.subscribe((state) => {
-      if (!shallowEqual(value, state.value)) {
-        performValidate(state);
-      }
-    });
-  }
 
   return [
     {
