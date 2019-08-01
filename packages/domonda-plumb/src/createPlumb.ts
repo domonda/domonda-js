@@ -4,7 +4,6 @@
  *
  */
 
-import { shallowEqual } from './equality';
 import { Subscriber, Transformer, ChainProps, PlumbProps, Plumb } from './Plumb';
 
 // should the transformers be called initially?
@@ -112,7 +111,7 @@ export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plum
 
         if (!parentNext) {
           const nextState = updater(internalState, selectedState);
-          if (!shallowEqual(internalState, nextState)) {
+          if (internalState !== nextState) {
             chainedNext = true;
             skipTransformer = parentTransformer;
             next(nextState);
