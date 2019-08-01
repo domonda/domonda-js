@@ -150,13 +150,13 @@ export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plum
 
     subscribers.splice(0, subscribers.length);
     handlers.splice(0, handlers.length);
-    internalState = (undefined as any) as T;
 
     for (const disposeHandler of disposeHandlers) {
       disposeHandler();
     }
     disposeHandlers.splice(0, disposeHandlers.length);
 
+    internalState = (undefined as any) as T;
     disposed = true;
   }
 

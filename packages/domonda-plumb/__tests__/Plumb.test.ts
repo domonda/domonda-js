@@ -353,6 +353,26 @@ describe('Plumb', () => {
           person3.next(0 as any);
         }).toThrow();
       });
+
+      it('should have parent state before disposing child plumbs', (done) => {
+        const state = {};
+        const plumb = createPlumb(state);
+
+        const child = plumb.chain({
+          selector: (state) => state,
+          updater: (state) => state,
+        });
+
+        child.subscribe({
+          dispose: () => {
+            expect(plumb.state).toBe(state);
+            expect(child.state).toBe(plumb.state);
+            done();
+          },
+        });
+
+        plumb.dispose();
+      });
     });
   });
 
@@ -383,6 +403,20 @@ describe('Plumb', () => {
       expect(() => plumb.next('')).toThrow();
       expect(() => plumb.subscribe(() => {})).toThrow();
       expect(() => plumb.dispose()).toThrow();
+    });
+
+    it('should still have state for dispose subscribers', (done) => {
+      const state = {};
+      const plumb = createPlumb(state);
+
+      plumb.subscribe({
+        dispose: () => {
+          expect(plumb.state).toBe(state);
+          done();
+        },
+      });
+
+      plumb.dispose();
     });
   });
 });
