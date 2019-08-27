@@ -1,0 +1,49 @@
+{
+  "name": "@domonda/query-params",
+  "version": "1.0.0",
+  "description": "Useful but simple query params manipulator for React.",
+  "keywords": [
+    "domonda",
+    "state",
+    "react",
+    "query-params",
+    "query",
+    "params",
+    "search",
+    "url"
+  ],
+  "homepage": "https://github.com/domonda/domonda-js#readme",
+  "license": "ISC",
+  "main": "lib/src/index.js",
+  "typings": "lib/src/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/domonda/domonda-js.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "clean": "rimraf lib/*",
+    "build": "npm run clean && tsc && node ../../scripts/copyFiles.js",
+    "start": "npm run clean && tsc --watch --preserveWatchOutput"
+  },
+  "bugs": {
+    "url": "https://github.com/domonda/domonda-js/issues"
+  },
+  "peerDependencies": {
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.137",
+    "rimraf": "^2.6.3"
+  },
+  "dependencies": {
+    "history": "^4.9.0",
+    "lodash.clonedeepwith": "^4.5.0",
+    "lodash.pickby": "^4.6.0",
+    "query-string": "^6.8.2"
+  }
+}

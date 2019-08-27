@@ -21,7 +21,9 @@
       "@domonda/react-form": ["domonda-react-form/src"],
       "@domonda/react-form/*": ["domonda-react-form/src/*"],
       "@domonda/plumb": ["domonda-plumb/src"],
-      "@domonda/plumb/*": ["domonda-plumb/src/*"]
+      "@domonda/plumb/*": ["domonda-plumb/src/*"],
+      "@domonda/query-params": ["domonda-query-params/src"],
+      "@domonda/query-params/*": ["domonda-query-params/src/*"]
     }
   },
   "exclude": ["node_modules"]
