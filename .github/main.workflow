@@ -39,7 +39,7 @@ action "build" {
 action "publish filter" {
   needs = "build"
   uses  = "actions/bin/filter@b2bea07"
-  args  = "tag @domonda*"
+  args  = "branch master"
 }
 
 action "publish" {
