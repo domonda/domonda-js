@@ -9,6 +9,7 @@ module.exports = {
     '^@domonda/form(.*)$': '<rootDir>/packages/domonda-form/src/$1',
     '^@domonda/react-form(.*)$': '<rootDir>/packages/domonda-react-form/src/$1',
     '^@domonda/plumb(.*)$': '<rootDir>/packages/domonda-plumb/src/$1',
+    '^@domonda/query-params(.*)$': '<rootDir>/packages/domonda-query-params/src/$1',
   },
   globals: {
     'ts-jest': {

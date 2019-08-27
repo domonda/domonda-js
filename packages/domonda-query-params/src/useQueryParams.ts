@@ -1,0 +1,102 @@
+/**
+ *
+ * useQueryParams
+ *
+ */
+
+import { useMemo, useRef, useState, useEffect, useContext } from 'react';
+import { QueryModel, parseQueryParams, stringify } from './queryParams';
+import { equal, shallowEqual } from './equality';
+import { QueryParamsContext } from './QueryParamsContext';
+
+export interface UseQueryParamsProps {
+  /**
+   * Parsed values will update only when the current pathname matches `onPathname`.
+   */
+  onPathname?: string;
+  /**
+   * Get the params once (only on mount).
+   */
+  once?: boolean;
+  /**
+   * Disables replacing the URL to match exactly the actual query paramaters.
+   */
+  disableReplace?: string;
+}
+
+export type UseQueryParamsReturn<T> = [T, (nextParams: T) => void];
+
+/**
+ * Parses the current URL query string following the `model`.
+ * Updating the params on every location change.
+ */
+export function useQueryParams<T>(
+  model: QueryModel<T>,
+  props: UseQueryParamsProps = {},
+): UseQueryParamsReturn<T> {
+  const history = useContext(QueryParamsContext);
+  if (!history) {
+    throw new Error(
+      '@domonda/query-params history not defined! Consider using `QueryParamsProvider` with the current `history` object.',
+    );
+  }
+
+  const { once, onPathname, disableReplace } = props;
+
+  const [{ pathname, search: queryString }, setLocation] = useState(history.location);
+
+  useEffect(() => {
+    if (!once) {
+      const unlisten = history.listen((loc) => setLocation(loc));
+      return unlisten;
+    }
+  }, [once]);
+
+  // we want to memoize the model so that we can memoize the query string parser
+  const memoModel = useShallowMemoOnValue(model);
+
+  // parse the query string on every query or model change change
+  const queryParams = useMemo(() => parseQueryParams(queryString, memoModel), [
+    queryString,
+    memoModel,
+  ]);
+
+  // update the values reference only on the locked pathname
+  const queryParamsRef = useRef<T>(queryParams);
+  if (!onPathname || onPathname === pathname) {
+    queryParamsRef.current = queryParams;
+  }
+
+  useEffect(() => {
+    if (!disableReplace) {
+      const actualQueryString = stringify(queryParamsRef.current, { prependQuestionMark: true });
+      if (actualQueryString !== history.location.search) {
+        history.replace({
+          search: actualQueryString,
+        });
+      }
+    }
+  }, [disableReplace, queryParamsRef.current]);
+
+  return [
+    queryParamsRef.current,
+    ((currParams: T) => (nextParams: T) => {
+      if (!equal(currParams, nextParams)) {
+        history.push({
+          // if we provided the onPathname, then updating the values should push to the route
+          pathname: onPathname ? onPathname : pathname,
+          search: stringify(nextParams),
+        });
+      }
+    })(queryParamsRef.current),
+  ];
+}
+
+// Memoizes the passed value by performing a shallow compare.
+export function useShallowMemoOnValue<T>(value: T): T {
+  const ref = useRef<T>(value);
+  if (!shallowEqual(ref.current, value)) {
+    ref.current = value;
+  }
+  return ref.current;
+}
