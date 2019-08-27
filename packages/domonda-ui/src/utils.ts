@@ -17,8 +17,10 @@ export function createChainedFunction(...funcs: ChainedFunction[]): (...args: an
       }
 
       return function chainedFunction(...args: any[]) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
         // @ts-ignore because of `this`
         acc.apply(this, args);
+        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
         // @ts-ignore because of `this`
         func.apply(this, args);
       };

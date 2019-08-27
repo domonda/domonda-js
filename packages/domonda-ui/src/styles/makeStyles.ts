@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore since `createUseStyles` is missing type definitions
 import { createUseStyles } from 'react-jss';
 import { Styles, ClassNameMap, ClassKeyOfStyles, PropsOfStyles } from './createStyles';

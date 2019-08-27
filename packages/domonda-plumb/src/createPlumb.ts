@@ -9,7 +9,7 @@ import { Subscriber, Transformer, ChainProps, PlumbProps, Plumb } from './Plumb'
 export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plumb<T> {
   const { transformer, skipInitialTransform } = props;
 
-  let disposeHandlers: (() => void)[] = [];
+  const disposeHandlers: (() => void)[] = [];
   let disposed = false;
   let internalState = initialState;
 
