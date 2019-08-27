@@ -61,6 +61,7 @@ export function setRef<T>(
   if (typeof ref === 'function') {
     ref(value);
   } else if (ref) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore because the `current` object is flagged as readonly
     ref.current = value;
   }
