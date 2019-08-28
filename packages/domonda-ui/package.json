@@ -32,8 +32,8 @@
     "url": "https://github.com/domonda/domonda-js/issues"
   },
   "peerDependencies": {
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0"
   },
   "dependencies": {
     "clsx": "^1.0.4",
