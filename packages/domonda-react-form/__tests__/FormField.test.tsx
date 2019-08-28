@@ -17,20 +17,6 @@ import get from 'lodash/get';
 import { render, cleanup } from '@testing-library/react';
 import { renderHook, act } from '@testing-library/react-hooks';
 
-/**
- * Suppress React 16.8 act() warnings globally.
- * The react teams fix won't be out of alpha until 16.9.0.
- * https://github.com/facebook/react/issues/14769#issuecomment-514589856
- */
-const consoleError = console.error;
-beforeAll(() => {
-  jest.spyOn(console, 'error').mockImplementation((...args) => {
-    if (!args[0].includes('Warning: An update to %s inside a test was not wrapped in act')) {
-      consoleError(...args);
-    }
-  });
-});
-
 afterEach(cleanup);
 
 interface DefaultValues {
