@@ -27,22 +27,8 @@ import {
 import { Form } from '../src/Form';
 
 // t
-import { renderHook, act } from '@testing-library/react-hooks';
-import { render, cleanup } from '@testing-library/react';
-
-/**
- * Suppress React 16.8 act() warnings globally.
- * The react teams fix won't be out of alpha until 16.9.0.
- * https://github.com/facebook/react/issues/14769#issuecomment-514589856
- */
-const consoleError = console.error;
-beforeAll(() => {
-  jest.spyOn(console, 'error').mockImplementation((...args) => {
-    if (!args[0].includes('Warning: An update to %s inside a test was not wrapped in act')) {
-      consoleError(...args);
-    }
-  });
-});
+import { renderHook, act as hookAct } from '@testing-library/react-hooks';
+import { render, cleanup, act } from '@testing-library/react';
 
 afterEach(cleanup);
 
@@ -175,7 +161,7 @@ describe('Selectors', () => {
 
     expect(result.current[0]).toBe(false);
 
-    act(() => {
+    hookAct(() => {
       field.setValue({ te: 'st' });
     });
 
@@ -198,7 +184,7 @@ describe('Updating', () => {
     expect(result.current[0]).toBe(get(form.values, path));
 
     const nextValue = { n: 'v' };
-    act(() => {
+    hookAct(() => {
       field.setValue(nextValue);
     });
 
@@ -374,7 +360,7 @@ describe('Updating', () => {
     }, 0);
   });
 
-  it('should correctly handle nested states with changed status default values update', async (done) => {
+  it('should correctly handle nested states with changed status default values update', async () => {
     const spy = jest.fn((_0) => null);
 
     let form: DomondaForm<DefaultValues>;
@@ -417,52 +403,50 @@ describe('Updating', () => {
       field.setValue('denis');
     });
 
-    await form.submit();
+    await act(async () => {
+      await form.submit();
+    });
 
-    setTimeout(() => {
-      rerender(
-        <Form onSubmit={submit} defaultValues={{ te: 'st' }} resetOnDefaultValuesChange>
-          <FormChangedState>
-            {(changed) => (
-              <FormSubmittingState>
-                {(submitting) => spy({ submitting, changed })}
-              </FormSubmittingState>
-            )}
-          </FormChangedState>
-        </Form>,
-      );
+    rerender(
+      <Form onSubmit={submit} defaultValues={{ te: 'st' }} resetOnDefaultValuesChange>
+        <FormChangedState>
+          {(changed) => (
+            <FormSubmittingState>
+              {(submitting) => spy({ submitting, changed })}
+            </FormSubmittingState>
+          )}
+        </FormChangedState>
+      </Form>,
+    );
 
-      expect(spy).toBeCalledTimes(6);
-      expect(spy.mock.calls[0][0]).toEqual({
-        submitting: false,
-        changed: false,
-      }); // init
-      expect(spy.mock.calls[1][0]).toEqual({
-        submitting: false,
-        changed: true,
-      }); // field.setValue
-      expect(spy.mock.calls[2][0]).toEqual({
-        submitting: true,
-        changed: true,
-      }); // form.submit
-      expect(spy.mock.calls[3][0]).toEqual({
-        submitting: false,
-        changed: true,
-      }); // react
-      expect(spy.mock.calls[4][0]).toEqual({
-        submitting: false,
-        changed: true,
-      }); // form.submit completes
-      expect(spy.mock.calls[5][0]).toEqual({
-        submitting: false,
-        changed: false,
-      }); // default values change
-
-      done();
-    }, 0);
+    expect(spy).toBeCalledTimes(6);
+    expect(spy.mock.calls[0][0]).toEqual({
+      submitting: false,
+      changed: false,
+    }); // init
+    expect(spy.mock.calls[1][0]).toEqual({
+      submitting: false,
+      changed: true,
+    }); // field.setValue
+    expect(spy.mock.calls[2][0]).toEqual({
+      submitting: true,
+      changed: true,
+    }); // form.submit
+    expect(spy.mock.calls[3][0]).toEqual({
+      submitting: false,
+      changed: true,
+    }); // react
+    expect(spy.mock.calls[4][0]).toEqual({
+      submitting: false,
+      changed: true,
+    }); // form.submit completes
+    expect(spy.mock.calls[5][0]).toEqual({
+      submitting: false,
+      changed: false,
+    }); // default values change
   });
 
-  it('should handle locked locked while submitting and changing default values', async (done) => {
+  it('should handle locked locked while submitting and changing default values', async () => {
     const spy = jest.fn((_0) => null);
 
     let form: DomondaForm<DefaultValues>;
@@ -499,24 +483,22 @@ describe('Updating', () => {
       field.setValue('denis');
     });
 
-    await form.submit();
+    await act(async () => {
+      await form.submit();
+    });
 
-    setTimeout(() => {
-      rerender(
-        <Form onSubmit={submit} defaultValues={{ te: 'st' }} resetOnDefaultValuesChange>
-          <FormLockedState>{spy}</FormLockedState>
-        </Form>,
-      );
+    rerender(
+      <Form onSubmit={submit} defaultValues={{ te: 'st' }} resetOnDefaultValuesChange>
+        <FormLockedState>{spy}</FormLockedState>
+      </Form>,
+    );
 
-      expect(spy).toBeCalledTimes(6);
-      expect(spy.mock.calls[0][0]).toBeTruthy(); // init
-      expect(spy.mock.calls[1][0]).toBeFalsy(); // changed
-      expect(spy.mock.calls[2][0]).toBeTruthy(); // form.submit
-      expect(spy.mock.calls[3][0]).toBeFalsy(); // react
-      expect(spy.mock.calls[4][0]).toBeFalsy(); // one more react cycle? not sure - needs investigating
-      expect(spy.mock.calls[5][0]).toBeTruthy(); // react
-
-      done();
-    }, 0);
+    expect(spy).toBeCalledTimes(6);
+    expect(spy.mock.calls[0][0]).toBeTruthy(); // init
+    expect(spy.mock.calls[1][0]).toBeFalsy(); // changed
+    expect(spy.mock.calls[2][0]).toBeTruthy(); // form.submit
+    expect(spy.mock.calls[3][0]).toBeFalsy(); // react
+    expect(spy.mock.calls[4][0]).toBeFalsy(); // one more react cycle? not sure - needs investigating
+    expect(spy.mock.calls[5][0]).toBeTruthy(); // react
   });
 });
