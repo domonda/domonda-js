@@ -113,8 +113,8 @@ export function createFormField<DefaultValues extends FormDefaultValues, Value>(
         return plumb.state.value;
       },
       setValue: (nextValue) => {
-        value = nextValue;
-        if (!shallowEqual(plumb.state.value, value)) {
+        if (!shallowEqual(plumb.state.value, nextValue)) {
+          value = nextValue;
           plumb.next({
             ...plumb.state,
             value: nextValue,
@@ -122,9 +122,9 @@ export function createFormField<DefaultValues extends FormDefaultValues, Value>(
         }
       },
       resetValue: () => {
-        defaultValue = plumb.state.defaultValue;
-        value = plumb.state.value;
-        if (!shallowEqual(value, defaultValue)) {
+        if (!shallowEqual(plumb.state.defaultValue, plumb.state.value)) {
+          defaultValue = plumb.state.defaultValue;
+          value = plumb.state.value;
           plumb.next({
             ...plumb.state,
             value: plumb.state.defaultValue,
