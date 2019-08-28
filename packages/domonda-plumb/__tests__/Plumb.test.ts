@@ -13,23 +13,26 @@ describe('Plumb', () => {
     it('should not be notified with initial state', () => {
       const plumb = createPlumb('');
 
-      const spy = jest.fn();
+      const spy1 = jest.fn();
+      const spy2 = jest.fn();
 
-      plumb.subscribe(spy);
+      plumb.subscribe(spy1);
+      plumb.subscribe({ next: spy2 });
 
-      expect(spy).toBeCalledTimes(0);
+      expect(spy1).not.toBeCalled();
+      expect(spy2).not.toBeCalled();
     });
 
     it('should serve current subscribers through subscribers', () => {
       const plumb = createPlumb('');
 
-      const spy1 = jest.fn();
-      const spy2 = jest.fn();
+      const spy = jest.fn();
+      const sub = { next: spy };
 
-      plumb.subscribe(spy1);
-      plumb.subscribe(spy2);
+      plumb.subscribe(spy);
+      plumb.subscribe(sub);
 
-      expect(plumb.subscribers).toEqual([spy1, spy2]);
+      expect(plumb.subscribers).toEqual([spy, sub]);
     });
 
     describe('dispose', () => {
