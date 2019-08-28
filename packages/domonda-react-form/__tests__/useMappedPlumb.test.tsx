@@ -6,21 +6,7 @@ import { createPlumb } from '@domonda/plumb';
 import { useMappedPlumb } from '../src/hooks/plumb';
 
 // t
-import { renderHook } from '@testing-library/react-hooks';
-
-/**
- * Suppress React 16.8 act() warnings globally.
- * The react teams fix won't be out of alpha until 16.9.0.
- * https://github.com/facebook/react/issues/14769#issuecomment-514589856
- */
-const consoleError = console.error;
-beforeAll(() => {
-  jest.spyOn(console, 'error').mockImplementation((...args) => {
-    if (!args[0].includes('Warning: An update to %s inside a test was not wrapped in act')) {
-      consoleError(...args);
-    }
-  });
-});
+import { renderHook, act } from '@testing-library/react-hooks';
 
 interface State {
   document: {
@@ -75,7 +61,9 @@ describe('Update', () => {
     const { result, waitForNextUpdate } = renderHook(() => useMappedPlumb(plumb, getDocument));
 
     // dispatch first
-    nextValues.forEach((value) => plumb.next(value));
+    act(() => {
+      nextValues.forEach((value) => plumb.next(value));
+    });
 
     // then wait for updates
     nextValues.forEach(async (value) => {
