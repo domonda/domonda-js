@@ -4,7 +4,7 @@
  *
  */
 
-import { Subscriber, Transformer, ChainProps, PlumbProps, Plumb } from './Plumb';
+import { Subscriber, Transformer, Selector, ChainProps, PlumbProps, Plumb, Tag } from './Plumb';
 
 export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plumb<T> {
   const { transformer, skipInitialTransform } = props;
@@ -14,7 +14,7 @@ export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plum
   let internalState = initialState;
 
   if (transformer && !skipInitialTransform) {
-    internalState = transformer(internalState);
+    internalState = transformer(internalState, undefined);
   }
 
   // when the chained plumb triggers next it internally transforms
@@ -38,7 +38,7 @@ export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plum
     };
   }
 
-  function next(state: T) {
+  function next(state: T, tag?: Tag) {
     if (disposed) {
       throw new Error('cannot send a value through a disposed plumb');
     }
@@ -48,25 +48,25 @@ export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plum
     // first do all extra transformers
     for (const transformer of transformers) {
       if (transformer !== skipTransformer) {
-        internalState = transformer(internalState);
+        internalState = transformer(internalState, tag);
       }
     }
 
     // then do main transformer
     if (transformer) {
-      internalState = transformer(internalState);
+      internalState = transformer(internalState, tag);
     }
 
     for (const subscriber of subscribers) {
       if (typeof subscriber === 'function') {
-        subscriber(internalState);
+        subscriber(internalState, tag);
       } else if (subscriber.next) {
-        subscriber.next(internalState);
+        subscriber.next(internalState, tag);
       }
     }
   }
 
-  function chain<K>(props: ChainProps<T, K>): Plumb<K> {
+  function chain<K>(props: ChainProps<T, K>, chainTag: Tag | undefined): Plumb<K> {
     if (disposed) {
       throw new Error('cannot chain a disposed plumb');
     }
@@ -83,18 +83,18 @@ export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plum
       state: internalState,
       selectedState: selector(internalState),
     };
-    function memoSelector(state: T): K {
+    const memoSelector: Selector<T, K> = (state) => {
       if (memoData.state !== state) {
         memoData.state = state;
         memoData.selectedState = selector(memoData.state);
       }
       return memoData.selectedState;
-    }
+    };
 
-    function parentTransformer(state: T) {
+    function parentTransformer(state: T, tag: Tag | undefined) {
       let selectedState = memoSelector(state);
       if (chainTransformer) {
-        selectedState = chainTransformer(selectedState);
+        selectedState = chainTransformer(selectedState, tag);
       }
       return updater(state, selectedState);
     }
@@ -105,36 +105,38 @@ export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plum
     let chainedNext = false; // next is triggered on the chained/child plump
 
     const chained = createPlumb(memoSelector(internalState), {
-      transformer: (selectedState) => {
+      transformer: (selectedState, tag) => {
         if (chainTransformer) {
           if (chainSkipInitialTransform && isInitialTransform) {
             // skip initial transform
           } else {
-            selectedState = chainTransformer(selectedState);
+            selectedState = chainTransformer(selectedState, tag);
           }
         }
-        isInitialTransform = false;
 
         if (!parentNext) {
           const nextState = updater(internalState, selectedState);
           if (internalState !== nextState) {
             chainedNext = true;
             skipTransformer = parentTransformer;
-            next(nextState);
+            next(nextState, isInitialTransform ? chainTag : tag);
             skipTransformer = null;
             chainedNext = false;
+
+            isInitialTransform = false;
             return memoSelector(internalState);
           }
         }
 
+        isInitialTransform = false;
         return selectedState;
       },
     });
 
-    const subscription = subscribe((state) => {
+    const subscription = subscribe((state, tag) => {
       if (!chainedNext) {
         const selectedState = memoSelector(state);
-        if (filter(selectedState)) {
+        if (filter(selectedState, tag)) {
           parentNext = true;
           chained.next(selectedState);
           parentNext = false;

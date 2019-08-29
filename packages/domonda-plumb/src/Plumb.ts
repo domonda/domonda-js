@@ -4,22 +4,24 @@
  *
  */
 
+export type Tag = string | number | boolean | Symbol;
+
 export interface Disposable {
   dispose: () => void;
 }
 
 export type Subscriber<T> =
-  | ((state: Readonly<T>) => void)
+  | ((state: Readonly<T>, tag: Tag | undefined) => void)
   | ({
       dispose?: () => void;
-      next?: (state: Readonly<T>) => void;
+      next?: (state: Readonly<T>, tag: Tag | undefined) => void;
     });
 
 export type Subscription = Disposable;
 
-export type Transformer<T> = (state: Readonly<T>) => T;
+export type Transformer<T> = (state: Readonly<T>, tag: Tag | undefined) => T;
 
-export type Filter<T> = (state: T) => boolean;
+export type Filter<T> = (state: T, tag: Tag | undefined) => boolean;
 
 export type Selector<T, K> = (state: Readonly<T>) => K;
 
@@ -40,7 +42,7 @@ export interface Plumb<T> extends Disposable {
   readonly state: T;
   readonly subscribers: Subscriber<T>[];
   readonly disposed: boolean;
-  chain: <K>(props: ChainProps<T, K>) => Plumb<K>;
-  next: (state: T) => void;
+  chain: <K>(props: ChainProps<T, K>, tag?: Tag) => Plumb<K>;
+  next: (state: T, tag?: Tag) => void;
   subscribe: (subscriber: Subscriber<T>) => Subscription;
 }
