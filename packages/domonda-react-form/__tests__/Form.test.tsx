@@ -177,6 +177,70 @@ describe('Updating', () => {
     expect(spy).toBeCalledTimes(1);
   });
 
+  it('should reset unchanged values on default values change', () => {
+    interface DefVals {
+      name: string;
+      other: {
+        details: {
+          title: string | null;
+          surname: string;
+        };
+      };
+    }
+    const defaultValues: DefVals = {
+      name: 'Denis',
+      other: {
+        details: {
+          title: null,
+          surname: 'Badurina',
+        },
+      },
+    };
+
+    let form: DomondaForm<DefVals>;
+
+    const { rerender } = render(
+      <Form defaultValues={defaultValues} getForm={(f) => (form = f)}>
+        <div />
+      </Form>,
+    );
+
+    // @ts-ignore because form should indeed be set here
+    if (!form) {
+      throw new Error('form instance should be set here!');
+    }
+
+    expect(form.state.values).toBe(defaultValues);
+
+    const [field] = form.makeFormField('other.details.title');
+    field.setValue('Mr.');
+
+    const nextDefaultValues: DefVals = {
+      name: 'John',
+      other: {
+        details: {
+          title: 'Not Mr.',
+          surname: 'Doe',
+        },
+      },
+    };
+    rerender(
+      <Form defaultValues={nextDefaultValues}>
+        <div />
+      </Form>,
+    );
+
+    expect(form.state.values).toEqual({
+      name: 'John', // resetted because the value hasn't changed
+      other: {
+        details: {
+          title: 'Mr.', // not resetted because the value changed
+          surname: 'Doe', // resetted because the value hasn't changed
+        },
+      },
+    });
+  });
+
   it('should reset on default values change when enabled', () => {
     let form: DomondaForm<DefaultValues>;
 

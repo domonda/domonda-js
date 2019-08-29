@@ -14,6 +14,8 @@ import {
   FormTag,
 } from '@domonda/form';
 import { shallowEqual } from 'fast-equals';
+import omit from 'lodash/fp/omit';
+import merge from 'lodash/fp/merge';
 
 export type FormProps<V extends FormDefaultValues> = FormConfig<V> &
   Omit<
@@ -77,11 +79,17 @@ export function Form<DefaultValues extends FormDefaultValues>(
 
   useEffect(() => {
     if (!shallowEqual(form.state.defaultValues, defaultValues)) {
+      const changedPaths = Object.keys(form.state.fields).filter(
+        (path) => form.state.fields[path].changed,
+      );
+
       form.plumb.next(
         {
           ...form.state,
           defaultValues,
-          values: resetOnDefaultValuesChange ? defaultValues : form.state.values,
+          values: resetOnDefaultValuesChange
+            ? defaultValues // hard reset to default values
+            : merge(form.state.values, omit(changedPaths, defaultValues)), // update values which haven't changed
         },
         FormTag.DEFAULT_VALUES_CHANGE,
       );
