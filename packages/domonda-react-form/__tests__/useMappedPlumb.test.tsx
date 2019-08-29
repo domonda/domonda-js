@@ -62,7 +62,7 @@ describe('Update', () => {
 
     // dispatch first
     act(() => {
-      nextValues.forEach((value) => plumb.next(value));
+      nextValues.forEach((value) => plumb.next(value, undefined));
     });
 
     // then wait for updates

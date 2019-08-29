@@ -20,12 +20,12 @@ export interface UsePlumbProps {
   setWithTimeout?: boolean;
 }
 
-export function usePlumb<T>(plumb: Plumb<T>, props: UsePlumbProps = {}): T {
+export function usePlumb<S, T>(plumb: Plumb<S, T>, props: UsePlumbProps = {}): S {
   const { setWithTimeout } = props;
 
   const [state, setState] = useState(() => plumb.state);
 
-  const stateRef = useRef<T>(state);
+  const stateRef = useRef<S>(state);
   if (stateRef.current !== state) {
     stateRef.current = state;
   }
@@ -59,9 +59,9 @@ export function usePlumb<T>(plumb: Plumb<T>, props: UsePlumbProps = {}): T {
   return state;
 }
 
-export function useMappedPlumb<T, K>(
-  plumb: Plumb<T>,
-  mapper: (state: T) => K,
+export function useMappedPlumb<S, K, T>(
+  plumb: Plumb<S, T>,
+  mapper: (state: S) => K,
   props: UsePlumbProps = {},
 ): K {
   const { setWithTimeout } = props;

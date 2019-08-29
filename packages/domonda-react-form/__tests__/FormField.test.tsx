@@ -10,7 +10,7 @@ import React from 'react';
 import { FormContext } from '../src/FormContext';
 import { Form } from '../src/Form';
 import { useFormField, UseFormFieldProps, FormField } from '../src/FormField';
-import { createForm, Form as DomondaForm } from '@domonda/form';
+import { createForm, Form as DomondaForm, FormTag } from '@domonda/form';
 import get from 'lodash/get';
 
 // t
@@ -110,14 +110,17 @@ describe('Update', () => {
     const nextValue = 'New denis';
 
     act(() => {
-      form.plumb.next({
-        ...form.plumb.state,
-        values: {
-          person: {
-            '1f!rst': [{ name: nextValue }],
+      form.plumb.next(
+        {
+          ...form.plumb.state,
+          values: {
+            person: {
+              '1f!rst': [{ name: nextValue }],
+            },
           },
         },
-      });
+        FormTag.VALUES_CHANGE,
+      );
     });
 
     expect(result.current.value).toBe(nextValue);

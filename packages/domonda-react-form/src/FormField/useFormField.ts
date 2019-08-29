@@ -25,7 +25,7 @@ export function useFormField<Value>(props: UseFormFieldProps<Value>): FormFieldA
 
   const { path, ...config } = memoProps;
 
-  const plumbRef = useRef<Plumb<any> | null>(null);
+  const plumbRef = useRef<Plumb<any, any> | null>(null);
   const [field] = useMemo(() => {
     // dispose on field change
     if (plumbRef.current && !plumbRef.current.disposed) {
@@ -47,7 +47,7 @@ export function useFormField<Value>(props: UseFormFieldProps<Value>): FormFieldA
     [],
   );
 
-  const state = usePlumb(field.plumb);
+  const state = usePlumb<any, any>(field.plumb);
 
   return {
     ...field,
