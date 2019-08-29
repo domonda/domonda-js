@@ -120,12 +120,12 @@ export function useFormMaskedField<Value extends string | number>(
   // check if the value changed by an outside effect, if so update the text mask input
   useEffect(() => {
     if (textMaskInput) {
-      let currConformedValues = conformedValue;
+      let currConformedValue = conformedValue;
 
       // remove the last character if it is the `numberDecimalSymbol`
-      const lastIndex = currConformedValues.length - 1;
-      if (currConformedValues[lastIndex] === numberDecimalSymbol) {
-        currConformedValues = currConformedValues.substring(0, lastIndex);
+      const lastIndex = currConformedValue.length - 1;
+      if (currConformedValue[lastIndex] === numberDecimalSymbol) {
+        currConformedValue = currConformedValue.substring(0, lastIndex);
       }
 
       const nextConformedValue = getConformedValue(
@@ -136,7 +136,7 @@ export function useFormMaskedField<Value extends string | number>(
         conformedValue,
       );
 
-      if (currConformedValues !== nextConformedValue) {
+      if (currConformedValue !== nextConformedValue) {
         textMaskInput.update(valueToString(formField.value));
         setConformedValue(nextConformedValue);
       }
