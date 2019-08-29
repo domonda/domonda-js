@@ -240,6 +240,39 @@ describe('Submitting', () => {
     }, 0);
   });
 
+  it('should auto-submit even if currently submitting', (done) => {
+    const spy = jest.fn((_0) => new Promise((resolve) => setTimeout(resolve, 0)));
+
+    const [form] = createForm(defaultValues, {
+      autoSubmit: true,
+      autoSubmitDelay: 0,
+      onSubmit: spy,
+    });
+
+    form.plumb.next(
+      {
+        ...form.state,
+        values: { '1': 2 },
+      },
+      FormTag.VALUES_CHANGE,
+    );
+
+    expect(form.state.submitting).toBeTruthy();
+
+    form.plumb.next(
+      {
+        ...form.state,
+        values: { '3': 4 },
+      },
+      FormTag.VALUES_CHANGE,
+    );
+
+    setTimeout(() => {
+      expect(spy).toBeCalledTimes(2);
+      done();
+    }, 0);
+  });
+
   it('should auto-submit after delay', (done) => {
     const spy = jest.fn();
 
