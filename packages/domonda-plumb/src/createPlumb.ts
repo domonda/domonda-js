@@ -4,9 +4,9 @@
  *
  */
 
-import { Subscriber, Transformer, Selector, ChainProps, PlumbProps, Plumb, Tag } from './Plumb';
+import { Subscriber, Transformer, Selector, ChainProps, PlumbProps, Plumb } from './Plumb';
 
-export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plumb<T> {
+export function createPlumb<S, T>(initialState: S, props: PlumbProps<S, T> = {}): Plumb<S, T> {
   const { transformer, skipInitialTransform } = props;
 
   const disposeHandlers: (() => void)[] = [];
@@ -20,12 +20,12 @@ export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plum
   // when the chained plumb triggers next it internally transforms
   // the value before sending it to next, this flag is used to
   // skip transforming the value twice
-  let skipTransformer: Transformer<T> | null = null;
+  let skipTransformer: Transformer<S, T> | null = null;
 
-  const transformers: Transformer<T>[] = [];
-  const subscribers: Subscriber<T>[] = [];
+  const transformers: Transformer<S, T>[] = [];
+  const subscribers: Subscriber<S, T>[] = [];
 
-  function subscribe(subscriber: Subscriber<T>) {
+  function subscribe(subscriber: Subscriber<S, T>) {
     if (disposed) {
       throw new Error('cannot subscribe to a disposed plumb');
     }
@@ -38,7 +38,7 @@ export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plum
     };
   }
 
-  function next(state: T, tag?: Tag) {
+  function next(state: S, tag: T) {
     if (disposed) {
       throw new Error('cannot send a value through a disposed plumb');
     }
@@ -66,7 +66,7 @@ export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plum
     }
   }
 
-  function chain<K>(props: ChainProps<T, K>, chainTag: Tag | undefined): Plumb<K> {
+  function chain<K>(props: ChainProps<S, K, T>, chainTag: T): Plumb<K, T> {
     if (disposed) {
       throw new Error('cannot chain a disposed plumb');
     }
@@ -83,7 +83,7 @@ export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plum
       state: internalState,
       selectedState: selector(internalState),
     };
-    const memoSelector: Selector<T, K> = (state) => {
+    const memoSelector: Selector<S, K> = (state) => {
       if (memoData.state !== state) {
         memoData.state = state;
         memoData.selectedState = selector(memoData.state);
@@ -91,7 +91,7 @@ export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plum
       return memoData.selectedState;
     };
 
-    function parentTransformer(state: T, tag: Tag | undefined) {
+    function parentTransformer(state: S, tag: T | undefined) {
       let selectedState = memoSelector(state);
       if (chainTransformer) {
         selectedState = chainTransformer(selectedState, tag);
@@ -104,7 +104,7 @@ export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plum
     let parentNext = false; // next is triggered by the parent plumb
     let chainedNext = false; // next is triggered on the chained/child plump
 
-    const chained = createPlumb(memoSelector(internalState), {
+    const chained = createPlumb<K, T>(memoSelector(internalState), {
       transformer: (selectedState, tag) => {
         if (chainTransformer) {
           if (chainSkipInitialTransform && isInitialTransform) {
@@ -119,7 +119,7 @@ export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plum
           if (internalState !== nextState) {
             chainedNext = true;
             skipTransformer = parentTransformer;
-            next(nextState, isInitialTransform ? chainTag : tag);
+            next(nextState, isInitialTransform ? (chainTag as any) : tag);
             skipTransformer = null;
             chainedNext = false;
 
@@ -138,7 +138,7 @@ export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plum
         const selectedState = memoSelector(state);
         if (filter(selectedState, tag)) {
           parentNext = true;
-          chained.next(selectedState);
+          chained.next(selectedState, tag);
           parentNext = false;
         }
       }
@@ -186,7 +186,7 @@ export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plum
     }
     disposeHandlers.splice(0, disposeHandlers.length);
 
-    internalState = (undefined as any) as T;
+    internalState = (undefined as any) as S;
     disposed = true;
   }
 
