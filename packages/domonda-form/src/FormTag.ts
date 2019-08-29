@@ -1,10 +1,11 @@
 /**
  *
- * tags
+ * FormTag
  *
  */
 
 export enum FormTag {
+  DEFAULT_VALUES_CHANGE,
   VALUES_CHANGE,
   VALUES_RESET,
   SUBMIT_ERROR_RESET,
