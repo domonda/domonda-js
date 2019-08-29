@@ -34,7 +34,7 @@ export function useFormDateField(props: UseFormDateFieldProps): FormDateFieldAPI
 
   const { required, path, ...config } = memoProps;
 
-  const plumbRef = useRef<Plumb<any> | null>(null);
+  const plumbRef = useRef<Plumb<any, any> | null>(null);
   const [field] = useMemo(() => {
     // dispose on field change
     if (plumbRef.current && !plumbRef.current.disposed) {

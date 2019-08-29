@@ -10,6 +10,7 @@ import { FormFieldValidityMessage } from './FormField';
 // form
 import { FormConfigRef, FormState, FormDefaultValues, FormConfig, Form, FormDispose } from './Form';
 import { createFormField } from './createFormField';
+import { FormTag } from './FormTag';
 
 const DEFAULT_AUTO_SUBMIT_DELAY = 300;
 
@@ -19,7 +20,7 @@ export function createForm<DefaultValues extends FormDefaultValues>(
 ): [Form<DefaultValues>, FormDispose] {
   const configRef = new FormConfigRef(initialConfig, handleSubmit);
 
-  const plumb = createPlumb<FormState<DefaultValues>>({
+  const plumb = createPlumb<FormState<DefaultValues>, FormTag>({
     defaultValues,
     values: defaultValues,
     fields: {},
@@ -33,8 +34,12 @@ export function createForm<DefaultValues extends FormDefaultValues>(
       let currState = plumb.state;
       let currTimeout: any;
 
-      plumb.subscribe((nextState) => {
+      plumb.subscribe((nextState, tag) => {
         (() => {
+          if (tag !== FormTag.FIELD_VALUE_CHANGE && tag !== FormTag.VALUES_CHANGE) {
+            return;
+          }
+
           if (nextState.submitting) {
             return;
           }
@@ -75,19 +80,25 @@ export function createForm<DefaultValues extends FormDefaultValues>(
     configRef,
     submit,
     reset: () => {
-      plumb.next({
-        ...plumb.state,
-        values: plumb.state.defaultValues,
-        submitting: false,
-        submitError: null,
-      });
+      plumb.next(
+        {
+          ...plumb.state,
+          values: plumb.state.defaultValues,
+          submitting: false,
+          submitError: null,
+        },
+        FormTag.VALUES_RESET,
+      );
     },
     resetSubmitError: () => {
-      plumb.next({
-        ...plumb.state,
-        submitting: false,
-        submitError: null,
-      });
+      plumb.next(
+        {
+          ...plumb.state,
+          submitting: false,
+          submitError: null,
+        },
+        FormTag.SUBMIT_ERROR_RESET,
+      );
     },
     makeFormField: (path, config) => createFormField(plumb, path, config),
   };
@@ -100,11 +111,14 @@ export function createForm<DefaultValues extends FormDefaultValues>(
         event.preventDefault();
       }
 
-      plumb.next({
-        ...plumb.state,
-        submitting: true,
-        submitError: null,
-      });
+      plumb.next(
+        {
+          ...plumb.state,
+          submitting: true,
+          submitError: null,
+        },
+        FormTag.SUBMIT,
+      );
 
       const { fields } = plumb.state;
       const validityMessages = Object.keys(fields).reduce(
@@ -119,10 +133,13 @@ export function createForm<DefaultValues extends FormDefaultValues>(
       );
 
       if (validityMessages.some((validityMessages) => validityMessages != null)) {
-        plumb.next({
-          ...plumb.state,
-          submitting: false,
-        });
+        plumb.next(
+          {
+            ...plumb.state,
+            submitting: false,
+          },
+          FormTag.SUBMIT,
+        );
         return;
       }
 
@@ -131,20 +148,26 @@ export function createForm<DefaultValues extends FormDefaultValues>(
         await onSubmit(plumb.state.values, form);
 
         if (!plumb.disposed) {
-          plumb.next({
-            ...plumb.state,
-            submitting: false,
-            values: resetOnSuccessfulSubmit ? plumb.state.defaultValues : plumb.state.values,
-          });
+          plumb.next(
+            {
+              ...plumb.state,
+              submitting: false,
+              values: resetOnSuccessfulSubmit ? plumb.state.defaultValues : plumb.state.values,
+            },
+            FormTag.SUBMIT,
+          );
         }
       } catch (error) {
         if (!plumb.disposed) {
-          plumb.next({
-            ...plumb.state,
-            submitting: false,
-            submitError: error,
-            values: resetOnFailedSubmit ? plumb.state.defaultValues : plumb.state.values,
-          });
+          plumb.next(
+            {
+              ...plumb.state,
+              submitting: false,
+              submitError: error,
+              values: resetOnFailedSubmit ? plumb.state.defaultValues : plumb.state.values,
+            },
+            FormTag.SUBMIT,
+          );
         }
       }
     }

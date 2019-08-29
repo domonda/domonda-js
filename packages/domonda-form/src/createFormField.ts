@@ -18,6 +18,7 @@ import {
   FormFieldConfig,
   FormFieldDispose,
 } from './FormField';
+import { FormTag } from './FormTag';
 
 function selector<T extends FormDefaultValues, V>(
   path: string,
@@ -46,7 +47,7 @@ function selector<T extends FormDefaultValues, V>(
 }
 
 export function createFormField<DefaultValues extends FormDefaultValues, Value>(
-  form: Plumb<FormState<DefaultValues>>,
+  form: Plumb<FormState<DefaultValues>, FormTag>,
   path: string, // [K in keyof FormDefaultValues]
   config: FormFieldConfig<Value> = {},
 ): [FormField<Value>, FormFieldDispose] {
@@ -56,50 +57,56 @@ export function createFormField<DefaultValues extends FormDefaultValues, Value>(
   let value: Value;
 
   let initialTransform = true;
-  const plumb = form.chain<FormFieldStateWithValues<Value>>({
-    selector: (state) => selector(path, state),
-    transformer: (selectedState) => {
-      const changed = !shallowEqual(selectedState.defaultValue, selectedState.value);
+  const plumb = form.chain<FormFieldStateWithValues<Value>>(
+    {
+      selector: (state) => selector(path, state),
+      transformer: (selectedState) => {
+        const changed = !shallowEqual(selectedState.defaultValue, selectedState.value);
 
-      let validityMessage = selectedState.validityMessage;
-      if (validate && (changed || (immediateValidate && initialTransform))) {
-        validityMessage = validate(selectedState.value);
-      }
+        let validityMessage = selectedState.validityMessage;
+        if (validate && (changed || (immediateValidate && initialTransform))) {
+          validityMessage = validate(selectedState.value);
+        }
 
-      initialTransform = false;
-      return {
-        ...selectedState,
-        changed,
-        validityMessage,
-      };
-    },
-    updater: (state, { changed, validityMessage, ...rest }) => ({
-      ...state,
-      values: setWith(clone, path, rest.value, form.state.values),
-      fields: {
-        ...form.state.fields,
-        [path]: {
-          validityMessage,
+        initialTransform = false;
+        return {
+          ...selectedState,
           changed,
-        },
+          validityMessage,
+        };
       },
-    }),
-    filter: (selectedState) => {
-      const changed =
-        !shallowEqual(value, selectedState.value) ||
-        !shallowEqual(defaultValue, selectedState.defaultValue);
-      defaultValue = selectedState.defaultValue;
-      value = selectedState.value;
-      return changed;
+      updater: (state, { changed, validityMessage, ...rest }) => ({
+        ...state,
+        values: setWith(clone, path, rest.value, form.state.values),
+        fields: {
+          ...form.state.fields,
+          [path]: {
+            validityMessage,
+            changed,
+          },
+        },
+      }),
+      filter: (selectedState) => {
+        const changed =
+          !shallowEqual(value, selectedState.value) ||
+          !shallowEqual(defaultValue, selectedState.defaultValue);
+        defaultValue = selectedState.defaultValue;
+        value = selectedState.value;
+        return changed;
+      },
     },
-  });
+    FormTag.CREATE_FIELD,
+  );
 
   plumb.subscribe({
     dispose: () => {
-      form.next({
-        ...form.state,
-        fields: omit(path, form.state.fields),
-      });
+      form.next(
+        {
+          ...form.state,
+          fields: omit(path, form.state.fields),
+        },
+        FormTag.DISPOSE_FIELD,
+      );
     },
   });
 
@@ -115,20 +122,26 @@ export function createFormField<DefaultValues extends FormDefaultValues, Value>(
       setValue: (nextValue) => {
         if (!shallowEqual(plumb.state.value, nextValue)) {
           value = nextValue;
-          plumb.next({
-            ...plumb.state,
-            value: nextValue,
-          });
+          plumb.next(
+            {
+              ...plumb.state,
+              value: nextValue,
+            },
+            FormTag.FIELD_VALUE_CHANGE,
+          );
         }
       },
       resetValue: () => {
         if (!shallowEqual(plumb.state.defaultValue, plumb.state.value)) {
           defaultValue = plumb.state.defaultValue;
           value = plumb.state.value;
-          plumb.next({
-            ...plumb.state,
-            value: plumb.state.defaultValue,
-          });
+          plumb.next(
+            {
+              ...plumb.state,
+              value: plumb.state.defaultValue,
+            },
+            FormTag.FIELD_VALUE_RESET,
+          );
         }
       },
     },

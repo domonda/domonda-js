@@ -1,4 +1,5 @@
 import { createForm } from '../src/createForm';
+import { FormTag } from '../src/FormTag';
 
 const defaultValues = {
   path: 'value',
@@ -66,16 +67,19 @@ describe('Submitting', () => {
       onSubmit: spy,
     });
 
-    form.plumb.next({
-      ...form.state,
-      fields: {
-        ...form.state.fields,
-        ['invalidField']: {
-          changed: false,
-          validityMessage: 'Failing!',
+    form.plumb.next(
+      {
+        ...form.state,
+        fields: {
+          ...form.state.fields,
+          ['invalidField']: {
+            changed: false,
+            validityMessage: 'Failing!',
+          },
         },
       },
-    });
+      FormTag.CREATE_FIELD,
+    );
 
     await form.submit();
 
@@ -91,7 +95,7 @@ describe('Submitting', () => {
       resetOnSuccessfulSubmit: true,
     });
 
-    form.plumb.next({ ...form.state, values: {} });
+    form.plumb.next({ ...form.state, values: {} }, FormTag.VALUES_CHANGE);
 
     await form.submit();
 
@@ -110,7 +114,7 @@ describe('Submitting', () => {
     });
 
     const nextValues = {} as any;
-    form.plumb.next({ ...form.state, values: nextValues });
+    form.plumb.next({ ...form.state, values: nextValues }, FormTag.VALUES_CHANGE);
 
     await form.submit();
 
@@ -128,10 +132,13 @@ describe('Submitting', () => {
       resetOnFailedSubmit: true,
     });
 
-    form.plumb.next({
-      ...form.state,
-      values: {} as any,
-    });
+    form.plumb.next(
+      {
+        ...form.state,
+        values: {} as any,
+      },
+      FormTag.VALUES_CHANGE,
+    );
 
     await form.submit();
 
@@ -148,7 +155,7 @@ describe('Submitting', () => {
     });
 
     const nextValues = {} as any;
-    form.plumb.next({ ...form.state, values: nextValues });
+    form.plumb.next({ ...form.state, values: nextValues }, FormTag.VALUES_CHANGE);
 
     await form.submit();
 
@@ -176,10 +183,13 @@ describe('Submitting', () => {
       onSubmit: spy,
     });
 
-    form.plumb.next({
-      ...form.state,
-      values: defaultValues,
-    });
+    form.plumb.next(
+      {
+        ...form.state,
+        values: defaultValues,
+      },
+      FormTag.VALUES_CHANGE,
+    );
 
     expect(spy).toBeCalledTimes(0);
     done();
@@ -195,15 +205,37 @@ describe('Submitting', () => {
     });
 
     const nextValues = {};
-    form.plumb.next({
-      ...form.state,
-      values: nextValues,
-    });
+    form.plumb.next(
+      {
+        ...form.state,
+        values: nextValues,
+      },
+      FormTag.VALUES_CHANGE,
+    );
 
     // submit is a promise, thats why we wrap with timeout
     setTimeout(() => {
       expect(spy).toBeCalledTimes(1);
       expect(spy.mock.calls[0][0]).toBe(nextValues);
+      done();
+    }, 0);
+  });
+
+  it('should auto-submit on field value change', (done) => {
+    const spy = jest.fn();
+
+    const [form] = createForm(defaultValues, {
+      autoSubmit: true,
+      autoSubmitDelay: 0,
+      onSubmit: spy,
+    });
+
+    const [field] = form.makeFormField('path');
+    field.setValue('trigger');
+
+    // submit is a promise, thats why we wrap with timeout
+    setTimeout(() => {
+      expect(spy).toBeCalledTimes(1);
       done();
     }, 0);
   });
@@ -219,10 +251,13 @@ describe('Submitting', () => {
     });
 
     const nextValues = {};
-    form.plumb.next({
-      ...form.state,
-      values: nextValues,
-    });
+    form.plumb.next(
+      {
+        ...form.state,
+        values: nextValues,
+      },
+      FormTag.VALUES_CHANGE,
+    );
 
     // submit is a promise, thats why we wrap with timeout
     setTimeout(() => {
@@ -242,10 +277,13 @@ describe('Submitting', () => {
     });
 
     const nextValues = {};
-    form.plumb.next({
-      ...form.state,
-      values: nextValues,
-    });
+    form.plumb.next(
+      {
+        ...form.state,
+        values: nextValues,
+      },
+      FormTag.VALUES_CHANGE,
+    );
 
     form.reset();
 
@@ -266,11 +304,14 @@ describe('Submitting', () => {
     });
 
     const nextValues = {};
-    form.plumb.next({
-      ...form.state,
-      defaultValues: nextValues,
-      values: nextValues,
-    });
+    form.plumb.next(
+      {
+        ...form.state,
+        defaultValues: nextValues,
+        values: nextValues,
+      },
+      FormTag.VALUES_CHANGE,
+    );
 
     // submit is a promise, thats why we wrap with timeout
     setTimeout(() => {
