@@ -4,7 +4,7 @@
  *
  */
 
-import { Subscriber, Transformer, Selector, ChainProps, PlumbProps, Plumb } from './Plumb';
+import { Subscriber, Transformer, Selector, ChainProps, PlumbProps, Plumb, Tag } from './Plumb';
 
 export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plumb<T> {
   const { transformer, skipInitialTransform } = props;
@@ -38,7 +38,7 @@ export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plum
     };
   }
 
-  function next(state: T, tag?: string) {
+  function next(state: T, tag?: Tag) {
     if (disposed) {
       throw new Error('cannot send a value through a disposed plumb');
     }
@@ -66,7 +66,7 @@ export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plum
     }
   }
 
-  function chain<K>(props: ChainProps<T, K>, chainTag: string | undefined): Plumb<K> {
+  function chain<K>(props: ChainProps<T, K>, chainTag: Tag | undefined): Plumb<K> {
     if (disposed) {
       throw new Error('cannot chain a disposed plumb');
     }
@@ -91,7 +91,7 @@ export function createPlumb<T>(initialState: T, props: PlumbProps<T> = {}): Plum
       return memoData.selectedState;
     };
 
-    function parentTransformer(state: T, tag: string | undefined) {
+    function parentTransformer(state: T, tag: Tag | undefined) {
       let selectedState = memoSelector(state);
       if (chainTransformer) {
         selectedState = chainTransformer(selectedState, tag);
