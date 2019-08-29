@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0](https://github.com/domonda/domonda-js/compare/@domonda/form@2.0.1...@domonda/form@2.1.0) (2019-08-29)
+
+
+### Bug Fixes
+
+* **FormField:** set internal values only on change ([2ba8c16](https://github.com/domonda/domonda-js/commit/2ba8c16))
+
+
+### Features
+
+* **equality:** use `fast-equals` ([e86cb8d](https://github.com/domonda/domonda-js/commit/e86cb8d))
+* **FormTag:** introduce and use plumb tags ([640672a](https://github.com/domonda/domonda-js/commit/640672a))
+* **submit:** autosubmit even if currently submitting ([1088a2e](https://github.com/domonda/domonda-js/commit/1088a2e))
+
+
+
+
+
 ## [2.0.1](https://github.com/domonda/domonda-js/compare/@domonda/form@2.0.0...@domonda/form@2.0.1) (2019-08-02)
 
 **Note:** Version bump only for package @domonda/form

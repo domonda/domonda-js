@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.1.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@3.0.2...@domonda/ui@3.1.0) (2019-08-29)
+
+
+### Features
+
+* **peerDeps:** require react@^16.9.0 ([ab92e0c](https://github.com/domonda/domonda-js/commit/ab92e0c))
+
+
+
+
+
 ## [3.0.2](https://github.com/domonda/domonda-js/compare/@domonda/ui@3.0.1...@domonda/ui@3.0.2) (2019-08-02)
 
 

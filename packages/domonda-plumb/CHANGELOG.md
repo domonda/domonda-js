@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0](https://github.com/domonda/domonda-js/compare/@domonda/plumb@2.0.1...@domonda/plumb@2.1.0) (2019-08-29)
+
+
+### Features
+
+* **equality:** use `fast-equals` ([e86cb8d](https://github.com/domonda/domonda-js/commit/e86cb8d))
+* **tags:** implement ([9202861](https://github.com/domonda/domonda-js/commit/9202861))
+* **tags:** introduce generics and require tags ([5c89552](https://github.com/domonda/domonda-js/commit/5c89552))
+
+
+
+
+
 ## [2.0.1](https://github.com/domonda/domonda-js/compare/@domonda/plumb@2.0.0...@domonda/plumb@2.0.1) (2019-08-02)
 
 **Note:** Version bump only for package @domonda/plumb

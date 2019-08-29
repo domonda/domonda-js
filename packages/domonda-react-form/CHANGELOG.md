@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0](https://github.com/domonda/domonda-js/compare/@domonda/react-form@2.0.1...@domonda/react-form@2.1.0) (2019-08-29)
+
+
+### Bug Fixes
+
+* **defaultValues:** reset unchanged values on default values change ([cb73c75](https://github.com/domonda/domonda-js/commit/cb73c75))
+* **FormMaskedField:** handle custom decimal symbol ([7ab24b2](https://github.com/domonda/domonda-js/commit/7ab24b2))
+
+
+### Features
+
+* **equality:** use `fast-equals` ([e86cb8d](https://github.com/domonda/domonda-js/commit/e86cb8d))
+* **FormDateField:** expose `inputRef` ([201f71d](https://github.com/domonda/domonda-js/commit/201f71d))
+* **peerDeps:** require react@^16.9.0 ([ab92e0c](https://github.com/domonda/domonda-js/commit/ab92e0c))
+
+
+
+
+
 ## [2.0.1](https://github.com/domonda/domonda-js/compare/@domonda/react-form@2.0.0...@domonda/react-form@2.0.1) (2019-08-02)
 
 **Note:** Version bump only for package @domonda/react-form
