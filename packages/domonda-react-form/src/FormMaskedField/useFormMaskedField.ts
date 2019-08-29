@@ -36,20 +36,24 @@ export interface FormMaskedFieldAPI<V extends string | number> extends FormField
   };
 }
 
-function valueToString(value: any): string {
+function valueToString(value: unknown, decimalSymbol: string | undefined): string {
+  if (decimalSymbol && typeof value === 'number') {
+    return String(value).replace('.', decimalSymbol);
+  }
   return !value && value !== 0 ? '' : String(value);
 }
 
 function getConformedValue(
   mask: Mask,
-  value: any,
+  value: unknown,
+  decimalSymbol?: string,
   guide?: boolean,
   placeholderChar?: string,
   previousConformedValue?: string,
 ) {
   return !value && value !== 0
     ? ''
-    : conformToMask(mask, valueToString(value), {
+    : conformToMask(mask, valueToString(value, decimalSymbol), {
         guide,
         placeholderChar,
         previousConformedValue,
@@ -75,7 +79,7 @@ export function useFormMaskedField<Value extends string | number>(
   const formField = useFormField<Value | null>(formFieldProps);
 
   const [conformedValue, setConformedValue] = useState<string>(
-    getConformedValue(mask, formField.value, guide, placeholderChar),
+    getConformedValue(mask, formField.value, numberDecimalSymbol, guide, placeholderChar),
   );
 
   const [inputEl, setInputEl] = useState<HTMLInputElement | null>(null);
@@ -131,17 +135,18 @@ export function useFormMaskedField<Value extends string | number>(
       const nextConformedValue = getConformedValue(
         mask,
         formField.value,
+        numberDecimalSymbol,
         guide,
         placeholderChar,
-        conformedValue,
+        currConformedValue,
       );
 
       if (currConformedValue !== nextConformedValue) {
-        textMaskInput.update(valueToString(formField.value));
+        textMaskInput.update(valueToString(formField.value, numberDecimalSymbol));
         setConformedValue(nextConformedValue);
       }
     }
-  }, [textMaskInput, formField.value, conformedValue]);
+  }, [textMaskInput, formField.value, conformedValue, numberDecimalSymbol]);
 
   const handleChange = useCallback<React.ChangeEventHandler<HTMLInputElement>>(
     ({ currentTarget }) => {
