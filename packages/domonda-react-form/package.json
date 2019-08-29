@@ -39,6 +39,7 @@
     "@domonda/plumb": "^2.0.1",
     "@domonda/ui": "^3.0.2",
     "clsx": "^1.0.4",
+    "fast-equals": "^2.0.0",
     "lodash.get": "^4.4.2",
     "react-datepicker": "^2.8.0",
     "text-mask-core": "^5.1.2"

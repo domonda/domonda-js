@@ -4,11 +4,12 @@
  *
  */
 
-import { Plumb, shallowEqual } from '@domonda/plumb';
+import { Plumb } from '@domonda/plumb';
 import get from 'lodash/get';
 import setWith from 'lodash/fp/setWith';
 import clone from 'lodash/fp/clone';
 import omit from 'lodash/fp/omit';
+import { shallowEqual } from 'fast-equals';
 
 // form
 import { FormDefaultValues, FormState, FormFieldState } from './Form';

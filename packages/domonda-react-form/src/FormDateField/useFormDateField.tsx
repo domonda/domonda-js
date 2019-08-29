@@ -91,7 +91,7 @@ export function useFormDateField(props: UseFormDateFieldProps): FormDateFieldAPI
             }
           }
         },
-        [field.setValue],
+        [field, inputEl],
       );
 
       const handleRef = useCallback(

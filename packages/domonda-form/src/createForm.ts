@@ -4,8 +4,9 @@
  *
  */
 
-import { createPlumb, equal } from '@domonda/plumb';
+import { createPlumb } from '@domonda/plumb';
 import { FormFieldValidityMessage } from './FormField';
+import { deepEqual } from 'fast-equals';
 
 // form
 import { FormConfigRef, FormState, FormDefaultValues, FormConfig, Form, FormDispose } from './Form';
@@ -41,8 +42,8 @@ export function createForm<DefaultValues extends FormDefaultValues>(
           }
 
           if (
-            equal(currState.values, nextState.values) ||
-            equal(nextState.defaultValues, nextState.values)
+            deepEqual(currState.values, nextState.values) ||
+            deepEqual(nextState.defaultValues, nextState.values)
           ) {
             return;
           }
