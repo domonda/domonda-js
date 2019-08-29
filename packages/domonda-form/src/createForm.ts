@@ -40,10 +40,6 @@ export function createForm<DefaultValues extends FormDefaultValues>(
             return;
           }
 
-          if (nextState.submitting) {
-            return;
-          }
-
           if (
             equal(currState.values, nextState.values) ||
             equal(nextState.defaultValues, nextState.values)
