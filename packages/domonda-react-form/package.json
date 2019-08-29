@@ -41,6 +41,8 @@
     "clsx": "^1.0.4",
     "fast-equals": "^2.0.0",
     "lodash.get": "^4.4.2",
+    "lodash.merge": "^4.6.2",
+    "lodash.omit": "^4.5.0",
     "react-datepicker": "^2.9.3",
     "text-mask-core": "^5.1.2"
   },
