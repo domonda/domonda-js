@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-use-before-define */
-
 export type ColorFormat = 'rgb' | 'rgba' | 'hsl' | 'hsla';
 
 export interface ColorObject {

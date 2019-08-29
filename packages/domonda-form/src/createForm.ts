@@ -17,7 +17,6 @@ export function createForm<DefaultValues extends FormDefaultValues>(
   defaultValues: DefaultValues = {} as DefaultValues,
   initialConfig: FormConfig<DefaultValues> = {},
 ): [Form<DefaultValues>, FormDispose] {
-  // eslint-disable-next-line @typescript-eslint/no-use-before-define
   const configRef = new FormConfigRef(initialConfig, handleSubmit);
 
   const plumb = createPlumb<FormState<DefaultValues>>({
@@ -52,11 +51,9 @@ export function createForm<DefaultValues extends FormDefaultValues>(
               clearTimeout(currTimeout);
             }
             currTimeout = setTimeout(() => {
-              // eslint-disable-next-line @typescript-eslint/no-use-before-define
               submit();
             }, autoSubmitDelay);
           } else {
-            // eslint-disable-next-line @typescript-eslint/no-use-before-define
             submit();
           }
         })();
@@ -76,7 +73,6 @@ export function createForm<DefaultValues extends FormDefaultValues>(
       return plumb.state.values;
     },
     configRef,
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
     submit,
     reset: () => {
       plumb.next({

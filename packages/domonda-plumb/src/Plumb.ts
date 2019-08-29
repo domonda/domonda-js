@@ -1,10 +1,10 @@
 /**
  *
- * Plumb.d
+ * Plumb
  *
  */
 
-export type Tag = string | number | boolean | Symbol;
+export type Tag = string | number | boolean | symbol;
 
 export interface Disposable {
   dispose: () => void;
