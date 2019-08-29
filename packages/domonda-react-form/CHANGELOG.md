@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.1](https://github.com/domonda/domonda-js/compare/@domonda/react-form@2.1.0...@domonda/react-form@2.1.1) (2019-08-29)
+
+
+### Bug Fixes
+
+* **Form:** expose submit handler type ([4835089](https://github.com/domonda/domonda-js/commit/4835089))
+
+
+
+
+
 # [2.1.0](https://github.com/domonda/domonda-js/compare/@domonda/react-form@2.0.1...@domonda/react-form@2.1.0) (2019-08-29)
 
 
