@@ -11,6 +11,7 @@ import {
   FormFieldDispose,
 } from './FormField';
 import { Plumb } from '@domonda/plumb';
+import { FormTag } from './FormTag';
 
 export class FormConfigRef<DefaultValues extends FormDefaultValues> {
   private submitHandler: (event: Event) => void;
@@ -93,7 +94,7 @@ export interface FormState<T extends FormDefaultValues> {
 }
 
 export interface Form<T extends FormDefaultValues> {
-  readonly plumb: Plumb<FormState<T>>;
+  readonly plumb: Plumb<FormState<T>, FormTag>;
   readonly state: FormState<T>;
   readonly values: T;
   configRef: FormConfigRef<T>;

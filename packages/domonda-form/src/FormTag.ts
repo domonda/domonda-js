@@ -1,0 +1,16 @@
+/**
+ *
+ * tags
+ *
+ */
+
+export enum FormTag {
+  VALUES_CHANGE,
+  VALUES_RESET,
+  SUBMIT_ERROR_RESET,
+  CREATE_FIELD,
+  DISPOSE_FIELD,
+  FIELD_VALUE_CHANGE,
+  FIELD_VALUE_RESET,
+  SUBMIT,
+}

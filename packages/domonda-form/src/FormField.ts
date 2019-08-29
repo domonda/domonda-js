@@ -6,6 +6,7 @@
 
 import { FormFieldState } from './Form';
 import { Plumb } from '@domonda/plumb';
+import { FormTag } from './FormTag';
 
 export interface FormFieldStateWithValues<T> extends FormFieldState {
   defaultValue: Readonly<T>;
@@ -22,7 +23,7 @@ export interface FormFieldConfig<T> {
 }
 
 export interface FormField<T> {
-  readonly plumb: Plumb<FormFieldStateWithValues<T>>;
+  readonly plumb: Plumb<FormFieldStateWithValues<T>, FormTag>;
   readonly state: FormFieldStateWithValues<T>;
   readonly value: T;
   setValue: (value: T) => void;
