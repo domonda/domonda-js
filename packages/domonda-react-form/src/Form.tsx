@@ -13,7 +13,7 @@ import {
   FormDefaultValues,
   FormTag,
 } from '@domonda/form';
-import { shallowEqual } from '@domonda/plumb';
+import { shallowEqual } from 'fast-equals';
 
 export type FormProps<V extends FormDefaultValues> = FormConfig<V> &
   Omit<

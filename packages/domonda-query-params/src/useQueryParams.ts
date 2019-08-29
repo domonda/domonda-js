@@ -6,8 +6,8 @@
 
 import { useMemo, useRef, useState, useEffect, useContext } from 'react';
 import { QueryModel, parseQueryParams, stringify } from './queryParams';
-import { equal, shallowEqual } from './equality';
 import { QueryParamsContext } from './QueryParamsContext';
+import { deepEqual, shallowEqual } from 'fast-equals';
 
 export interface UseQueryParamsProps {
   /**
@@ -81,7 +81,7 @@ export function useQueryParams<T>(
   return [
     queryParamsRef.current,
     ((currParams: T) => (nextParams: T) => {
-      if (!equal(currParams, nextParams)) {
+      if (!deepEqual(currParams, nextParams)) {
         history.push({
           // if we provided the onPathname, then updating the values should push to the route
           pathname: onPathname ? onPathname : pathname,

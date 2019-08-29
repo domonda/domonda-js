@@ -7,7 +7,8 @@
  */
 
 import { useState, useLayoutEffect, useRef } from 'react';
-import { Plumb, shallowEqual } from '@domonda/plumb';
+import { Plumb } from '@domonda/plumb';
+import { shallowEqual } from 'fast-equals';
 
 export interface UsePlumbProps {
   /**
