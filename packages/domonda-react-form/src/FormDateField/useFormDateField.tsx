@@ -18,10 +18,10 @@ export interface UseFormDateFieldProps extends UseFormFieldProps<Date | string |
   required?: boolean;
 }
 
-export type FormDateFieldDateInputProps = Omit<
-  DateInputProps,
-  'required' | 'selected' | 'onChange'
->;
+export interface FormDateFieldDateInputProps
+  extends Omit<DateInputProps, 'required' | 'selected' | 'onChange'> {
+  inputRef?: React.Ref<HTMLInputElement>;
+}
 
 export interface FormDateFieldAPI extends FormFieldAPI<Date | string | null> {
   DateInput: React.FC<FormDateFieldDateInputProps>;
@@ -62,6 +62,7 @@ export function useFormDateField(props: UseFormDateFieldProps): FormDateFieldAPI
       className,
       popperClassName,
       calendarClassName,
+      inputRef,
       ...rest
     }) => {
       const { value, validityMessage } = usePlumb(field.plumb);
@@ -93,11 +94,21 @@ export function useFormDateField(props: UseFormDateFieldProps): FormDateFieldAPI
         [field.setValue],
       );
 
-      const handleRef = useCallback((dateInput: any) => {
-        if (dateInput) {
-          setInputEl(dateInput.input || null);
-        }
-      }, []);
+      const handleRef = useCallback(
+        (dateInput: any) => {
+          if (dateInput) {
+            setInputEl(dateInput.input || null);
+
+            if (typeof inputRef === 'function') {
+              inputRef(dateInput.input || null);
+            } else if (inputRef && inputRef.current) {
+              (inputRef as React.MutableRefObject<HTMLInputElement>).current =
+                dateInput.input || null;
+            }
+          }
+        },
+        [inputRef],
+      );
 
       return (
         <DateInput
