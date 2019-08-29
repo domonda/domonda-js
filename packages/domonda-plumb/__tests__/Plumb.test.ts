@@ -129,7 +129,10 @@ describe('Plumb', () => {
       const handledState = { second: 2 };
       const transformer = jest.fn((_0) => handledState);
 
-      const plumb = createPlumb({}, { transformer, skipInitialTransform: true });
+      const plumb = createPlumb<{ [key: string]: any }, undefined>(
+        {},
+        { transformer, skipInitialTransform: true },
+      );
 
       const subscriber = jest.fn();
       plumb.subscribe(subscriber);

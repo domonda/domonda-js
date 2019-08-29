@@ -1,7 +1,7 @@
 import { createForm } from '../src/createForm';
 import { FormTag } from '../src/FormTag';
 
-const defaultValues = {
+const defaultValues: { [key: string]: any } = {
   path: 'value',
 };
 
