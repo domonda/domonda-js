@@ -16,6 +16,7 @@ import {
 import { shallowEqual } from 'fast-equals';
 import omit from 'lodash/fp/omit';
 import merge from 'lodash/fp/merge';
+export { FormSubmitHandler } from '@domonda/form';
 
 export type FormProps<V extends FormDefaultValues> = FormConfig<V> &
   Omit<
