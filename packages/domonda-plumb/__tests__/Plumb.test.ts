@@ -78,7 +78,7 @@ describe('Plumb', () => {
         subscription.dispose();
 
         [1, 2, 3].forEach((index) => {
-          plumb.next(index.toString());
+          plumb.next(index.toString(), undefined);
         });
 
         expect(plumb.subscribers).toEqual([...others, ...others]);
@@ -135,7 +135,7 @@ describe('Plumb', () => {
       plumb.subscribe(subscriber);
 
       const nextState = { first: 1 };
-      plumb.next(nextState);
+      plumb.next(nextState, undefined);
 
       expect(transformer).toBeCalledTimes(1);
       expect(transformer.mock.calls[0][0]).toBe(nextState);
@@ -174,10 +174,13 @@ describe('Plumb', () => {
       const spy = jest.fn();
       plumb.subscribe(spy);
 
-      const person = plumb.chain({
-        selector,
-        updater: () => initialState,
-      });
+      const person = plumb.chain(
+        {
+          selector,
+          updater: () => initialState,
+        },
+        undefined,
+      );
 
       expect(spy).toBeCalledTimes(0);
       expect(plumb.subscribers.length).toBe(2); // spy subscription and the chain
@@ -200,14 +203,17 @@ describe('Plumb', () => {
         done();
       });
 
-      const person = plumb.chain({
-        selector,
-        updater: () => {
-          return {
-            people: [jane],
-          };
+      const person = plumb.chain(
+        {
+          selector,
+          updater: () => {
+            return {
+              people: [jane],
+            };
+          },
         },
-      });
+        undefined,
+      );
       person.subscribe(spy);
 
       expect(person.state).toBe(jane);
@@ -221,10 +227,13 @@ describe('Plumb', () => {
           people: [personState],
         };
       });
-      const person = plumb.chain({
-        selector,
-        updater,
-      });
+      const person = plumb.chain(
+        {
+          selector,
+          updater,
+        },
+        undefined,
+      );
 
       const plumbSpy = jest.fn((_0) => {});
       plumb.subscribe(plumbSpy);
@@ -237,7 +246,7 @@ describe('Plumb', () => {
       const personSpy = jest.fn((_0) => {});
       person.subscribe(personSpy);
 
-      person.next(jane);
+      person.next(jane, undefined);
 
       expect(updater).toBeCalledTimes(2); // initially and on update
       expect(selector(plumb.state)).toBe(jane);
@@ -284,10 +293,13 @@ describe('Plumb', () => {
         };
       });
 
-      const person = plumb.chain({
-        selector,
-        updater,
-      });
+      const person = plumb.chain(
+        {
+          selector,
+          updater,
+        },
+        undefined,
+      );
 
       const plumbSubscriber = jest.fn();
       plumb.subscribe(plumbSubscriber);
@@ -295,9 +307,12 @@ describe('Plumb', () => {
       const personSubscriber = jest.fn();
       person.subscribe(personSubscriber);
 
-      plumb.next({
-        people: [],
-      });
+      plumb.next(
+        {
+          people: [],
+        },
+        undefined,
+      );
 
       expect(updater).toBeCalledTimes(2); // initially and on update
       expect(plumbSubscriber).toBeCalledTimes(1);
@@ -314,14 +329,17 @@ describe('Plumb', () => {
       const john = selector(plumb.state);
 
       const updater = jest.fn((state) => state);
-      const person = plumb.chain({
-        selector,
-        updater,
-        filter: (person, tag) => {
-          expect(tag).toBe('next');
-          return person === john;
+      const person = plumb.chain(
+        {
+          selector,
+          updater,
+          filter: (person, tag) => {
+            expect(tag).toBe('next');
+            return person === john;
+          },
         },
-      });
+        undefined,
+      );
 
       const spy = jest.fn();
       person.subscribe(spy);
@@ -350,17 +368,23 @@ describe('Plumb', () => {
       const updater = jest.fn((state) => state);
       const transformer = jest.fn((selectedState) => selectedState);
 
-      const person = plumb.chain({
-        selector,
-        updater,
-        transformer,
-        skipInitialTransform: true,
-      });
+      const person = plumb.chain(
+        {
+          selector,
+          updater,
+          transformer,
+          skipInitialTransform: true,
+        },
+        undefined,
+      );
 
-      person.next({
-        id: '2',
-        name: 'Jane',
-      });
+      person.next(
+        {
+          id: '2',
+          name: 'Jane',
+        },
+        undefined,
+      );
 
       expect(updater).toBeCalledTimes(2);
       expect(transformer).toBeCalledTimes(1); // on next only
@@ -380,16 +404,22 @@ describe('Plumb', () => {
         return selectedState;
       });
 
-      const person = plumb.chain({
-        selector,
-        updater,
-        transformer,
-      });
+      const person = plumb.chain(
+        {
+          selector,
+          updater,
+          transformer,
+        },
+        undefined,
+      );
 
-      person.next({
-        id: '2',
-        name: 'Jane',
-      });
+      person.next(
+        {
+          id: '2',
+          name: 'Jane',
+        },
+        undefined,
+      );
 
       expect(order).toEqual([1, 2, 1, 2]);
     });
@@ -413,10 +443,13 @@ describe('Plumb', () => {
         const selectorSpy = jest.fn((val) => val);
         const updaterSpy = jest.fn((val) => val);
 
-        const person = plumb.chain({
-          selector: selectorSpy,
-          updater: updaterSpy,
-        });
+        const person = plumb.chain(
+          {
+            selector: selectorSpy,
+            updater: updaterSpy,
+          },
+          undefined,
+        );
 
         const chainSpies = [
           {
@@ -434,7 +467,7 @@ describe('Plumb', () => {
         ];
 
         chainSpies.forEach((spy) => {
-          plumb.chain(spy);
+          plumb.chain(spy, undefined);
         });
 
         const personDisposeSpy = jest.fn();
@@ -443,7 +476,7 @@ describe('Plumb', () => {
         person.dispose();
 
         [1, 2, 3].forEach((index) => {
-          plumb.next(index as any);
+          plumb.next(index as any, undefined);
         });
 
         expect(plumbSubscriber.dispose).toBeCalledTimes(0);
@@ -470,35 +503,44 @@ describe('Plumb', () => {
 
         const disposeSpy = jest.fn();
 
-        const person1 = plumb.chain({
-          selector,
-          updater: () => initialState,
-        });
+        const person1 = plumb.chain(
+          {
+            selector,
+            updater: () => initialState,
+          },
+          undefined,
+        );
         person1.subscribe({ dispose: disposeSpy });
 
-        const person2 = plumb.chain({
-          selector,
-          updater: () => initialState,
-        });
+        const person2 = plumb.chain(
+          {
+            selector,
+            updater: () => initialState,
+          },
+          undefined,
+        );
         person2.subscribe({ dispose: disposeSpy });
 
-        const person3 = plumb.chain({
-          selector,
-          updater: () => initialState,
-        });
+        const person3 = plumb.chain(
+          {
+            selector,
+            updater: () => initialState,
+          },
+          undefined,
+        );
         person3.subscribe({ dispose: disposeSpy });
 
         plumb.dispose();
 
         expect(disposeSpy).toBeCalledTimes(3);
         expect(() => {
-          person1.next(0 as any);
+          person1.next(0 as any, undefined);
         }).toThrow();
         expect(() => {
-          person2.next(0 as any);
+          person2.next(0 as any, undefined);
         }).toThrow();
         expect(() => {
-          person3.next(0 as any);
+          person3.next(0 as any, undefined);
         }).toThrow();
       });
 
@@ -506,10 +548,13 @@ describe('Plumb', () => {
         const state = {};
         const plumb = createPlumb(state);
 
-        const child = plumb.chain({
-          selector: (state) => state,
-          updater: (state) => state,
-        });
+        const child = plumb.chain(
+          {
+            selector: (state) => state,
+            updater: (state) => state,
+          },
+          undefined,
+        );
 
         child.subscribe({
           dispose: () => {
@@ -547,8 +592,8 @@ describe('Plumb', () => {
       expect(() => {
         plumb.subscribers;
       }).toThrow();
-      expect(() => plumb.chain({ selector: () => {}, updater: () => '' })).toThrow();
-      expect(() => plumb.next('')).toThrow();
+      expect(() => plumb.chain({ selector: () => {}, updater: () => '' }, undefined)).toThrow();
+      expect(() => plumb.next('', undefined)).toThrow();
       expect(() => plumb.subscribe(() => {})).toThrow();
       expect(() => plumb.dispose()).toThrow();
     });
