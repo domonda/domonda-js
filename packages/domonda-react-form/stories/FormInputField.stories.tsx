@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { Form, FormState, FormInputField, FormDateField } from '../src';
+import { Form, FormState, FormInputField, FormDateField, FormNumberField } from '../src';
 
 const stories = storiesOf('FormInputField', module);
 
@@ -34,6 +34,16 @@ stories.add('Basic', () => (
       </FormInputField>
     </p>
     <FormDateField path="birthday">{({ DateInput }) => <DateInput />}</FormDateField>
+    <p>
+      <FormNumberField path="num" thousandsSeparatorSymbol="." decimalSymbol=",">
+        {({ inputProps }) => (
+          <>
+            <label>Num:</label>
+            <input {...inputProps} />
+          </>
+        )}
+      </FormNumberField>
+    </p>
     <p>
       <button type="submit">Submit</button>
     </p>
