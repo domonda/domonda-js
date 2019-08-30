@@ -1,35 +1,28 @@
 on: push
 name: Workflow
 jobs:
-  install:
+  job:
+    name: Continuous Integration
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - name: install
-        uses: actions/npm@master
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Setup node
+        uses: actions/setup-node@v1
         with:
-          args: ci
-      - name: bootstrap
-        uses: actions/npm@master
-        with:
-          args: run bootstrap -- --ci
-      - name: test
-        uses: actions/npm@master
-        with:
-          args: t
-      - name: lint
-        uses: actions/npm@master
-        with:
-          args: run lint
-      - name: build
-        uses: actions/npm@master
-        with:
-          args: run build
-      - name: publish filter
-        uses: actions/bin/filter@master
-        with:
-          args: branch master
-      - name: publish
+          node-version: '11.x'
+      - name: Install
+        run: npm ci
+      - name: Bootstrap
+        run: npm run bootstrap -- --ci
+      - name: Lint
+        run: npm run lint
+      - name: Test
+        run: npm t
+      - name: Build
+        run: npm run build
+      - name: Publish on npm
+        if: github.ref == 'refs/heads/master'
         uses: ./.github/actions/publish
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
