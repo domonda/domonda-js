@@ -21,7 +21,7 @@ export interface UseQueryParamsProps {
   /**
    * Disables replacing the URL to match exactly the actual query paramaters.
    */
-  disableReplace?: string;
+  disableReplace?: boolean;
 }
 
 export type UseQueryParamsReturn<T> = [T, (nextParams: T) => void];
