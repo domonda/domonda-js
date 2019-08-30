@@ -43,9 +43,20 @@ export function useQueryParams<T>(
 
   const { once, onPathname, disableReplace } = props;
 
-  const [{ pathname, search: queryString }, setLocation] = useState(history.location);
+  const [location, setLocation] = useState(history.location);
+  const { pathname, search: queryString } = location;
 
   useEffect(() => {
+    // guarantee history location consistency. sometimes
+    // history gets updated before the effect is even
+    // called, this results in stale location state.
+    // to avoid having such states, we compare the location
+    // on every effect call and update local state
+    if (history.location !== location) {
+      // TODO-db-190830 write tests for the above mentioned case
+      setLocation(history.location);
+    }
+
     if (!once) {
       const unlisten = history.listen((loc) => setLocation(loc));
       return unlisten;
