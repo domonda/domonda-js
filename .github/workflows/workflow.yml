@@ -19,6 +19,8 @@ jobs:
         run: npm run lint
       - name: Test
         run: npm t
+      - name: Set unsafe perm
+        run: npm config set unsafe-perm true
       - name: Build
         run: npm run build
       - name: Publish on npm
