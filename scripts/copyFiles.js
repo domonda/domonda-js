@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 const path = require('path');
-const os = require('os');
 const fse = require('fs-extra');
 const pick = require('lodash/pick');
 const rimraf = require('rimraf');
@@ -74,7 +73,7 @@ async function flattenLib() {
   }
 
   // move lib to tmpdir
-  const tmpLibDir = await fse.mkdtemp(os.tmpdir());
+  const tmpLibDir = await fse.mkdtemp(packagePath);
   await fse.move(path.resolve(libDir), tmpLibDir, { overwrite: true });
 
   // clear files in contents directory
