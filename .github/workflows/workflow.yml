@@ -1,0 +1,37 @@
+on: push
+name: Workflow
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: install
+        uses: actions/npm@master
+        with:
+          args: ci
+      - name: bootstrap
+        uses: actions/npm@master
+        with:
+          args: run bootstrap -- --ci
+      - name: test
+        uses: actions/npm@master
+        with:
+          args: t
+      - name: lint
+        uses: actions/npm@master
+        with:
+          args: run lint
+      - name: build
+        uses: actions/npm@master
+        with:
+          args: run build
+      - name: publish filter
+        uses: actions/bin/filter@master
+        with:
+          args: branch master
+      - name: publish
+        uses: ./.github/actions/publish
+        env:
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+        with:
+          args: '"run publish -- --yes"'
