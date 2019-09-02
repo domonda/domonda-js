@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.2.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@3.1.0...@domonda/ui@3.2.0) (2019-09-02)
+
+
+### Bug Fixes
+
+* **transition:** correct getTransitionProps return type ([d947360](https://github.com/domonda/domonda-js/commit/d947360))
+
+
+### Features
+
+* **Backdrop:** introduce ([4ec297f](https://github.com/domonda/domonda-js/commit/4ec297f))
+* **Dialog:** introduce ([e2770dc](https://github.com/domonda/domonda-js/commit/e2770dc))
+* **Fade:** introduce ([16dfc33](https://github.com/domonda/domonda-js/commit/16dfc33))
+* **Modal:** introduce ([44c0891](https://github.com/domonda/domonda-js/commit/44c0891))
+* **Paper:** introduce ([6beeabd](https://github.com/domonda/domonda-js/commit/6beeabd))
+* **react-transition-group:** introduce & extend ([ae4e35e](https://github.com/domonda/domonda-js/commit/ae4e35e))
+* **theme:** introduce zIndex ([50f9ae0](https://github.com/domonda/domonda-js/commit/50f9ae0))
+
+
+
+
+
 # [3.1.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@3.0.2...@domonda/ui@3.1.0) (2019-08-29)
 
 
