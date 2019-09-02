@@ -63,3 +63,7 @@ export const SimpleBackdrop = React.forwardRef<HTMLDivElement, SimpleBackdropPro
     ) : null;
   },
 );
+
+if (process.env.NODE_ENV !== 'production') {
+  SimpleBackdrop.displayName = 'SimpleBackdrop';
+}

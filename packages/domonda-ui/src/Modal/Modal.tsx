@@ -19,10 +19,12 @@ import { BackdropProps } from '../Backdrop';
 
 function getContainer(container: any) {
   container = typeof container === 'function' ? container() : container;
+  // eslint-disable-next-line react/no-find-dom-node
   return ReactDOM.findDOMNode(container);
 }
 
 function getHasTransition(props: any): boolean {
+  // eslint-disable-next-line no-prototype-builtins
   return props.children ? props.children.props.hasOwnProperty('in') : false;
 }
 

@@ -12,25 +12,6 @@ import { createStyles, withStyles, WithStyles } from '../styles';
 import { TransitionProps } from 'react-transition-group/Transition';
 import { Fade } from '../Fade';
 
-// extends Partial<FadeProps>
-export interface BackdropProps extends React.HTMLAttributes<HTMLDivElement> {
-  classes?: WithStyles<typeof styles>['classes'];
-  /**
-   * If `true`, the backdrop is invisible.
-   * It can be used when rendering a popover or a custom select component.
-   */
-  invisible?: boolean;
-  /**
-   * If `true`, the backdrop is open.
-   */
-  open: boolean;
-  /**
-   * The duration for the transition, in milliseconds.
-   * You may specify a single timeout for all transitions, or individually with an object.
-   */
-  transitionDuration?: TransitionProps['timeout'];
-}
-
 const styles = createStyles({
   /* Styles applied to the root element. */
   root: {
@@ -55,6 +36,26 @@ const styles = createStyles({
   },
 });
 
+// TODO-db-190902 extend FadeProps
+
+export interface BackdropProps extends React.HTMLAttributes<HTMLDivElement> {
+  classes?: WithStyles<typeof styles>['classes'];
+  /**
+   * If `true`, the backdrop is invisible.
+   * It can be used when rendering a popover or a custom select component.
+   */
+  invisible?: boolean;
+  /**
+   * If `true`, the backdrop is open.
+   */
+  open: boolean;
+  /**
+   * The duration for the transition, in milliseconds.
+   * You may specify a single timeout for all transitions, or individually with an object.
+   */
+  transitionDuration?: TransitionProps['timeout'];
+}
+
 const Backdrop = React.forwardRef<HTMLDivElement, BackdropProps & WithStyles<typeof styles>>(
   function Backdrop(props, ref) {
     const {
@@ -68,7 +69,7 @@ const Backdrop = React.forwardRef<HTMLDivElement, BackdropProps & WithStyles<typ
     } = props;
 
     return (
-      <Fade in={open} timeout={transitionDuration} {...other}>
+      <Fade in={open} timeout={transitionDuration} {...(other as any)}>
         <div
           data-mui-test="Backdrop"
           className={clsx(
@@ -87,6 +88,10 @@ const Backdrop = React.forwardRef<HTMLDivElement, BackdropProps & WithStyles<typ
     );
   },
 );
+
+if (process.env.NODE_ENV !== 'production') {
+  Backdrop.displayName = 'Backdrop';
+}
 
 const StyledBackdrop = withStyles(styles)(Backdrop);
 export { StyledBackdrop as Backdrop };

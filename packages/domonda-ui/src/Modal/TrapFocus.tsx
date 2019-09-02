@@ -70,6 +70,7 @@ export function TrapFocus(props: TrapFocusProps) {
   // can be removed once we drop support for non ref forwarding class components
   const handleOwnRef = React.useCallback((instance) => {
     // #StrictMode ready
+    // eslint-disable-next-line react/no-find-dom-node
     rootRef.current = ReactDOM.findDOMNode(instance) as HTMLElement | null;
   }, []);
   const handleRef = useForkRef(children.ref, handleOwnRef);
@@ -82,7 +83,7 @@ export function TrapFocus(props: TrapFocusProps) {
     }
 
     nodeToRestore.current = getDoc().activeElement as HTMLElement | null;
-  }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [open]);
 
   React.useEffect(() => {
     if (!open) {

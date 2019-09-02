@@ -87,6 +87,7 @@ export function useEventCallback<T extends Function>(fn: T): T {
   useEnhancedEffect(() => {
     ref.current = fn;
   });
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
   return React.useCallback((event) => (0, ref.current)(event), []);
 }
