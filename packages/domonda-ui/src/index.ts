@@ -20,3 +20,8 @@ export * from './Autocomplete';
 export * from './Divider';
 export * from './Box';
 export * from './Row';
+export * from './Fade';
+export * from './Backdrop';
+export * from './Modal';
+export * from './Paper';
+export * from './Dialog';

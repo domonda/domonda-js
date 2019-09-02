@@ -72,7 +72,7 @@ export function rgbToHex(color: string): string {
  * Note: Does not support rgb % values.
  *
  * @param {string} color - CSS color, i.e. one of: #nnn, #nnnnnn, rgb(), rgba(), hsl(), hsla()
- * @returns {object} - A MUI color object: {type: string, values: number[]}
+ * @returns {object} - A DUI color object: {type: string, values: number[]}
  */
 export function decomposeColor(color: string): ColorObject {
   if (color.charAt(0) === '#') {
@@ -88,7 +88,7 @@ export function decomposeColor(color: string): ColorObject {
     if (['rgb', 'rgba', 'hsl', 'hsla'].indexOf(type) === -1) {
       throw new Error(
         [
-          `Material-UI: unsupported \`${color}\` color.`,
+          `@domonda/ui: unsupported \`${color}\` color.`,
           'We support the following formats: #nnn, #nnnnnn, rgb(), rgba(), hsl(), hsla().',
         ].join('\n'),
       );
