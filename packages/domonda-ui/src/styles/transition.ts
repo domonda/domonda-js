@@ -88,7 +88,7 @@ export interface Transition {
   create: (
     props: string | string[],
     options?: Partial<{
-      duration: number | string | { appear?: number; enter?: number; exit?: number };
+      duration: number | string;
       easing: string;
       delay: number | string;
     }>,
@@ -138,7 +138,7 @@ export function getTransitionProps(
   return {
     duration:
       style.transitionDuration || typeof timeout === 'number'
-        ? timeout
+        ? (timeout as number)
         : timeout[options.mode] || 0,
     delay: style.transitionDelay,
   };
