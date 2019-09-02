@@ -31,7 +31,7 @@ export interface BackdropProps extends React.HTMLAttributes<HTMLDivElement> {
   transitionDuration?: TransitionProps['timeout'];
 }
 
-export const styles = createStyles({
+const styles = createStyles({
   /* Styles applied to the root element. */
   root: {
     zIndex: -1,
