@@ -48,6 +48,6 @@
     "history": "^4.9.0",
     "lodash.clonedeepwith": "^4.5.0",
     "lodash.pickby": "^4.6.0",
-    "query-string": "^6.8.2"
+    "query-string": "^6.8.3"
   }
 }
