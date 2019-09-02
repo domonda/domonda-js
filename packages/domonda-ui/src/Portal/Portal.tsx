@@ -3,7 +3,7 @@
  * Portal
  *
  * Implementation from:
- * https://github.com/mui-org/material-ui/blob/master/packages/material-ui/src/Portal/Portal.js
+ * https://github.com/mui-org/material-ui/blob/f55f3a4f808d1756d11d056195978affe4f65d5b/packages/material-ui/src/Portal/Portal.js
  *
  */
 
