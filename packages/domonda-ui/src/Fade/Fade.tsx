@@ -50,7 +50,7 @@ export const Fade = React.forwardRef<HTMLDivElement, FadeProps>(function Fade(pr
   const theme = useTheme();
   const handleRef = useForkRef(children.ref, ref);
 
-  const handleEnter = (node, isAppearing) => {
+  const handleEnter = (node: HTMLElement, isAppearing: boolean) => {
     reflow(node); // So the animation always start from the start.
 
     const transitionProps = getTransitionProps(
@@ -67,7 +67,7 @@ export const Fade = React.forwardRef<HTMLDivElement, FadeProps>(function Fade(pr
     }
   };
 
-  const handleExit = (node) => {
+  const handleExit = (node: HTMLElement) => {
     const transitionProps = getTransitionProps(
       { style, timeout },
       {
@@ -91,12 +91,12 @@ export const Fade = React.forwardRef<HTMLDivElement, FadeProps>(function Fade(pr
       timeout={timeout}
       {...(other as any)}
     >
-      {(state, childProps) => {
+      {(state: any, childProps: any) => {
         return React.cloneElement(children, {
           style: {
             opacity: 0,
             visibility: state === 'exited' && !inProp ? 'hidden' : undefined,
-            ...styles[state],
+            ...(styles as any)[state],
             ...style,
             ...children.props.style,
           },
