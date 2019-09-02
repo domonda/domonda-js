@@ -1,4 +1,8 @@
-import { ThemeProvider as JSSThemeProvider, withTheme as jssWithTheme } from 'react-jss';
+import {
+  ThemeProvider as JSSThemeProvider,
+  withTheme as jssWithTheme,
+  useTheme as jssUseTheme,
+} from 'react-jss';
 import deepmerge from 'deepmerge';
 import { createSpacing, Spacing } from './spacing';
 import { defaultShadows, Shadows } from './shadows';
@@ -6,6 +10,7 @@ import { defaultShape, Shape } from './shape';
 import { createPalette, Palette } from './palette';
 import { defaultTypography, Typography } from './typography';
 import { defaultTransition, Transition } from './transition';
+import { ZIndex, defaultZIndex } from './zIndex';
 
 export interface Theme {
   palette: Palette;
@@ -14,6 +19,7 @@ export interface Theme {
   shadows: Shadows;
   shape: Shape;
   transition: Transition;
+  zIndex: ZIndex;
 }
 
 export const defaultTheme: Theme = {
@@ -36,6 +42,7 @@ export const defaultTheme: Theme = {
   shadows: defaultShadows,
   shape: defaultShape,
   transition: defaultTransition,
+  zIndex: defaultZIndex,
 };
 
 export const createTheme = (options: Partial<Theme> = defaultTheme) =>
@@ -56,4 +63,8 @@ export function withTheme<P extends WithTheme>(
   Component: React.ComponentType<P>,
 ): React.ComponentType<P & { theme?: Theme }> {
   return jssWithTheme<P, React.ComponentType<P>, P & { theme?: Theme }>(Component);
+}
+
+export function useTheme(): Theme {
+  return jssUseTheme() as Theme;
 }

@@ -8,3 +8,4 @@ export * from './createStyles';
 export * from './withStyles';
 export * from './makeStyles';
 export * from './generateStaticClassName';
+export * from './zIndex';
