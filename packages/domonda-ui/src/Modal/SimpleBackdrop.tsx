@@ -50,7 +50,6 @@ export const SimpleBackdrop = React.forwardRef<HTMLDivElement, SimpleBackdropPro
 
     return open ? (
       <div
-        data-dui-test="Backdrop"
         aria-hidden
         ref={ref}
         {...other}

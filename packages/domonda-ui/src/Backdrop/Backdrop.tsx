@@ -71,7 +71,6 @@ const Backdrop = React.forwardRef<HTMLDivElement, BackdropProps & WithStyles<typ
     return (
       <Fade in={open} timeout={transitionDuration} {...(other as any)}>
         <div
-          data-mui-test="Backdrop"
           className={clsx(
             classes.root,
             {

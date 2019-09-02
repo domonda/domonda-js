@@ -218,7 +218,6 @@ const Dialog = React.forwardRef<HTMLDivElement, DialogProps & WithStyles<typeof 
             )}
             onClick={handleBackdropClick}
             onMouseDown={handleMouseDown}
-            data-mui-test="FakeBackdrop"
           >
             <PaperComponent
               elevation={24}

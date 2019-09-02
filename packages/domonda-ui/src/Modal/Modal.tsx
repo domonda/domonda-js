@@ -260,7 +260,6 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(function Modal
     */
     <Portal ref={handlePortalRef} container={container} disablePortal={disablePortal}>
       <div
-        data-dui-test="Modal"
         ref={handleRef}
         onKeyDown={handleKeyDown}
         role="presentation"
