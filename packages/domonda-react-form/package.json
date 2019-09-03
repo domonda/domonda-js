@@ -43,7 +43,7 @@
     "lodash.get": "^4.4.2",
     "lodash.merge": "^4.6.2",
     "lodash.omit": "^4.5.0",
-    "react-datepicker": "^2.9.3",
+    "react-datepicker": "^2.9.4",
     "text-mask-core": "^5.1.2"
   },
   "devDependencies": {
