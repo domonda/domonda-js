@@ -19,6 +19,8 @@ import { Portal, PortalProps } from '../Portal';
 import PopperJS, { PopperOptions, ReferenceObject } from 'popper.js';
 import { useForkRef } from '../hooks';
 import { createChainedFunction } from '../utils';
+import { useTheme } from '../styles/theme';
+import { defaultZIndex } from '../styles/zIndex';
 
 function flipPlacement(placement: PopperPlacement) {
   const direction = (typeof window !== 'undefined' && document.body.getAttribute('dir')) || 'ltr';
@@ -173,6 +175,8 @@ export const Popper = React.forwardRef<Element | null, PopperProps>(function Pop
     }
   }, [open]);
 
+  const theme = useTheme();
+
   if (!keepMounted && !open) {
     return null;
   }
@@ -185,7 +189,7 @@ export const Popper = React.forwardRef<Element | null, PopperProps>(function Pop
         style={{
           // Prevents scroll issue, waiting for Popper.js to add this style once initiated.
           position: 'absolute',
-          zIndex: 1,
+          zIndex: theme ? theme.zIndex.popover : defaultZIndex.popover,
         }}
         {...other}
       >

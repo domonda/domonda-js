@@ -1,11 +1,9 @@
 export interface ZIndex {
-  appBar: number;
   modal: number;
-  tooltip: number;
+  popover: number;
 }
 
 export const defaultZIndex: ZIndex = {
-  appBar: 1100,
   modal: 1300,
-  tooltip: 1500,
+  popover: 1500,
 };
