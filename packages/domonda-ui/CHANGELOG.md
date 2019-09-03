@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.1](https://github.com/domonda/domonda-js/compare/@domonda/ui@3.2.0...@domonda/ui@3.2.1) (2019-09-03)
+
+
+### Bug Fixes
+
+* **zIndex:** proper popover and modal control ([1ad0c6b](https://github.com/domonda/domonda-js/commit/1ad0c6b))
+
+
+
+
+
 # [3.2.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@3.1.0...@domonda/ui@3.2.0) (2019-09-02)
 
 
