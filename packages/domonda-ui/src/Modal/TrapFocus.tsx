@@ -177,9 +177,9 @@ export function TrapFocus(props: TrapFocusProps) {
 
   return (
     <React.Fragment>
-      <div tabIndex={0} ref={sentinelStart} data-test="sentinelStart" />
+      <div tabIndex={0} ref={sentinelStart} />
       {React.cloneElement(children, { ref: handleRef })}
-      <div tabIndex={0} ref={sentinelEnd} data-test="sentinelEnd" />
+      <div tabIndex={0} ref={sentinelEnd} />
     </React.Fragment>
   );
 }
