@@ -3,6 +3,40 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.0.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@3.2.1...@domonda/ui@4.0.0) (2019-09-04)
+
+
+### Bug Fixes
+
+* **Button:** forward ref and expose classes ([9681549](https://github.com/domonda/domonda-js/commit/9681549))
+* **Err:** forward ref to underlying `Flex` ([97ddc94](https://github.com/domonda/domonda-js/commit/97ddc94))
+* **overflowing:** drop unnecessary translateZ(0) ([3921000](https://github.com/domonda/domonda-js/commit/3921000))
+* **Select.stories:** proper dom nesting and drop `selected` prop ([b34ccc3](https://github.com/domonda/domonda-js/commit/b34ccc3))
+* **TrapFocus:** correct `tabIndex` warning ([cbeff5f](https://github.com/domonda/domonda-js/commit/cbeff5f))
+* **TrapFocus:** drop invalid warning about `tabIndex` ([fcb9160](https://github.com/domonda/domonda-js/commit/fcb9160))
+
+
+### Features
+
+* major cleanup and consistency improvements ([3f28060](https://github.com/domonda/domonda-js/commit/3f28060))
+* **Grow:** introduce ([c07606e](https://github.com/domonda/domonda-js/commit/c07606e))
+* **Popover:** introduce ([2e57e8d](https://github.com/domonda/domonda-js/commit/2e57e8d))
+* **Table:** drop in favor of `Row` ([ef78144](https://github.com/domonda/domonda-js/commit/ef78144))
+
+
+### Performance Improvements
+
+* **Autocomplete:** easier virtualization and smaller optimization ([ed2d605](https://github.com/domonda/domonda-js/commit/ed2d605))
+
+
+### BREAKING CHANGES
+
+* **Table:** `Table` component has been dropped in favor of the `Row` component.
+
+
+
+
+
 ## [3.2.1](https://github.com/domonda/domonda-js/compare/@domonda/ui@3.2.0...@domonda/ui@3.2.1) (2019-09-03)
 
 
