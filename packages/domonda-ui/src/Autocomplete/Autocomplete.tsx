@@ -6,7 +6,8 @@
 
 import React, { useRef, useCallback } from 'react';
 import Downshift, { DownshiftProps } from 'downshift';
-import { AutoSizer, List, ListProps } from 'react-virtualized';
+import { FixedSizeList } from 'react-window';
+import AutoSizer from 'react-virtualized-auto-sizer';
 
 // ui
 import { TextField, TextFieldProps } from '../TextField';
@@ -29,8 +30,19 @@ export interface AutocompleteProps<T>
   disabled?: boolean;
   autoFocus?: boolean;
   TextFieldProps?: TextFieldProps;
-  ListProps?: Partial<Omit<ListProps, 'height' | 'rowRenderer' | 'rowCount' | 'scrollToIndex'>>;
 }
+
+const ITEM_SIZE = 46;
+
+const POPPER_MODIFIERS = {
+  flip: {
+    enabled: true,
+  },
+  preventOverflow: {
+    enabled: true,
+    boundariesElement: 'scrollParent',
+  },
+};
 
 function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement | null {
   const {
@@ -43,13 +55,9 @@ function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement | null
     required,
     disabled,
     autoFocus,
-    TextFieldProps,
-    ListProps,
+    TextFieldProps = {},
     ...rest
   } = props;
-
-  const textFieldProps = TextFieldProps || {};
-  const rowHeight = 46;
 
   const handleInputValueChange = useCallback(
     (value: string) => {
@@ -77,8 +85,8 @@ function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement | null
         const { ref, ...restInputProps } = getInputProps({
           ref: anchorEl,
           onFocus: (event: React.FocusEvent<HTMLInputElement>) => {
-            if (textFieldProps.onFocus) {
-              textFieldProps.onFocus(event);
+            if (TextFieldProps.onFocus) {
+              TextFieldProps.onFocus(event);
             }
             openMenu();
           },
@@ -91,7 +99,7 @@ function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement | null
             <TextField
               label={label}
               dense={dense}
-              {...textFieldProps}
+              {...TextFieldProps}
               {...restInputProps}
               required={required}
               disabled={disabled}
@@ -105,45 +113,30 @@ function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement | null
                     open={isOpen}
                     anchorEl={anchorEl.current}
                     placement="bottom-start"
-                    modifiers={{
-                      flip: {
-                        enabled: true,
-                      },
-                      preventOverflow: {
-                        enabled: true,
-                        boundariesElement: 'scrollParent',
-                      },
-                    }}
+                    modifiers={POPPER_MODIFIERS}
                   >
                     <Menu
-                      {...getMenuProps(
-                        {
-                          style: {
-                            marginTop: 5,
-                            padding: 0,
-                            width,
-                          },
+                      {...getMenuProps({
+                        style: {
+                          marginTop: 5,
+                          padding: 0,
+                          width,
                         },
-                        { suppressRefError: true },
-                      )}
+                      })}
+                      component="div"
                     >
-                      <List
+                      <FixedSizeList
                         width={width}
-                        tabIndex={-1}
-                        rowHeight={rowHeight}
-                        {...ListProps}
-                        height={Math.min(rowHeight * 7, items.length * rowHeight)}
-                        rowCount={items.length}
-                        scrollToIndex={
-                          !highlightedIndex && highlightedIndex !== 0 ? undefined : highlightedIndex
-                        }
-                        rowRenderer={({ key, index, style }) => {
+                        height={Math.min(ITEM_SIZE * 7, items.length * ITEM_SIZE)}
+                        itemSize={ITEM_SIZE}
+                        itemCount={items.length}
+                      >
+                        {({ index, style }) => {
                           const item = items[index];
                           const itemId = getItemId(item);
                           return (
                             <MenuItem
                               {...getItemProps({
-                                key,
                                 index,
                                 item,
                                 selected: selectedItem === itemId,
@@ -156,7 +149,7 @@ function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement | null
                             </MenuItem>
                           );
                         }}
-                      />
+                      </FixedSizeList>
                     </Menu>
                   </Popper>
                 )}
