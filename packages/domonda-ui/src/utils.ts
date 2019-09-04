@@ -116,3 +116,26 @@ export function getScrollbarSize(): number {
 export function capitalize(string: string): string {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+// Corresponds to 10 frames at 60 Hz.
+// A few bytes payload overhead when lodash/debounce is ~3 kB and debounce ~300 B.
+export function debounce<F extends Function>(func: F, wait = 166): F {
+  let timeout: any;
+  function debounced(...args: any[]) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    const that = this;
+    const later = () => {
+      func.apply(that, args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  }
+
+  debounced.clear = () => {
+    clearTimeout(timeout);
+  };
+
+  return debounced as any;
+}
