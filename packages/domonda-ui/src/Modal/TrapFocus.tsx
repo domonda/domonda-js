@@ -94,14 +94,7 @@ export function TrapFocus(props: TrapFocusProps) {
 
     // We might render an empty child.
     if (!disableAutoFocus && rootRef.current && !rootRef.current.contains(doc.activeElement)) {
-      if (rootRef.current.hasAttribute('tabIndex')) {
-        console.warn(
-          [
-            '@domonda/ui: the modal content node does not accept focus.',
-            'For the benefit of assistive technologies, ' +
-              'the tabIndex of the node is being set to "-1".',
-          ].join('\n'),
-        );
+      if (!rootRef.current.hasAttribute('tabIndex')) {
         rootRef.current.setAttribute('tabIndex', '-1');
       }
 
