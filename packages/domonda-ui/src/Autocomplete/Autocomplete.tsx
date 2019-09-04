@@ -44,7 +44,7 @@ const POPPER_MODIFIERS = {
   },
 };
 
-function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement | null {
+export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement | null {
   const {
     items,
     getItemId = (item: T) => (typeof item === 'string' ? item : JSON.stringify(item)),
@@ -161,6 +161,3 @@ function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement | null
     </Downshift>
   );
 }
-
-const ComposedAutocomplete = Autocomplete;
-export { ComposedAutocomplete as Autocomplete };

@@ -13,7 +13,7 @@ export interface ErrProps extends FlexProps {
   onRetry?: (() => void) | null;
 }
 
-export const Err: React.FC<ErrProps> = (props) => {
+export const Err = React.forwardRef<HTMLElement, ErrProps>(function Err(props) {
   const { children, error, onRetry, ...rest } = props;
   return (
     <Flex container align="center" justify="center" {...rest}>
@@ -27,4 +27,8 @@ export const Err: React.FC<ErrProps> = (props) => {
       </Flex>
     </Flex>
   );
-};
+});
+
+if (process.env.NODE_ENV !== 'production') {
+  Err.displayName = 'Err';
+}

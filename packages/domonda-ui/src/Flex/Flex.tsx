@@ -11,6 +11,7 @@ import clsx from 'clsx';
 import { decorate, Decorate } from './decorate';
 
 export interface FlexProps extends React.HTMLAttributes<HTMLElement> {
+  classes?: Decorate['classes'];
   component?: string | React.ComponentType<React.HTMLAttributes<HTMLElement>>;
   container?: boolean;
   item?: boolean;

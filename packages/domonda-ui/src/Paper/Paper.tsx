@@ -62,5 +62,9 @@ const Paper = React.forwardRef<HTMLDivElement, PaperProps & WithStyles<typeof st
   },
 );
 
+if (process.env.NODE_ENV !== 'production') {
+  Paper.displayName = 'Paper';
+}
+
 const StyledPaper = withStyles(styles)(Paper);
 export { StyledPaper as Paper };

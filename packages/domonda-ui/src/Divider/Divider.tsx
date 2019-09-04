@@ -18,32 +18,41 @@ const styles = createStyles(({ spacing }) => ({
 }));
 
 export interface DividerProps extends React.HTMLAttributes<HTMLHRElement> {
+  classes?: WithStyles<typeof styles>['classes'];
   color?: Color; // default: `textSecondary`
   weight?: 'thin' | 'bold'; // default: `thin`
 }
 
-const Divider: React.FC<DividerProps & WithStyles<typeof styles, true>> = (props) => {
-  const {
-    children,
-    theme,
-    classes,
-    className,
-    color = 'textSecondary',
-    weight = 'thin',
-    style,
-    ...rest
-  } = props;
+const Divider = React.forwardRef<HTMLHRElement, DividerProps & WithStyles<typeof styles, true>>(
+  function Divider(props, ref) {
+    const {
+      children,
+      theme,
+      classes,
+      className,
+      color = 'textSecondary',
+      weight = 'thin',
+      style,
+      ...rest
+    } = props;
 
-  function deriveStyle() {
-    return {
-      borderColor: theme.palette[color],
-      borderWidth: weight === 'thin' ? 1 : 2,
-      ...style,
-    };
-  }
+    function deriveStyle() {
+      return {
+        borderColor: theme.palette[color],
+        borderWidth: weight === 'thin' ? 1 : 2,
+        ...style,
+      };
+    }
 
-  return <hr {...rest} className={clsx(classes.root, className)} style={deriveStyle()} />;
-};
+    return (
+      <hr {...rest} ref={ref} className={clsx(classes.root, className)} style={deriveStyle()} />
+    );
+  },
+);
+
+if (process.env.NODE_ENV !== 'production') {
+  Divider.displayName = 'Divider';
+}
 
 const StyledDivider = withStyles(styles, { injectTheme: true })(Divider);
 export { StyledDivider as Divider };

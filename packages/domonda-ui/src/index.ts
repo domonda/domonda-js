@@ -3,7 +3,6 @@ export * from './Baseline';
 export * from './Button';
 export * from './Menu';
 export * from './SvgIcon';
-export * from './Table';
 export * from './TextField';
 export * from './Select';
 export * from './Err';

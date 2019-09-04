@@ -18,14 +18,21 @@ export interface RowStickyProps {
 }
 
 export function makeRowSticky<Item>(_0: Config<Item>) {
-  const RowSticky: React.FC<Decorate & RowStickyProps> = (props) => {
+  const RowSticky = React.forwardRef<HTMLElement, RowStickyProps & Decorate>(function RowSticky(
+    props,
+    ref,
+  ) {
     const { children, classes, className, component: Component = 'div' } = props;
     return (
-      <Component className={clsx(classes.root, className)} role="row">
+      <Component className={clsx(classes.root, className)} role="row" ref={ref as any}>
         {children}
       </Component>
     );
-  };
+  });
+
+  if (process.env.NODE_ENV !== 'production') {
+    RowSticky.displayName = 'RowSticky';
+  }
 
   return React.memo(decorate(RowSticky));
 }

@@ -20,7 +20,10 @@ export interface RowHeaderProps {
 export function makeRowHeader<Item>(config: Config<Item>) {
   const { columns } = config;
 
-  const RowHeader: React.FC<RowHeaderProps & Decorate> = (props) => {
+  const RowHeader = React.forwardRef<HTMLElement, RowHeaderProps & Decorate>(function RowHeader(
+    props,
+    ref,
+  ) {
     const { children: _0, classes, className, component: Component = 'div', ...rest } = props;
 
     const children = useMemo(
@@ -52,11 +55,15 @@ export function makeRowHeader<Item>(config: Config<Item>) {
     );
 
     return (
-      <Component className={clsx(classes.root, className)} role="row">
+      <Component className={clsx(classes.root, className)} role="row" ref={ref as any}>
         {children}
       </Component>
     );
-  };
+  });
+
+  if (process.env.NODE_ENV !== 'production') {
+    RowHeader.displayName = 'RowHeader';
+  }
 
   return React.memo(decorate(RowHeader));
 }

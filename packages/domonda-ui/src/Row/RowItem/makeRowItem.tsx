@@ -26,7 +26,10 @@ export interface RowItemProps<Item> {
 export function makeRowItem<Item>(config: Config<Item>) {
   const { columns } = config;
 
-  const RowItem: React.FC<Decorate & RowItemProps<Item>> = (props) => {
+  const RowItem = React.forwardRef<HTMLElement, RowItemProps<Item> & Decorate>(function RowItem(
+    props,
+    ref,
+  ) {
     const { classes, item, className, component: Component = 'div' } = props;
     const children = useMemo(
       () =>
@@ -58,11 +61,20 @@ export function makeRowItem<Item>(config: Config<Item>) {
     );
 
     return (
-      <Component item={item} className={clsx(classes.root, classes.row, className)} role="row">
+      <Component
+        item={item}
+        className={clsx(classes.root, classes.row, className)}
+        role="row"
+        ref={ref as any}
+      >
         {children}
       </Component>
     );
-  };
+  });
+
+  if (process.env.NODE_ENV !== 'production') {
+    RowItem.displayName = 'RowItem';
+  }
 
   return React.memo(decorate(RowItem));
 }

@@ -19,19 +19,31 @@ const styles = {
   },
 };
 
-export type SvgIconProps = React.SVGProps<SVGSVGElement>;
+export interface SvgIconProps extends Omit<React.SVGProps<SVGSVGElement>, 'ref'> {
+  classes?: WithStyles<typeof styles>['classes'];
+}
 
 export const svgIconClassName = generateStaticClassName('SvgIcon');
 
-const SvgIcon: React.FC<SvgIconProps & WithStyles<typeof styles>> = (props) => {
-  const { children, classes, className, ...rest } = props;
+const SvgIcon = React.forwardRef<SVGSVGElement, SvgIconProps & WithStyles<typeof styles>>(
+  function SvgIcon(props, ref) {
+    const { children, classes, className, ...rest } = props;
+    return (
+      <svg
+        viewBox="0 0 24 24"
+        {...rest}
+        className={clsx(svgIconClassName, classes.root, className)}
+        ref={ref}
+      >
+        {children}
+      </svg>
+    );
+  },
+);
 
-  return (
-    <svg viewBox="0 0 24 24" {...rest} className={clsx(svgIconClassName, classes.root, className)}>
-      {children}
-    </svg>
-  );
-};
+if (process.env.NODE_ENV !== 'production') {
+  SvgIcon.displayName = 'SvgIcon';
+}
 
 const StyledSvgIcon = withStyles(styles)(SvgIcon);
 export { StyledSvgIcon as SvgIcon };

@@ -274,3 +274,7 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(function Modal
     </Portal>
   );
 });
+
+if (process.env.NODE_ENV !== 'production') {
+  Modal.displayName = 'Modal';
+}

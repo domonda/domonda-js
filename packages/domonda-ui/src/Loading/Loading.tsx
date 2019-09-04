@@ -11,12 +11,18 @@ import { Text } from '../Text';
 // decorate
 import { decorate, Decorate } from './decorate';
 
-export type LoadingProps = FlexProps;
+export interface LoadingProps extends Omit<FlexProps, 'classes'> {
+  classes?: Decorate['classes'];
+  FlexClasses?: FlexProps['classes'];
+}
 
-const Loading: React.FC<LoadingProps & Decorate> = (props) => {
-  const { children, classes, ...rest } = props;
+const Loading = React.forwardRef<HTMLElement, LoadingProps & Decorate>(function Loading(
+  props,
+  ref,
+) {
+  const { children, classes, FlexClasses, ...rest } = props;
   return (
-    <Flex container align="center" justify="center" {...rest}>
+    <Flex container align="center" justify="center" {...rest} ref={ref} classes={FlexClasses}>
       <Flex item className={classes.loadingContainer}>
         <Text variant="title" color="inherit">
           Loading...
@@ -24,7 +30,11 @@ const Loading: React.FC<LoadingProps & Decorate> = (props) => {
       </Flex>
     </Flex>
   );
-};
+});
+
+if (process.env.NODE_ENV !== 'production') {
+  Loading.displayName = 'Loading';
+}
 
 const StyledLoading = decorate(Loading);
 export { StyledLoading as Loading };
