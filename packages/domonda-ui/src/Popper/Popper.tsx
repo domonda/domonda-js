@@ -189,7 +189,7 @@ export const Popper = React.forwardRef<Element | null, PopperProps>(function Pop
         style={{
           // Prevents scroll issue, waiting for Popper.js to add this style once initiated.
           position: 'absolute',
-          zIndex: theme ? theme.zIndex.popover : defaultZIndex.popover,
+          zIndex: theme ? theme.zIndex.tooltip : defaultZIndex.tooltip,
         }}
         {...other}
       >
