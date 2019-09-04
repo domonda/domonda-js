@@ -17,7 +17,6 @@ const styles = createStyles(({ spacing }) => ({
     overflow: 'auto',
     WebkitOverflowScrolling: 'touch',
     willChange: 'scroll-position',
-    transform: 'translateZ(0)',
     backfaceVisibility: 'hidden',
   },
   // spacing-{spacing}

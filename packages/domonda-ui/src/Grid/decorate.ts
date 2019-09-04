@@ -13,7 +13,6 @@ const styles = createStyles({
     overflow: 'auto',
     WebkitOverflowScrolling: 'touch',
     willChange: 'scroll-position',
-    transform: 'translateZ(0)',
     backfaceVisibility: 'hidden',
   },
 });
