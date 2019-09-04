@@ -13,10 +13,10 @@ export interface ErrProps extends FlexProps {
   onRetry?: (() => void) | null;
 }
 
-export const Err = React.forwardRef<HTMLElement, ErrProps>(function Err(props) {
+export const Err = React.forwardRef<HTMLElement, ErrProps>(function Err(props, ref) {
   const { children, error, onRetry, ...rest } = props;
   return (
-    <Flex container align="center" justify="center" {...rest}>
+    <Flex container align="center" justify="center" {...rest} ref={ref}>
       <Flex item style={{ textAlign: 'center' }}>
         <pre style={{ whiteSpace: 'normal' }}>{error.message}</pre>
         {onRetry && (
