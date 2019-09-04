@@ -94,7 +94,7 @@ export function TrapFocus(props: TrapFocusProps) {
 
     // We might render an empty child.
     if (!disableAutoFocus && rootRef.current && !rootRef.current.contains(doc.activeElement)) {
-      if (!rootRef.current.hasAttribute('tabIndex')) {
+      if (rootRef.current.hasAttribute('tabIndex')) {
         console.warn(
           [
             '@domonda/ui: the modal content node does not accept focus.',
