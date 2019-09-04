@@ -4,7 +4,7 @@
  *
  */
 
-import * as React from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import { Color, generateStaticClassName } from '../styles';
 
@@ -12,6 +12,7 @@ import { Color, generateStaticClassName } from '../styles';
 import { decorate, Decorate, SIZES } from './decorate';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  classes?: Decorate['classes'];
   color?: Color; // default: `default`
   variant?: 'text' | 'contained' | 'outlined'; // default: `text`
   size?: typeof SIZES[0]; // default: `md`
@@ -21,7 +22,10 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 export const buttonClassName = generateStaticClassName('Button');
 export const buttonLabelClassName = generateStaticClassName('Button--label');
 
-const Button: React.FC<ButtonProps & Decorate> = (props) => {
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps & Decorate>(function Button(
+  props,
+  ref,
+) {
   const {
     children,
     classes,
@@ -38,6 +42,7 @@ const Button: React.FC<ButtonProps & Decorate> = (props) => {
     <Component
       type="button"
       {...rest}
+      ref={ref as any}
       disabled={disabled}
       className={clsx(
         buttonClassName,
@@ -55,7 +60,11 @@ const Button: React.FC<ButtonProps & Decorate> = (props) => {
       <span className={clsx(buttonLabelClassName, classes.label)}>{children}</span>
     </Component>
   );
-};
+});
+
+if (process.env.NODE_ENV !== 'production') {
+  Button.displayName = 'Button';
+}
 
 const StyledButton = decorate(Button);
 export { StyledButton as Button };

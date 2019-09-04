@@ -26,14 +26,20 @@ export type IconButtonProps = ButtonProps;
 
 export const iconButtonClassName = generateStaticClassName('IconButton');
 
-const IconButton: React.FC<IconButtonProps & WithStyles<typeof styles>> = (props) => {
-  const { children, classes, className, ...rest } = props;
-  return (
-    <Button {...rest} className={clsx(iconButtonClassName, classes.root, className)}>
-      {children}
-    </Button>
-  );
-};
+const IconButton = React.forwardRef<HTMLButtonElement, ButtonProps & WithStyles<typeof styles>>(
+  function IconButton(props, ref) {
+    const { children, classes, className, ...rest } = props;
+    return (
+      <Button {...rest} ref={ref} className={clsx(iconButtonClassName, classes.root, className)}>
+        {children}
+      </Button>
+    );
+  },
+);
+
+if (process.env.NODE_ENV !== 'production') {
+  IconButton.displayName = 'IconButton';
+}
 
 const StyledIconButton = withStyles(styles)(IconButton);
 export { StyledIconButton as IconButton };
