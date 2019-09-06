@@ -27,6 +27,8 @@ export interface TextProps extends React.HTMLAttributes<HTMLElement> {
   variant?: TypographyVariant; // default: `body`
   weight?: TypographyWeight;
   font?: TypographyFont;
+  withPlaceholder?: boolean;
+  wrap?: boolean;
   component?: keyof React.ReactHTML;
 }
 
@@ -45,6 +47,8 @@ const Text = React.forwardRef<HTMLElement, TextProps & Decorate>(function Text(p
     weight,
     font,
     style,
+    withPlaceholder,
+    wrap,
     component: PropComponent,
     ...rest
   } = props;
@@ -86,6 +90,8 @@ const Text = React.forwardRef<HTMLElement, TextProps & Decorate>(function Text(p
         classes[`variant-${variant}` as keyof typeof classes],
         weight && classes[`weight-${weight}` as keyof typeof classes],
         font && classes[`font-${font}` as keyof typeof classes],
+        withPlaceholder && classes.withPlaceholder,
+        wrap && classes.wrap,
         className,
       )}
       style={deriveStyle()}

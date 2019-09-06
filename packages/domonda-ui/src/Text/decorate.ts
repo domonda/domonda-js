@@ -19,8 +19,19 @@ const styles = createStyles(({ typography, palette, spacing }) => {
     inline: {
       display: 'inline',
     },
+    wrap: {
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap',
+    },
     gutterBottom: {
       marginBottom: spacing(1),
+    },
+    withPlaceholder: {
+      '&:empty::before': {
+        content: '"\\2014"', // &mdash;
+        color: palette.textSecondary,
+      },
     },
     // variant-{variant}
     ...TYPOGRAPHY_VARIANTS.reduce(
