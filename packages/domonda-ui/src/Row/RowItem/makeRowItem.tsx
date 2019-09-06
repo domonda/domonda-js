@@ -21,6 +21,7 @@ export interface RowItemProps<Item> {
     children: React.ReactNode[];
   }>;
   item: Item;
+  clickable?: boolean;
 }
 
 export function makeRowItem<Item>(config: Config<Item>) {
@@ -30,7 +31,7 @@ export function makeRowItem<Item>(config: Config<Item>) {
     props,
     ref,
   ) {
-    const { classes, item, className, component: Component = 'div' } = props;
+    const { classes, item, className, clickable, component: Component = 'div' } = props;
     const children = useMemo(
       () =>
         columns.map(
@@ -63,7 +64,7 @@ export function makeRowItem<Item>(config: Config<Item>) {
     return (
       <Component
         item={item}
-        className={clsx(classes.root, classes.row, className)}
+        className={clsx(classes.root, classes.row, clickable && classes.clickable, className)}
         role="row"
         ref={ref as any}
       >
