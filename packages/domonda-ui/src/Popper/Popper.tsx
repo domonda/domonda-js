@@ -89,7 +89,7 @@ export const Popper = React.forwardRef<Element | null, PopperProps>(function Pop
     modifiers,
     open,
     placement: placementProps = 'bottom',
-    popperOptions = {},
+    popperOptions,
     popperRef: popperRefProp,
     ...other
   } = props;
@@ -138,12 +138,18 @@ export const Popper = React.forwardRef<Element | null, PopperProps>(function Pop
               },
             }),
         ...modifiers,
-        ...popperOptions.modifiers,
+        ...(popperOptions ? popperOptions.modifiers : undefined),
       },
       // We could have been using a custom modifier like react-popper is doing.
       // But it seems this is the best public API for this use case.
-      onCreate: createChainedFunction(handlePopperUpdate, popperOptions.onCreate),
-      onUpdate: createChainedFunction(handlePopperUpdate, popperOptions.onUpdate),
+      onCreate: createChainedFunction(
+        handlePopperUpdate,
+        popperOptions ? popperOptions.onCreate : undefined,
+      ),
+      onUpdate: createChainedFunction(
+        handlePopperUpdate,
+        popperOptions ? popperOptions.onUpdate : undefined,
+      ),
     });
     handlePopperRefRef.current!(popper);
   }, [anchorEl, disablePortal, modifiers, open, placement, placementProps, popperOptions]);
