@@ -19,6 +19,9 @@ const styles = createStyles(({ spacing }) => ({
     willChange: 'scroll-position',
     backfaceVisibility: 'hidden',
   },
+  zeroMinWidth: {
+    minWidth: 0,
+  },
   // spacing-{spacing}
   ...SPACINGS.reduce(
     (acc, value) => ({

@@ -28,6 +28,7 @@ export interface FlexProps extends React.HTMLAttributes<HTMLElement> {
   autoWidth?: boolean;
   fill?: boolean;
   overflowing?: boolean;
+  zeroMinWidth?: boolean;
 }
 
 const Flex = React.forwardRef<HTMLElement, FlexProps & Decorate>(function Flex(props, ref) {
@@ -52,6 +53,7 @@ const Flex = React.forwardRef<HTMLElement, FlexProps & Decorate>(function Flex(p
     overflowing,
     fill,
     style,
+    zeroMinWidth,
     ...rest
   } = props;
 
@@ -97,6 +99,7 @@ const Flex = React.forwardRef<HTMLElement, FlexProps & Decorate>(function Flex(p
           noWrap && classes.noWrap,
           spacing && classes[`spacing-${spacing}` as keyof typeof classes],
           overflowing && classes.overflowing,
+          zeroMinWidth && classes.zeroMinWidth,
           className,
         ) || undefined
       }
