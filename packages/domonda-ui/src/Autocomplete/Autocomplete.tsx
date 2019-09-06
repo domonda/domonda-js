@@ -7,12 +7,18 @@
 import React, { useRef, useCallback } from 'react';
 import Downshift, { DownshiftProps } from 'downshift';
 import { FixedSizeList } from 'react-window';
-import AutoSizer from 'react-virtualized-auto-sizer';
 
 // ui
 import { TextField, TextFieldProps } from '../TextField';
-import { Popper } from '../Popper';
+import { Popper, PopperProps } from '../Popper';
 import { Menu, MenuItem } from '../Menu';
+
+const ITEM_SIZE = 46;
+
+const MENU_STYLES = {
+  marginTop: 5,
+  padding: 0,
+};
 
 export type AutocompleteGetItemId<T> = (item: T | null) => string;
 
@@ -30,19 +36,9 @@ export interface AutocompleteProps<T>
   disabled?: boolean;
   autoFocus?: boolean;
   TextFieldProps?: TextFieldProps;
+  PopperProps?: Omit<PopperProps, 'open' | 'anchorEl'>;
+  keepPopperMounted?: boolean;
 }
-
-const ITEM_SIZE = 46;
-
-const POPPER_MODIFIERS = {
-  flip: {
-    enabled: true,
-  },
-  preventOverflow: {
-    enabled: true,
-    boundariesElement: 'scrollParent',
-  },
-};
 
 export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement | null {
   const {
@@ -56,6 +52,8 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
     disabled,
     autoFocus,
     TextFieldProps = {},
+    PopperProps = {},
+    keepPopperMounted,
     ...rest
   } = props;
 
@@ -94,6 +92,8 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
 
         const isOpen = downshiftIsOpen && items.length > 0;
 
+        console.log(keepPopperMounted || isOpen);
+
         return (
           <div>
             <TextField
@@ -106,54 +106,44 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
               autoFocus={autoFocus}
               ref={ref as React.Ref<HTMLInputElement>}
             />
-            {isOpen && (
-              <AutoSizer disableHeight>
-                {({ width }) => (
-                  <Popper
-                    open={isOpen}
-                    anchorEl={anchorEl.current}
-                    placement="bottom-start"
-                    modifiers={POPPER_MODIFIERS}
-                  >
-                    <Menu
-                      {...getMenuProps({
-                        style: {
-                          marginTop: 5,
-                          padding: 0,
-                          width,
+            {(keepPopperMounted || isOpen) && (
+              <Popper {...PopperProps} open={isOpen} anchorEl={anchorEl.current}>
+                <Menu
+                  {...(isOpen
+                    ? getMenuProps(
+                        {
+                          style: MENU_STYLES,
                         },
-                      })}
-                      component="div"
-                    >
-                      <FixedSizeList
-                        width={width}
-                        height={Math.min(ITEM_SIZE * 7, items.length * ITEM_SIZE)}
-                        itemSize={ITEM_SIZE}
-                        itemCount={items.length}
-                      >
-                        {({ index, style }) => {
-                          const item = items[index];
-                          const itemId = getItemId(item);
-                          return (
-                            <MenuItem
-                              {...getItemProps({
-                                index,
-                                item,
-                                selected: selectedItem === itemId,
-                                tabIndex: -1,
-                                style,
-                              })}
-                              highlighted={highlightedIndex === index}
-                            >
-                              {itemToString(item)}
-                            </MenuItem>
-                          );
-                        }}
-                      </FixedSizeList>
-                    </Menu>
-                  </Popper>
-                )}
-              </AutoSizer>
+                        { suppressRefError: true },
+                      )
+                    : {})}
+                >
+                  <FixedSizeList
+                    width={anchorEl.current ? anchorEl.current.clientWidth : 0}
+                    height={Math.min(ITEM_SIZE * 7, items.length * ITEM_SIZE)}
+                    itemSize={ITEM_SIZE}
+                    itemCount={items.length}
+                  >
+                    {({ index, style }) => {
+                      const item = items[index];
+                      return (
+                        <MenuItem
+                          {...getItemProps({
+                            index,
+                            item,
+                            selected: selectedItem === getItemId(item),
+                            tabIndex: -1,
+                            style,
+                          })}
+                          highlighted={highlightedIndex === index}
+                        >
+                          {itemToString(item)}
+                        </MenuItem>
+                      );
+                    }}
+                  </FixedSizeList>
+                </Menu>
+              </Popper>
             )}
           </div>
         );
