@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.1](https://github.com/domonda/domonda-js/compare/@domonda/ui@4.0.0...@domonda/ui@4.0.1) (2019-09-06)
+
+
+### Performance Improvements
+
+* **Autocomplete:** optimizations and improvements ([507dc8a](https://github.com/domonda/domonda-js/commit/507dc8a))
+* **Popper:** avoid creating new `popperOptions` instance on every render ([5264eaf](https://github.com/domonda/domonda-js/commit/5264eaf))
+
+
+
+
+
 # [4.0.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@3.2.1...@domonda/ui@4.0.0) (2019-09-04)
 
 
