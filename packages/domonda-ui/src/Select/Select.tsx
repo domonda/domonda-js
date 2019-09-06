@@ -20,8 +20,8 @@ const styles = createStyles(({ typography, palette, spacing, shape, shadows }) =
     position: 'relative',
     fontSize: 'inherit',
     fontFamily: 'inherit',
-    '-moz-appearance': 'none', // Reset
-    '-webkit-appearance': 'none', // Reset
+    MozAppearance: 'none', // Reset
+    WebkitAppearance: 'none', // Reset
     outline: 'none',
     userSelect: 'none',
     minWidth: 16,

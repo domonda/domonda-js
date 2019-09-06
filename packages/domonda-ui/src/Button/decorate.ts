@@ -13,14 +13,14 @@ const styles = createStyles(({ typography, palette, spacing, shape, shadows, tra
     justifyContent: 'center',
     border: 'none',
     padding: spacing(0.5, 1.5),
-    WebkitTapHighlightColor: 'transparent',
     outline: 'none',
     margin: 0,
     lineHeight: 1.75,
     cursor: 'pointer',
     transition: transition.create(['background-color', 'color', 'transform', 'box-shadow']),
-    '-webkit-appearance': 'none',
-    '-moz-appearance': 'none',
+    WebkitTapHighlightColor: 'transparent',
+    WebkitAppearance: 'none',
+    MozAppearance: 'none',
     /** https://github.com/cssinjs/jss/issues/1087 */
     // '&::-moz-focus-inner': {
     //   borderStyle: 'none', // Remove Firefox dotted outline.
