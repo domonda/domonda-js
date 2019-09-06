@@ -92,8 +92,6 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
 
         const isOpen = downshiftIsOpen && items.length > 0;
 
-        console.log(keepPopperMounted || isOpen);
-
         return (
           <div>
             <TextField
