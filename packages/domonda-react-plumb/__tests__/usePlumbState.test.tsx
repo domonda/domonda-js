@@ -28,7 +28,7 @@ const getDocument = ({ document }: State) => document;
 
 describe('useMappedPlumbState', () => {
   describe('Creation', () => {
-    it('should dispatch initial value when supplied', async () => {
+    it('should dispatch initial value when supplied', () => {
       const plumb = makePlumb();
 
       const { result } = renderHook(() =>
