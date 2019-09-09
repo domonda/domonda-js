@@ -68,7 +68,7 @@ export function usePlumbState<S, T>(plumb: Plumb<S, T>, props: UsePlumbStateProp
 export function useMappedPlumbState<S, K, T>(
   plumb: Plumb<S, T>,
   mapper: (state: S) => K,
-  props: UsePlumbStateProps<S> = {},
+  props: UsePlumbStateProps<K> = {},
 ): K {
   const { setWithTimeout, stateIsEqual } = props;
 
