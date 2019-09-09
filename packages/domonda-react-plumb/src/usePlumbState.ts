@@ -13,9 +13,8 @@ import { usePlumbContext } from './PlumbContext';
 
 export interface UsePlumbStateProps<S, T> {
   /**
-   * the plumb instance to use. if undefined, will use
-   * plumb from the context. if there is no plumb in
-   * the context, will throw an error.
+   * the plumb instance to use. if undefined,
+   * will use plumb from the context
    */
   plumb?: Plumb<S, T>;
   /**
