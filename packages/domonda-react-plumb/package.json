@@ -1,0 +1,50 @@
+{
+  "name": "@domonda/react-plumb",
+  "version": "2.1.2",
+  "description": "Simple state management and utilities for React inspired by Observables.",
+  "keywords": [
+    "domonda",
+    "state",
+    "observables",
+    "react",
+    "plumb"
+  ],
+  "homepage": "https://github.com/domonda/domonda-js#readme",
+  "license": "ISC",
+  "main": "lib/src/index.js",
+  "typings": "lib/src/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/domonda/domonda-js.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "clean": "rimraf lib/*",
+    "build": "npm run clean && tsc && node ../../scripts/copyFiles.js",
+    "start": "npm run clean && tsc --watch --preserveWatchOutput"
+  },
+  "bugs": {
+    "url": "https://github.com/domonda/domonda-js/issues"
+  },
+  "peerDependencies": {
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0"
+  },
+  "dependencies": {
+    "@domonda/plumb": "^2.1.2",
+    "fast-equals": "^2.0.0"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^9.1.4",
+    "@testing-library/react-hooks": "^2.0.1",
+    "@types/react": "^16.9.2",
+    "@types/react-dom": "^16.9.0",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-test-renderer": "^16.9.0",
+    "rimraf": "^3.0.0"
+  }
+}

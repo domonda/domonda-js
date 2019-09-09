@@ -23,7 +23,9 @@
       "@domonda/plumb": ["domonda-plumb/src"],
       "@domonda/plumb/*": ["domonda-plumb/src/*"],
       "@domonda/query-params": ["domonda-query-params/src"],
-      "@domonda/query-params/*": ["domonda-query-params/src/*"]
+      "@domonda/query-params/*": ["domonda-query-params/src/*"],
+      "@domonda/react-plumb": ["domonda-react-plumb/src"],
+      "@domonda/react-plumb/*": ["domonda-react-plumb/src/*"]
     }
   },
   "exclude": ["node_modules"]
