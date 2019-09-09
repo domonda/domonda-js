@@ -28,7 +28,6 @@
   "bugs": {
     "url": "https://github.com/domonda/domonda-js/issues"
   },
-  "devDependencies": {
-    "rimraf": "^3.0.0"
-  }
+  "devDependencies": {},
+  "dependencies": {}
 }
