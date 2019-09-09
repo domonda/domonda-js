@@ -10,7 +10,7 @@ import { useState, useLayoutEffect, useRef } from 'react';
 import { Plumb } from '@domonda/plumb';
 import { shallowEqual } from 'fast-equals';
 
-export interface UsePlumbStateProps {
+export interface UsePlumbStateProps<S> {
   /**
    * when many updates happen immediatly react often displays
    * the order of received values incorrectly. setting this
@@ -19,10 +19,15 @@ export interface UsePlumbStateProps {
    * react renders to finish before triggering `setState`
    */
   setWithTimeout?: boolean;
+  /**
+   * compares the state and if the function returns true, the
+   * hook will not update the internal state since its the same
+   */
+  stateIsEqual?: (prev: S, next: S) => boolean;
 }
 
-export function usePlumbState<S, T>(plumb: Plumb<S, T>, props: UsePlumbStateProps = {}): S {
-  const { setWithTimeout } = props;
+export function usePlumbState<S, T>(plumb: Plumb<S, T>, props: UsePlumbStateProps<S> = {}): S {
+  const { setWithTimeout, stateIsEqual } = props;
 
   const [state, setState] = useState(() => plumb.state);
 
@@ -41,7 +46,7 @@ export function usePlumbState<S, T>(plumb: Plumb<S, T>, props: UsePlumbStateProp
   useLayoutEffect(() => {
     const subscription = plumb.subscribe((nextState) => {
       const performSetState = () => {
-        if (!shallowEqual(stateRef.current, nextState)) {
+        if (!(stateIsEqual || shallowEqual)(stateRef.current, nextState)) {
           setState(nextState);
         }
       };
@@ -63,9 +68,9 @@ export function usePlumbState<S, T>(plumb: Plumb<S, T>, props: UsePlumbStateProp
 export function useMappedPlumbState<S, K, T>(
   plumb: Plumb<S, T>,
   mapper: (state: S) => K,
-  props: UsePlumbStateProps = {},
+  props: UsePlumbStateProps<S> = {},
 ): K {
-  const { setWithTimeout } = props;
+  const { setWithTimeout, stateIsEqual } = props;
 
   const [state, setState] = useState(() => mapper(plumb.state));
 
@@ -89,7 +94,7 @@ export function useMappedPlumbState<S, K, T>(
     const subscription = plumb.subscribe((nextState) => {
       const performSetState = () => {
         const mappedState = mapper(nextState);
-        if (!shallowEqual(stateRef.current, mappedState)) {
+        if (!(stateIsEqual || shallowEqual)(stateRef.current, mappedState)) {
           setState(mappedState);
         }
       };
