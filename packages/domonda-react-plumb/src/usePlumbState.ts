@@ -9,14 +9,21 @@
 import { useState, useLayoutEffect, useRef } from 'react';
 import { Plumb } from '@domonda/plumb';
 import { shallowEqual } from 'fast-equals';
+import { usePlumbContext } from './PlumbContext';
 
-export interface UsePlumbStateProps<S> {
+export interface UsePlumbStateProps<S, T> {
+  /**
+   * the plumb instance to use. if undefined, will use
+   * plumb from the context. if there is no plumb in
+   * the context, will throw an error.
+   */
+  plumb?: Plumb<S, T>;
   /**
    * when many updates happen immediatly react often displays
    * the order of received values incorrectly. setting this
    * flag to true will update the state in a `setTimeout(() => {}, 0)`
    * therefore guarenteeing the value order because it allows
-   * react renders to finish before triggering `setState`
+   * react renders to finish before triggering `setValue`
    */
   setWithTimeout?: boolean;
   /**
@@ -26,28 +33,35 @@ export interface UsePlumbStateProps<S> {
   stateIsEqual?: (prev: S, next: S) => boolean;
 }
 
-export function usePlumbState<S, T>(plumb: Plumb<S, T>, props: UsePlumbStateProps<S> = {}): S {
-  const { setWithTimeout, stateIsEqual } = props;
+export function usePlumbState<S, T>(props: UsePlumbStateProps<S, T> = {}): [S, T | undefined] {
+  const { plumb = usePlumbContext<S, T>(), setWithTimeout, stateIsEqual } = props;
 
-  const [state, setState] = useState(() => plumb.state);
+  const [value, setValue] = useState(() => ({ state: plumb.state, lastTag: plumb.lastTag }));
 
-  const stateRef = useRef<S>(state);
-  if (stateRef.current !== state) {
-    stateRef.current = state;
+  const valueRef = useRef<{ state: S; lastTag: T | undefined }>(value);
+  if (valueRef.current !== value) {
+    valueRef.current = value;
   }
 
   useLayoutEffect(() => {
     const maybeNewPlumbState = plumb.state;
-    if (stateRef.current !== maybeNewPlumbState) {
-      setState(maybeNewPlumbState);
+    const maybeNewPlumbLastTag = plumb.lastTag;
+    if (
+      valueRef.current.state !== maybeNewPlumbState ||
+      valueRef.current.lastTag !== maybeNewPlumbLastTag
+    ) {
+      setValue({ state: maybeNewPlumbState, lastTag: plumb.lastTag });
     }
   }, [plumb]);
 
   useLayoutEffect(() => {
-    const subscription = plumb.subscribe((nextState) => {
+    const subscription = plumb.subscribe((nextState, nextTag) => {
       const performSetState = () => {
-        if (!(stateIsEqual || shallowEqual)(stateRef.current, nextState)) {
-          setState(nextState);
+        if (
+          !(stateIsEqual || shallowEqual)(valueRef.current.state, nextState) ||
+          valueRef.current.lastTag !== nextTag
+        ) {
+          setValue({ state: nextState, lastTag: nextTag });
         }
       };
 
@@ -62,40 +76,64 @@ export function usePlumbState<S, T>(plumb: Plumb<S, T>, props: UsePlumbStateProp
     };
   }, [plumb, setWithTimeout]);
 
-  return state;
+  return [value.state, value.lastTag];
+}
+
+export interface PlumbStateProps<S, T> extends UsePlumbStateProps<S, T> {
+  children: (state: S, lastTag: T | undefined) => React.ReactNode;
+}
+
+export function PlumbState<S, T>(props: PlumbStateProps<S, T>) {
+  const { children, ...rest } = props;
+  const [state, lastTag] = usePlumbState(rest);
+  return children(state, lastTag);
+}
+
+export interface UseMappedPlumbStateProps<S, K, T>
+  extends Omit<UsePlumbStateProps<S, T>, 'stateIsEqual'> {
+  mapper: (state: S) => K;
+  stateIsEqual?: (prev: K, next: K) => boolean;
 }
 
 export function useMappedPlumbState<S, K, T>(
-  plumb: Plumb<S, T>,
-  mapper: (state: S) => K,
-  props: UsePlumbStateProps<K> = {},
-): K {
-  const { setWithTimeout, stateIsEqual } = props;
+  props: UseMappedPlumbStateProps<S, K, T>,
+): [K, T | undefined] {
+  const { plumb = usePlumbContext<S, T>(), mapper, setWithTimeout, stateIsEqual } = props;
 
-  const [state, setState] = useState(() => mapper(plumb.state));
+  const [value, setValue] = useState(() => ({
+    state: mapper(plumb.state),
+    lastTag: plumb.lastTag,
+  }));
 
-  const stateRef = useRef<K>(state);
-  if (stateRef.current !== state) {
-    stateRef.current = state;
+  const valueRef = useRef<{ state: K; lastTag: T | undefined }>(value);
+  if (valueRef.current !== value) {
+    valueRef.current = value;
   }
 
   const initRef = useRef(false);
   useLayoutEffect(() => {
     if (initRef.current) {
       const maybeNewPlumbState = mapper(plumb.state);
-      if (stateRef.current !== maybeNewPlumbState) {
-        setState(maybeNewPlumbState);
+      const maybeNewPlumbLastTag = plumb.lastTag;
+      if (
+        valueRef.current.state !== maybeNewPlumbState ||
+        valueRef.current.lastTag !== maybeNewPlumbLastTag
+      ) {
+        setValue({ state: maybeNewPlumbState, lastTag: maybeNewPlumbLastTag });
       }
     }
     initRef.current = true;
   }, [plumb]);
 
   useLayoutEffect(() => {
-    const subscription = plumb.subscribe((nextState) => {
+    const subscription = plumb.subscribe((nextState, nextTag) => {
       const performSetState = () => {
         const mappedState = mapper(nextState);
-        if (!(stateIsEqual || shallowEqual)(stateRef.current, mappedState)) {
-          setState(mappedState);
+        if (
+          !(stateIsEqual || shallowEqual)(valueRef.current.state, mappedState) ||
+          valueRef.current.lastTag !== nextTag
+        ) {
+          setValue({ state: mappedState, lastTag: nextTag });
         }
       };
 
@@ -110,5 +148,15 @@ export function useMappedPlumbState<S, K, T>(
     };
   }, [plumb, mapper]);
 
-  return state;
+  return [value.state, value.lastTag];
+}
+
+export interface MappedPlumbStateProps<S, K, T> extends UseMappedPlumbStateProps<S, K, T> {
+  children: (state: K, lastTag: T | undefined) => React.ReactNode;
+}
+
+export function MappedPlumbState<S, K, T>(props: MappedPlumbStateProps<S, K, T>) {
+  const { children, ...rest } = props;
+  const [state, lastTag] = useMappedPlumbState(rest);
+  return children(state, lastTag);
 }

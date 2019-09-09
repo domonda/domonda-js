@@ -31,9 +31,14 @@ describe('useMappedPlumbState', () => {
     it('should dispatch initial value when supplied', async () => {
       const plumb = makePlumb();
 
-      const { result } = renderHook(() => useMappedPlumbState(plumb, getDocument));
+      const { result } = renderHook(() =>
+        useMappedPlumbState({
+          plumb,
+          mapper: getDocument,
+        }),
+      );
 
-      expect(result.current).toBe(getDocument(initialState));
+      expect(result.current[0]).toBe(getDocument(initialState));
     });
   });
 
@@ -60,18 +65,19 @@ describe('useMappedPlumbState', () => {
       const plumb = makePlumb();
 
       const { result, waitForNextUpdate } = renderHook(() =>
-        useMappedPlumbState(plumb, getDocument),
+        useMappedPlumbState({ plumb, mapper: getDocument }),
       );
 
       // dispatch first
       act(() => {
-        nextValues.forEach((value) => plumb.next(value, undefined));
+        nextValues.forEach((value) => plumb.next(value, 'tag'));
       });
 
       // then wait for updates
       nextValues.forEach(async (value) => {
         await waitForNextUpdate();
-        expect(result.current).toBe(getDocument(value));
+        expect(result.current[0]).toBe(getDocument(value));
+        expect(result.current[1]).toBe('tag');
       });
     });
   });
@@ -80,11 +86,13 @@ describe('useMappedPlumbState', () => {
     it('should unsubscribe from the plumb on unmount', () => {
       const plumb = makePlumb();
 
-      const { unmount } = renderHook(() => useMappedPlumbState(plumb, getDocument));
+      const { unmount } = renderHook(() => useMappedPlumbState({ plumb, mapper: getDocument }));
 
       expect(plumb.subscribers.length).toBe(1);
 
-      unmount();
+      act(() => {
+        unmount();
+      });
 
       expect(plumb.subscribers.length).toBe(0);
     });
