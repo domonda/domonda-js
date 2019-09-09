@@ -12,6 +12,7 @@ export function createPlumb<S, T>(initialState: S, props: PlumbProps<S, T> = {})
   const disposeHandlers: (() => void)[] = [];
   let disposed = false;
   let internalState = initialState;
+  let lastTag: T | undefined;
 
   if (transformer && !skipInitialTransform) {
     internalState = transformer(internalState, undefined);
@@ -44,6 +45,7 @@ export function createPlumb<S, T>(initialState: S, props: PlumbProps<S, T> = {})
     }
 
     internalState = state;
+    lastTag = tag;
 
     // first do all extra transformers
     for (const transformer of transformers) {
@@ -187,6 +189,7 @@ export function createPlumb<S, T>(initialState: S, props: PlumbProps<S, T> = {})
     disposeHandlers.splice(0, disposeHandlers.length);
 
     internalState = (undefined as any) as S;
+    lastTag = undefined;
     disposed = true;
   }
 
@@ -196,6 +199,12 @@ export function createPlumb<S, T>(initialState: S, props: PlumbProps<S, T> = {})
         throw new Error('cannot get state of a disposed plumb');
       }
       return internalState;
+    },
+    get lastTag() {
+      if (disposed) {
+        throw new Error('cannot get last tag of a disposed plumb');
+      }
+      return lastTag;
     },
     get subscribers() {
       if (disposed) {

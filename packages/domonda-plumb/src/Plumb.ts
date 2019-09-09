@@ -38,6 +38,7 @@ export interface PlumbProps<S, T> {
 
 export interface Plumb<S, T> extends Disposable {
   readonly state: S;
+  readonly lastTag: T | undefined; // undefined because of initialization
   readonly subscribers: Subscriber<S, T>[];
   readonly disposed: boolean;
   chain: <K>(props: ChainProps<S, K, T>, tag: T) => Plumb<K, T>;

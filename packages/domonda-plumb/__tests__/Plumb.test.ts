@@ -6,6 +6,7 @@ describe('Plumb', () => {
       const plumb = createPlumb('');
 
       expect(plumb.state).toBe('');
+      expect(plumb.lastTag).toBeUndefined();
     });
   });
 
@@ -35,7 +36,7 @@ describe('Plumb', () => {
       expect(plumb.subscribers).toEqual([spy, sub]);
     });
 
-    it('should receive tags from tagged nexts', () => {
+    it('should receive tags from tagged nexts and store the last tag', () => {
       const plumb = createPlumb('');
 
       const tags = ['1', '2', 'three', 'f0ur'];
@@ -48,6 +49,7 @@ describe('Plumb', () => {
 
       tags.forEach((tag) => {
         plumb.next('', tag);
+        expect(plumb.lastTag).toBe(tag);
       });
 
       expect(spy1).toBeCalledTimes(tags.length);
@@ -56,6 +58,8 @@ describe('Plumb', () => {
         expect(spy1.mock.calls[index][1]).toBe(tag);
         expect(spy2.mock.calls[index][1]).toBe(tag);
       });
+
+      expect(plumb.lastTag).toBe(tags[tags.length - 1]);
     });
 
     describe('dispose', () => {
@@ -100,18 +104,23 @@ describe('Plumb', () => {
       expect(plumb.state).toBe(handledState);
     });
 
-    it('should receive tags from tagged nexts', () => {
+    it('should receive tags from tagged nexts and store the last tag', () => {
       const spy = jest.fn((_0, _1) => '');
       const plumb = createPlumb('', { transformer: spy, skipInitialTransform: true });
 
       const tags = ['one', '2', 'three', '4'];
 
-      tags.forEach((tag) => plumb.next('', tag));
+      tags.forEach((tag) => {
+        plumb.next('', tag);
+        expect(plumb.lastTag).toBe(tag);
+      });
 
       expect(spy).toBeCalledTimes(tags.length);
       tags.forEach((tag, index) => {
         expect(spy.mock.calls[index][1]).toBe(tag);
       });
+
+      expect(plumb.lastTag).toBe(tags[tags.length - 1]);
     });
 
     it('should skip initial transform with skipInitialTransform', () => {
@@ -259,7 +268,7 @@ describe('Plumb', () => {
       expect(personSpy.mock.calls[0][0]).toBe(jane);
     });
 
-    it('should send tags from tagged nexts to parent subscribers', () => {
+    it('should send tags from tagged nexts to parent subscribers and store the last tag', () => {
       const plumb = createPlumb(initialState);
 
       const updater = jest.fn((_0, personState) => {
@@ -278,12 +287,14 @@ describe('Plumb', () => {
         },
         'chain',
       );
+      expect(plumb.lastTag).toBe('chain');
 
       person.next({ id: '', name: '' }, 'next');
 
       expect(spy).toBeCalledTimes(2);
       expect(spy.mock.calls[0][1]).toBe('chain');
       expect(spy.mock.calls[1][1]).toBe('next');
+      expect(plumb.lastTag).toBe('next');
     });
 
     it('should call child transformers when sending a value through the parent', () => {
@@ -591,6 +602,9 @@ describe('Plumb', () => {
 
       expect(() => {
         plumb.state;
+      }).toThrow();
+      expect(() => {
+        plumb.lastTag;
       }).toThrow();
       expect(() => {
         plumb.subscribers;
