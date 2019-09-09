@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.2.0](https://github.com/domonda/domonda-js/compare/@domonda/plumb@2.1.2...@domonda/plumb@2.2.0) (2019-09-09)
+
+
+### Features
+
+* **tag:** introduce `lastTag` ([d1d9e26](https://github.com/domonda/domonda-js/commit/d1d9e26))
+
+
+
+
+
 ## [2.1.2](https://github.com/domonda/domonda-js/compare/@domonda/plumb@2.1.1...@domonda/plumb@2.1.2) (2019-09-06)
 
 **Note:** Version bump only for package @domonda/plumb

@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.1.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@4.0.1...@domonda/ui@4.1.0) (2019-09-09)
+
+
+### Features
+
+* **Flex:** introduce `zeroMinWidth` ([dff881c](https://github.com/domonda/domonda-js/commit/dff881c))
+* **RowItem:** introduce `clickable` state ([477a616](https://github.com/domonda/domonda-js/commit/477a616))
+* **Text:** introduce `withPlaceholder` and `wrap` ([225bfdf](https://github.com/domonda/domonda-js/commit/225bfdf))
+
+
+
+
+
 ## [4.0.1](https://github.com/domonda/domonda-js/compare/@domonda/ui@4.0.0...@domonda/ui@4.0.1) (2019-09-06)
 
 
