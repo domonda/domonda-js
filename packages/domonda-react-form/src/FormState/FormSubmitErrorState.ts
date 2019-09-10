@@ -10,13 +10,13 @@ import { useFormState, UseFormStateProps } from './useFormState';
 import { submitErrorSelector } from './selectors';
 
 export function useFormSubmitErrorState<DefaultValues extends object>(
-  props?: UseFormStateProps,
+  props?: UseFormStateProps<any>,
 ): [Error | null, DomondaForm<DefaultValues>] {
   const [value, form] = useFormState<DefaultValues, Error | null>(submitErrorSelector, props);
   return [value, form];
 }
 
-export interface FormSubmitErrorStateProps<DV extends object> extends UseFormStateProps {
+export interface FormSubmitErrorStateProps<DV extends object> extends UseFormStateProps<any> {
   children: (value: Error | null, form: DomondaForm<DV>) => React.ReactElement | null;
 }
 

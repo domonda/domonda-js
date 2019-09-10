@@ -10,13 +10,13 @@ import { useFormState, UseFormStateProps } from './useFormState';
 import { submittingSelector } from './selectors';
 
 export function useFormSubmittingState<DefaultValues extends object>(
-  props?: UseFormStateProps,
+  props?: UseFormStateProps<any>,
 ): [boolean, DomondaForm<DefaultValues>] {
   const [value, form] = useFormState<DefaultValues, boolean>(submittingSelector, props);
   return [value, form];
 }
 
-export interface FormSubmittingStateProps<DV extends object> extends UseFormStateProps {
+export interface FormSubmittingStateProps<DV extends object> extends UseFormStateProps<any> {
   children: (value: boolean, form: DomondaForm<DV>) => React.ReactElement | null;
 }
 

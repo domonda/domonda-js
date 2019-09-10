@@ -8,9 +8,8 @@ import React, { useCallback, useMemo, useEffect, useState, useRef } from 'react'
 import { parseISOToDate, stripTime } from './date';
 import { UseFormFieldProps, FormFieldAPI, FormFieldValidate } from '../FormField';
 import { useFormContext } from '../FormContext';
-import { usePlumb, useDeepMemoOnValue } from '../hooks';
 import { DateInput, DateInputProps } from './DateInput';
-import { Plumb } from '@domonda/plumb';
+import { Plumb, usePlumbState, useDeepMemoOnValue } from '@domonda/react-plumb';
 
 export type FormDateFieldValidate = FormFieldValidate<Date | string | null>;
 
@@ -65,7 +64,7 @@ export function useFormDateField(props: UseFormDateFieldProps): FormDateFieldAPI
       inputRef,
       ...rest
     }) => {
-      const { value, validityMessage } = usePlumb(field.plumb);
+      const [{ value, validityMessage }] = usePlumbState({ plumb: field.plumb });
 
       const [inputEl, setInputEl] = useState<HTMLInputElement | null>(null);
 

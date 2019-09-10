@@ -10,13 +10,13 @@ import { useFormState, UseFormStateProps } from './useFormState';
 import { lockedSelector } from './selectors';
 
 export function useFormLockedState<DefaultValues extends object>(
-  props?: UseFormStateProps,
+  props?: UseFormStateProps<any>,
 ): [boolean, DomondaForm<DefaultValues>] {
   const [value, form] = useFormState<DefaultValues, boolean>(lockedSelector, props);
   return [value, form];
 }
 
-export interface FormLockedStateProps<DV extends object> extends UseFormStateProps {
+export interface FormLockedStateProps<DV extends object> extends UseFormStateProps<any> {
   children: (value: boolean, form: DomondaForm<DV>) => React.ReactElement | null;
 }
 

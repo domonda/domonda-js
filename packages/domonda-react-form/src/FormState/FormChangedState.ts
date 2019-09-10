@@ -10,13 +10,13 @@ import { useFormState, UseFormStateProps } from './useFormState';
 import { changedSelector } from './selectors';
 
 export function useFormChangedState<DefaultValues extends object>(
-  props?: UseFormStateProps,
+  props?: UseFormStateProps<any>,
 ): [boolean, DomondaForm<DefaultValues>] {
   const [value, form] = useFormState<DefaultValues, boolean>(changedSelector, props);
   return [value, form];
 }
 
-export interface FormChangedStateProps<DV extends object> extends UseFormStateProps {
+export interface FormChangedStateProps<DV extends object> extends UseFormStateProps<any> {
   children: (value: boolean, form: DomondaForm<DV>) => React.ReactElement | null;
 }
 
