@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.1.1](https://github.com/domonda/domonda-js/compare/@domonda/ui@4.1.0...@domonda/ui@4.1.1) (2019-09-10)
+
+**Note:** Version bump only for package @domonda/ui
+
+
+
+
+
 # [4.1.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@4.0.1...@domonda/ui@4.1.0) (2019-09-09)
 
 
