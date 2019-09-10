@@ -79,10 +79,10 @@ export function usePlumbState<S, T>(props: UsePlumbStateProps<S, T> = {}): [S, T
 }
 
 export interface PlumbStateProps<S, T> extends UsePlumbStateProps<S, T> {
-  children: (state: S, lastTag: T | undefined) => React.ReactNode;
+  children: (state: S, lastTag: T | undefined) => React.ReactElement | null;
 }
 
-export function PlumbState<S, T>(props: PlumbStateProps<S, T>) {
+export function PlumbState<S, T>(props: PlumbStateProps<S, T>): React.ReactElement | null {
   const { children, ...rest } = props;
   const [state, lastTag] = usePlumbState(rest);
   return children(state, lastTag);
@@ -151,10 +151,12 @@ export function useMappedPlumbState<S, K, T>(
 }
 
 export interface MappedPlumbStateProps<S, K, T> extends UseMappedPlumbStateProps<S, K, T> {
-  children: (state: K, lastTag: T | undefined) => React.ReactNode;
+  children: (state: K, lastTag: T | undefined) => React.ReactElement | null;
 }
 
-export function MappedPlumbState<S, K, T>(props: MappedPlumbStateProps<S, K, T>) {
+export function MappedPlumbState<S, K, T>(
+  props: MappedPlumbStateProps<S, K, T>,
+): React.ReactElement | null {
   const { children, ...rest } = props;
   const [state, lastTag] = useMappedPlumbState(rest);
   return children(state, lastTag);
