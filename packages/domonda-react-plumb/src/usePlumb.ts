@@ -26,11 +26,13 @@ export function usePlumb<S, T>(state: S, tag: T, props: UsePlumbProps<S, T> = {}
     return createPlumb(state, memoizedPlumbProps);
   }, [memoizedPlumbProps]);
 
+  const initRef = useRef(true);
   const memoizedState = useValueIsEqual(state, stateIsEqual || shallowEqual);
   useLayoutEffect(() => {
-    if (plumbRef.current && !plumbRef.current.disposed) {
+    if (!initRef.current && plumbRef.current && !plumbRef.current.disposed) {
       plumbRef.current.next(memoizedState, tag);
     }
+    initRef.current = false;
   }, [memoizedState]);
 
   if (plumbRef.current !== plumb) {
