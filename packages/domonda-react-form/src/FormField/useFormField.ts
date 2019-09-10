@@ -7,8 +7,8 @@
 import { useMemo, useRef, useEffect } from 'react';
 import { useFormContext } from '../FormContext';
 import { FormFieldConfig, FormFieldValidate, FormField } from '@domonda/form';
-import { usePlumb, useDeepMemoOnValue } from '../hooks';
 import { Plumb } from '@domonda/plumb';
+import { usePlumbState, useDeepMemoOnValue } from '@domonda/react-plumb';
 
 export { FormFieldValidate };
 
@@ -47,7 +47,7 @@ export function useFormField<Value>(props: UseFormFieldProps<Value>): FormFieldA
     [],
   );
 
-  const state = usePlumb<any, any>(field.plumb);
+  const [state] = usePlumbState<any, any>({ plumb: field.plumb });
 
   return {
     ...field,

@@ -37,6 +37,7 @@
   "dependencies": {
     "@domonda/form": "^2.1.3",
     "@domonda/plumb": "^2.2.0",
+    "@domonda/react-plumb": "^1.0.0",
     "@domonda/ui": "^4.1.0",
     "clsx": "^1.0.4",
     "fast-equals": "^2.0.0",
