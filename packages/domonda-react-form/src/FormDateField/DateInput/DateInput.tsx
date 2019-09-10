@@ -40,7 +40,7 @@ export interface DateInputProps {
   filterDate?(date: Date): boolean;
   fixedHeight?: boolean;
   forceShowMonthNavigation?: boolean;
-  formatWeekDay?(date: Date): string;
+  formatWeekDay?(formattedDate: string): string;
   formatWeekNumber?(date: Date): string | number;
   highlightDates?:
     | {
