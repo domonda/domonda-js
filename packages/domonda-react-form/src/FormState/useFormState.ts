@@ -5,18 +5,22 @@
  */
 
 import { Form as DomondaForm, FormState as DomondaFormState } from '@domonda/form';
-import { useMappedPlumb, UsePlumbProps } from '../hooks/plumb';
+import { UsePlumbStateProps, useMappedPlumbState } from '@domonda/react-plumb';
 import { useFormContext } from '../FormContext';
 
 export type UseFormStateSelector<DV extends object, V> = (state: DomondaFormState<DV>) => V;
 
-export type UseFormStateProps = UsePlumbProps;
+export type UseFormStateProps<V> = Omit<UsePlumbStateProps<V, any>, 'plumb'>;
 
 export function useFormState<DefaultValues extends object, V>(
   selector: UseFormStateSelector<DefaultValues, V>,
-  props?: UseFormStateProps,
+  props?: UseFormStateProps<V>,
 ): [V, DomondaForm<DefaultValues>] {
   const form = useFormContext<DefaultValues>();
-  const value = useMappedPlumb(form.plumb, selector, props);
-  return [value, form];
+  const [state] = useMappedPlumbState({
+    plumb: form.plumb,
+    mapper: selector,
+    ...props,
+  });
+  return [state, form];
 }
