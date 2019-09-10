@@ -40,9 +40,7 @@
     "@types/history": "^4.7.3",
     "@types/lodash": "^4.14.138",
     "@types/react": "^16.8.25",
-    "@types/react-dom": "^16.8.5",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0"
+    "@types/react-dom": "^16.8.5"
   },
   "dependencies": {
     "fast-equals": "^2.0.0",
