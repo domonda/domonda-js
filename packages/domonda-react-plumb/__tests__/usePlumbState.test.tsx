@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { createPlumb } from '@domonda/plumb';
-import { useMappedPlumbState } from '../src/usePlumbState';
+import { useMappedPlumbState, usePlumbState } from '../src/usePlumbState';
 import { PlumbContext } from '../src/PlumbContext';
 
 // t
@@ -118,6 +118,104 @@ describe('useMappedPlumbState', () => {
         expect(result.current[0]).toBe(getDocument(value));
         expect(result.current[1]).toBe('tag');
       });
+    });
+
+    it('should update only when value changes', () => {
+      const initialState = { id: '1' };
+      const plumb = createPlumb(initialState);
+
+      const { result, rerender } = renderHook(() => usePlumbState(), {
+        wrapper: ({ children }) => (
+          <PlumbContext.Provider value={plumb}>{children}</PlumbContext.Provider>
+        ),
+      });
+
+      act(() => {
+        plumb.next(
+          {
+            id: '1',
+          },
+          undefined,
+        );
+      });
+
+      rerender();
+
+      expect(result.current[0]).toBe(initialState);
+    });
+
+    it('should update only when mapped value changes', () => {
+      const plumb = makePlumb();
+
+      const { result, rerender } = renderHook(() => useMappedPlumbState({ mapper: getDocument }), {
+        wrapper: ({ children }) => (
+          <PlumbContext.Provider value={plumb}>{children}</PlumbContext.Provider>
+        ),
+      });
+
+      act(() => {
+        plumb.next(
+          {
+            document: {
+              id: '216d993e',
+            },
+          },
+          undefined,
+        );
+      });
+
+      rerender();
+
+      expect(result.current[0]).toBe(getDocument(initialState));
+    });
+
+    it('should ignore tag changes when value stays the same', () => {
+      const initialState = { id: '1' };
+      const plumb = createPlumb(initialState);
+
+      const { result, rerender } = renderHook(() => usePlumbState(), {
+        wrapper: ({ children }) => (
+          <PlumbContext.Provider value={plumb}>{children}</PlumbContext.Provider>
+        ),
+      });
+
+      act(() => {
+        plumb.next(
+          {
+            id: '1',
+          },
+          'other-tag',
+        );
+      });
+
+      rerender();
+
+      expect(result.current[0]).toBe(initialState);
+    });
+
+    it('should ignore tag changes when mapped value stays the same', () => {
+      const plumb = makePlumb();
+
+      const { result, rerender } = renderHook(() => useMappedPlumbState({ mapper: getDocument }), {
+        wrapper: ({ children }) => (
+          <PlumbContext.Provider value={plumb}>{children}</PlumbContext.Provider>
+        ),
+      });
+
+      act(() => {
+        plumb.next(
+          {
+            document: {
+              id: '216d993e',
+            },
+          },
+          'other-tag',
+        );
+      });
+
+      rerender();
+
+      expect(result.current[0]).toBe(getDocument(initialState));
     });
   });
 

@@ -44,11 +44,7 @@ export function usePlumbState<S, T>(props: UsePlumbStateProps<S, T> = {}): [S, T
 
   useLayoutEffect(() => {
     const maybeNewPlumbState = plumb.state;
-    const maybeNewPlumbLastTag = plumb.lastTag;
-    if (
-      valueRef.current.state !== maybeNewPlumbState ||
-      valueRef.current.lastTag !== maybeNewPlumbLastTag
-    ) {
+    if (valueRef.current.state !== maybeNewPlumbState) {
       setValue({ state: maybeNewPlumbState, lastTag: plumb.lastTag });
     }
   }, [plumb]);
@@ -56,10 +52,7 @@ export function usePlumbState<S, T>(props: UsePlumbStateProps<S, T> = {}): [S, T
   useLayoutEffect(() => {
     const subscription = plumb.subscribe((nextState, nextTag) => {
       const performSetState = () => {
-        if (
-          !(stateIsEqual || shallowEqual)(valueRef.current.state, nextState) ||
-          valueRef.current.lastTag !== nextTag
-        ) {
+        if (!(stateIsEqual || shallowEqual)(valueRef.current.state, nextState)) {
           setValue({ state: nextState, lastTag: nextTag });
         }
       };
@@ -109,29 +102,22 @@ export function useMappedPlumbState<S, K, T>(
     valueRef.current = value;
   }
 
-  const initRef = useRef(false);
+  const initRef = useRef(true);
   useLayoutEffect(() => {
-    if (initRef.current) {
+    if (!initRef.current) {
       const maybeNewPlumbState = mapper(plumb.state);
-      const maybeNewPlumbLastTag = plumb.lastTag;
-      if (
-        valueRef.current.state !== maybeNewPlumbState ||
-        valueRef.current.lastTag !== maybeNewPlumbLastTag
-      ) {
-        setValue({ state: maybeNewPlumbState, lastTag: maybeNewPlumbLastTag });
+      if (valueRef.current.state !== maybeNewPlumbState) {
+        setValue({ state: maybeNewPlumbState, lastTag: plumb.lastTag });
       }
     }
-    initRef.current = true;
+    initRef.current = false;
   }, [plumb]);
 
   useLayoutEffect(() => {
     const subscription = plumb.subscribe((nextState, nextTag) => {
       const performSetState = () => {
         const mappedState = mapper(nextState);
-        if (
-          !(stateIsEqual || shallowEqual)(valueRef.current.state, mappedState) ||
-          valueRef.current.lastTag !== nextTag
-        ) {
+        if (!(stateIsEqual || shallowEqual)(valueRef.current.state, mappedState)) {
           setValue({ state: mappedState, lastTag: nextTag });
         }
       };
