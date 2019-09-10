@@ -212,7 +212,7 @@ describe('Updating', () => {
     expect(spy).toBeCalledTimes(1);
   });
 
-  it('should correctly handle changed status when default values change', () => {
+  it.only('should correctly handle changed status when default values change', () => {
     const spy = jest.fn((_0) => null);
 
     const dv = {
