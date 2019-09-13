@@ -136,8 +136,8 @@ export function parseQueryParams<V>(queryString: string, model: QueryModel<V>): 
 function deepFreeze<T extends { [key: string]: any }>(o: T): T {
   Object.freeze(o);
 
-  var oIsFunction = typeof o === 'function';
-  var hasOwnProp = Object.prototype.hasOwnProperty;
+  const oIsFunction = typeof o === 'function';
+  const hasOwnProp = Object.prototype.hasOwnProperty;
 
   Object.getOwnPropertyNames(o).forEach(function(prop) {
     if (
