@@ -1,4 +1,4 @@
-import { QueryModel, parseQueryParams } from '../src/queryParams';
+import { QueryModel, parseQueryParams, stringify } from '../src/queryParams';
 
 it('should parse strings', () => {
   const model: QueryModel<{ str: string }> = {
@@ -235,4 +235,32 @@ it('should parse the complete model', () => {
     nums: [-1],
     enum: 'VALID_ENUM',
   });
+});
+
+it('should not allow mutations on resulting parameters', () => {
+  interface State {
+    arr: string[] | undefined;
+  }
+
+  const model: QueryModel<State> = {
+    arr: {
+      type: 'array',
+      defaultValue: undefined,
+    },
+  };
+
+  const state: State = {
+    arr: ['one'],
+  };
+
+  const values = parseQueryParams(stringify(state, { prependQuestionMark: true }), model);
+
+  try {
+    if (values.arr) values.arr[0] = 'two';
+  } catch (err) {
+    // because of strict mode
+    expect(err).toBeInstanceOf(TypeError);
+  }
+
+  expect(values).toEqual(state);
 });
