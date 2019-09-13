@@ -37,10 +37,13 @@
     "react-dom": "^16.9.0"
   },
   "devDependencies": {
+    "@testing-library/react": "^9.1.4",
+    "@testing-library/react-hooks": "^2.0.1",
     "@types/history": "^4.7.3",
     "@types/lodash": "^4.14.138",
     "@types/react": "^16.8.25",
-    "@types/react-dom": "^16.8.5"
+    "@types/react-dom": "^16.8.5",
+    "react-test-renderer": "^16.9.0"
   },
   "dependencies": {
     "fast-equals": "^2.0.0",
