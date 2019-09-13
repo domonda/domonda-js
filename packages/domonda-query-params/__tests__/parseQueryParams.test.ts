@@ -269,7 +269,19 @@ it('should not allow mutations on resulting parameters', () => {
 
   try {
     values.str = 'two';
+  } catch (err) {
+    // because of strict mode
+    expect(err).toBeInstanceOf(TypeError);
+  }
+
+  try {
     values.num = 2;
+  } catch (err) {
+    // because of strict mode
+    expect(err).toBeInstanceOf(TypeError);
+  }
+
+  try {
     values.arr[0] = 'two';
   } catch (err) {
     // because of strict mode
