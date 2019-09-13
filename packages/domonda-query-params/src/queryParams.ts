@@ -119,7 +119,7 @@ export function parseQueryParams<V>(queryString: string, model: QueryModel<V>): 
       return parsedQueryValue;
     })();
 
-    return {
+    return deepFreeze({
       ...accumulator,
       [key]:
         parsedAndValidatedQueryValue === undefined
@@ -127,8 +127,19 @@ export function parseQueryParams<V>(queryString: string, model: QueryModel<V>): 
             ? (defaultValue as () => V[keyof V])()
             : defaultValue
           : parsedAndValidatedQueryValue,
-    };
+    });
   }, {});
 
   return parsedValues as V;
+}
+
+function deepFreeze<T extends { [key: string]: any }>(object: T): T {
+  Object.freeze(object);
+  Object.getOwnPropertyNames(object).forEach((name) => {
+    const property = object[name];
+    if (property && typeof property === 'object' && !Object.isFrozen(property)) {
+      deepFreeze(property);
+    }
+  });
+  return object;
 }

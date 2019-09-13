@@ -4,7 +4,7 @@
  *
  */
 
-import { useMemo, useRef, useState, useEffect, useContext } from 'react';
+import { useMemo, useRef, useState, useLayoutEffect, useContext } from 'react';
 import { QueryModel, parseQueryParams, stringify } from './queryParams';
 import { QueryParamsContext } from './QueryParamsContext';
 import { deepEqual, shallowEqual } from 'fast-equals';
@@ -46,7 +46,7 @@ export function useQueryParams<T>(
   const [location, setLocation] = useState(history.location);
   const { pathname, search: queryString } = location;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // guarantee history location consistency. sometimes
     // history gets updated before the effect is even
     // called, this results in stale location state.
@@ -78,7 +78,7 @@ export function useQueryParams<T>(
     queryParamsRef.current = queryParams;
   }
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!disableReplace) {
       const actualQueryString = stringify(queryParamsRef.current, { prependQuestionMark: true });
       if (actualQueryString !== history.location.search) {
