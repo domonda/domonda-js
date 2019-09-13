@@ -38,7 +38,7 @@
   "dependencies": {
     "clsx": "^1.0.4",
     "deepmerge": "^4.0.0",
-    "downshift": "^3.2.12",
+    "downshift": "^3.3.1",
     "jss-plugin-camel-case": "^10.0.0-alpha.24",
     "jss-plugin-global": "^10.0.0-alpha.24",
     "jss-plugin-nested": "^10.0.0-alpha.24",
@@ -67,6 +67,6 @@
     "fork-ts-checker-webpack-plugin": "^1.5.0",
     "react-docgen-typescript-loader": "^3.2.0",
     "react-test-renderer": "^16.9.0",
-    "ts-loader": "^6.0.4"
+    "ts-loader": "^6.1.0"
   }
 }
