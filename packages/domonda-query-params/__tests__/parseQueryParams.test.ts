@@ -239,24 +239,38 @@ it('should parse the complete model', () => {
 
 it('should not allow mutations on resulting parameters', () => {
   interface State {
-    arr: string[] | undefined;
+    str: string;
+    num: number;
+    arr: string[];
   }
 
   const model: QueryModel<State> = {
+    str: {
+      type: 'string',
+      defaultValue: '',
+    },
+    num: {
+      type: 'number',
+      defaultValue: 0,
+    },
     arr: {
       type: 'array',
-      defaultValue: undefined,
+      defaultValue: [''],
     },
   };
 
   const state: State = {
+    str: 'one',
+    num: 1,
     arr: ['one'],
   };
 
   const values = parseQueryParams(stringify(state, { prependQuestionMark: true }), model);
 
   try {
-    if (values.arr) values.arr[0] = 'two';
+    values.str = 'two';
+    values.num = 2;
+    values.arr[0] = 'two';
   } catch (err) {
     // because of strict mode
     expect(err).toBeInstanceOf(TypeError);
