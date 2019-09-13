@@ -133,23 +133,13 @@ export function parseQueryParams<V>(queryString: string, model: QueryModel<V>): 
   return parsedValues as V;
 }
 
-function deepFreeze<T extends { [key: string]: any }>(o: T): T {
-  Object.freeze(o);
-
-  const oIsFunction = typeof o === 'function';
-  const hasOwnProp = Object.prototype.hasOwnProperty;
-
-  Object.getOwnPropertyNames(o).forEach(function(prop) {
-    if (
-      hasOwnProp.call(o, prop) &&
-      (oIsFunction ? prop !== 'caller' && prop !== 'callee' && prop !== 'arguments' : true) &&
-      o[prop] !== null &&
-      (typeof o[prop] === 'object' || typeof o[prop] === 'function') &&
-      !Object.isFrozen(o[prop])
-    ) {
-      deepFreeze(o[prop]);
+function deepFreeze<T extends { [key: string]: any }>(object: T): T {
+  Object.freeze(object);
+  Object.getOwnPropertyNames(object).forEach((name) => {
+    const property = object[name];
+    if (property && typeof property === 'object' && !Object.isFrozen(property)) {
+      deepFreeze(property);
     }
   });
-
-  return o;
+  return object;
 }
