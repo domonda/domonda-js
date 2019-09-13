@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/domonda/domonda-js/compare/@domonda/query-params@1.1.6...@domonda/query-params@1.2.0) (2019-09-13)
+
+
+### Features
+
+* **queryParams:** implement deep freeze on parsed query params to prevent mutations and add mutation test ([448319a](https://github.com/domonda/domonda-js/commit/448319a))
+* **useQueryParams:** introduce some tests ([4822f7d](https://github.com/domonda/domonda-js/commit/4822f7d))
+
+
+
+
+
 ## [1.1.6](https://github.com/domonda/domonda-js/compare/@domonda/query-params@1.1.5...@domonda/query-params@1.1.6) (2019-09-10)
 
 **Note:** Version bump only for package @domonda/query-params

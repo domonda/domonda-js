@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.1](https://github.com/domonda/domonda-js/compare/@domonda/react-plumb@1.1.0...@domonda/react-plumb@1.1.1) (2019-09-13)
+
+**Note:** Version bump only for package @domonda/react-plumb
+
+
+
+
+
 # [1.1.0](https://github.com/domonda/domonda-js/compare/@domonda/react-plumb@1.0.0...@domonda/react-plumb@1.1.0) (2019-09-10)
 
 
