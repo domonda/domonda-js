@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { useSafeState } from '../src/useSafeSetState';
+import { useSafeState } from '../src/useSafeState';
 
 // t
 import { renderHook, act } from '@testing-library/react-hooks';
