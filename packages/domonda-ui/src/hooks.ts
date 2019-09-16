@@ -1,5 +1,12 @@
+/**
+ *
+ * hooks
+ *
+ */
+
 import { useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import ResizeObserver from 'resize-observer-polyfill';
+import { shallowEqual } from 'fast-equals';
 
 export function useForceUpdate() {
   const [, setCounter] = useState(0);
@@ -85,4 +92,21 @@ export function useForkRef<T>(
       setRef(refB, refValue);
     };
   }, [refA, refB]);
+}
+
+export function useMemoRenderer<P = {}>(
+  props: P,
+  render: (props: P) => React.ReactElement | null,
+  propsAreEqual: (prev: P, next: P) => boolean = shallowEqual,
+) {
+  const propsRef = useRef<P>();
+  const elementRef = useRef<React.ReactElement | null>();
+
+  if (!propsRef.current || !propsAreEqual(propsRef.current, props)) {
+    elementRef.current = render(props);
+  }
+
+  propsRef.current = props;
+
+  return elementRef.current as React.ReactElement | null;
 }

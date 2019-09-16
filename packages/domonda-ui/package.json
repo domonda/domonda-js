@@ -39,6 +39,7 @@
     "clsx": "^1.0.4",
     "deepmerge": "^4.0.0",
     "downshift": "^3.3.1",
+    "fast-equals": "^2.0.0",
     "jss-plugin-camel-case": "^10.0.0-alpha.24",
     "jss-plugin-global": "^10.0.0-alpha.24",
     "jss-plugin-nested": "^10.0.0-alpha.24",
