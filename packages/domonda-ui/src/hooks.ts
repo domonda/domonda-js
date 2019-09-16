@@ -86,21 +86,3 @@ export function useForkRef<T>(
     };
   }, [refA, refB]);
 }
-
-/** Hook allowing you to debounce a state change. */
-export function useDebouncedState<S>(delay: number): [S | undefined, (state: S) => void];
-export function useDebouncedState<S>(delay: number, initialState?: S): [S, (state: S) => void];
-export function useDebouncedState<S>(
-  delay: number,
-  initialState?: S,
-): [S | undefined, (state: S) => void] {
-  const [state, setState] = useState(initialState);
-  const [debouncedState, setDebouncedState] = useState(state);
-
-  useEffect(() => {
-    const timeout = setTimeout(() => setDebouncedState(state), delay);
-    return () => clearTimeout(timeout);
-  }, [state]);
-
-  return [debouncedState, setState];
-}
