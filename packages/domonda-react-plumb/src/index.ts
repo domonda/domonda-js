@@ -4,3 +4,4 @@ export * from './usePlumb';
 export * from './usePlumbState';
 export * from './useMemoOnValue';
 export * from './useSafeState';
+export * from './useDebouncedState';
