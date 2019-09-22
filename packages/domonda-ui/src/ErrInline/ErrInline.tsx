@@ -18,18 +18,24 @@ export interface ErrInlineProps extends React.HTMLAttributes<HTMLDivElement> {
   classes?: Decorate['classes'];
   error: Error;
   onClose?: () => void;
+  disableCloseAutoFocus?: boolean;
 }
 
 const ErrInline = React.forwardRef<HTMLDivElement, ErrInlineProps & Decorate>(function ErrInline(
   props,
   ref,
 ) {
-  const { classes, className, error, onClose, ...rest } = props;
+  const { classes, className, error, onClose, disableCloseAutoFocus, ...rest } = props;
   return (
     <div {...rest} ref={ref} className={clsx(classes.root, className)}>
       <pre className={classes.message}>{error.message}</pre>
       {onClose && (
-        <IconButton autoFocus variant="text" color="error" onClick={onClose}>
+        <IconButton
+          autoFocus={!disableCloseAutoFocus}
+          variant="text"
+          color="error"
+          onClick={onClose}
+        >
           <SvgClearIcon />
         </IconButton>
       )}
