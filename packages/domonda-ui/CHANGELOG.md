@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.0.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@4.1.2...@domonda/ui@5.0.0) (2019-09-25)
+
+
+### Bug Fixes
+
+* **RowItem:** remove outline on :active ([ee2bc67](https://github.com/domonda/domonda-js/commit/ee2bc67))
+
+
+### Code Refactoring
+
+* **useDebouncedState:** drop (moved to @domonda/react-plumb) ([68d6a8f](https://github.com/domonda/domonda-js/commit/68d6a8f))
+
+
+### Features
+
+* **MenuItem:** add focus styles and cleanup ([3ff5dc3](https://github.com/domonda/domonda-js/commit/3ff5dc3))
+* introduce `disableCloseAutoFocus` to prevent focusing the close button ([c217e17](https://github.com/domonda/domonda-js/commit/c217e17))
+* **useMemoRenderer:** memoized component renderer as a hook ([8493f1d](https://github.com/domonda/domonda-js/commit/8493f1d))
+
+
+### BREAKING CHANGES
+
+* **useDebouncedState:** `useDebouncedState` is moved to `@domonda/react-plumb` and does not exist here anymore.
+
+
+
+
+
 ## [4.1.2](https://github.com/domonda/domonda-js/compare/@domonda/ui@4.1.1...@domonda/ui@4.1.2) (2019-09-13)
 
 **Note:** Version bump only for package @domonda/ui

@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/domonda/domonda-js/compare/@domonda/react-plumb@1.1.1...@domonda/react-plumb@1.2.0) (2019-09-25)
+
+
+### Features
+
+* **useDebouncedState:** set state after a delay ([c2697fd](https://github.com/domonda/domonda-js/commit/c2697fd))
+* **useSafeState:** calls `setState` only if mounted ([8cca5aa](https://github.com/domonda/domonda-js/commit/8cca5aa))
+
+
+
+
+
 ## [1.1.1](https://github.com/domonda/domonda-js/compare/@domonda/react-plumb@1.1.0...@domonda/react-plumb@1.1.1) (2019-09-13)
 
 **Note:** Version bump only for package @domonda/react-plumb

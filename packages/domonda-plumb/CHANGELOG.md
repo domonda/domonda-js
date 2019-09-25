@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.3](https://github.com/domonda/domonda-js/compare/@domonda/plumb@2.2.2...@domonda/plumb@2.2.3) (2019-09-25)
+
+**Note:** Version bump only for package @domonda/plumb
+
+
+
+
+
 ## [2.2.2](https://github.com/domonda/domonda-js/compare/@domonda/plumb@2.2.1...@domonda/plumb@2.2.2) (2019-09-13)
 
 **Note:** Version bump only for package @domonda/plumb
