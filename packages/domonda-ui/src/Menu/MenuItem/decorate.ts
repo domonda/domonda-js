@@ -1,9 +1,22 @@
-import { createStyles, withStyles, WithStyles } from '../../styles';
+import { createStyles, withStyles, WithStyles, CSSProperties } from '../../styles';
 
 const styles = createStyles(({ palette, spacing, transition, typography }) => {
-  const highlightedProps = {
+  const highlighted = {
     color: palette.primary,
     backgroundColor: palette.lightest('primary'),
+  };
+
+  const clickable: CSSProperties = {
+    cursor: 'pointer',
+    '&:hover, &:focus': highlighted,
+    '&:focus': {
+      outline: `3px solid ${palette.light('primary')}`,
+    },
+    '&:active': {
+      outline: 'none',
+      color: palette.darker('primary'),
+      backgroundColor: palette.light('primary'),
+    },
   };
 
   return {
@@ -19,11 +32,7 @@ const styles = createStyles(({ palette, spacing, transition, typography }) => {
       transition: transition.create(['color', 'background-color']),
       ...typography.body,
       fontWeight: typography.weights.semiBold,
-      '&:hover': highlightedProps,
-      '&:active': {
-        color: palette.darker('primary'),
-        backgroundColor: palette.light('primary'),
-      },
+      'a&': clickable,
     },
     text: {
       display: 'inline-block',
@@ -31,17 +40,12 @@ const styles = createStyles(({ palette, spacing, transition, typography }) => {
       textOverflow: 'ellipsis',
       whiteSpace: 'nowrap',
     },
-    clickable: {
-      cursor: 'pointer',
-      '&:focus': {
-        outline: `2px solid ${palette.secondary}`,
-      },
-    },
+    clickable,
     selected: {
       color: palette.secondary,
       backgroundColor: palette.lighter('secondary'),
     },
-    highlighted: highlightedProps,
+    highlighted,
   };
 });
 

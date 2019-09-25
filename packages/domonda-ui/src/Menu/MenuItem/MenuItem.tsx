@@ -35,6 +35,7 @@ const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps & Decorate>(funct
 
   return (
     <Component
+      role={onClick ? 'button' : undefined}
       {...rest}
       ref={ref}
       className={clsx(
