@@ -19,6 +19,9 @@ const styles = createStyles((theme) => {
     '&:focus': {
       outline: `3px solid ${theme.palette.light('primary')}`,
     },
+    '&:active': {
+      outline: 'none',
+    },
   };
 
   return {
