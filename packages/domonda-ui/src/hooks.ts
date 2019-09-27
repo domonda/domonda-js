@@ -25,7 +25,7 @@ export function useSize<T extends Element>(): [React.Ref<T>, Size] {
   const forceUpdate = useForceUpdate();
 
   // reference used on the component which size wants to be tracked
-  const ref = useRef<T | null>(null);
+  const [refEl, setRefEl] = useState<T | null>(null);
 
   // size state, updated on resize
   const [size, setSize] = useState<Size>({ width: null, height: null });
@@ -46,19 +46,18 @@ export function useSize<T extends Element>(): [React.Ref<T>, Size] {
 
   // observe the referenced component
   useEffect(() => {
-    const { current: item } = ref;
-    if (!item) {
+    if (!refEl) {
       return;
     }
 
-    observer.observe(item);
+    observer.observe(refEl);
     window.setTimeout(forceUpdate, 0);
     return () => {
-      observer.unobserve(item);
+      observer.unobserve(refEl);
     };
-  }, [ref]);
+  }, [refEl]);
 
-  return [ref, size];
+  return [setRefEl, size];
 }
 
 export function setRef<T>(
