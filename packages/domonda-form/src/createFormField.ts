@@ -7,7 +7,6 @@
 import { Plumb } from '@domonda/plumb';
 import get from 'lodash/get';
 import setWith from 'lodash/fp/setWith';
-import clone from 'lodash/fp/clone';
 import omit from 'lodash/fp/omit';
 import { shallowEqual } from 'fast-equals';
 
@@ -78,7 +77,7 @@ export function createFormField<DefaultValues extends FormDefaultValues, Value>(
       },
       updater: (state, { changed, validityMessage, ...rest }) => ({
         ...state,
-        values: setWith(clone, path, rest.value, form.state.values),
+        values: setWith(() => undefined, path, rest.value, form.state.values),
         fields: {
           ...form.state.fields,
           [path]: {

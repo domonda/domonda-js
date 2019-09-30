@@ -173,6 +173,28 @@ describe('Change', () => {
 
     expect(spy).toBeCalledTimes(0);
   });
+
+  it('should override existing values with incoming change', () => {
+    const [form] = createForm({
+      nil: null,
+      zero: 0,
+      emptyStr: '',
+    });
+
+    const value = {};
+
+    const [nilField] = form.makeFormField('nil.value');
+    nilField.setValue(value);
+    expect(nilField.value).toBe(value);
+
+    const [zeroField] = form.makeFormField('zero.value');
+    zeroField.setValue(value);
+    expect(zeroField.value).toBe(value);
+
+    const [emptyStrField] = form.makeFormField('emptyStr.value');
+    emptyStrField.setValue(value);
+    expect(emptyStrField.value).toBe(value);
+  });
 });
 
 describe('Validation', () => {
