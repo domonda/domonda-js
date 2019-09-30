@@ -53,12 +53,12 @@
     "@storybook/react": "5.1.11",
     "@testing-library/react": "^9.2.0",
     "@testing-library/react-hooks": "^2.0.1",
-    "@types/lodash": "^4.14.140",
+    "@types/lodash": "^4.14.141",
     "@types/react-datepicker": "^2.9.1",
     "@types/storybook__react": "^4.0.2",
     "babel-loader": "^8.0.6",
-    "react-docgen-typescript-loader": "^3.2.1",
-    "react-test-renderer": "^16.9.0",
-    "ts-loader": "^6.1.2"
+    "react-docgen-typescript-loader": "^3.3.0",
+    "react-test-renderer": "^16.10.1",
+    "ts-loader": "^6.2.0"
   }
 }
