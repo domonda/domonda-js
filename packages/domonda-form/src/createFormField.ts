@@ -86,7 +86,16 @@ export function createFormField<DefaultValues extends FormDefaultValues, Value>(
           },
         },
       }),
-      filter: (selectedState) => {
+      filter: (selectedState, tag) => {
+        // ignore everything not field related
+        switch (tag) {
+          case FormTag.SUBMIT_ERROR_RESET:
+          case FormTag.CREATE_FIELD:
+          case FormTag.DISPOSE_FIELD:
+          case FormTag.SUBMIT:
+            return false;
+        }
+
         const changed =
           !deepEqual(value, selectedState.value) ||
           !deepEqual(defaultValue, selectedState.defaultValue);

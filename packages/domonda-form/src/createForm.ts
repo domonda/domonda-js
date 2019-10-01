@@ -151,7 +151,7 @@ export function createForm<DefaultValues extends FormDefaultValues>(
               submitting: false,
               values: resetOnSuccessfulSubmit ? plumb.state.defaultValues : plumb.state.values,
             },
-            FormTag.SUBMIT,
+            resetOnSuccessfulSubmit ? FormTag.SUBMIT_WITH_DEFAULT_VALUES_CHANGE : FormTag.SUBMIT,
           );
         }
       } catch (error) {
@@ -163,7 +163,7 @@ export function createForm<DefaultValues extends FormDefaultValues>(
               submitError: error,
               values: resetOnFailedSubmit ? plumb.state.defaultValues : plumb.state.values,
             },
-            FormTag.SUBMIT,
+            resetOnFailedSubmit ? FormTag.SUBMIT_WITH_DEFAULT_VALUES_CHANGE : FormTag.SUBMIT,
           );
         }
       }
