@@ -27,6 +27,8 @@ export function createForm<DefaultValues extends FormDefaultValues>(
     fields: {},
     submitting: false,
     submitError: null,
+    disabled: false,
+    readOnly: false,
   });
 
   function applyConfig(usingConfig: FormConfig<DefaultValues>) {
@@ -113,6 +115,7 @@ export function createForm<DefaultValues extends FormDefaultValues>(
           ...plumb.state,
           submitting: true,
           submitError: null,
+          disabled: true,
         },
         FormTag.SUBMIT,
       );
@@ -134,6 +137,7 @@ export function createForm<DefaultValues extends FormDefaultValues>(
           {
             ...plumb.state,
             submitting: false,
+            disabled: false,
           },
           FormTag.SUBMIT,
         );
@@ -149,6 +153,7 @@ export function createForm<DefaultValues extends FormDefaultValues>(
             {
               ...plumb.state,
               submitting: false,
+              disabled: false,
               values: resetOnSuccessfulSubmit ? plumb.state.defaultValues : plumb.state.values,
             },
             resetOnSuccessfulSubmit ? FormTag.SUBMIT_WITH_DEFAULT_VALUES_CHANGE : FormTag.SUBMIT,
@@ -161,6 +166,7 @@ export function createForm<DefaultValues extends FormDefaultValues>(
               ...plumb.state,
               submitting: false,
               submitError: error,
+              disabled: false,
               values: resetOnFailedSubmit ? plumb.state.defaultValues : plumb.state.values,
             },
             resetOnFailedSubmit ? FormTag.SUBMIT_WITH_DEFAULT_VALUES_CHANGE : FormTag.SUBMIT,

@@ -24,7 +24,7 @@ function selector<T extends FormDefaultValues, V>(
   path: string,
   state: FormState<T>,
 ): FormFieldStateWithValues<V> {
-  const { fields, defaultValues, values } = state;
+  const { fields, defaultValues, values, disabled, readOnly } = state;
 
   const defaultValue = get(defaultValues, path);
   const value = get(values, path);
@@ -36,6 +36,8 @@ function selector<T extends FormDefaultValues, V>(
       value,
       changed: false,
       validityMessage: null,
+      disabled,
+      readOnly,
     };
   }
 
@@ -43,6 +45,8 @@ function selector<T extends FormDefaultValues, V>(
     ...field,
     defaultValue,
     value,
+    disabled,
+    readOnly,
   };
 }
 
@@ -55,6 +59,8 @@ export function createFormField<DefaultValues extends FormDefaultValues, Value>(
 
   let defaultValue: Value;
   let value: Value;
+  let disabled = form.state.disabled;
+  let readOnly = form.state.readOnly;
 
   let initialTransform = true;
   const plumb = form.chain<FormFieldStateWithValues<Value>>(
@@ -75,7 +81,7 @@ export function createFormField<DefaultValues extends FormDefaultValues, Value>(
           validityMessage,
         };
       },
-      updater: (state, { changed, validityMessage, ...rest }) => ({
+      updater: (state, { changed, validityMessage, disabled, readOnly, ...rest }) => ({
         ...state,
         values: setWith(() => undefined, path, rest.value, form.state.values),
         fields: {
@@ -98,9 +104,14 @@ export function createFormField<DefaultValues extends FormDefaultValues, Value>(
 
         const changed =
           !deepEqual(value, selectedState.value) ||
-          !deepEqual(defaultValue, selectedState.defaultValue);
+          !deepEqual(defaultValue, selectedState.defaultValue) ||
+          disabled !== selectedState.disabled ||
+          readOnly !== selectedState.readOnly;
+
         defaultValue = selectedState.defaultValue;
         value = selectedState.value;
+        disabled = selectedState.disabled;
+        readOnly = selectedState.readOnly;
         return changed;
       },
     },

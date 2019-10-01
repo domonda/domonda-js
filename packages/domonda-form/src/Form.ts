@@ -91,6 +91,8 @@ export interface FormState<T extends FormDefaultValues> {
   fields: FormFields;
   submitting: boolean;
   submitError: null | Error;
+  disabled: boolean;
+  readOnly: boolean;
 }
 
 export interface Form<T extends FormDefaultValues> {

@@ -1,4 +1,5 @@
 import { createForm } from '../src/createForm';
+import { FormTag } from '../src/FormTag';
 import get from 'lodash/get';
 
 const path = 'some.path[1].to.0';
@@ -235,6 +236,56 @@ describe('Change', () => {
     const [emptyStrField] = form.makeFormField('emptyStr.value');
     emptyStrField.setValue(value);
     expect(emptyStrField.value).toBe(value);
+  });
+
+  it('should disable all fields when form gets disabled', () => {
+    const [form] = createForm(defaultValues);
+
+    const fieldsAndSpies = Array(5)
+      .fill(0)
+      .map((_0, index) => {
+        const [field] = form.makeFormField(path + '.' + index.toString());
+
+        const spy = jest.fn();
+        field.plumb.subscribe(spy);
+
+        return {
+          field,
+          spy,
+        };
+      });
+
+    form.plumb.next({ ...form.plumb.state, disabled: true }, FormTag.FORM_TOGGLE_DISABLE);
+
+    fieldsAndSpies.forEach(({ field, spy }) => {
+      expect(spy).toBeCalledTimes(1);
+      expect(field.state.disabled).toBeTruthy();
+    });
+  });
+
+  it('should make all fields readOnly when form is made readOnly', () => {
+    const [form] = createForm(defaultValues);
+
+    const fieldsAndSpies = Array(5)
+      .fill(0)
+      .map((_0, index) => {
+        const [field] = form.makeFormField(path + '.' + index.toString());
+
+        const spy = jest.fn();
+        field.plumb.subscribe(spy);
+
+        return {
+          field,
+          spy,
+        };
+      });
+
+    form.plumb.next({ ...form.plumb.state, readOnly: true }, FormTag.FORM_TOGGLE_READ_ONLY);
+
+    fieldsAndSpies.forEach(({ field, spy }) => {
+      expect(spy).toBeCalledTimes(1);
+      expect(field.state.readOnly).toBeTruthy();
+    });
   });
 });
 
