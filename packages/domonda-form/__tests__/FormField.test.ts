@@ -255,7 +255,10 @@ describe('Change', () => {
         };
       });
 
-    form.plumb.next({ ...form.plumb.state, disabled: true }, FormTag.FORM_TOGGLE_DISABLE);
+    form.plumb.next(
+      { ...form.plumb.state, disabled: true },
+      FormTag.FORM_TOGGLE_DISABLE_OR_READ_ONLY,
+    );
 
     fieldsAndSpies.forEach(({ field, spy }) => {
       expect(spy).toBeCalledTimes(1);
@@ -280,7 +283,10 @@ describe('Change', () => {
         };
       });
 
-    form.plumb.next({ ...form.plumb.state, readOnly: true }, FormTag.FORM_TOGGLE_READ_ONLY);
+    form.plumb.next(
+      { ...form.plumb.state, readOnly: true },
+      FormTag.FORM_TOGGLE_DISABLE_OR_READ_ONLY,
+    );
 
     fieldsAndSpies.forEach(({ field, spy }) => {
       expect(spy).toBeCalledTimes(1);
