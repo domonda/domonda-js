@@ -4,7 +4,7 @@
  *
  */
 
-import { ReactElement, useState, useRef, useCallback, useEffect, useMemo } from 'react';
+import React, { ReactElement, useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import ResizeObserver from 'resize-observer-polyfill';
 import { shallowEqual } from 'fast-equals';
 
