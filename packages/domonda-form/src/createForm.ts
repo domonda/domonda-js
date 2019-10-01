@@ -27,6 +27,8 @@ export function createForm<DefaultValues extends FormDefaultValues>(
     fields: {},
     submitting: false,
     submitError: null,
+    disabled: false,
+    readOnly: false,
   });
 
   function applyConfig(usingConfig: FormConfig<DefaultValues>) {
@@ -101,7 +103,12 @@ export function createForm<DefaultValues extends FormDefaultValues>(
   };
 
   async function handleSubmit(event: Event | null) {
-    const { resetOnSuccessfulSubmit, resetOnFailedSubmit, onSubmit } = configRef.current;
+    const {
+      resetOnSuccessfulSubmit,
+      resetOnFailedSubmit,
+      onSubmit,
+      disableOnSubmit,
+    } = configRef.current;
 
     if (onSubmit) {
       if (event) {
@@ -113,6 +120,7 @@ export function createForm<DefaultValues extends FormDefaultValues>(
           ...plumb.state,
           submitting: true,
           submitError: null,
+          disabled: disableOnSubmit ? true : plumb.state.disabled,
         },
         FormTag.SUBMIT,
       );
@@ -134,6 +142,7 @@ export function createForm<DefaultValues extends FormDefaultValues>(
           {
             ...plumb.state,
             submitting: false,
+            disabled: false,
           },
           FormTag.SUBMIT,
         );
@@ -149,6 +158,7 @@ export function createForm<DefaultValues extends FormDefaultValues>(
             {
               ...plumb.state,
               submitting: false,
+              disabled: disableOnSubmit ? false : plumb.state.disabled,
               values: resetOnSuccessfulSubmit ? plumb.state.defaultValues : plumb.state.values,
             },
             resetOnSuccessfulSubmit ? FormTag.SUBMIT_WITH_DEFAULT_VALUES_CHANGE : FormTag.SUBMIT,
@@ -161,6 +171,7 @@ export function createForm<DefaultValues extends FormDefaultValues>(
               ...plumb.state,
               submitting: false,
               submitError: error,
+              disabled: disableOnSubmit ? false : plumb.state.disabled,
               values: resetOnFailedSubmit ? plumb.state.defaultValues : plumb.state.values,
             },
             resetOnFailedSubmit ? FormTag.SUBMIT_WITH_DEFAULT_VALUES_CHANGE : FormTag.SUBMIT,

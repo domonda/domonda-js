@@ -24,7 +24,7 @@ function selector<T extends FormDefaultValues, V>(
   path: string,
   state: FormState<T>,
 ): FormFieldStateWithValues<V> {
-  const { fields, defaultValues, values } = state;
+  const { fields, defaultValues, values, disabled, readOnly } = state;
 
   const defaultValue = get(defaultValues, path);
   const value = get(values, path);
@@ -36,6 +36,8 @@ function selector<T extends FormDefaultValues, V>(
       value,
       changed: false,
       validityMessage: null,
+      disabled,
+      readOnly,
     };
   }
 
@@ -43,6 +45,8 @@ function selector<T extends FormDefaultValues, V>(
     ...field,
     defaultValue,
     value,
+    disabled,
+    readOnly,
   };
 }
 
@@ -53,6 +57,8 @@ export function createFormField<DefaultValues extends FormDefaultValues, Value>(
 ): [FormField<Value>, FormFieldDispose] {
   const { validate, immediateValidate } = config;
 
+  let disabled = form.state.disabled;
+  let readOnly = form.state.readOnly;
   let defaultValue: Value;
   let value: Value;
 
@@ -97,8 +103,13 @@ export function createFormField<DefaultValues extends FormDefaultValues, Value>(
         }
 
         const changed =
+          disabled !== selectedState.disabled ||
+          readOnly !== selectedState.readOnly ||
           !deepEqual(value, selectedState.value) ||
           !deepEqual(defaultValue, selectedState.defaultValue);
+
+        disabled = selectedState.disabled;
+        readOnly = selectedState.readOnly;
         defaultValue = selectedState.defaultValue;
         value = selectedState.value;
         return changed;

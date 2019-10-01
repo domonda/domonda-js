@@ -18,6 +18,8 @@ export interface FormSelectFieldAPI extends FormFieldAPI<string | null> {
     name: string;
     value: string;
     required: boolean | undefined;
+    disabled: boolean;
+    readOnly: boolean;
     ref: (element: HTMLSelectElement | null) => void;
     onChange: React.ChangeEventHandler<HTMLSelectElement>;
   };
@@ -59,6 +61,8 @@ export function useFormSelectField(props: UseFormSelectFieldProps): FormSelectFi
       name: formFieldProps.path,
       value: formField.value || '',
       required,
+      disabled: formField.state.disabled,
+      readOnly: formField.state.readOnly,
       ref: setSelectEl,
       onChange: handleChange,
     },

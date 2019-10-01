@@ -11,6 +11,8 @@ import { FormTag } from './FormTag';
 export interface FormFieldStateWithValues<T> extends FormFieldState {
   defaultValue: Readonly<T>;
   value: Readonly<T>;
+  disabled: boolean;
+  readOnly: boolean;
 }
 
 export type FormFieldValidityMessage = string | null;

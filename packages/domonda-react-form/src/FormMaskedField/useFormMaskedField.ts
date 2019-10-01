@@ -31,6 +31,8 @@ export interface FormMaskedFieldAPI<V extends string | number> extends FormField
     type: 'text';
     value: string;
     required: boolean | undefined;
+    disabled: boolean;
+    readOnly: boolean;
     ref: (input: HTMLInputElement | null) => void;
     onChange: React.ChangeEventHandler<HTMLInputElement>;
   };
@@ -190,6 +192,8 @@ export function useFormMaskedField<Value extends string | number>(
       type: 'text',
       value: conformedValue,
       required,
+      disabled: formField.state.disabled,
+      readOnly: formField.state.readOnly,
       ref: updateInputEl,
       onChange: handleChange,
     },

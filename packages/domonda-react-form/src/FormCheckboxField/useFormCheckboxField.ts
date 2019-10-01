@@ -19,6 +19,8 @@ export interface FormCheckboxFieldAPI extends FormFieldAPI<boolean | null> {
     name: string;
     checked: boolean;
     required: boolean | undefined;
+    disabled: boolean;
+    readOnly: boolean;
     ref: (element: HTMLInputElement | null) => void;
     onChange: React.ChangeEventHandler<HTMLInputElement>;
   };
@@ -61,6 +63,8 @@ export function useFormCheckboxField(props: UseFormCheckboxFieldProps): FormChec
       name: formFieldProps.path,
       checked: formField.value || false,
       required,
+      disabled: formField.state.disabled,
+      readOnly: formField.state.readOnly,
       ref: setInputEl,
       onChange: handleChange,
     },

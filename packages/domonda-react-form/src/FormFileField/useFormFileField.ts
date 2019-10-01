@@ -23,6 +23,8 @@ export interface FormFileFieldAPI<V extends File | FileList> extends FormFieldAP
     required: boolean | undefined;
     multiple: boolean | undefined;
     accept: string | undefined;
+    disabled: boolean;
+    readOnly: boolean;
     ref: (element: HTMLInputElement | null) => void;
     onChange: React.ChangeEventHandler<HTMLInputElement>;
   };
@@ -83,6 +85,8 @@ export function useFormFileField<Value extends File | FileList>(
       required,
       multiple,
       accept: accept && accept.length > 0 ? accept.join(',') : undefined,
+      disabled: formField.state.disabled,
+      readOnly: formField.state.readOnly,
       ref: setInputEl,
       onChange: handleChange,
     },
