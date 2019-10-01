@@ -79,6 +79,8 @@ const Text = React.forwardRef<HTMLElement, TextProps & Decorate>(function Text(p
     return { color: color === 'inherit' ? 'inherit' : manipulator(color), ...style };
   }
 
+  console.log({ variant, className: classes[`variant-${variant}` as keyof typeof classes] });
+
   return (
     <Component
       {...rest}
