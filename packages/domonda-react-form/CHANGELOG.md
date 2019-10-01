@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.3.0](https://github.com/domonda/domonda-js/compare/@domonda/react-form@2.2.2...@domonda/react-form@2.3.0) (2019-10-01)
+
+
+### Features
+
+* **Form:** introduce `disabled` and `readOnly` props ([0b6b540](https://github.com/domonda/domonda-js/commit/0b6b540))
+* **Form:** introduce `disableOnSubmit` option ([67257d0](https://github.com/domonda/domonda-js/commit/67257d0))
+* **FormField:** digest the `disabled` and `readOnly` states from the form ([281b1b8](https://github.com/domonda/domonda-js/commit/281b1b8))
+
+
+### Performance Improvements
+
+* **FormState:** avoid unnecessary calculation ([3488607](https://github.com/domonda/domonda-js/commit/3488607))
+
+
+
+
+
 ## [2.2.2](https://github.com/domonda/domonda-js/compare/@domonda/react-form@2.2.1...@domonda/react-form@2.2.2) (2019-09-25)
 
 **Note:** Version bump only for package @domonda/react-form

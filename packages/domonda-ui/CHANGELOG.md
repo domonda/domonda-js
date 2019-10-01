@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.1.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@5.0.0...@domonda/ui@5.1.0) (2019-10-01)
+
+
+### Bug Fixes
+
+* **useSize:** setting the ref causes a re-render ([d6564ea](https://github.com/domonda/domonda-js/commit/d6564ea))
+
+
+### Features
+
+* **typography:** introduce `label` variant ([f299089](https://github.com/domonda/domonda-js/commit/f299089))
+
+
+
+
+
 # [5.0.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@4.1.2...@domonda/ui@5.0.0) (2019-09-25)
 
 

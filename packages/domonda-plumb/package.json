@@ -1,6 +1,6 @@
 {
   "name": "@domonda/plumb",
-  "version": "2.2.3",
+  "version": "2.2.4",
   "description": "Simple state management inspired by Observables.",
   "keywords": [
     "domonda",

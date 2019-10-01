@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.2.0](https://github.com/domonda/domonda-js/compare/@domonda/form@2.1.6...@domonda/form@2.2.0) (2019-10-01)
+
+
+### Bug Fixes
+
+* **FormField:** override existing values with incoming change ([d6e5469](https://github.com/domonda/domonda-js/commit/d6e5469))
+
+
+### Features
+
+* **Form:** introduce `disableOnSubmit` option ([67257d0](https://github.com/domonda/domonda-js/commit/67257d0))
+* introduce `disabled` and `readOnly` states ([b43f21a](https://github.com/domonda/domonda-js/commit/b43f21a))
+* **FormField:** deep equality for changed state ([0c86167](https://github.com/domonda/domonda-js/commit/0c86167))
+
+
+### Performance Improvements
+
+* **FormField:** first check for `disabled` or `readOnly` changes ([cc9c4bf](https://github.com/domonda/domonda-js/commit/cc9c4bf))
+* **FormField:** use plumb `tag`s for filtering ([5c9a0e6](https://github.com/domonda/domonda-js/commit/5c9a0e6))
+
+
+
+
+
 ## [2.1.6](https://github.com/domonda/domonda-js/compare/@domonda/form@2.1.5...@domonda/form@2.1.6) (2019-09-25)
 
 **Note:** Version bump only for package @domonda/form
