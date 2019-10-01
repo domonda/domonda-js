@@ -49,6 +49,7 @@ export function Form<DefaultValues extends FormDefaultValues>(
     onSubmit,
     autoSubmit,
     autoSubmitDelay,
+    disableOnSubmit,
     getForm,
     // component
     children,
@@ -63,6 +64,7 @@ export function Form<DefaultValues extends FormDefaultValues>(
         onSubmit,
         autoSubmit,
         autoSubmitDelay,
+        disableOnSubmit,
       }),
     [],
   );
@@ -77,8 +79,17 @@ export function Form<DefaultValues extends FormDefaultValues>(
       onSubmit,
       autoSubmit,
       autoSubmitDelay,
+      disableOnSubmit,
     };
-  }, [formEl, resetOnSuccessfulSubmit, resetOnFailedSubmit, onSubmit, autoSubmit, autoSubmitDelay]);
+  }, [
+    formEl,
+    resetOnSuccessfulSubmit,
+    resetOnFailedSubmit,
+    onSubmit,
+    autoSubmit,
+    autoSubmitDelay,
+    disableOnSubmit,
+  ]);
 
   useEffect(() => () => dispose(), []);
 

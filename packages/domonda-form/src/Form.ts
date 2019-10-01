@@ -70,6 +70,10 @@ export interface FormConfig<T extends FormDefaultValues> {
    */
   autoSubmitDelay?: number;
   /**
+   * If the whole form should get disabled when submit is in progress.
+   */
+  disableOnSubmit?: boolean;
+  /**
    * Related form element, its onsubmit event will be replaced.
    */
   el?: HTMLFormElement | null;
