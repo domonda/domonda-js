@@ -36,6 +36,23 @@ describe('Creation', () => {
     // @ts-ignore
     expect(form.state.fields[path].value).toBeUndefined();
   });
+
+  it('should not notify existing fields about new fields', () => {
+    const [form] = createForm(defaultValues);
+
+    const spies = Array(10)
+      .fill(0)
+      .map((_0, index) => {
+        const [field] = form.makeFormField(`${path}.${index}`);
+        const spy = jest.fn();
+        field.plumb.subscribe(spy);
+        return spy;
+      });
+
+    spies.forEach((spy) => {
+      expect(spy).not.toBeCalled();
+    });
+  });
 });
 
 describe('Change', () => {
