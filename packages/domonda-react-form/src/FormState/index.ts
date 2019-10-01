@@ -5,3 +5,5 @@ export * from './FormSubmittingState';
 export * from './FormSubmitErrorState';
 export * from './FormChangedState';
 export * from './FormLockedState';
+export * from './FormDisabledState';
+export * from './FormReadOnlyState';

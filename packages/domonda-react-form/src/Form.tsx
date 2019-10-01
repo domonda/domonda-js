@@ -23,6 +23,8 @@ export type FormProps<V extends FormDefaultValues> = FormConfig<V> &
     React.FormHTMLAttributes<HTMLFormElement>,
     'onSubmit' | 'defaultValue' | 'defaultChecked'
   > & {
+    disabled?: boolean;
+    readOnly?: boolean;
     defaultValues?: V;
     resetOnDefaultValuesChange?: boolean; // should this be `true` by default?
     getForm?: (form: DomondaForm<V>) => void;
@@ -38,6 +40,8 @@ export function Form<DefaultValues extends FormDefaultValues>(
 ): React.ReactElement | null {
   const {
     // DomondaFormProps
+    disabled = false,
+    readOnly = false,
     defaultValues = {} as DefaultValues,
     resetOnDefaultValuesChange,
     resetOnSuccessfulSubmit,
@@ -78,6 +82,7 @@ export function Form<DefaultValues extends FormDefaultValues>(
 
   useEffect(() => () => dispose(), []);
 
+  // default values change
   useEffect(() => {
     if (!shallowEqual(form.state.defaultValues, defaultValues)) {
       const changedPaths = Object.keys(form.state.fields).filter(
@@ -96,6 +101,20 @@ export function Form<DefaultValues extends FormDefaultValues>(
       );
     }
   }, [defaultValues, resetOnDefaultValuesChange]);
+
+  // disabled/readOnly change
+  useEffect(() => {
+    if (form.state.disabled !== disabled || form.state.readOnly !== readOnly) {
+      form.plumb.next(
+        {
+          ...form.state,
+          disabled,
+          readOnly,
+        },
+        FormTag.FORM_TOGGLE_DISABLE_OR_READ_ONLY,
+      );
+    }
+  }, [disabled, readOnly]);
 
   useEffect(() => {
     if (getForm) {

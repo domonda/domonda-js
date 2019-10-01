@@ -446,6 +446,93 @@ describe('Updating', () => {
     }); // default values change
   });
 
+  it("should handle locked state when the form's disabled or readOnly is toggled", () => {
+    const spy = jest.fn((_0) => null);
+
+    let form: DomondaForm<DefaultValues>;
+
+    const { rerender } = render(
+      <Form getForm={(f) => (form = f)} defaultValues={defaultValues} resetOnDefaultValuesChange>
+        <FormLockedState>{spy}</FormLockedState>
+      </Form>,
+    );
+
+    expect(spy).toBeCalledTimes(1);
+    expect(spy.mock.calls[0][0]).toBeTruthy();
+
+    // @ts-ignore because form should indeed be set here
+    if (!form) {
+      throw new Error('form instance should be set here!');
+    }
+
+    let field: FormField<unknown>;
+    act(() => {
+      [field] = form.makeFormField(path);
+    });
+
+    // @ts-ignore because field should indeed be set here
+    if (!field) {
+      throw new Error('field instance should be set here!');
+    }
+
+    act(() => {
+      field.setValue('denis');
+    });
+
+    expect(spy).toBeCalledTimes(2);
+    expect(spy.mock.calls[1][0]).toBeFalsy();
+
+    rerender(
+      <Form
+        disabled
+        getForm={(f) => (form = f)}
+        defaultValues={defaultValues}
+        resetOnDefaultValuesChange
+      >
+        <FormLockedState>{spy}</FormLockedState>
+      </Form>,
+    );
+
+    expect(spy).toBeCalledTimes(4);
+    expect(spy.mock.calls[2][0]).toBeFalsy(); // react
+    expect(spy.mock.calls[3][0]).toBeTruthy();
+
+    rerender(
+      <Form getForm={(f) => (form = f)} defaultValues={defaultValues} resetOnDefaultValuesChange>
+        <FormLockedState>{spy}</FormLockedState>
+      </Form>,
+    );
+
+    expect(spy).toBeCalledTimes(6);
+    expect(spy.mock.calls[4][0]).toBeTruthy(); // react
+    expect(spy.mock.calls[5][0]).toBeFalsy();
+
+    rerender(
+      <Form
+        readOnly
+        getForm={(f) => (form = f)}
+        defaultValues={defaultValues}
+        resetOnDefaultValuesChange
+      >
+        <FormLockedState>{spy}</FormLockedState>
+      </Form>,
+    );
+
+    expect(spy).toBeCalledTimes(8);
+    expect(spy.mock.calls[6][0]).toBeFalsy(); // react
+    expect(spy.mock.calls[7][0]).toBeTruthy();
+
+    rerender(
+      <Form getForm={(f) => (form = f)} defaultValues={defaultValues} resetOnDefaultValuesChange>
+        <FormLockedState>{spy}</FormLockedState>
+      </Form>,
+    );
+
+    expect(spy).toBeCalledTimes(10);
+    expect(spy.mock.calls[8][0]).toBeTruthy(); // react
+    expect(spy.mock.calls[9][0]).toBeFalsy();
+  });
+
   it('should handle locked state while submitting and changing default values', async () => {
     const spy = jest.fn((_0) => null);
 
