@@ -19,6 +19,8 @@ export interface FormInputFieldAPI extends FormFieldAPI<string | null> {
     name: string;
     value: string;
     required: boolean | undefined;
+    disabled: boolean;
+    readOnly: boolean;
     ref: (element: HTMLInputElement | null) => void;
     onChange: React.ChangeEventHandler<HTMLInputElement>;
   };
@@ -61,6 +63,8 @@ export function useFormInputField(props: UseFormInputFieldProps): FormInputField
       name: formFieldProps.path,
       value: formField.value || '',
       required,
+      disabled: formField.state.disabled,
+      readOnly: formField.state.readOnly,
       ref: setInputEl,
       onChange: handleChange,
     },

@@ -19,6 +19,8 @@ export interface FormTextAreaFieldAPI extends FormFieldAPI<string | null> {
     name: string;
     value: string;
     required: boolean | undefined;
+    disabled: boolean;
+    readOnly: boolean;
     ref: (element: HTMLTextAreaElement | null) => void;
     onChange: React.ChangeEventHandler<HTMLTextAreaElement>;
   };
@@ -61,6 +63,8 @@ export function useFormTextAreaField(props: UseFormTextAreaFieldProps): FormText
       name: formFieldProps.path,
       value: formField.value || '',
       required,
+      disabled: formField.state.disabled,
+      readOnly: formField.state.readOnly,
       ref: setTextAreaEl,
       onChange: handleChange,
     },

@@ -64,7 +64,9 @@ export function useFormDateField(props: UseFormDateFieldProps): FormDateFieldAPI
       inputRef,
       ...rest
     }) => {
-      const [{ value, validityMessage }] = usePlumbState({ plumb: field.plumb });
+      const [{ value, validityMessage, disabled, readOnly }] = usePlumbState({
+        plumb: field.plumb,
+      });
 
       const [inputEl, setInputEl] = useState<HTMLInputElement | null>(null);
 
@@ -111,6 +113,8 @@ export function useFormDateField(props: UseFormDateFieldProps): FormDateFieldAPI
 
       return (
         <DateInput
+          disabled={disabled}
+          readOnly={readOnly}
           {...rest}
           ref={handleRef}
           required={required}

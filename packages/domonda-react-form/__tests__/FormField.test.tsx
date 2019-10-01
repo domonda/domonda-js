@@ -66,6 +66,8 @@ describe('Creation', () => {
     expect(field.state.defaultValue).toBe(denis.name);
     expect(field.state.changed).toBe(false);
     expect(field.state.validityMessage).toBe(null);
+    expect(field.state.disabled).toBeFalsy();
+    expect(field.state.readOnly).toBeFalsy();
   });
 });
 
@@ -287,6 +289,84 @@ describe('Update', () => {
       expect(Object.keys(form.state.fields).length).toBe(nextDv.people.length);
       done();
     }, 0);
+  });
+
+  it('should get notified about disabled state changes', () => {
+    const [form] = createForm(defaultValues);
+
+    const initialProps: UseFormFieldProps<string> = { path: pathToDenis };
+
+    const { result } = renderHook(useFormField, {
+      initialProps,
+      wrapper: ({ children }) => (
+        <FormContext.Provider value={form}>{children}</FormContext.Provider>
+      ),
+    });
+
+    expect(result.current.state.disabled).toBeFalsy();
+
+    act(() => {
+      form.plumb.next(
+        {
+          ...form.state,
+          disabled: true,
+        },
+        FormTag.FORM_TOGGLE_DISABLE_OR_READ_ONLY,
+      );
+    });
+
+    expect(result.current.state.disabled).toBeTruthy();
+
+    act(() => {
+      form.plumb.next(
+        {
+          ...form.state,
+          disabled: false,
+        },
+        FormTag.FORM_TOGGLE_DISABLE_OR_READ_ONLY,
+      );
+    });
+
+    expect(result.current.state.disabled).toBeFalsy();
+  });
+
+  it('should get notified about readOnly state changes', () => {
+    const [form] = createForm(defaultValues);
+
+    const initialProps: UseFormFieldProps<string> = { path: pathToDenis };
+
+    const { result } = renderHook(useFormField, {
+      initialProps,
+      wrapper: ({ children }) => (
+        <FormContext.Provider value={form}>{children}</FormContext.Provider>
+      ),
+    });
+
+    expect(result.current.state.readOnly).toBeFalsy();
+
+    act(() => {
+      form.plumb.next(
+        {
+          ...form.state,
+          readOnly: true,
+        },
+        FormTag.FORM_TOGGLE_DISABLE_OR_READ_ONLY,
+      );
+    });
+
+    expect(result.current.state.readOnly).toBeTruthy();
+
+    act(() => {
+      form.plumb.next(
+        {
+          ...form.state,
+          readOnly: false,
+        },
+        FormTag.FORM_TOGGLE_DISABLE_OR_READ_ONLY,
+      );
+    });
+
+    expect(result.current.state.readOnly).toBeFalsy();
   });
 });
 
