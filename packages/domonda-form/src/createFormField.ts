@@ -57,10 +57,10 @@ export function createFormField<DefaultValues extends FormDefaultValues, Value>(
 ): [FormField<Value>, FormFieldDispose] {
   const { validate, immediateValidate } = config;
 
-  let defaultValue: Value;
-  let value: Value;
   let disabled = form.state.disabled;
   let readOnly = form.state.readOnly;
+  let defaultValue: Value;
+  let value: Value;
 
   let initialTransform = true;
   const plumb = form.chain<FormFieldStateWithValues<Value>>(
@@ -81,7 +81,7 @@ export function createFormField<DefaultValues extends FormDefaultValues, Value>(
           validityMessage,
         };
       },
-      updater: (state, { changed, validityMessage, disabled, readOnly, ...rest }) => ({
+      updater: (state, { changed, validityMessage, ...rest }) => ({
         ...state,
         values: setWith(() => undefined, path, rest.value, form.state.values),
         fields: {
