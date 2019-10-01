@@ -4,7 +4,7 @@
  *
  */
 
-import { useState, useRef, useCallback, useEffect, useMemo } from 'react';
+import { ReactElement, useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import ResizeObserver from 'resize-observer-polyfill';
 import { shallowEqual } from 'fast-equals';
 
@@ -95,11 +95,11 @@ export function useForkRef<T>(
 
 export function useMemoRenderer<P = {}>(
   props: P,
-  render: (props: P) => React.ReactElement | null,
+  render: (props: P) => ReactElement | null,
   propsAreEqual: (prev: P, next: P) => boolean = shallowEqual,
 ) {
   const propsRef = useRef<P>();
-  const elementRef = useRef<React.ReactElement | null>();
+  const elementRef = useRef<ReactElement | null>();
 
   if (!propsRef.current || !propsAreEqual(propsRef.current, props)) {
     elementRef.current = render(props);
@@ -107,5 +107,5 @@ export function useMemoRenderer<P = {}>(
 
   propsRef.current = props;
 
-  return elementRef.current as React.ReactElement | null;
+  return elementRef.current as ReactElement | null;
 }
