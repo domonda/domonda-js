@@ -103,15 +103,15 @@ export function createFormField<DefaultValues extends FormDefaultValues, Value>(
         }
 
         const changed =
-          !deepEqual(value, selectedState.value) ||
-          !deepEqual(defaultValue, selectedState.defaultValue) ||
           disabled !== selectedState.disabled ||
-          readOnly !== selectedState.readOnly;
+          readOnly !== selectedState.readOnly ||
+          !deepEqual(value, selectedState.value) ||
+          !deepEqual(defaultValue, selectedState.defaultValue);
 
-        defaultValue = selectedState.defaultValue;
-        value = selectedState.value;
         disabled = selectedState.disabled;
         readOnly = selectedState.readOnly;
+        defaultValue = selectedState.defaultValue;
+        value = selectedState.value;
         return changed;
       },
     },
