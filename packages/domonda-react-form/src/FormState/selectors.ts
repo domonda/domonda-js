@@ -24,6 +24,10 @@ export const submittingSelector = ({ submitting }: DomondaFormState<any>) => sub
 
 export const submitErrorSelector = ({ submitError }: DomondaFormState<any>) => submitError;
 
+export const disabledSelector = ({ disabled }: DomondaFormState<any>) => disabledSelector;
+
+export const readOnlySelector = ({ readOnly }: DomondaFormState<any>) => readOnlySelector;
+
 export const fieldsSelector = ({ fields }: DomondaFormState<any>) => fields;
 
 export const changedSelector = ({ fields }: DomondaFormState<any>) =>
@@ -34,6 +38,8 @@ export const invalidSelector = ({ fields }: DomondaFormState<any>) =>
 
 export const lockedSelector = (state: DomondaFormState<any>) => {
   const submitting = submittingSelector(state);
-  const changed = changedSelector(state);
-  return submitting || !changed;
+  if (submitting) {
+    return true;
+  }
+  return !changedSelector(state);
 };

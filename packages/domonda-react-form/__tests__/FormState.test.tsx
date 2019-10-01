@@ -446,7 +446,7 @@ describe('Updating', () => {
     }); // default values change
   });
 
-  it('should handle locked locked while submitting and changing default values', async () => {
+  it('should handle locked state while submitting and changing default values', async () => {
     const spy = jest.fn((_0) => null);
 
     let form: DomondaForm<DefaultValues>;
