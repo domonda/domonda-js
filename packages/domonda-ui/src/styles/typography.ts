@@ -1,3 +1,5 @@
+import { CSSProperties } from './createStyles';
+
 export type TypographyFont = 'header' | 'body';
 export type TypographyFonts = { [font in TypographyFont]: string };
 export const TYPOGRAPHY_FONTS: TypographyFont[] = ['header', 'body'];
@@ -29,12 +31,14 @@ export type TypographyVariant =
   | 'title'
   | 'subtitle'
   | 'body'
-  | 'caption';
+  | 'caption'
+  | 'label';
 export type TypographyVariants = {
   [variant in TypographyVariant]: {
     fontFamily: string;
-    fontSize: number;
+    fontSize: number | string;
     fontWeight: number;
+    textTransform: CSSProperties['textTransform'] | undefined;
   };
 };
 export const TYPOGRAPHY_VARIANTS: TypographyVariant[] = [
@@ -44,6 +48,7 @@ export const TYPOGRAPHY_VARIANTS: TypographyVariant[] = [
   'subtitle',
   'body',
   'caption',
+  'label',
 ];
 
 export type Typography = { fonts: TypographyFonts } & {
@@ -57,30 +62,42 @@ export const defaultTypography: Typography = {
     fontFamily: defaultFonts.header,
     fontSize: 28,
     fontWeight: defaultFontWeights.bold,
+    textTransform: undefined,
   },
   subheading: {
     fontFamily: defaultFonts.header,
     fontSize: 24,
     fontWeight: defaultFontWeights.regular,
+    textTransform: undefined,
   },
   title: {
     fontFamily: defaultFonts.header,
     fontSize: 20,
     fontWeight: defaultFontWeights.bold,
+    textTransform: undefined,
   },
   subtitle: {
     fontFamily: defaultFonts.body,
     fontSize: 18,
     fontWeight: defaultFontWeights.semiBold,
+    textTransform: undefined,
   },
   body: {
     fontFamily: defaultFonts.body,
     fontSize: 15,
     fontWeight: defaultFontWeights.regular,
+    textTransform: undefined,
   },
   caption: {
     fontFamily: defaultFonts.body,
     fontSize: 11,
     fontWeight: defaultFontWeights.regular,
+    textTransform: undefined,
+  },
+  label: {
+    fontFamily: defaultFonts.body,
+    fontSize: '.75rem',
+    fontWeight: defaultFontWeights.semiBold,
+    textTransform: 'uppercase',
   },
 };

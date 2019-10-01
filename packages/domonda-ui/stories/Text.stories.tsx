@@ -28,5 +28,7 @@ stories.add('Overview', () => (
     <Text variant="caption">
       At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis.
     </Text>
+    <br />
+    <Text variant="label">Totam rem aperiam</Text>
   </>
 ));

@@ -73,12 +73,10 @@ const styles = createStyles(({ palette, spacing, shadows, shape, typography }) =
     top: 0,
     bottom: 0,
     left: 0,
-    textTransform: 'uppercase',
-    fontSize: '.75rem',
     color: palette.dark('textSecondary'),
-    fontWeight: typography.weights.semiBold,
     paddingTop: spacing(0.5),
     paddingLeft: spacing(1),
+    ...typography.label,
   },
   labelDense: {
     paddingLeft: spacing(0.35),

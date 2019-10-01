@@ -14,7 +14,7 @@ const styles = createStyles((theme) => {
     cell: {
       ...cell,
       fontWeight: theme.typography.weights.semiBold,
-      fontSize: theme.typography.body.fontSize - 1,
+      fontSize: `calc(${theme.typography.body.fontSize} - 1px)`,
       textTransform: 'none' as 'none',
     },
   };
