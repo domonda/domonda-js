@@ -8,7 +8,7 @@ import { Plumb } from '@domonda/plumb';
 import get from 'lodash/get';
 import setWith from 'lodash/fp/setWith';
 import omit from 'lodash/fp/omit';
-import { shallowEqual } from 'fast-equals';
+import { deepEqual } from 'fast-equals';
 
 // form
 import { FormDefaultValues, FormState, FormFieldState } from './Form';
@@ -61,7 +61,7 @@ export function createFormField<DefaultValues extends FormDefaultValues, Value>(
     {
       selector: (state) => selector(path, state),
       transformer: (selectedState) => {
-        const changed = !shallowEqual(selectedState.defaultValue, selectedState.value);
+        const changed = !deepEqual(selectedState.defaultValue, selectedState.value);
 
         let validityMessage = selectedState.validityMessage;
         if (validate && (changed || (immediateValidate && initialTransform))) {
@@ -88,8 +88,8 @@ export function createFormField<DefaultValues extends FormDefaultValues, Value>(
       }),
       filter: (selectedState) => {
         const changed =
-          !shallowEqual(value, selectedState.value) ||
-          !shallowEqual(defaultValue, selectedState.defaultValue);
+          !deepEqual(value, selectedState.value) ||
+          !deepEqual(defaultValue, selectedState.defaultValue);
         defaultValue = selectedState.defaultValue;
         value = selectedState.value;
         return changed;
@@ -120,7 +120,7 @@ export function createFormField<DefaultValues extends FormDefaultValues, Value>(
         return plumb.state.value;
       },
       setValue: (nextValue) => {
-        if (!shallowEqual(plumb.state.value, nextValue)) {
+        if (!deepEqual(plumb.state.value, nextValue)) {
           value = nextValue;
           plumb.next(
             {
@@ -132,7 +132,7 @@ export function createFormField<DefaultValues extends FormDefaultValues, Value>(
         }
       },
       resetValue: () => {
-        if (!shallowEqual(plumb.state.defaultValue, plumb.state.value)) {
+        if (!deepEqual(plumb.state.defaultValue, plumb.state.value)) {
           defaultValue = plumb.state.defaultValue;
           value = plumb.state.value;
           plumb.next(

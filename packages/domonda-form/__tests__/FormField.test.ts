@@ -105,6 +105,30 @@ describe('Change', () => {
     field.setValue(next);
   });
 
+  it('should perform deep equality check for state change', () => {
+    const [form] = createForm({
+      person: {
+        identity: {
+          name: 'John',
+          surname: 'Doe',
+        },
+      },
+    });
+
+    const [field] = form.makeFormField('person');
+
+    expect(field.state.changed).toBeFalsy();
+
+    field.setValue({
+      identity: {
+        name: 'John',
+        surname: 'Doe',
+      },
+    });
+
+    expect(field.state.changed).toBeFalsy();
+  });
+
   it('should reset on form reset', () => {
     const [form] = createForm(defaultValues);
 
