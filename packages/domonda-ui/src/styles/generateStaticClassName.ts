@@ -10,6 +10,7 @@ export function generateStaticClassName(key: string | React.ComponentType<any>):
 
   // the key has to exist, it cannot be auto-magically derived
   if (!key) {
+    // eslint-disable-next-line no-console
     console.warn(
       'domonda-ui: cannot generate static class name for anonymous functions or empty keys',
     );

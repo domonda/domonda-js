@@ -163,6 +163,7 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps & WithStyles<typeo
       (contentAnchorOffset) => {
         if (anchorReference === 'anchorPosition') {
           if (!anchorPosition) {
+            // eslint-disable-next-line no-console
             console.warn(
               '@domonda/ui: you need to provide a `anchorPosition` prop when using ' +
                 '<Popover anchorReference="anchorPosition" />.',
@@ -206,6 +207,7 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps & WithStyles<typeo
 
           // != the default value
           if (anchorOrigin.vertical !== 'top') {
+            // eslint-disable-next-line no-console
             console.warn(
               [
                 '@domonda/ui: you can not change the default `anchorOrigin.vertical` value ',
@@ -283,6 +285,7 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps & WithStyles<typeo
         }
 
         if (!(elemRect.height <= heightThreshold || !elemRect.height || !heightThreshold)) {
+          // eslint-disable-next-line no-console
           console.warn(
             [
               '@domonda/ui: the popover component is too tall.',

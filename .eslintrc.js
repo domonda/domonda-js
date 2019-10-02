@@ -24,7 +24,7 @@ module.exports = {
   },
   rules: {
     indent: 'off',
-    'no-console': 'off',
+    'no-console': 'error',
 
     'prettier/prettier': 'error',
 
