@@ -152,7 +152,7 @@ export function useFormMaskedField<Value extends string | number>(
         currConformedValue = removeCharByIndex(currConformedValue, possibleDecimalIndex);
       }
 
-      let nextConformedValue = getConformedValue(
+      const nextConformedValue = getConformedValue(
         mask,
         formField.value,
         numberDecimalSymbol,
