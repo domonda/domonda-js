@@ -80,7 +80,7 @@ export function useFormMaskedField<Value extends string | number>(
 
   const formField = useFormField<Value | null>(formFieldProps);
 
-  const [conformedValue, setConformedValue] = useState<string>(
+  const [conformedValue, setConformedValue] = useState<string>(() =>
     getConformedValue(mask, formField.value, numberDecimalSymbol, guide, placeholderChar),
   );
 
@@ -156,25 +156,23 @@ export function useFormMaskedField<Value extends string | number>(
         textMaskInput.update(currentTarget.value);
       }
 
-      setConformedValue(currentTarget.value);
+      let nextValue: Value | null;
       if (disableUnmask) {
-        formField.setValue(
-          currentTarget.value
-            ? parseNumber
-              ? (parseFloat(currentTarget.value) as Value)
-              : (currentTarget.value as Value)
-            : null,
-        );
+        nextValue = currentTarget.value
+          ? parseNumber
+            ? (parseFloat(currentTarget.value) as Value)
+            : (currentTarget.value as Value)
+          : null;
       } else {
         const unmaskedValue = unmask(mask, currentTarget.value, numberDecimalSymbol);
-        formField.setValue(
-          unmaskedValue
-            ? parseNumber
-              ? (parseFloat(unmaskedValue) as Value)
-              : (unmaskedValue as Value)
-            : null,
-        );
+        nextValue = unmaskedValue
+          ? parseNumber
+            ? (parseFloat(unmaskedValue) as Value)
+            : (unmaskedValue as Value)
+          : null;
       }
+
+      formField.setValue(nextValue);
 
       // we want this asynchronously called because some browsers (safari) decide to hide the validity box on input
       const { validity } = currentTarget;
@@ -182,6 +180,8 @@ export function useFormMaskedField<Value extends string | number>(
         const reportValidity = () => currentTarget.reportValidity();
         setTimeout(reportValidity, 0);
       }
+
+      setConformedValue(currentTarget.value);
     },
     [formField.setValue, textMaskInput, disableUnmask, parseNumber, numberDecimalSymbol],
   );
