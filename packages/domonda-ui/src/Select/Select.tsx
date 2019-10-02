@@ -123,7 +123,7 @@ const styles = createStyles(({ typography, palette, spacing, shape, shadows }) =
 export interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   classes?: WithStyles<typeof styles>['classes'];
   label?: React.ReactNode;
-  dense?: boolean; // tOdO
+  dense?: boolean;
 }
 
 const Select = React.forwardRef<HTMLSelectElement, SelectProps & WithStyles<typeof styles>>(
