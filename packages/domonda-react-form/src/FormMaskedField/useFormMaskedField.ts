@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useCallback, useState, useMemo, useEffect, useRef } from 'react';
+import React, { useCallback, useState, useMemo, useEffect } from 'react';
 import { useFormField, UseFormFieldProps, FormFieldAPI } from '../FormField';
 import {
   CreateTextMaskInputProps,
