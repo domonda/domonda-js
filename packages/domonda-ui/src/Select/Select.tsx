@@ -28,7 +28,9 @@ const styles = createStyles(({ typography, palette, spacing, shape, shadows }) =
     width: '100%',
     padding: spacing(0.35, 1),
     background: 'transparent',
-    cursor: 'pointer',
+    'select&': {
+      cursor: 'pointer',
+    },
     border: `1px solid ${palette.dark('border')}`,
     borderRadius: shape.borderRadius,
     overflow: 'hidden',
@@ -61,11 +63,6 @@ const styles = createStyles(({ typography, palette, spacing, shape, shadows }) =
       backgroundColor: palette.surface,
       '&:invalid': {
         backgroundColor: palette.lightest('warning'),
-      },
-    },
-    '&:active': {
-      [`& + $label + $icon > .${svgIconClassName}`]: {
-        transform: 'rotate(-180deg)',
       },
     },
     '&$disabled': {
@@ -124,27 +121,45 @@ export interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElemen
   classes?: WithStyles<typeof styles>['classes'];
   label?: React.ReactNode;
   dense?: boolean;
+  readOnly?: boolean;
 }
 
 const Select = React.forwardRef<HTMLSelectElement, SelectProps & WithStyles<typeof styles>>(
   function Select(props, ref) {
-    const { children, classes, className, label, dense, disabled, ...rest } = props;
+    const { children, classes, className, label, dense, disabled, readOnly, ...rest } = props;
+
     return (
       <div className={clsx(classes.root, className)}>
-        <select
-          {...rest}
-          disabled={disabled}
-          className={clsx(
-            classes.select,
-            label && classes.selectWithLabel,
-            dense && classes.selectDense,
-            dense && label && classes.selectDenseWithLabel,
-            disabled && classes.disabled,
-          )}
-          ref={ref}
-        >
-          {children}
-        </select>
+        {readOnly ? (
+          <input
+            value={rest.value}
+            readOnly={readOnly}
+            disabled={disabled}
+            className={clsx(
+              classes.select,
+              label && classes.selectWithLabel,
+              dense && classes.selectDense,
+              dense && label && classes.selectDenseWithLabel,
+              disabled && classes.disabled,
+            )}
+            ref={ref as any} // it should be fine since both `select` and `input` moslty share same properties
+          />
+        ) : (
+          <select
+            {...rest}
+            disabled={disabled}
+            className={clsx(
+              classes.select,
+              label && classes.selectWithLabel,
+              dense && classes.selectDense,
+              dense && label && classes.selectDenseWithLabel,
+              disabled && classes.disabled,
+            )}
+            ref={ref}
+          >
+            {children}
+          </select>
+        )}
         {label && <div className={clsx(classes.label, dense && classes.labelDense)}>{label}</div>}
         <div className={clsx(classes.icon, dense && classes.iconDense)}>
           <SvgExpandMoreIcon />

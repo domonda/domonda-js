@@ -59,5 +59,15 @@ stories.add('Overview', () => (
         </option>
       </Select>
     </div>
+    <div style={{ margin: '1em 0' }}>
+      <Select label="Read only" readOnly value="Read only value">
+        <option disabled value="">
+          &mdash;
+        </option>
+        <option disabled value="Read only value">
+          &mdash;
+        </option>
+      </Select>
+    </div>
   </>
 ));
