@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.2.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@5.1.1...@domonda/ui@5.2.0) (2019-10-02)
+
+
+### Features
+
+* **Autocomplete:** introduce `readOnly` prop ([738d13c](https://github.com/domonda/domonda-js/commit/738d13c))
+* **Select:** introduce `readOnly` prop ([6acf417](https://github.com/domonda/domonda-js/commit/6acf417))
+
+
+
+
+
 ## [5.1.1](https://github.com/domonda/domonda-js/compare/@domonda/ui@5.1.0...@domonda/ui@5.1.1) (2019-10-02)
 
 
