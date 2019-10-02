@@ -54,6 +54,7 @@ stories.add('Basic', () => (
         thousandsSeparatorSymbol="."
         decimalSymbol=","
         suffix="%"
+        allowDecimal
         isAllowed={(val) => {
           return val === null || val <= 100;
         }}

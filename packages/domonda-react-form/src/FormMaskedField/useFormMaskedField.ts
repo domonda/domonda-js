@@ -64,6 +64,10 @@ function getConformedValue(
       });
 }
 
+function removeCharByIndex(str: string, index: number): string {
+  return str.substring(0, index) + str.substring(index + 1, str.length);
+}
+
 export function useFormMaskedField<Value extends string | number>(
   props: UseFormMaskedFieldProps<Value>,
 ): FormMaskedFieldAPI<Value> {
@@ -131,13 +135,24 @@ export function useFormMaskedField<Value extends string | number>(
     if (textMaskInput) {
       let currConformedValue = conformedValue;
 
-      // remove the last character if it is the `numberDecimalSymbol`
-      const lastIndex = currConformedValue.length - 1;
-      if (currConformedValue[lastIndex] === numberDecimalSymbol) {
-        currConformedValue = currConformedValue.substring(0, lastIndex);
+      // find out the suffix
+      let suffix;
+      const maskItems = typeof mask === 'function' ? mask(currConformedValue) : mask;
+      const lastMaskItem = maskItems[maskItems.length - 1];
+      if (typeof lastMaskItem === 'string' && lastMaskItem) {
+        suffix = lastMaskItem;
       }
 
-      const nextConformedValue = getConformedValue(
+      // remove the last character if it is the `numberDecimalSymbol`
+      let possibleDecimalIndex = currConformedValue.length - 1;
+      if (suffix && currConformedValue[possibleDecimalIndex] === suffix) {
+        possibleDecimalIndex--;
+      }
+      if (currConformedValue[possibleDecimalIndex] === numberDecimalSymbol) {
+        currConformedValue = removeCharByIndex(currConformedValue, possibleDecimalIndex);
+      }
+
+      let nextConformedValue = getConformedValue(
         mask,
         formField.value,
         numberDecimalSymbol,
