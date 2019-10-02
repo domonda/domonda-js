@@ -34,6 +34,7 @@ export interface AutocompleteProps<T>
   dense?: boolean;
   required?: boolean;
   disabled?: boolean;
+  readOnly?: boolean;
   autoFocus?: boolean;
   TextFieldProps?: TextFieldProps;
   PopperProps?: Omit<PopperProps, 'open' | 'anchorEl'>;
@@ -50,6 +51,7 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
     dense,
     required,
     disabled,
+    readOnly,
     autoFocus,
     TextFieldProps = {},
     PopperProps = {},
@@ -101,10 +103,11 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
               {...restInputProps}
               required={required}
               disabled={disabled}
+              readOnly={readOnly}
               autoFocus={autoFocus}
               ref={ref as React.Ref<HTMLInputElement>}
             />
-            {(keepPopperMounted || isOpen) && (
+            {!readOnly && (keepPopperMounted || isOpen) && (
               <Popper {...PopperProps} open={isOpen} anchorEl={anchorEl.current}>
                 <Menu
                   {...(isOpen
