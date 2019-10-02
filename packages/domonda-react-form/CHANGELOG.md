@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.4.0](https://github.com/domonda/domonda-js/compare/@domonda/react-form@2.3.0...@domonda/react-form@2.4.0) (2019-10-02)
+
+
+### Bug Fixes
+
+* **useFormMaskedField:** decimal numbers with suffixes ([8f27212](https://github.com/domonda/domonda-js/commit/8f27212)), closes [#24](https://github.com/domonda/domonda-js/issues/24)
+* **useFormMaskedField:** value after suffix fix, decimal positioning fix and smaller optimization ([179f912](https://github.com/domonda/domonda-js/commit/179f912))
+
+
+### Features
+
+* **FormMaskedField:** introduce `isAllowed` check prop ([1f5f924](https://github.com/domonda/domonda-js/commit/1f5f924)), closes [#25](https://github.com/domonda/domonda-js/issues/25)
+
+
+
+
+
 # [2.3.0](https://github.com/domonda/domonda-js/compare/@domonda/react-form@2.2.2...@domonda/react-form@2.3.0) (2019-10-01)
 
 

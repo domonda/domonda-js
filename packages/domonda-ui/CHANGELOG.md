@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.1](https://github.com/domonda/domonda-js/compare/@domonda/ui@5.1.0...@domonda/ui@5.1.1) (2019-10-02)
+
+
+### Bug Fixes
+
+* **Text:** drop unnecessary log ([fdeaee2](https://github.com/domonda/domonda-js/commit/fdeaee2))
+
+
+
+
+
 # [5.1.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@5.0.0...@domonda/ui@5.1.0) (2019-10-01)
 
 

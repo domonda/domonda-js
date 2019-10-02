@@ -1,6 +1,6 @@
 {
   "name": "@domonda/react-form",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "description": "Implementation of @domonda/form for React.",
   "keywords": [
     "domonda",
@@ -38,7 +38,7 @@
     "@domonda/form": "^2.2.0",
     "@domonda/plumb": "^2.2.4",
     "@domonda/react-plumb": "^1.2.1",
-    "@domonda/ui": "^5.1.0",
+    "@domonda/ui": "^5.1.1",
     "clsx": "^1.0.4",
     "fast-equals": "^2.0.0",
     "lodash.get": "^4.4.2",
