@@ -2,17 +2,10 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { Form, FormState, FormInputField, FormDateField, FormNumberField } from '../src';
 
-const stories = storiesOf('FormInputField', module);
+const stories = storiesOf('Form', module);
 
 stories.add('Basic', () => (
   <Form onSubmit={() => {}}>
-    <strong>State:</strong>
-    <pre>
-      <FormState selector={(state) => state}>
-        {(state) => <p>{JSON.stringify(state, undefined, '  ')}</p>}
-      </FormState>
-    </pre>
-    <hr />
     <p>
       <FormInputField required path="name">
         {({ inputProps }) => (
@@ -33,7 +26,18 @@ stories.add('Basic', () => (
         )}
       </FormInputField>
     </p>
-    <FormDateField path="birthday">{({ DateInput }) => <DateInput />}</FormDateField>
+    <div>
+      <FormDateField path="birthday">
+        {({ DateInput }) => (
+          <>
+            <label>Date:</label>
+            <div style={{ display: 'inline-block', width: 131 }}>
+              <DateInput />
+            </div>
+          </>
+        )}
+      </FormDateField>
+    </div>
     <p>
       <FormNumberField path="num" thousandsSeparatorSymbol="." decimalSymbol=",">
         {({ inputProps }) => (
@@ -45,7 +49,32 @@ stories.add('Basic', () => (
       </FormNumberField>
     </p>
     <p>
+      <FormNumberField
+        path="perc"
+        thousandsSeparatorSymbol="."
+        decimalSymbol=","
+        suffix="%"
+        isAllowed={(val) => {
+          return val === null || val <= 100;
+        }}
+      >
+        {({ inputProps }) => (
+          <>
+            <label>Percentage:</label>
+            <input {...inputProps} />
+          </>
+        )}
+      </FormNumberField>
+    </p>
+    <p>
       <button type="submit">Submit</button>
     </p>
+    <hr style={{ marginBottom: 15 }} />
+    <strong>State:</strong>
+    <pre>
+      <FormState selector={(state) => state}>
+        {(state) => <p>{JSON.stringify(state, undefined, '  ')}</p>}
+      </FormState>
+    </pre>
   </Form>
 ));

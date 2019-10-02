@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useCallback, useState, useMemo, useEffect } from 'react';
+import React, { useCallback, useState, useMemo, useEffect, useRef } from 'react';
 import { useFormField, UseFormFieldProps, FormFieldAPI } from '../FormField';
 import {
   CreateTextMaskInputProps,
@@ -24,6 +24,8 @@ export type UseFormMaskedFieldProps<V extends string | number> = UseFormFieldPro
     numberDecimalSymbol?: string;
     /** Whether the field is required. */
     required?: boolean;
+    /** Allows the user to decide if the arriving value is allowed. */
+    isAllowed?: (value: V | null) => boolean;
   };
 
 export interface FormMaskedFieldAPI<V extends string | number> extends FormFieldAPI<V | null> {
@@ -75,6 +77,7 @@ export function useFormMaskedField<Value extends string | number>(
     parseNumber,
     numberDecimalSymbol,
     required,
+    isAllowed,
     ...formFieldProps
   } = props;
 
@@ -172,7 +175,10 @@ export function useFormMaskedField<Value extends string | number>(
           : null;
       }
 
-      formField.setValue(nextValue);
+      // update field value only if it is allowed
+      if (!isAllowed || isAllowed(nextValue)) {
+        formField.setValue(nextValue);
+      }
 
       // we want this asynchronously called because some browsers (safari) decide to hide the validity box on input
       const { validity } = currentTarget;
@@ -183,7 +189,7 @@ export function useFormMaskedField<Value extends string | number>(
 
       setConformedValue(currentTarget.value);
     },
-    [formField.setValue, textMaskInput, disableUnmask, parseNumber, numberDecimalSymbol],
+    [formField.setValue, textMaskInput, disableUnmask, parseNumber, numberDecimalSymbol, isAllowed],
   );
 
   return {
