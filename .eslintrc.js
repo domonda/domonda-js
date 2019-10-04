@@ -3,13 +3,13 @@ module.exports = {
   parserOptions: {
     warnOnUnsupportedTypeScriptVersion: false,
   },
+  plugins: ['prettier', '@typescript-eslint', 'react', 'react-hooks'],
   extends: [
     'eslint:recommended',
     'plugin:prettier/recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:react/recommended',
   ],
-  plugins: ['prettier', '@typescript-eslint', 'react'],
   settings: {
     react: {
       // don't require react to be installed (some packages don't even use react)
@@ -53,5 +53,7 @@ module.exports = {
     'react/no-unescaped-entities': 'off',
     'react/prop-types': 'off',
     'react/no-array-index-key': 'error',
+
+    'react-hooks/rules-of-hooks': 'error',
   },
 };

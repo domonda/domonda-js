@@ -26,6 +26,8 @@ export interface UsePlumbStateProps<S, T> {
 }
 
 export function usePlumbState<S, T>(props: UsePlumbStateProps<S, T> = {}): [S, T | undefined] {
+  // NOTE: plumb is either provided or not
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { plumb = usePlumbContext<S, T>(), stateIsEqual } = props;
 
   // we prefer using ref + forceUpdate to guarantee latest value delivery
@@ -77,6 +79,8 @@ export interface UseMappedPlumbStateProps<S, K, T>
 export function useMappedPlumbState<S, K, T>(
   props: UseMappedPlumbStateProps<S, K, T>,
 ): [K, T | undefined] {
+  // NOTE: plumb is either provided or not
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { plumb = usePlumbContext<S, T>(), mapper, stateIsEqual } = props;
 
   // we prefer using ref + forceUpdate to guarantee latest value delivery
