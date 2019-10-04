@@ -6,10 +6,11 @@
  *
  */
 
-import { useState, useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import { Plumb } from '@domonda/plumb';
 import { shallowEqual } from 'fast-equals';
 import { usePlumbContext } from './PlumbContext';
+import { useForceUpdate } from './useForceUpdate';
 
 export interface UsePlumbStateProps<S, T> {
   /**
@@ -18,14 +19,6 @@ export interface UsePlumbStateProps<S, T> {
    */
   plumb?: Plumb<S, T>;
   /**
-   * when many updates happen immediatly react often displays
-   * the order of received values incorrectly. setting this
-   * flag to true will update the state in a `setTimeout(() => {}, 0)`
-   * therefore guarenteeing the value order because it allows
-   * react renders to finish before triggering `setValue`
-   */
-  setWithTimeout?: boolean;
-  /**
    * compares the state and if the function returns true, the
    * hook will not update the internal state since its the same
    */
@@ -33,42 +26,36 @@ export interface UsePlumbStateProps<S, T> {
 }
 
 export function usePlumbState<S, T>(props: UsePlumbStateProps<S, T> = {}): [S, T | undefined] {
-  const { plumb = usePlumbContext<S, T>(), setWithTimeout, stateIsEqual } = props;
+  const { plumb = usePlumbContext<S, T>(), stateIsEqual } = props;
 
-  const [value, setValue] = useState(() => ({ state: plumb.state, lastTag: plumb.lastTag }));
-
-  const valueRef = useRef<{ state: S; lastTag: T | undefined }>(value);
-  if (valueRef.current !== value) {
-    valueRef.current = value;
-  }
+  // we prefer using ref + forceUpdate to guarantee latest value delivery
+  const forceUpdate = useForceUpdate();
+  const valueRef = useRef<{ state: S; lastTag: T | undefined }>({
+    state: plumb.state,
+    lastTag: plumb.lastTag,
+  });
 
   useLayoutEffect(() => {
     const maybeNewPlumbState = plumb.state;
     if (valueRef.current.state !== maybeNewPlumbState) {
-      setValue({ state: maybeNewPlumbState, lastTag: plumb.lastTag });
+      valueRef.current = { state: maybeNewPlumbState, lastTag: plumb.lastTag };
+      forceUpdate();
     }
   }, [plumb]);
 
   useLayoutEffect(() => {
     const subscription = plumb.subscribe((nextState, nextTag) => {
-      const performSetState = () => {
-        if (!(stateIsEqual || shallowEqual)(valueRef.current.state, nextState)) {
-          setValue({ state: nextState, lastTag: nextTag });
-        }
-      };
-
-      if (setWithTimeout) {
-        setTimeout(performSetState, 0);
-      } else {
-        performSetState();
+      if (!(stateIsEqual || shallowEqual)(valueRef.current.state, nextState)) {
+        valueRef.current = { state: nextState, lastTag: nextTag };
+        forceUpdate();
       }
     });
     return () => {
       subscription.dispose();
     };
-  }, [plumb, setWithTimeout]);
+  }, [plumb]);
 
-  return [value.state, value.lastTag];
+  return [valueRef.current.state, valueRef.current.lastTag];
 }
 
 export interface PlumbStateProps<S, T> extends UsePlumbStateProps<S, T> {
@@ -90,24 +77,22 @@ export interface UseMappedPlumbStateProps<S, K, T>
 export function useMappedPlumbState<S, K, T>(
   props: UseMappedPlumbStateProps<S, K, T>,
 ): [K, T | undefined] {
-  const { plumb = usePlumbContext<S, T>(), mapper, setWithTimeout, stateIsEqual } = props;
+  const { plumb = usePlumbContext<S, T>(), mapper, stateIsEqual } = props;
 
-  const [value, setValue] = useState(() => ({
+  // we prefer using ref + forceUpdate to guarantee latest value delivery
+  const forceUpdate = useForceUpdate();
+  const valueRef = useRef<{ state: K; lastTag: T | undefined }>({
     state: mapper(plumb.state),
     lastTag: plumb.lastTag,
-  }));
-
-  const valueRef = useRef<{ state: K; lastTag: T | undefined }>(value);
-  if (valueRef.current !== value) {
-    valueRef.current = value;
-  }
+  });
 
   const initRef = useRef(true);
   useLayoutEffect(() => {
     if (!initRef.current) {
       const maybeNewPlumbState = mapper(plumb.state);
       if (valueRef.current.state !== maybeNewPlumbState) {
-        setValue({ state: maybeNewPlumbState, lastTag: plumb.lastTag });
+        valueRef.current = { state: maybeNewPlumbState, lastTag: plumb.lastTag };
+        forceUpdate();
       }
     }
     initRef.current = false;
@@ -115,17 +100,10 @@ export function useMappedPlumbState<S, K, T>(
 
   useLayoutEffect(() => {
     const subscription = plumb.subscribe((nextState, nextTag) => {
-      const performSetState = () => {
-        const mappedState = mapper(nextState);
-        if (!(stateIsEqual || shallowEqual)(valueRef.current.state, mappedState)) {
-          setValue({ state: mappedState, lastTag: nextTag });
-        }
-      };
-
-      if (setWithTimeout) {
-        setTimeout(performSetState, 0);
-      } else {
-        performSetState();
+      const mappedState = mapper(nextState);
+      if (!(stateIsEqual || shallowEqual)(valueRef.current.state, mappedState)) {
+        valueRef.current = { state: mappedState, lastTag: nextTag };
+        forceUpdate();
       }
     });
     return () => {
@@ -133,7 +111,7 @@ export function useMappedPlumbState<S, K, T>(
     };
   }, [plumb, mapper]);
 
-  return [value.state, value.lastTag];
+  return [valueRef.current.state, valueRef.current.lastTag];
 }
 
 export interface MappedPlumbStateProps<S, K, T> extends UseMappedPlumbStateProps<S, K, T> {
