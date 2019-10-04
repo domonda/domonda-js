@@ -8,11 +8,9 @@ import React, { ReactElement, useState, useRef, useCallback, useEffect, useMemo 
 import ResizeObserver from 'resize-observer-polyfill';
 import { shallowEqual } from 'fast-equals';
 
-export function useForceUpdate() {
+function useForceUpdate() {
   const [, setCounter] = useState(0);
-  const forceUpdate = useCallback(() => {
-    setCounter((counter) => counter + 1);
-  }, []);
+  const forceUpdate = useCallback(() => setCounter((counter) => counter + 1), []);
   return forceUpdate;
 }
 
