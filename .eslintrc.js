@@ -52,5 +52,6 @@ module.exports = {
 
     'react/no-unescaped-entities': 'off',
     'react/prop-types': 'off',
+    'react/no-array-index-key': 'error',
   },
 };
