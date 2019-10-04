@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.0.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@5.2.0...@domonda/ui@6.0.0) (2019-10-04)
+
+
+### Features
+
+* **useForceUpdate:** drop (moved to @domonda/react-plumb) ([9d02e73](https://github.com/domonda/domonda-js/commit/9d02e73))
+
+
+### BREAKING CHANGES
+
+* **useForceUpdate:** `useForceUpdate` is moved to `@domonda/react-plumb` and does not exist here anymore.
+
+
+
+
+
 # [5.2.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@5.1.1...@domonda/ui@5.2.0) (2019-10-02)
 
 

@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/domonda/domonda-js/compare/@domonda/react-plumb@1.2.1...@domonda/react-plumb@2.0.0) (2019-10-04)
+
+
+### Bug Fixes
+
+* **usePlumbState:** guarantee latest change delivery ([0dd5e11](https://github.com/domonda/domonda-js/commit/0dd5e11))
+
+
+### Features
+
+* **useForceUpdate:** introduce ([33d9bce](https://github.com/domonda/domonda-js/commit/33d9bce))
+
+
+### BREAKING CHANGES
+
+* **usePlumbState:** Drop `setWithTimeout` prop as it is not necessary anymore. The latest value will always be delivered.
+
+
+
+
+
 ## [1.2.1](https://github.com/domonda/domonda-js/compare/@domonda/react-plumb@1.2.0...@domonda/react-plumb@1.2.1) (2019-10-01)
 
 **Note:** Version bump only for package @domonda/react-plumb
