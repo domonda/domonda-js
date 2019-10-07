@@ -33,6 +33,35 @@ it('should update the state and the url through the setter', () => {
   expect(history.location.search).toBe(stringify(state, { prependQuestionMark: true }));
 });
 
+it('should pass the current params to the updater, update the state and the url', () => {
+  const history = createMemoryHistory();
+
+  const model: QueryModel<{ str: string }> = {
+    str: {
+      type: 'string',
+      defaultValue: '',
+    },
+  };
+
+  const { result } = renderHook(() => useQueryParams(model), {
+    wrapper: ({ children }) => (
+      <QueryParamsProvider history={history}>{children}</QueryParamsProvider>
+    ),
+  });
+
+  const state = { str: 'test' };
+
+  act(() => {
+    result.current[1]((currState) => {
+      expect(currState).toEqual({ str: '' });
+      return state;
+    });
+  });
+
+  expect(result.current[0]).toEqual(state);
+  expect(history.location.search).toBe(stringify(state, { prependQuestionMark: true }));
+});
+
 it('should not allow mutations on resulting parameters', () => {
   const history = createMemoryHistory();
 

@@ -24,7 +24,7 @@ export interface UseQueryParamsProps {
   disableReplace?: boolean;
 }
 
-export type UseQueryParamsReturn<T> = [T, (nextParams: T) => void];
+export type UseQueryParamsReturn<T> = [T, (parmasOrUpdater: T | ((currParams: T) => T)) => void];
 
 /**
  * Parses the current URL query string following the `model`.
@@ -91,7 +91,10 @@ export function useQueryParams<T>(
 
   return [
     queryParamsRef.current,
-    ((currParams: T) => (nextParams: T) => {
+    ((currParams: T) => (paramsOrUpdater: T | ((currParams: T) => T)) => {
+      const nextParams =
+        paramsOrUpdater instanceof Function ? paramsOrUpdater(currParams) : paramsOrUpdater;
+
       if (!deepEqual(currParams, nextParams)) {
         history.push({
           // if we provided the onPathname, then updating the values should push to the route
