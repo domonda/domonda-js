@@ -54,6 +54,36 @@ describe('Creation', () => {
       expect(spy).not.toBeCalled();
     });
   });
+
+  it('should initialize with the correct disabled flag', () => {
+    const [form] = createForm(defaultValues);
+
+    form.plumb.next(
+      {
+        ...form.plumb.state,
+        disabled: true,
+      },
+      FormTag.FORM_TOGGLE_DISABLE_OR_READ_ONLY,
+    );
+
+    const [field] = form.makeFormField(path);
+    expect(field.state.disabled).toBeTruthy();
+  });
+
+  it('should initialize with the correct readonly flag', () => {
+    const [form] = createForm(defaultValues);
+
+    form.plumb.next(
+      {
+        ...form.plumb.state,
+        readOnly: true,
+      },
+      FormTag.FORM_TOGGLE_DISABLE_OR_READ_ONLY,
+    );
+
+    const [field] = form.makeFormField(path);
+    expect(field.state.readOnly).toBeTruthy();
+  });
 });
 
 describe('Change', () => {
