@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "clsx": "^1.0.4",
-    "deepmerge": "^4.0.0",
+    "deepmerge": "^4.1.1",
     "downshift": "^3.3.4",
     "fast-equals": "^2.0.0",
     "jss-plugin-camel-case": "^10.0.0",
