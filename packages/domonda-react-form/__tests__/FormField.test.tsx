@@ -69,6 +69,44 @@ describe('Creation', () => {
     expect(field.state.disabled).toBeFalsy();
     expect(field.state.readOnly).toBeFalsy();
   });
+
+  it('should initialize with the correct disabled flag', () => {
+    const spy = jest.fn((_0) => null);
+
+    let form: DomondaForm<DefaultValues>;
+    render(
+      <Form disabled defaultValues={defaultValues} getForm={(f) => (form = f)}>
+        <FormField path={pathToDenis}>{spy}</FormField>
+      </Form>,
+    );
+
+    // @ts-ignore because form should indeed be set here
+    if (!form) {
+      throw new Error('form instance should be set here!');
+    }
+
+    expect(spy).toBeCalled();
+    expect(spy.mock.calls[0][0].state.disabled).toBeTruthy();
+  });
+
+  it('should initialize with the correct readOnly flag', () => {
+    const spy = jest.fn((_0) => null);
+
+    let form: DomondaForm<DefaultValues>;
+    render(
+      <Form readOnly defaultValues={defaultValues} getForm={(f) => (form = f)}>
+        <FormField path={pathToDenis}>{spy}</FormField>
+      </Form>,
+    );
+
+    // @ts-ignore because form should indeed be set here
+    if (!form) {
+      throw new Error('form instance should be set here!');
+    }
+
+    expect(spy).toBeCalled();
+    expect(spy.mock.calls[0][0].state.readOnly).toBeTruthy();
+  });
 });
 
 describe('Update', () => {

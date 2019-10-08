@@ -56,18 +56,30 @@ export function Form<DefaultValues extends FormDefaultValues>(
     ...rest
   } = props;
 
-  const [form, dispose] = useMemo(
-    () =>
-      createForm(defaultValues, {
-        resetOnSuccessfulSubmit,
-        resetOnFailedSubmit,
-        onSubmit,
-        autoSubmit,
-        autoSubmitDelay,
-        disableOnSubmit,
-      }),
-    [],
-  );
+  const [form, dispose] = useMemo(() => {
+    const [form, dispose] = createForm(defaultValues, {
+      resetOnSuccessfulSubmit,
+      resetOnFailedSubmit,
+      onSubmit,
+      autoSubmit,
+      autoSubmitDelay,
+      disableOnSubmit,
+    });
+
+    // if the state is initally different from the default one, change it during initialization
+    if (form.state.disabled !== disabled || form.state.readOnly !== readOnly) {
+      form.plumb.next(
+        {
+          ...form.plumb.state,
+          disabled,
+          readOnly,
+        },
+        FormTag.FORM_TOGGLE_DISABLE_OR_READ_ONLY,
+      );
+    }
+
+    return [form, dispose];
+  }, []);
 
   const [formEl, setFormEl] = useState<HTMLFormElement | null>(null);
 
