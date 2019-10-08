@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.1](https://github.com/domonda/domonda-js/compare/@domonda/ui@6.0.0...@domonda/ui@6.0.1) (2019-10-08)
+
+
+### Bug Fixes
+
+* **RowHeader:** check fontSize type before calc ([90b751d](https://github.com/domonda/domonda-js/commit/90b751d))
+
+
+
+
+
 # [6.0.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@5.2.0...@domonda/ui@6.0.0) (2019-10-04)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.3](https://github.com/domonda/domonda-js/compare/@domonda/react-form@2.4.2...@domonda/react-form@2.4.3) (2019-10-08)
+
+
+### Bug Fixes
+
+* **Form:** initialize with correct `disabled` and `readOnly` flags ([38b2dc8](https://github.com/domonda/domonda-js/commit/38b2dc8))
+
+
+
+
+
 ## [2.4.2](https://github.com/domonda/domonda-js/compare/@domonda/react-form@2.4.1...@domonda/react-form@2.4.2) (2019-10-04)
 
 **Note:** Version bump only for package @domonda/react-form

@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.1](https://github.com/domonda/domonda-js/compare/@domonda/form@2.2.0...@domonda/form@2.2.1) (2019-10-08)
+
+**Note:** Version bump only for package @domonda/form
+
+
+
+
+
 # [2.2.0](https://github.com/domonda/domonda-js/compare/@domonda/form@2.1.6...@domonda/form@2.2.0) (2019-10-01)
 
 
