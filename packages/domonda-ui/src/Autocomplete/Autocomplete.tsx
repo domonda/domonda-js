@@ -11,7 +11,7 @@ import { FixedSizeList } from 'react-window';
 // ui
 import { TextField, TextFieldProps } from '../TextField';
 import { Popper, PopperProps } from '../Popper';
-import { Menu, MenuItem } from '../Menu';
+import { MenuList, MenuItem } from '../Menu';
 
 const ITEM_SIZE = 46;
 
@@ -113,7 +113,7 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
             />
             {!readOnly && (keepPopperMounted || isOpen) && (
               <Popper {...PopperProps} open={isOpen} anchorEl={anchorEl.current}>
-                <Menu
+                <MenuList
                   {...(isOpen
                     ? getMenuProps(
                         {
@@ -157,7 +157,7 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
                       );
                     }}
                   </FixedSizeList>
-                </Menu>
+                </MenuList>
               </Popper>
             )}
           </div>
