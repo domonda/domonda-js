@@ -37,7 +37,7 @@ export interface AutocompleteProps<T>
   readOnly?: boolean;
   autoFocus?: boolean;
   TextFieldProps?: TextFieldProps;
-  PopperProps?: Omit<PopperProps, 'open' | 'anchorEl'>;
+  PopperProps?: Omit<PopperProps, 'children' | 'open' | 'anchorEl'>;
   keepPopperMounted?: boolean;
 }
 
