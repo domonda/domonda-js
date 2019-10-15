@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.4](https://github.com/domonda/domonda-js/compare/@domonda/react-form@2.4.3...@domonda/react-form@2.4.4) (2019-10-15)
+
+
+### Bug Fixes
+
+* `classes` prop is partial by definition ([a35de49](https://github.com/domonda/domonda-js/commit/a35de497d74eff9b2dd58245ef016d15322d6ff3))
+
+
+
+
+
 ## [2.4.3](https://github.com/domonda/domonda-js/compare/@domonda/react-form@2.4.2...@domonda/react-form@2.4.3) (2019-10-08)
 
 

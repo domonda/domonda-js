@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.1.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@6.0.1...@domonda/ui@6.1.0) (2019-10-15)
+
+
+### Bug Fixes
+
+* `classes` prop is partial by definition ([a35de49](https://github.com/domonda/domonda-js/commit/a35de497d74eff9b2dd58245ef016d15322d6ff3))
+
+
+### Features
+
+* **Menu:** introduce possibility to toggle menu ([efcc339](https://github.com/domonda/domonda-js/commit/efcc3396eedd5896cb78b328f6416102f3ee0cfb))
+
+
+
+
+
 ## [6.0.1](https://github.com/domonda/domonda-js/compare/@domonda/ui@6.0.0...@domonda/ui@6.0.1) (2019-10-08)
 
 

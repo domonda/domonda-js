@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.2](https://github.com/domonda/domonda-js/compare/@domonda/form@2.2.1...@domonda/form@2.2.2) (2019-10-15)
+
+
+### Bug Fixes
+
+* **Form:** default values can be an array (not recommended though) ([28cee7d](https://github.com/domonda/domonda-js/commit/28cee7d468a3981a31ba77a1665b0d5539c9f7f1))
+
+
+
+
+
 ## [2.2.1](https://github.com/domonda/domonda-js/compare/@domonda/form@2.2.0...@domonda/form@2.2.1) (2019-10-08)
 
 **Note:** Version bump only for package @domonda/form
