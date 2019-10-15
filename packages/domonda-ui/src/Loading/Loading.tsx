@@ -12,7 +12,7 @@ import { Text } from '../Text';
 import { decorate, Decorate } from './decorate';
 
 export interface LoadingProps extends Omit<FlexProps, 'classes'> {
-  classes?: Decorate['classes'];
+  classes?: Partial<Decorate['classes']>;
   FlexClasses?: FlexProps['classes'];
 }
 

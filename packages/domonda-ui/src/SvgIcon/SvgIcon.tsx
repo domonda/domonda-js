@@ -20,7 +20,7 @@ const styles = {
 };
 
 export interface SvgIconProps extends Omit<React.SVGProps<SVGSVGElement>, 'ref'> {
-  classes?: WithStyles<typeof styles>['classes'];
+  classes?: Partial<WithStyles<typeof styles>['classes']>;
 }
 
 export const svgIconClassName = generateStaticClassName('SvgIcon');

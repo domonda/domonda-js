@@ -12,7 +12,7 @@ import { Config } from '../makeRow';
 import decorate, { Decorate } from './decorate';
 
 export interface RowItemProps<Item> {
-  classes?: Decorate['classes'];
+  classes?: Partial<Decorate['classes']>;
   className?: string;
   component?: React.ComponentType<{
     item: Item;

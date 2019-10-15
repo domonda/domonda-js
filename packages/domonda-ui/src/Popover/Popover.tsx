@@ -102,7 +102,7 @@ export interface PopoverActions {
 type ExtendingProps = Omit<ModalProps, 'children'> & Partial<TransitionHandlerProps>;
 
 export interface PopoverProps extends ExtendingProps {
-  classes?: WithStyles<typeof styles>['classes'];
+  classes?: Partial<WithStyles<typeof styles>['classes']>;
   action?: React.Ref<PopoverActions | null>;
   anchorEl?: null | Element | ((element: Element) => Element);
   anchorOrigin?: PopoverOrigin;

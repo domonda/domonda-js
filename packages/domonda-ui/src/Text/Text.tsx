@@ -18,7 +18,7 @@ import {
 import { decorate, Decorate } from './decorate';
 
 export interface TextProps extends React.HTMLAttributes<HTMLElement> {
-  classes?: Decorate['classes'];
+  classes?: Partial<Decorate['classes']>;
   inline?: boolean;
   gutterBottom?: boolean;
   paragraph?: boolean;

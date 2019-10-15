@@ -32,7 +32,7 @@ const styles = createStyles((theme) => {
 });
 
 export interface PaperProps extends React.HTMLAttributes<HTMLDivElement> {
-  classes?: WithStyles<typeof styles>['classes'];
+  classes?: Partial<WithStyles<typeof styles>['classes']>;
   component?: React.ElementType<React.HTMLAttributes<HTMLDivElement>>;
   elevation?: number;
   square?: boolean;

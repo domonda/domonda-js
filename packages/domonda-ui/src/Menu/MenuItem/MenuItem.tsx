@@ -11,7 +11,7 @@ import clsx from 'clsx';
 import { decorate, Decorate } from './decorate';
 
 export interface MenuItemProps extends React.HTMLAttributes<HTMLLIElement> {
-  classes?: Decorate['classes'];
+  classes?: Partial<Decorate['classes']>;
   component?: string | React.ComponentType<React.HTMLAttributes<HTMLElement>>;
   highlighted?: boolean;
   selected?: boolean;

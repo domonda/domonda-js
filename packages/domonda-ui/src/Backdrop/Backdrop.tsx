@@ -39,7 +39,7 @@ const styles = createStyles({
 // TODO-db-190902 extend FadeProps
 
 export interface BackdropProps extends React.HTMLAttributes<HTMLDivElement> {
-  classes?: WithStyles<typeof styles>['classes'];
+  classes?: Partial<WithStyles<typeof styles>['classes']>;
   /**
    * If `true`, the backdrop is invisible.
    * It can be used when rendering a popover or a custom select component.

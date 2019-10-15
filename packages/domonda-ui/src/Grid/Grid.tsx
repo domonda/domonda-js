@@ -12,7 +12,7 @@ import { Theme } from '../styles';
 import { decorate, Decorate } from './decorate';
 
 export interface GridProps extends React.HTMLAttributes<HTMLElement> {
-  classes?: Decorate['classes'];
+  classes?: Partial<Decorate['classes']>;
   component?: string | React.ComponentType<React.HTMLAttributes<HTMLElement>>;
   /** Makes the current component a container. (display: grid;) */
   container?: boolean;

@@ -18,7 +18,7 @@ const styles = createStyles(({ spacing }) => ({
 }));
 
 export interface DividerProps extends React.HTMLAttributes<HTMLHRElement> {
-  classes?: WithStyles<typeof styles>['classes'];
+  classes?: Partial<WithStyles<typeof styles>['classes']>;
   color?: Color; // default: `textSecondary`
   weight?: 'thin' | 'bold'; // default: `thin`
 }

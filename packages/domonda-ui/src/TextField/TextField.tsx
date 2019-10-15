@@ -85,7 +85,7 @@ const styles = createStyles(({ palette, spacing, shadows, shape, typography }) =
 }));
 
 export interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  classes?: WithStyles<typeof styles>['classes'];
+  classes?: Partial<WithStyles<typeof styles>['classes']>;
   label?: React.ReactNode;
   dense?: boolean;
 }

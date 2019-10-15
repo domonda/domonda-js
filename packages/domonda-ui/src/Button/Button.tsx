@@ -12,7 +12,7 @@ import { Color, generateStaticClassName } from '../styles';
 import { decorate, Decorate, SIZES } from './decorate';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  classes?: Decorate['classes'];
+  classes?: Partial<Decorate['classes']>;
   color?: Color; // default: `default`
   variant?: 'text' | 'contained' | 'outlined'; // default: `text`
   size?: typeof SIZES[0]; // default: `md`

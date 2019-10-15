@@ -105,7 +105,7 @@ const defaultTransitionDuration = {
 type ExtendingProps = Omit<ModalProps, 'children'> & Partial<TransitionHandlerProps>;
 
 export interface DialogProps extends ExtendingProps {
-  classes?: WithStyles<typeof styles>['classes'];
+  classes?: Partial<WithStyles<typeof styles>['classes']>;
   children?: React.ReactNode;
   fullScreen?: boolean;
   fullWidth?: boolean;

@@ -15,7 +15,7 @@ import { SvgClearIcon } from '../SvgIcon/SvgClearIcon';
 import { decorate, Decorate } from './decorate';
 
 export interface SuccessInlineProps extends React.HTMLAttributes<HTMLDivElement> {
-  classes?: Decorate['classes'];
+  classes?: Partial<Decorate['classes']>;
   message: React.ReactNode;
   onClose?: () => void;
   disableCloseAutoFocus?: boolean;

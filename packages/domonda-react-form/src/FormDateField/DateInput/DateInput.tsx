@@ -16,7 +16,7 @@ import 'react-datepicker/dist/react-datepicker.min.css';
 import { decorate, Decorate } from './decorate';
 
 export interface DateInputProps {
-  classes?: Decorate['classes'];
+  classes?: Partial<Decorate['classes']>;
   adjustDateOnChange?: boolean;
   allowSameDay?: boolean;
   autoComplete?: string;

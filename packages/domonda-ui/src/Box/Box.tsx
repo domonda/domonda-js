@@ -17,7 +17,7 @@ type Spacing =
   | [number, number, number, number]; // top right bottom left
 
 export interface BoxProps extends React.HTMLAttributes<HTMLElement> {
-  classes?: Decorate['classes'];
+  classes?: Partial<Decorate['classes']>;
   component?: string | React.ComponentType<React.HTMLAttributes<HTMLElement>>;
   padding?: Spacing;
   margin?: Spacing;
