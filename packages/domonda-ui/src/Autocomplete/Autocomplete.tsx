@@ -11,7 +11,8 @@ import { FixedSizeList } from 'react-window';
 // ui
 import { TextField, TextFieldProps } from '../TextField';
 import { Popper, PopperProps } from '../Popper';
-import { MenuList, MenuItem } from '../Menu';
+import { MenuList, MenuListProps, MenuItem } from '../Menu';
+import { Paper, PaperProps } from '../Paper';
 
 const ITEM_SIZE = 46;
 
@@ -29,8 +30,8 @@ export interface AutocompleteProps<T>
   readonly items: readonly T[];
   getItemId?: (item: T | null) => string;
   onInputValueChange?: (value: string | null) => void;
-  menuWidth?: number;
-  menuHeight?: number;
+  listWidth?: number;
+  listHeight?: number;
   // TextField
   label?: React.ReactNode;
   dense?: boolean;
@@ -39,8 +40,13 @@ export interface AutocompleteProps<T>
   readOnly?: boolean;
   autoFocus?: boolean;
   TextFieldProps?: TextFieldProps;
-  PopperProps?: Omit<PopperProps, 'open' | 'anchorEl'>;
+  // Popper
   keepPopperMounted?: boolean;
+  PopperProps?: Omit<PopperProps, 'open' | 'anchorEl'>;
+  // Paper
+  PaperProps?: PaperProps;
+  // MenuList
+  MenuListProps?: MenuListProps;
 }
 
 export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement | null {
@@ -48,8 +54,8 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
     items,
     getItemId = (item: T) => (typeof item === 'string' ? item : JSON.stringify(item)),
     onInputValueChange,
-    menuWidth,
-    menuHeight,
+    listWidth,
+    listHeight,
     // TextField
     label,
     dense,
@@ -58,8 +64,13 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
     readOnly,
     autoFocus,
     TextFieldProps = {},
-    PopperProps = {},
+    // Popper
     keepPopperMounted,
+    PopperProps = {},
+    // Paper
+    PaperProps,
+    // MenuList
+    MenuListProps,
     ...rest
   } = props;
 
@@ -113,51 +124,54 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
             />
             {!readOnly && (keepPopperMounted || isOpen) && (
               <Popper {...PopperProps} open={isOpen} anchorEl={anchorEl.current}>
-                <MenuList
-                  {...(isOpen
-                    ? getMenuProps(
-                        {
-                          style: MENU_STYLES,
-                        },
-                        { suppressRefError: true },
-                      )
-                    : {})}
-                >
-                  <FixedSizeList
-                    width={
-                      typeof menuWidth === 'number'
-                        ? menuWidth
-                        : anchorEl.current
-                        ? anchorEl.current.clientWidth
-                        : 0
-                    }
-                    height={
-                      typeof menuHeight === 'number'
-                        ? menuHeight
-                        : Math.min(ITEM_SIZE * 7, items.length * ITEM_SIZE)
-                    }
-                    itemSize={ITEM_SIZE}
-                    itemCount={items.length}
+                <Paper elevation={2} {...PaperProps}>
+                  <MenuList
+                    {...(isOpen
+                      ? getMenuProps(
+                          {
+                            ...MenuListProps,
+                            style: MENU_STYLES,
+                          },
+                          { suppressRefError: true },
+                        )
+                      : {})}
                   >
-                    {({ index, style }) => {
-                      const item = items[index];
-                      return (
-                        <MenuItem
-                          {...getItemProps({
-                            index,
-                            item,
-                            selected: selectedItem === getItemId(item),
-                            tabIndex: -1,
-                            style,
-                          })}
-                          highlighted={highlightedIndex === index}
-                        >
-                          {itemToString(item)}
-                        </MenuItem>
-                      );
-                    }}
-                  </FixedSizeList>
-                </MenuList>
+                    <FixedSizeList
+                      width={
+                        typeof listWidth === 'number'
+                          ? listWidth
+                          : anchorEl.current
+                          ? anchorEl.current.clientWidth
+                          : 0
+                      }
+                      height={
+                        typeof listHeight === 'number'
+                          ? listHeight
+                          : Math.min(ITEM_SIZE * 7, items.length * ITEM_SIZE)
+                      }
+                      itemSize={ITEM_SIZE}
+                      itemCount={items.length}
+                    >
+                      {({ index, style }) => {
+                        const item = items[index];
+                        return (
+                          <MenuItem
+                            {...getItemProps({
+                              index,
+                              item,
+                              selected: selectedItem === getItemId(item),
+                              tabIndex: -1,
+                              style,
+                            })}
+                            highlighted={highlightedIndex === index}
+                          >
+                            {itemToString(item)}
+                          </MenuItem>
+                        );
+                      }}
+                    </FixedSizeList>
+                  </MenuList>
+                </Paper>
               </Popper>
             )}
           </div>
