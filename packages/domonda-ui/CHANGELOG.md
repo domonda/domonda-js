@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.2.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@6.1.0...@domonda/ui@6.2.0) (2019-10-15)
+
+
+### Bug Fixes
+
+* **Autocomplete:** adjust definitions for `PopperProps` ([ee5cd04](https://github.com/domonda/domonda-js/commit/ee5cd0402d8bc27db122f6c8294b1122bc659634))
+* **Autocomplete:** use `MenuList` over collapsable `Menu` ([6ddf52c](https://github.com/domonda/domonda-js/commit/6ddf52c04b51c25688941a3212e6991460ad2d59))
+
+
+### Features
+
+* **Autocomplete:** customizable menu width and height ([736467c](https://github.com/domonda/domonda-js/commit/736467cc1e79e8c852001235c2a0624d7e7b7074))
+* **Autocomplete:** use `Paper`, smaller adjustments and more props ([d9c5381](https://github.com/domonda/domonda-js/commit/d9c53812c94441a7a0f320cef2ada9a3cc2fc2a9))
+* **MenuList:** implement ([cb0215a](https://github.com/domonda/domonda-js/commit/cb0215a56c392e36e4bcbafbb4b45a4597a46fb2))
+
+
+
+
+
 # [6.1.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@6.0.1...@domonda/ui@6.1.0) (2019-10-15)
 
 
