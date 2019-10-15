@@ -6,16 +6,20 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import { Popover, PopoverProps, PopoverOrigin } from '../../Popover';
+import { Popover, PopoverProps, PopoverOrigin } from '../Popover';
 
 // decorate
 import { decorate, Decorate } from './decorate';
+
+// parts
+import { MenuList, MenuListProps } from './MenuList';
 
 type ExtendingProps = Omit<PopoverProps, 'classes'>;
 
 export interface MenuProps extends ExtendingProps {
   classes?: Partial<Decorate['classes']>;
   PopoverClasses?: PopoverProps['classes'];
+  MenuListProps?: MenuListProps;
 }
 
 const Menu = React.forwardRef<HTMLDivElement, MenuProps & Decorate>(function Menu(props, ref) {
@@ -29,6 +33,7 @@ const Menu = React.forwardRef<HTMLDivElement, MenuProps & Decorate>(function Men
       vertical: 'top',
       horizontal: 'center',
     } as PopoverOrigin,
+    MenuListProps,
     ...rest
   } = props;
 
@@ -47,7 +52,7 @@ const Menu = React.forwardRef<HTMLDivElement, MenuProps & Decorate>(function Men
       transformOrigin={transformOrigin}
       {...rest}
     >
-      <ul className={classes.list}>{children}</ul>
+      <MenuList {...MenuListProps}>{children}</MenuList>
     </Popover>
   );
 });
