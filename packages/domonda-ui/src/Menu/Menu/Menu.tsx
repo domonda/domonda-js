@@ -5,6 +5,7 @@
  */
 
 import React from 'react';
+import clsx from 'clsx';
 import { Popover, PopoverProps, PopoverOrigin } from '../../Popover';
 
 // decorate
@@ -39,9 +40,8 @@ const Menu = React.forwardRef<HTMLDivElement, MenuProps & Decorate>(function Men
       PaperProps={{
         ...PaperProps,
         classes: {
-          root: classes.root,
-          rounded: '',
           ...PaperProps.classes,
+          root: clsx(classes.root, PaperProps.classes && PaperProps.classes.root),
         },
       }}
       transformOrigin={transformOrigin}
