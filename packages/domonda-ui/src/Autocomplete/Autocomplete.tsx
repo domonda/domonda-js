@@ -29,6 +29,8 @@ export interface AutocompleteProps<T>
   readonly items: readonly T[];
   getItemId?: (item: T | null) => string;
   onInputValueChange?: (value: string | null) => void;
+  menuWidth?: number;
+  menuHeight?: number;
   // TextField
   label?: React.ReactNode;
   dense?: boolean;
@@ -46,6 +48,8 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
     items,
     getItemId = (item: T) => (typeof item === 'string' ? item : JSON.stringify(item)),
     onInputValueChange,
+    menuWidth,
+    menuHeight,
     // TextField
     label,
     dense,
@@ -120,8 +124,18 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
                     : {})}
                 >
                   <FixedSizeList
-                    width={anchorEl.current ? anchorEl.current.clientWidth : 0}
-                    height={Math.min(ITEM_SIZE * 7, items.length * ITEM_SIZE)}
+                    width={
+                      typeof menuWidth === 'number'
+                        ? menuWidth
+                        : anchorEl.current
+                        ? anchorEl.current.clientWidth
+                        : 0
+                    }
+                    height={
+                      typeof menuHeight === 'number'
+                        ? menuHeight
+                        : Math.min(ITEM_SIZE * 7, items.length * ITEM_SIZE)
+                    }
                     itemSize={ITEM_SIZE}
                     itemCount={items.length}
                   >
