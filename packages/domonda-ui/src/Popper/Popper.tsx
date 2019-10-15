@@ -65,7 +65,6 @@ export type PopperPlacement =
 
 export interface PopperProps extends React.HTMLAttributes<HTMLDivElement> {
   anchorEl?: null | Element | ReferenceObject | (() => Element | ReferenceObject);
-  children: React.ReactNode;
   container?: PortalProps['container'];
   disablePortal?: PortalProps['disablePortal'];
   keepMounted?: boolean;
