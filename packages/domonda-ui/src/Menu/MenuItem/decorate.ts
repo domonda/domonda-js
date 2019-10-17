@@ -31,7 +31,6 @@ const styles = createStyles(({ palette, spacing, transition, typography }) => {
       borderBottom: '3px solid transparent',
       transition: transition.create(['color', 'background-color']),
       ...typography.body,
-      fontWeight: typography.weights.semiBold,
       'a&': clickable,
     },
     text: {
