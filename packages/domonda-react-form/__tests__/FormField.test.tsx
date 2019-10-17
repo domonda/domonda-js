@@ -14,10 +14,8 @@ import { createForm, Form as DomondaForm, FormTag } from '@domonda/form';
 import get from 'lodash/get';
 
 // t
-import { render, cleanup } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { renderHook, act } from '@testing-library/react-hooks';
-
-afterEach(cleanup);
 
 interface DefaultValues {
   person: {

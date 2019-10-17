@@ -3,11 +3,9 @@
  */
 
 import React from 'react';
-import { render, cleanup } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { Form as DomondaForm } from '@domonda/form';
 import { Form } from '../src/Form';
-
-afterEach(cleanup);
 
 interface DefaultValues {
   title: string | null;

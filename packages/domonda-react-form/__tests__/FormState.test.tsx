@@ -28,9 +28,7 @@ import { Form } from '../src/Form';
 
 // t
 import { renderHook, act as hookAct } from '@testing-library/react-hooks';
-import { render, cleanup, act } from '@testing-library/react';
-
-afterEach(cleanup);
+import { render, act } from '@testing-library/react';
 
 const valueAtPath = {};
 
