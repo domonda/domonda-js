@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.3.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@6.2.0...@domonda/ui@6.3.0) (2019-10-17)
+
+
+### Features
+
+* **MenuItem:** introduce `disabled` prop ([865936d](https://github.com/domonda/domonda-js/commit/865936daffdad3b382cc0796474b66a0505be3a7))
+
+
+
+
+
 # [6.2.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@6.1.0...@domonda/ui@6.2.0) (2019-10-15)
 
 
