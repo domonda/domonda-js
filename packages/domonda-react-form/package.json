@@ -52,7 +52,7 @@
     "@storybook/addon-info": "5.1.11",
     "@storybook/react": "5.1.11",
     "@testing-library/react": "^9.3.0",
-    "@testing-library/react-hooks": "^2.0.3",
+    "@testing-library/react-hooks": "^3.1.0",
     "@types/lodash": "^4.14.144",
     "@types/react-datepicker": "^2.9.3",
     "@types/storybook__react": "^4.0.2",
