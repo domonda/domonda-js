@@ -20,7 +20,9 @@ const SimpleMenu = () => {
       <Menu anchorEl={anchorEl} open={!!anchorEl} onClose={handleClose}>
         <MenuItem onClick={handleClose}>News</MenuItem>
         <MenuItem onClick={handleClose}>About us</MenuItem>
-        <MenuItem onClick={handleClose}>Contact</MenuItem>
+        <MenuItem onClick={handleClose} disabled>
+          Disabled
+        </MenuItem>
       </Menu>
     </div>
   );
