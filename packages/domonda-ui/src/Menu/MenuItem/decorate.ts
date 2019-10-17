@@ -27,7 +27,7 @@ const styles = createStyles(({ palette, spacing, transition, typography }) => {
       display: 'inline-flex',
       alignItems: 'center',
       lineHeight: 3,
-      color: palette.textSecondary,
+      color: palette.textPrimary,
       borderBottom: '3px solid transparent',
       transition: transition.create(['color', 'background-color']),
       ...typography.body,
@@ -46,6 +46,11 @@ const styles = createStyles(({ palette, spacing, transition, typography }) => {
       backgroundColor: palette.lighter('secondary'),
     },
     highlighted,
+    disabled: {
+      pointerEvents: 'none',
+      color: palette.textSecondary,
+      backgroundColor: palette.dark('surface'),
+    },
   };
 });
 

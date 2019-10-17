@@ -15,6 +15,7 @@ export interface MenuItemProps extends React.HTMLAttributes<HTMLLIElement> {
   component?: string | React.ComponentType<React.HTMLAttributes<HTMLElement>>;
   highlighted?: boolean;
   selected?: boolean;
+  disabled?: boolean;
 }
 
 const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps & Decorate>(function MenuItem(
@@ -30,6 +31,7 @@ const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps & Decorate>(funct
     onClick,
     tabIndex,
     selected,
+    disabled,
     ...rest
   } = props;
 
@@ -43,6 +45,7 @@ const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps & Decorate>(funct
         onClick && classes.clickable,
         highlighted && classes.highlighted,
         selected && classes.selected,
+        disabled && classes.disabled,
         className,
       )}
       onClick={onClick}
