@@ -47,8 +47,9 @@ const styles = createStyles(({ palette, spacing, transition, typography }) => {
     },
     highlighted,
     disabled: {
-      color: palette.textSecondary,
       pointerEvents: 'none',
+      color: palette.textSecondary,
+      backgroundColor: palette.dark('surface'),
     },
   };
 });
