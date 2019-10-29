@@ -16,8 +16,6 @@ const styles = createStyles(({ palette, spacing, shadows, shape, typography }) =
   },
   input: {
     width: '100%',
-    fontSize: 'inherit',
-    fontFamily: 'inherit',
     border: `1px solid ${palette.dark('border')}`,
     borderRadius: shape.borderRadius,
     padding: spacing(0.35, 1),
@@ -55,6 +53,7 @@ const styles = createStyles(({ palette, spacing, shadows, shape, typography }) =
       color: palette.textSecondary,
       borderColor: palette.border,
     },
+    ...typography.variant('small'),
   },
   inputWithLabel: {
     padding: spacing(2, 1, 0.35, 1),
@@ -76,7 +75,7 @@ const styles = createStyles(({ palette, spacing, shadows, shape, typography }) =
     color: palette.dark('textSecondary'),
     paddingTop: spacing(0.5),
     paddingLeft: spacing(1),
-    ...typography.label,
+    ...typography.variant('small', 'medium'),
   },
   labelDense: {
     paddingLeft: spacing(0.35),

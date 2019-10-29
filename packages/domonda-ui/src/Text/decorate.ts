@@ -2,7 +2,7 @@ import {
   createStyles,
   withStyles,
   WithStyles,
-  TYPOGRAPHY_VARIANTS,
+  TYPOGRAPHY_SIZES,
   TYPOGRAPHY_WEIGHTS,
   TYPOGRAPHY_FONTS,
 } from '../styles';
@@ -33,11 +33,13 @@ const styles = createStyles(({ typography, palette, spacing }) => {
         color: palette.textSecondary,
       },
     },
-    // variant-{variant}
-    ...TYPOGRAPHY_VARIANTS.reduce(
-      (acc, variant) => ({
+    // size-{size}
+    ...TYPOGRAPHY_SIZES.reduce(
+      (acc, size) => ({
         ...acc,
-        [`variant-${variant}`]: typography[variant],
+        [`size-${size}`]: {
+          fontSize: typography.sizes[size],
+        },
       }),
       {},
     ),

@@ -8,7 +8,7 @@ import { createSpacing, Spacing } from './spacing';
 import { defaultShadows, Shadows } from './shadows';
 import { defaultShape, Shape } from './shape';
 import { createPalette, Palette } from './palette';
-import { defaultTypography, Typography } from './typography';
+import { SYSTEM_FONT, createTypography, Typography } from './typography';
 import { defaultTransition, Transition } from './transition';
 import { ZIndex, defaultZIndex } from './zIndex';
 
@@ -38,7 +38,23 @@ export const defaultTheme: Theme = {
     background: '#f3f4f8',
     surface: '#ffffff',
   }),
-  typography: defaultTypography,
+  typography: createTypography({
+    fonts: {
+      header: SYSTEM_FONT,
+      body: SYSTEM_FONT,
+    },
+    weights: {
+      regular: 400,
+      medium: 500,
+      semiBold: 600,
+    },
+    sizes: {
+      tiny: 12,
+      small: 14,
+      medium: 16,
+      large: 20, // or 18 because of increments by `2`?
+    },
+  }),
   shadows: defaultShadows,
   shape: defaultShape,
   transition: defaultTransition,

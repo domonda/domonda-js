@@ -19,14 +19,15 @@ const styles = createStyles(({ typography, palette }) => ({
       MozOsxFontSmoothing: 'grayscale', // Antialiasing.
     },
     'strong, b': {
-      fontWeight: typography.weights.bold,
+      fontWeight: typography.weights.semiBold,
     },
     body: {
       margin: 0, // Remove the margin in all browsers.
       position: 'relative',
       backgroundColor: palette.background,
       color: palette.textPrimary,
-      ...typography.body,
+      fontFamily: typography.fonts.body,
+      lineHeight: '100%',
     },
   },
 }));

@@ -18,8 +18,6 @@ const styles = createStyles(({ typography, palette, spacing, shape, shadows }) =
   select: {
     zIndex: 1,
     position: 'relative',
-    fontSize: 'inherit',
-    fontFamily: 'inherit',
     MozAppearance: 'none', // Reset
     WebkitAppearance: 'none', // Reset
     outline: 'none',
@@ -70,6 +68,7 @@ const styles = createStyles(({ typography, palette, spacing, shape, shadows }) =
       color: palette.textSecondary,
       borderColor: palette.border,
     },
+    ...typography.variant('small'),
   },
   selectWithLabel: {
     padding: spacing(2, 1, 0.35, 1),
@@ -109,7 +108,7 @@ const styles = createStyles(({ typography, palette, spacing, shape, shadows }) =
     display: 'inline-flex',
     lineHeight: 1,
     position: 'absolute',
-    ...typography.label,
+    ...typography.variant('small', 'semiBold'),
   },
   labelDense: {
     paddingLeft: spacing(0.35),

@@ -7,7 +7,7 @@ const sharedStyles = (theme: Theme) => ({
     padding: theme.spacing(1),
   },
   cell: {
-    ...theme.typography.body,
+    ...theme.typography.variant('small'),
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap' as 'nowrap',

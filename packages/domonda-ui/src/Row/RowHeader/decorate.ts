@@ -13,13 +13,7 @@ const styles = createStyles((theme) => {
     },
     cell: {
       ...cell,
-      fontWeight: theme.typography.weights.semiBold,
-      fontSize: `calc(${
-        typeof theme.typography.body.fontSize === 'number'
-          ? `${theme.typography.body.fontSize}px`
-          : theme.typography.body.fontSize
-      } - 1px)`,
-      textTransform: 'none' as 'none',
+      ...theme.typography.variant('small', 'semiBold'),
     },
   };
 });

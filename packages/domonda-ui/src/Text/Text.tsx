@@ -6,13 +6,7 @@
 
 import React, { useMemo } from 'react';
 import clsx from 'clsx';
-import {
-  Color,
-  ColorVariant,
-  TypographyFont,
-  TypographyWeight,
-  TypographyVariant,
-} from '../styles';
+import { Color, ColorVariant, TypographySize, TypographyWeight, TypographyFont } from '../styles';
 
 // decorate
 import { decorate, Decorate } from './decorate';
@@ -24,8 +18,8 @@ export interface TextProps extends React.HTMLAttributes<HTMLElement> {
   paragraph?: boolean;
   color?: 'inherit' | Color; // default: `textPrimary`
   colorVariant?: ColorVariant;
-  variant?: TypographyVariant; // default: `body`
-  weight?: TypographyWeight;
+  size?: TypographySize; // default: `small`
+  weight?: TypographyWeight; // default: `regular`
   font?: TypographyFont;
   withPlaceholder?: boolean;
   wrap?: boolean;
@@ -43,7 +37,7 @@ const Text = React.forwardRef<HTMLElement, TextProps & Decorate>(function Text(p
     paragraph,
     color = 'textPrimary',
     colorVariant,
-    variant = 'body',
+    size = 'small',
     weight,
     font,
     style,
@@ -57,20 +51,11 @@ const Text = React.forwardRef<HTMLElement, TextProps & Decorate>(function Text(p
     if (PropComponent) {
       return PropComponent as any;
     }
-
-    switch (variant) {
-      case 'title':
-        return 'h3';
-      case 'subtitle':
-        return 'h5';
-      case 'body':
-        return 'p';
-      case 'caption':
-        return 'span';
-      default:
-        return 'span';
+    if (paragraph) {
+      return 'p';
     }
-  }, [PropComponent, variant]);
+    return 'span';
+  }, [PropComponent, paragraph]);
 
   function deriveStyle() {
     const manipulator = colorVariant
@@ -87,7 +72,7 @@ const Text = React.forwardRef<HTMLElement, TextProps & Decorate>(function Text(p
         classes.root,
         inline ? classes.inline : classes.block,
         (gutterBottom || paragraph) && classes.gutterBottom,
-        classes[`variant-${variant}` as keyof typeof classes],
+        classes[`size-${size}` as keyof typeof classes],
         weight && classes[`weight-${weight}` as keyof typeof classes],
         font && classes[`font-${font}` as keyof typeof classes],
         withPlaceholder && classes.withPlaceholder,

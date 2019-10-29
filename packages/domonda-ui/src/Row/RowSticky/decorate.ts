@@ -8,8 +8,7 @@ const styles = createStyles((theme) => {
     ...rest,
     root: {
       ...row,
-      ...theme.typography.caption,
-      fontWeight: theme.typography.weights.semiBold,
+      ...theme.typography.variant('small', 'medium'),
       position: 'sticky',
       top: 0,
       zIndex: 1,

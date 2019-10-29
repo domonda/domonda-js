@@ -26,8 +26,7 @@ const styles = createStyles(({ typography, palette, spacing, shape, shadows, tra
     //   borderStyle: 'none', // Remove Firefox dotted outline.
     // },
     // text and font
-    ...typography.body,
-    fontWeight: typography.weights.semiBold,
+    ...typography.variant('small', 'semiBold'),
     whiteSpace: 'nowrap',
     textDecoration: 'none',
     textTransform: 'uppercase',
@@ -63,6 +62,7 @@ const styles = createStyles(({ typography, palette, spacing, shape, shadows, tra
     (acc, size) => ({
       ...acc,
       [`size-${size}`]: {
+        // TODO-db-191029 drop in favor of typography sizes
         fontSize: size === 'md' ? '.875rem' : '.6rem',
       },
     }),

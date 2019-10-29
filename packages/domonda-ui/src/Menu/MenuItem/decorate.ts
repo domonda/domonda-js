@@ -30,7 +30,7 @@ const styles = createStyles(({ palette, spacing, transition, typography }) => {
       color: palette.textPrimary,
       borderBottom: '3px solid transparent',
       transition: transition.create(['color', 'background-color']),
-      ...typography.body,
+      ...typography.variant('small'),
       'a&': clickable,
     },
     text: {
