@@ -22,8 +22,16 @@ export interface Theme {
   zIndex: ZIndex;
 }
 
+export const DEFAULT_SPACING_BASE = 4;
+
 export const defaultTheme: Theme = {
-  spacing: createSpacing(12),
+  spacing: createSpacing({
+    none: 0,
+    tiny: DEFAULT_SPACING_BASE, // 4
+    small: DEFAULT_SPACING_BASE * 3, // 12
+    default: DEFAULT_SPACING_BASE * 6, // 24
+    large: DEFAULT_SPACING_BASE * 9, // 36
+  }),
   palette: createPalette({
     default: '#3f3f3f',
     primary: '#f44336',
