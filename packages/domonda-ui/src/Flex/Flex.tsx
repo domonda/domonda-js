@@ -6,6 +6,7 @@
 
 import React from 'react';
 import clsx from 'clsx';
+import { Space } from '../styles/spacing';
 
 // decorate
 import { decorate, Decorate } from './decorate';
@@ -22,7 +23,7 @@ export interface FlexProps extends React.HTMLAttributes<HTMLElement> {
   align?: React.CSSProperties['alignItems'];
   justifySelf?: React.CSSProperties['justifySelf'];
   alignSelf?: React.CSSProperties['alignSelf'];
-  spacing?: 1 | 2 | 3 | 4;
+  spacing?: Exclude<Space, 'none'>;
   minWidth?: number | string;
   maxWidth?: number | string;
   autoWidth?: boolean;

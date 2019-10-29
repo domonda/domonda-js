@@ -25,7 +25,7 @@ const styles = createStyles(({ typography, palette, spacing }) => {
       whiteSpace: 'nowrap',
     },
     gutterBottom: {
-      marginBottom: spacing(1),
+      marginBottom: spacing('small'),
     },
     withPlaceholder: {
       '&:empty::before': {

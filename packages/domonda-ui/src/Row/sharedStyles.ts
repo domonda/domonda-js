@@ -4,7 +4,7 @@ const sharedStyles = (theme: Theme) => ({
   row: {
     position: 'relative' as 'relative',
     display: 'flex',
-    padding: theme.spacing(1),
+    padding: theme.spacing('small'),
   },
   cell: {
     ...theme.typography.variant('small'),
@@ -12,7 +12,7 @@ const sharedStyles = (theme: Theme) => ({
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap' as 'nowrap',
     '&:not(:last-child)': {
-      marginRight: theme.spacing(1),
+      marginRight: theme.spacing('small'),
     },
     '&:empty::before': {
       content: '"\\2014"', // &mdash;

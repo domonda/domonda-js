@@ -7,7 +7,7 @@ const styles = createStyles(({ palette, shape, spacing }) => ({
     borderRadius: shape.borderRadius,
     border: `1px solid ${palette.success}`,
     backgroundColor: palette.lighter('success'),
-    padding: spacing(1),
+    padding: spacing('small'),
   },
   message: {
     flex: 1,

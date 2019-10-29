@@ -6,15 +6,16 @@
 
 import React from 'react';
 import clsx from 'clsx';
+import { Space } from '../styles/spacing';
 
 // decorate
 import { decorate, Decorate } from './decorate';
 
 type Spacing =
-  | number // top
-  | [number, number] // top-bottom left-right
-  | [number, number, number] // top left-right bottom
-  | [number, number, number, number]; // top right bottom left
+  | Exclude<Space, 'none'> // top
+  | [Space, Space] // top-bottom left-right
+  | [Space, Space, Space] // top left-right bottom
+  | [Space, Space, Space, Space]; // top right bottom left
 
 export interface BoxProps extends React.HTMLAttributes<HTMLElement> {
   classes?: Partial<Decorate['classes']>;
