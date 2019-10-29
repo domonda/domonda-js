@@ -13,73 +13,57 @@ const styles = createStyles(({ palette, spacing, shadows, shape, typography }) =
     display: 'flex',
     textAlign: 'left',
     position: 'relative',
+    flexDirection: 'column-reverse', // because we select the `label` using the CSS `+` adjacent sibling selector
   },
   input: {
-    width: '100%',
-    border: `1px solid ${palette.dark('border')}`,
-    borderRadius: shape.borderRadius,
-    padding: spacing(0.35, 1),
+    // reset
+    margin: 0,
+    display: 'inline-block',
+    verticalAlign: 'middle',
+    whiteSpace: 'nowrap',
+    boxSizing: 'border-box',
+    outline: 0,
+    // ./reset
+    ...typography.variant('small'),
     textAlign: 'inherit',
-    position: 'relative',
-    background: 'transparent',
-    zIndex: 1,
-    outline: 'none',
+    backgroundColor: palette.surface,
+    border: `1px solid ${palette.border}`,
+    borderRadius: shape.borderRadius,
+    boxShadow: shadows[1],
+    padding: spacing('small'),
+    '&$dense': {
+      padding: spacing('tiny'),
+    },
     '&::placeholder': {
       color: palette.textSecondary,
     },
     '&:invalid': {
-      color: palette.warning,
       borderColor: palette.warning,
+      backgroundColor: palette.lightest('warning'),
       '& + $label': {
         color: palette.warning,
       },
-    },
-    '&:hover': {
-      borderColor: palette.darkest('border'),
-    },
-    '&:focus': {
-      boxShadow: shadows[5],
-      borderColor: palette.darkest('border'),
-      '& + $label': {
-        zIndex: 1,
+      '&::placeholder': {
+        color: palette.light('warning'),
       },
-      backgroundColor: palette.surface,
+    },
+    '&:hover:not($disabled), &:focus': {
+      borderColor: palette.darker('border'),
       '&:invalid': {
-        backgroundColor: palette.lightest('warning'),
+        borderColor: palette.darker('warning'),
       },
     },
     '&$disabled': {
       cursor: 'not-allowed',
+      backgroundColor: palette.dark('surface'),
       color: palette.textSecondary,
-      borderColor: palette.border,
     },
-    ...typography.variant('small'),
-  },
-  inputWithLabel: {
-    padding: spacing(2, 1, 0.35, 1),
-  },
-  inputDense: {
-    padding: spacing(0, 0.35),
-  },
-  inputDenseWithLabel: {
-    padding: spacing(1.35, 0.35, 0, 0.35),
   },
   label: {
-    display: 'inline-flex',
-    alignItems: 'flex-start',
-    position: 'absolute',
-    lineHeight: 1,
-    top: 0,
-    bottom: 0,
-    left: 0,
-    color: palette.dark('textSecondary'),
-    paddingTop: spacing(0.5),
-    paddingLeft: spacing(1),
-    ...typography.variant('small', 'medium'),
+    ...typography.variant('tiny', 'medium'),
+    color: palette.secondary,
   },
-  labelDense: {
-    paddingLeft: spacing(0.35),
-  },
+  dense: {},
   disabled: {},
 }));
 
@@ -100,17 +84,9 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps & WithStyles
           {...rest}
           ref={ref}
           disabled={disabled}
-          className={clsx(
-            classes.input,
-            label && classes.inputWithLabel,
-            dense && classes.inputDense,
-            dense && label && classes.inputDenseWithLabel,
-            disabled && classes.disabled,
-          )}
+          className={clsx(classes.input, dense && classes.dense, disabled && classes.disabled)}
         />
-        {label && (
-          <label className={clsx(classes.label, dense && classes.labelDense)}>{label}</label>
-        )}
+        {label && <label className={clsx(classes.label, dense && classes.dense)}>{label}</label>}
       </div>
     );
   },

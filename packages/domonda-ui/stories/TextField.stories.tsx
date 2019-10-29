@@ -6,26 +6,37 @@ const stories = storiesOf('TextField', module);
 
 stories.add('Overview', () => (
   <>
-    <p>
+    <div>
       <TextField placeholder="No label" />
-    </p>
-    <p>
+    </div>
+    <br />
+    <div>
       <TextField dense placeholder="Dense" />
-    </p>
-    <p>
+    </div>
+    <br />
+    <div>
       <TextField dense label="Dense with label" />
-    </p>
-    <p>
+    </div>
+    <br />
+    <div>
       <TextField label="Invoice #" defaultValue="RE18K99196" />
-    </p>
-    <p>
-      <TextField type="email" label="Business Partner E-Mail" />
-    </p>
-    <p>
-      <TextField label="Amount" required={true} />
-    </p>
-    <p>
+    </div>
+    <br />
+    <div>
+      <TextField
+        type="email"
+        label="Business Partner E-Mail"
+        placeholder="Enter a valid e-mail address"
+      />
+    </div>
+    <br />
+    <div>
+      <TextField label="Amount" placeholder="A value must be provided" required={true} />
+    </div>
+    <br />
+    <div>
       <TextField disabled label="Disabled" value="Cannot change" />
-    </p>
+    </div>
+    <br />
   </>
 ));
