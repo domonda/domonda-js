@@ -1,125 +1,155 @@
-import { createStyles, withStyles, WithStyles, COLORS } from '../styles';
-import { darken, lighten } from '../styles/colorManipulator';
-import { svgIconClassName } from '../SvgIcon';
+import { createStyles, withStyles, WithStyles, TYPOGRAPHY_SIZES, COLORS } from '../styles';
 
-export const SIZES: ('sm' | 'md')[] = ['sm', 'md'];
-
-const styles = createStyles(({ typography, palette, spacing, shape, shadows, transition }) => ({
+const styles = createStyles(({ typography, palette, shape, shadows, transition }) => ({
   root: {
-    // resets
-    verticalAlign: 'middle',
+    // reset
     display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    border: 'none',
-    padding: spacing(0.5, 1.5),
-    outline: 'none',
+    border: 0,
     margin: 0,
-    lineHeight: 1.75,
+    padding: 0,
+    width: 'auto',
+    overflow: 'visible',
+    textAlign: 'inherit',
+    background: 'transparent',
+    /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
+    lineHeight: 'normal',
+    /* Corrects font smoothing for webkit */
+    webkitFontSmoothing: 'inherit',
+    mozOsxFontSmoothing: 'inherit',
+    /* Corrects inability to style clickable `input` types in iOS */
+    webkitAppearance: 'none',
+    outline: 'none',
+    // ./reset
     cursor: 'pointer',
-    transition: transition.create(['background-color', 'color', 'transform', 'box-shadow']),
-    WebkitTapHighlightColor: 'transparent',
-    WebkitAppearance: 'none',
-    MozAppearance: 'none',
-    /** https://github.com/cssinjs/jss/issues/1087 */
-    // '&::-moz-focus-inner': {
-    //   borderStyle: 'none', // Remove Firefox dotted outline.
-    // },
-    // text and font
-    ...typography.variant('small', 'semiBold'),
-    whiteSpace: 'nowrap',
-    textDecoration: 'none',
-    textTransform: 'uppercase',
-    textAlign: 'center',
-    // specifics
-    borderRadius: shape.borderRadius.small,
-    [`& .${svgIconClassName}`]: {
-      '&:last-child': {
-        marginLeft: spacing(0.75),
-      },
-      '&:first-child': {
-        marginRight: spacing(0.75),
-      },
-      '&:only-child': {
-        margin: 0,
-      },
-    },
-    color: palette.contrastText('white'),
     '&:focus': {
-      outline: `3px solid ${palette.light('primary')}`,
+      outline: `2px solid ${palette.light('primary')}`,
     },
     '&:active': {
       outline: 'none',
     },
+    transition: transition.create(['background-color', 'color']),
+  },
+  text: {
+    color: palette.secondary,
+    '&:hover': {
+      textDecoration: 'underline',
+      color: palette.darken('secondary', 0.2),
+    },
+    '&:active': {
+      color: palette.darken('secondary', 0.4),
+    },
+  },
+  link: {
+    color: palette.secondary,
+    textDecoration: 'underline',
+    '&:hover': {
+      color: palette.darken('secondary', 0.2),
+    },
+    '&:active': {
+      color: palette.darken('secondary', 0.4),
+    },
+  },
+  primary: {
+    borderRadius: shape.borderRadius.small,
+    boxShadow: shadows.line,
+    color: palette.white,
+    backgroundColor: palette.accent,
+    border: `1px solid ${palette.dark('accent')}`,
+    '&:hover': {
+      backgroundColor: palette.darken('accent', 0.2),
+    },
+    '&:active': {
+      backgroundColor: palette.darken('accent', 0.4),
+    },
     '&$disabled': {
-      pointerEvents: 'none', // Disable link interactions
-      backgroundColor: palette.dark('white'),
-      color: palette.dark('white'),
+      cursor: 'not-allowed',
+      boxShadow: 'none',
+      color: palette.fade('white', 0.6),
+      backgroundColor: palette.light('accent'),
+      border: `1px solid ${palette.lighten('accent', 0.4)}`,
+    },
+  },
+  secondary: {
+    borderRadius: shape.borderRadius.small,
+    boxShadow: shadows.line,
+    color: palette.accent,
+    backgroundColor: palette.background,
+    border: `1px solid ${palette.border}`,
+    '&:hover': {
+      backgroundColor: palette.darken('background', 0.04),
+    },
+    '&:active': {
+      backgroundColor: palette.darken('background', 0.08),
+    },
+    '&$disabled': {
+      cursor: 'not-allowed',
+      boxShadow: 'none',
+      color: palette.fade('accent', 0.4),
+      backgroundColor: palette.darken('background', 0.04),
+      border: `1px solid ${palette.darken('background', 0.06)}`,
     },
   },
   // size-{size}
-  ...SIZES.reduce(
+  ...COLORS.reduce(
+    (acc, color) => ({
+      ...acc,
+      [`color-${color}`]: {
+        '&$text': {
+          color: palette[color],
+          '&:hover': {
+            color: palette.darken(color, 0.2),
+          },
+          '&:active': {
+            color: palette.darken(color, 0.4),
+          },
+        },
+        '&$link': {
+          color: palette[color],
+          '&:hover': {
+            color: palette.darken(color, 0.2),
+          },
+          '&:active': {
+            color: palette.darken(color, 0.4),
+          },
+        },
+        '&$primary': {
+          backgroundColor: palette[color],
+          border: `1px solid ${palette.dark(color)}`,
+          '&:hover': {
+            backgroundColor: palette.darken(color, 0.2),
+          },
+          '&:active': {
+            backgroundColor: palette.darken(color, 0.4),
+          },
+          '&$disabled': {
+            backgroundColor: palette.light(color),
+            border: `1px solid ${palette.lighten(color, 0.4)}`,
+          },
+        },
+        '&$secondary': {
+          color: palette[color],
+          '&$disabled': {
+            color: palette.fade(color, 0.4),
+          },
+        },
+      },
+    }),
+    {},
+  ),
+  // color-{color}
+  ...TYPOGRAPHY_SIZES.reduce(
     (acc, size) => ({
       ...acc,
       [`size-${size}`]: {
-        // TODO-db-191029 drop in favor of typography sizes
-        fontSize: size === 'md' ? '.875rem' : '.6rem',
-      },
-    }),
-    {},
-  ),
-  // contained-{color}
-  ...COLORS.reduce(
-    (acc, color) => ({
-      ...acc,
-      [`contained-${color}`]: {
-        backgroundColor: palette[color],
-        color: palette.getContrastText(palette[color]),
-        boxShadow: shadows.line,
-        '&:hover': {
-          backgroundColor: darken(palette[color], 0.08),
+        ...typography.variant(size, 'semiBold'),
+        '& > $label svg': {
+          width: typography.sizes[size],
         },
-        '&:active': {
-          boxShadow: shadows.small,
-          backgroundColor: darken(palette[color], 0.16),
-        },
-      },
-    }),
-    {},
-  ),
-  // outlined-{color}
-  ...COLORS.reduce(
-    (acc, color) => ({
-      ...acc,
-      [`outlined-${color}`]: {
-        color: palette[color],
-        border: '1px solid currentColor',
-        backgroundColor: 'transparent',
-        '&:hover': {
-          backgroundColor: lighten(palette[color], 0.8),
-        },
-        '&:active': {
-          backgroundColor: lighten(palette[color], 0.6),
-        },
-      },
-    }),
-    {},
-  ),
-  // text-{color}
-  ...COLORS.reduce(
-    (acc, color) => ({
-      ...acc,
-      [`text-${color}`]: {
-        color: palette[color],
-        backgroundColor: 'transparent',
-        '&:hover': {
-          backgroundColor: lighten(palette[color], 0.8),
-        },
-        '&:active': {
-          backgroundColor: lighten(palette[color], 0.6),
-        },
-        '&$disabled': {
-          backgroundColor: 'transparent',
+        '&$primary, &$secondary': {
+          padding:
+            `calc(${typography.sizes[size]}px / 2 + 1px)` +
+            ' ' +
+            `calc(${typography.sizes[size]}px + 1px)`,
         },
       },
     }),
@@ -130,6 +160,10 @@ const styles = createStyles(({ typography, palette, spacing, shape, shadows, tra
     display: 'inherit',
     alignItems: 'inherit',
     justifyContent: 'inherit',
+    textDecoration: 'inherit',
+    '& svg': {
+      display: 'block',
+    },
   },
   disabled: {},
 }));

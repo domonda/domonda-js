@@ -11,7 +11,7 @@ const Click: React.FC = () => {
 
   return (
     <>
-      <Button variant="contained" onClick={({ currentTarget }) => setAnchorEl(currentTarget)}>
+      <Button onClick={({ currentTarget }) => setAnchorEl(currentTarget)}>
         Click to open Popover
       </Button>
       <Popover

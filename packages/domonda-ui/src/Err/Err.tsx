@@ -32,7 +32,7 @@ export const Err = React.forwardRef<HTMLElement, ErrProps>(function Err(props, r
       </Flex>
       {onRetry && (
         <Flex item>
-          <Button variant="contained" color="danger" onClick={onRetry}>
+          <Button variant="secondary" onClick={onRetry}>
             Retry
           </Button>
         </Flex>
