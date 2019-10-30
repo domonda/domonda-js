@@ -13,12 +13,14 @@ const stories = storiesOf('Row', module);
 const people = [
   {
     id: '1',
+    title: '',
     name: 'John',
     surname: 'Doe',
     gender: 'Male',
   },
   {
     id: '2',
+    title: 'Mrs.',
     name: 'Jane',
     surname: 'Doe',
     gender: 'Female',
@@ -30,22 +32,27 @@ const { RowHeader, RowItem } = makeRow<typeof people[0]>({
     {
       width: 32,
       HeaderCell: 'ID',
-      ItemCell: ({ item }) => <span>{item.id}</span>,
+      ItemCell: ({ item }) => item.id,
+    },
+    {
+      width: 64,
+      HeaderCell: 'Title',
+      ItemCell: ({ item }) => item.title,
     },
     {
       width: 128,
       HeaderCell: 'Name',
-      ItemCell: ({ item }) => <span>{item.name}</span>,
+      ItemCell: ({ item }) => item.name,
     },
     {
       width: 128,
       HeaderCell: 'Surname',
-      ItemCell: ({ item }) => <span>{item.surname}</span>,
+      ItemCell: ({ item }) => item.surname,
     },
     {
       width: 64,
       HeaderCell: 'Gender',
-      ItemCell: ({ item }) => <span>{item.gender}</span>,
+      ItemCell: ({ item }) => item.gender,
     },
   ],
 });
