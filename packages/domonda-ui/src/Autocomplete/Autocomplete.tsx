@@ -16,11 +16,6 @@ import { Paper, PaperProps } from '../Paper';
 
 const ITEM_SIZE = 46;
 
-const MENU_STYLES = {
-  marginTop: 5,
-  padding: 0,
-};
-
 export type AutocompleteGetItemId<T> = (item: T | null) => string;
 
 export type AutocompleteItemToString<T> = (item: T | null) => string;
@@ -130,7 +125,7 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
                       ? getMenuProps(
                           {
                             ...MenuListProps,
-                            style: MENU_STYLES,
+                            style: { padding: 0, ...(MenuListProps || {}).style },
                           },
                           { suppressRefError: true },
                         )

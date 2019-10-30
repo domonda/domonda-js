@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import { Menu, MenuItem } from '../src/Menu';
+import { Menu, MenuList, MenuItem } from '../src/Menu';
 import { Button } from '../src/Button';
 
 const stories = storiesOf('Menu', module);
@@ -18,11 +18,13 @@ const SimpleMenu = () => {
     <div>
       <Button onClick={handleClick}>Open Menu</Button>
       <Menu anchorEl={anchorEl} open={!!anchorEl} onClose={handleClose}>
-        <MenuItem onClick={handleClose}>News</MenuItem>
-        <MenuItem onClick={handleClose}>About us</MenuItem>
-        <MenuItem onClick={handleClose} disabled>
-          Disabled
-        </MenuItem>
+        <MenuList>
+          <MenuItem onClick={handleClose}>News</MenuItem>
+          <MenuItem onClick={handleClose}>About us</MenuItem>
+          <MenuItem onClick={handleClose} disabled>
+            Disabled
+          </MenuItem>
+        </MenuList>
       </Menu>
     </div>
   );
