@@ -29,7 +29,7 @@ const styles = createStyles(({ palette, spacing, shadows, shape, typography }) =
     backgroundColor: palette.surface,
     border: `1px solid ${palette.border}`,
     borderRadius: shape.borderRadius,
-    boxShadow: shadows[1],
+    boxShadow: shadows.line,
     padding: spacing('small'),
     '&$dense': {
       padding: spacing('tiny'),

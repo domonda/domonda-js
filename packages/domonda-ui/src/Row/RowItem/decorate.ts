@@ -12,8 +12,7 @@ const styles = createStyles((theme) => {
     color: 'inherit',
     '&:hover, &:focus': {
       zIndex: 1,
-      boxShadow: theme.shadows[2],
-      borderColor: 'transparent',
+      boxShadow: theme.shadows.line,
       backgroundColor: theme.palette.surface,
     },
     '&:focus': {

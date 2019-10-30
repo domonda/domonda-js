@@ -32,7 +32,7 @@ const styles = createStyles(({ typography, palette, spacing, shape, shadows }) =
     backgroundColor: palette.surface,
     border: `1px solid ${palette.border}`,
     borderRadius: shape.borderRadius,
-    boxShadow: shadows[1],
+    boxShadow: shadows.line,
     padding: spacing('small'),
     paddingRight: `calc(${spacing('small')} + 16px)`, // accommodate the icon
     '&$dense': {

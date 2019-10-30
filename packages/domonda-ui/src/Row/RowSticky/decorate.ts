@@ -12,7 +12,8 @@ const styles = createStyles((theme) => {
       position: 'sticky',
       top: 0,
       zIndex: 1,
-      boxShadow: theme.shadows[1],
+      boxShadow: theme.shadows.line,
+      border: `1px solid ${theme.palette.border}`,
       backgroundColor: theme.palette.background,
     },
   };

@@ -124,7 +124,7 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
             />
             {!readOnly && (keepPopperMounted || isOpen) && (
               <Popper {...PopperProps} open={isOpen} anchorEl={anchorEl.current}>
-                <Paper elevation={2} {...PaperProps}>
+                <Paper bordered shadow="doubleLine" {...PaperProps}>
                   <MenuList
                     {...(isOpen
                       ? getMenuProps(

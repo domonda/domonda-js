@@ -75,12 +75,12 @@ const styles = createStyles(({ typography, palette, spacing, shape, shadows, tra
       [`contained-${color}`]: {
         backgroundColor: palette[color],
         color: palette.getContrastText(palette[color]),
-        boxShadow: shadows[1],
+        boxShadow: shadows.line,
         '&:hover': {
           backgroundColor: darken(palette[color], 0.08),
         },
         '&:active': {
-          boxShadow: shadows[3],
+          boxShadow: shadows.small,
           backgroundColor: darken(palette[color], 0.16),
         },
       },

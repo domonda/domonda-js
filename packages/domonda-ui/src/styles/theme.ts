@@ -5,7 +5,7 @@ import {
 } from 'react-jss';
 import deepmerge from 'deepmerge';
 import { createSpacing, Spacing } from './spacing';
-import { defaultShadows, Shadows } from './shadows';
+import { createShadows, Shadows } from './shadows';
 import { defaultShape, Shape } from './shape';
 import { createPalette, Palette } from './palette';
 import { SYSTEM_FONT, createTypography, Typography } from './typography';
@@ -63,7 +63,13 @@ export const defaultTheme: Theme = {
       large: 20, // or 18 because of increments by `2`?
     },
   }),
-  shadows: defaultShadows,
+  shadows: createShadows({
+    line: '0 1px 1px rgba(1, 38, 56, 0.1)',
+    doubleLine: '0 2px 2px rgba(1, 38, 56, 0.1)',
+    small: '0 10px 15px rgba(0, 0, 0, 0.05)',
+    large:
+      '0 25px 50px rgba(0, 0, 50, 0.1), 0 8px 20px rgba(0, 0, 50, 0.15), 0 5px 7px rgba(0, 0, 0, 0.05)',
+  }),
   shape: defaultShape,
   transition: defaultTransition,
   zIndex: defaultZIndex,

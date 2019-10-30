@@ -8,7 +8,8 @@ const styles = createStyles((theme) => {
     root: {
       ...row,
       zIndex: 2,
-      boxShadow: theme.shadows[1],
+      boxShadow: theme.shadows.line,
+      border: `1px solid ${theme.palette.border}`,
       backgroundColor: theme.palette.dark('background'),
     },
     cell: {
