@@ -47,7 +47,7 @@ export const defaultTheme: Theme = {
     gray100: '#012638',
     success: '#44A00C',
     warning: '#DF7818',
-    danger: '#FF3B00',
+    danger: '#FF0000',
   }),
   typography: createTypography({
     fonts: {
