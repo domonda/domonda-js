@@ -12,8 +12,8 @@ import { Shadow, SHADOWS } from '../styles/shadows';
 const styles = createStyles(({ shape, palette, shadows }) => ({
   /* Styles applied to the root element. */
   root: {
-    backgroundColor: palette.surface,
-    color: palette.textPrimary,
+    backgroundColor: palette.white,
+    color: palette.textDark,
   },
   /* Styles applied to the root element if `square={false}`. */
   rounded: {

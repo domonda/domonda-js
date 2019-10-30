@@ -46,8 +46,8 @@ const ContainedButtons = () => (
       </Button>
     </p>
     <p>
-      <Button variant="contained" color="error">
-        Error button
+      <Button variant="contained" color="danger">
+        Danger button
       </Button>
     </p>
   </>
@@ -84,8 +84,8 @@ const OutlinedButtons = () => (
       </Button>
     </p>
     <p>
-      <Button variant="outlined" color="error">
-        Error button
+      <Button variant="outlined" color="danger">
+        Danger button
       </Button>
     </p>
   </>

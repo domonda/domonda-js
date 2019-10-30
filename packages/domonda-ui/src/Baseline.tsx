@@ -25,7 +25,7 @@ const styles = createStyles(({ typography, palette }) => ({
       margin: 0, // Remove the margin in all browsers.
       position: 'relative',
       backgroundColor: palette.background,
-      color: palette.textPrimary,
+      color: palette.textDark,
       fontFamily: typography.fonts.body,
       lineHeight: '100%',
     },

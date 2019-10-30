@@ -33,18 +33,21 @@ export const defaultTheme: Theme = {
     large: DEFAULT_SPACING_BASE * 9, // 36
   }),
   palette: createPalette({
-    default: '#3f3f3f',
-    primary: '#f44336',
-    secondary: '#607d8b',
-    textPrimary: '#000000',
-    textSecondary: '#a7a7a7',
-    textLight: '#ffffff',
-    success: '#02bb44',
-    error: '#cc0000',
-    warning: '#fda50d',
-    border: '#d8d8d8',
-    background: '#f3f4f8',
-    surface: '#ffffff',
+    primary: '#F44336', // domonda red
+    secondary: '#607D8B', // domonda blue-gray
+    accent: '#183C63',
+    white: '#FFFFFF',
+    gray04: '#F5F6F7',
+    gray08: '#E8EBED',
+    gray18: '#D3D9DB',
+    gray30: '#B0BABF',
+    gray40: '#93A5AE',
+    gray60: '#5A6B73',
+    gray80: '#21353E',
+    gray100: '#012638',
+    success: '#44A00C',
+    warning: '#DF7818',
+    danger: '#FF3B00',
   }),
   typography: createTypography({
     fonts: {

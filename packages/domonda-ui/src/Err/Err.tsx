@@ -6,6 +6,7 @@
 
 import React from 'react';
 import { Flex, FlexProps } from '../Flex';
+import { Text } from '../Text';
 import { Button } from '../Button';
 
 export interface ErrProps extends FlexProps {
@@ -18,9 +19,9 @@ export const Err = React.forwardRef<HTMLElement, ErrProps>(function Err(props, r
   return (
     <Flex container align="center" justify="center" {...rest} ref={ref}>
       <Flex item style={{ textAlign: 'center' }}>
-        <pre style={{ whiteSpace: 'normal' }}>{error.message}</pre>
+        <Text color="danger">{error.message}</Text>
         {onRetry && (
-          <Button variant="contained" color="error" onClick={onRetry}>
+          <Button variant="contained" color="danger" onClick={onRetry}>
             Retry
           </Button>
         )}

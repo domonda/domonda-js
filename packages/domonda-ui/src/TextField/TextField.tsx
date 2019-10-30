@@ -26,16 +26,17 @@ const styles = createStyles(({ palette, spacing, shadows, shape, typography }) =
     // ./reset
     ...typography.variant('small'),
     textAlign: 'inherit',
-    backgroundColor: palette.surface,
+    backgroundColor: palette.white,
     border: `1px solid ${palette.border}`,
     borderRadius: shape.borderRadius.small,
     boxShadow: shadows.line,
     padding: spacing('small'),
+    color: palette.textDark,
     '&$dense': {
       padding: spacing('tiny'),
     },
     '&::placeholder': {
-      color: palette.textSecondary,
+      color: palette.light('textDark'),
     },
     '&:invalid': {
       borderColor: palette.warning,
@@ -48,15 +49,15 @@ const styles = createStyles(({ palette, spacing, shadows, shape, typography }) =
       },
     },
     '&:hover:not($disabled), &:focus': {
-      borderColor: palette.darker('border'),
+      borderColor: palette.dark('border'),
       '&:invalid': {
-        borderColor: palette.darker('warning'),
+        borderColor: palette.dark('warning'),
       },
     },
     '&$disabled': {
       cursor: 'not-allowed',
-      backgroundColor: palette.dark('surface'),
-      color: palette.textSecondary,
+      backgroundColor: palette.disabled,
+      color: palette.light('textDark'),
     },
   },
   label: {

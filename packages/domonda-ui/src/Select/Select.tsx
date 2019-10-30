@@ -29,7 +29,7 @@ const styles = createStyles(({ typography, palette, spacing, shape, shadows }) =
     whiteSpace: 'nowrap',
     cursor: 'pointer',
     textAlign: 'inherit',
-    backgroundColor: palette.surface,
+    backgroundColor: palette.white,
     border: `1px solid ${palette.border}`,
     borderRadius: shape.borderRadius.small,
     boxShadow: shadows.line,
@@ -50,17 +50,17 @@ const styles = createStyles(({ typography, palette, spacing, shape, shadows }) =
       },
     },
     '&:hover:not($disabled), &:focus': {
-      borderColor: palette.darker('border'),
+      borderColor: palette.dark('border'),
       '&:invalid': {
-        borderColor: palette.darker('warning'),
+        borderColor: palette.dark('warning'),
       },
     },
     '&$disabled': {
       cursor: 'not-allowed',
-      backgroundColor: palette.dark('surface'),
-      color: palette.textSecondary,
+      backgroundColor: palette.disabled,
+      color: palette.light('textDark'),
       '& + $label + $icon': {
-        color: palette.textSecondary,
+        color: palette.light('textDark'),
       },
     },
   },

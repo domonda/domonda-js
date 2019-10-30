@@ -44,7 +44,7 @@ const styles = createStyles(({ typography, palette, spacing, shape, shadows, tra
         margin: 0,
       },
     },
-    color: palette.contrastText('surface'),
+    color: palette.contrastText('white'),
     '&:focus': {
       outline: `3px solid ${palette.light('primary')}`,
     },
@@ -53,8 +53,8 @@ const styles = createStyles(({ typography, palette, spacing, shape, shadows, tra
     },
     '&$disabled': {
       pointerEvents: 'none', // Disable link interactions
-      backgroundColor: palette.darker('surface'),
-      color: palette.darkest('surface'),
+      backgroundColor: palette.dark('white'),
+      color: palette.dark('white'),
     },
   },
   // size-{size}

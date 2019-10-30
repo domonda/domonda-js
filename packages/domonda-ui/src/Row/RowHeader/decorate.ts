@@ -10,7 +10,7 @@ const styles = createStyles((theme) => {
       zIndex: 2,
       boxShadow: theme.shadows.line,
       border: `1px solid ${theme.palette.border}`,
-      backgroundColor: theme.palette.dark('background'),
+      backgroundColor: theme.palette.darken('background', 0.05),
     },
     cell: {
       ...cell,

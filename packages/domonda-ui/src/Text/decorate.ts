@@ -11,7 +11,6 @@ const styles = createStyles(({ typography, palette, spacing }) => {
   return {
     root: {
       margin: 0,
-      color: palette.textPrimary,
     },
     block: {
       display: 'block',
@@ -25,12 +24,13 @@ const styles = createStyles(({ typography, palette, spacing }) => {
       whiteSpace: 'nowrap',
     },
     gutterBottom: {
+      marginTop: 0,
       marginBottom: spacing('small'),
     },
     withPlaceholder: {
       '&:empty::before': {
         content: '"\\2014"', // &mdash;
-        color: palette.textSecondary,
+        color: palette.light('textDark'),
       },
     },
     // size-{size}

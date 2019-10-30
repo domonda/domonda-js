@@ -19,7 +19,7 @@ const styles = createStyles(({ spacing }) => ({
 
 export interface DividerProps extends React.HTMLAttributes<HTMLHRElement> {
   classes?: Partial<WithStyles<typeof styles>['classes']>;
-  color?: Color; // default: `textSecondary`
+  color?: Color; // default: `border`
   weight?: 'thin' | 'bold'; // default: `thin`
 }
 
@@ -30,7 +30,7 @@ const Divider = React.forwardRef<HTMLHRElement, DividerProps & WithStyles<typeof
       theme,
       classes,
       className,
-      color = 'textSecondary',
+      color = 'border',
       weight = 'thin',
       style,
       ...rest

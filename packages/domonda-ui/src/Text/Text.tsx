@@ -16,7 +16,7 @@ export interface TextProps extends React.HTMLAttributes<HTMLElement> {
   inline?: boolean;
   gutterBottom?: boolean;
   paragraph?: boolean;
-  color?: 'inherit' | Color; // default: `textPrimary`
+  color?: 'inherit' | Color; // default: `textDark`
   colorVariant?: ColorVariant;
   size?: TypographySize; // default: `small`
   weight?: TypographyWeight; // default: `regular`
@@ -35,7 +35,7 @@ const Text = React.forwardRef<HTMLElement, TextProps & Decorate>(function Text(p
     inline,
     gutterBottom,
     paragraph,
-    color = 'textPrimary',
+    color = 'textDark',
     colorVariant,
     size = 'small',
     weight,

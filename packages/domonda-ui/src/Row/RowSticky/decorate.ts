@@ -14,7 +14,7 @@ const styles = createStyles((theme) => {
       zIndex: 1,
       boxShadow: theme.shadows.line,
       border: `1px solid ${theme.palette.border}`,
-      backgroundColor: theme.palette.background,
+      backgroundColor: theme.palette.darken('background', 0.03),
     },
   };
 });

@@ -14,8 +14,8 @@ const styles = createStyles(({ palette, spacing, transition, typography }) => {
     },
     '&:active': {
       outline: 'none',
-      color: palette.darker('primary'),
-      backgroundColor: palette.light('primary'),
+      color: palette.dark('primary'),
+      backgroundColor: palette.lighten('primary', 0.85),
     },
   };
 
@@ -26,7 +26,7 @@ const styles = createStyles(({ palette, spacing, transition, typography }) => {
       textDecoration: 'none',
       display: 'inline-flex',
       alignItems: 'center',
-      color: palette.textPrimary,
+      color: palette.textDark,
       borderBottom: '3px solid transparent',
       transition: transition.create(['color', 'background-color']),
       ...typography.variant('small'),
@@ -41,13 +41,13 @@ const styles = createStyles(({ palette, spacing, transition, typography }) => {
     clickable,
     selected: {
       color: palette.secondary,
-      backgroundColor: palette.lighter('secondary'),
+      backgroundColor: palette.light('secondary'),
     },
     highlighted,
     disabled: {
       pointerEvents: 'none',
-      color: palette.textSecondary,
-      backgroundColor: palette.dark('surface'),
+      backgroundColor: palette.disabled,
+      color: palette.light('textDark'),
     },
   };
 });

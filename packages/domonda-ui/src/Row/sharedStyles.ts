@@ -16,7 +16,7 @@ const sharedStyles = (theme: Theme) => ({
     },
     '&:empty::before': {
       content: '"\\2014"', // &mdash;
-      color: theme.palette.textSecondary,
+      color: theme.palette.light('textDark'),
     },
   },
 });

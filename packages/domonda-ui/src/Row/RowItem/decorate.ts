@@ -13,7 +13,7 @@ const styles = createStyles((theme) => {
     '&:hover, &:focus': {
       zIndex: 1,
       boxShadow: theme.shadows.line,
-      backgroundColor: theme.palette.surface,
+      backgroundColor: theme.palette.white,
     },
     '&:focus': {
       outline: `3px solid ${theme.palette.light('primary')}`,
@@ -27,12 +27,12 @@ const styles = createStyles((theme) => {
     ...rest,
     root: {
       zIndex: 0,
-      backgroundColor: theme.palette.light('background'),
       borderBottom: `1px solid ${theme.palette.border}`,
-      '&:nth-child(even)': {
-        backgroundColor: theme.palette.dark('surface'),
-      },
       'a&': clickable,
+      backgroundColor: theme.palette.lighten('gray08', 0.8),
+      '&:nth-child(even)': {
+        backgroundColor: theme.palette.lighten('gray08', 0.5),
+      },
     },
     clickable,
   };
