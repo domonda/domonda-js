@@ -25,3 +25,4 @@ export * from './Paper';
 export * from './Dialog';
 export * from './Grow';
 export * from './Popover';
+export * from './Label';

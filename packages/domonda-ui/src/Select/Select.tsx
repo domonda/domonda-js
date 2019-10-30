@@ -7,6 +7,7 @@
 import React from 'react';
 import { createStyles, withStyles, WithStyles } from '../styles';
 import clsx from 'clsx';
+import { Label } from '../Label';
 
 const styles = createStyles(({ typography, palette, spacing, shape, shadows }) => ({
   root: {
@@ -78,10 +79,7 @@ const styles = createStyles(({ typography, palette, spacing, shape, shadows }) =
       width: 9,
     },
   },
-  label: {
-    ...typography.variant('tiny', 'medium'),
-    color: palette.secondary,
-  },
+  label: {},
   dense: {},
   disabled: {},
 }));
@@ -116,7 +114,7 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps & WithStyles<type
             {children}
           </select>
         )}
-        {label && <div className={clsx(classes.label, dense && classes.dense)}>{label}</div>}
+        {label && <Label className={clsx(classes.label, dense && classes.dense)}>{label}</Label>}
         <div className={clsx(classes.icon, dense && classes.dense)}>
           {/* FontAwesome 5 `caret-down` */}
           <svg

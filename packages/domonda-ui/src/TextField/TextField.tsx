@@ -7,6 +7,7 @@
 import * as React from 'react';
 import clsx from 'clsx';
 import { createStyles, withStyles, WithStyles, generateStaticClassName } from '../styles';
+import { Label } from '../Label';
 
 const styles = createStyles(({ palette, spacing, shadows, shape, typography }) => ({
   root: {
@@ -60,10 +61,7 @@ const styles = createStyles(({ palette, spacing, shadows, shape, typography }) =
       color: palette.light('textDark'),
     },
   },
-  label: {
-    ...typography.variant('tiny', 'medium'),
-    color: palette.secondary,
-  },
+  label: {},
   dense: {},
   disabled: {},
 }));
@@ -87,7 +85,7 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps & WithStyles
           disabled={disabled}
           className={clsx(classes.input, dense && classes.dense, disabled && classes.disabled)}
         />
-        {label && <label className={clsx(classes.label, dense && classes.dense)}>{label}</label>}
+        {label && <Label className={clsx(classes.label, dense && classes.dense)}>{label}</Label>}
       </div>
     );
   },
