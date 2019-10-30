@@ -2,7 +2,7 @@ import { createStyles, withStyles, WithStyles } from '../styles';
 
 const styles = createStyles(({ palette, spacing, shadows, shape }) => ({
   root: {
-    padding: spacing(1, 0),
+    padding: spacing('small', 'none'),
     backgroundColor: palette.surface,
     boxShadow: shadows[2],
     borderRadius: shape.borderRadius,

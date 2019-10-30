@@ -22,11 +22,10 @@ const styles = createStyles(({ palette, spacing, transition, typography }) => {
   return {
     root: {
       width: '100%',
-      padding: spacing(0.25, 1),
+      padding: spacing('small'),
       textDecoration: 'none',
       display: 'inline-flex',
       alignItems: 'center',
-      lineHeight: 3,
       color: palette.textPrimary,
       borderBottom: '3px solid transparent',
       transition: transition.create(['color', 'background-color']),
