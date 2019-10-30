@@ -17,15 +17,26 @@ export interface ErrProps extends FlexProps {
 export const Err = React.forwardRef<HTMLElement, ErrProps>(function Err(props, ref) {
   const { children, error, onRetry, ...rest } = props;
   return (
-    <Flex container align="center" justify="center" {...rest} ref={ref}>
+    <Flex
+      fill
+      container
+      spacing="small"
+      direction="column"
+      align="center"
+      justify="center"
+      {...rest}
+      ref={ref}
+    >
       <Flex item style={{ textAlign: 'center' }}>
         <Text color="danger">{error.message}</Text>
-        {onRetry && (
+      </Flex>
+      {onRetry && (
+        <Flex item>
           <Button variant="contained" color="danger" onClick={onRetry}>
             Retry
           </Button>
-        )}
-      </Flex>
+        </Flex>
+      )}
     </Flex>
   );
 });
