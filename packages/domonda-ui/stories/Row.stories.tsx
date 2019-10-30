@@ -54,7 +54,7 @@ stories.add('Overview', () => (
   <div>
     <RowHeader />
     {people.map((person) => (
-      <RowItem key={person.id} item={person} />
+      <RowItem clickable key={person.id} item={person} />
     ))}
   </div>
 ));
