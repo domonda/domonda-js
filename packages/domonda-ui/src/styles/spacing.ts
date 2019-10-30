@@ -4,9 +4,9 @@
  *
  */
 
-export type Space = 'none' | 'tiny' | 'small' | 'default' | 'large';
+export type Space = 'none' | 'tiny' | 'small' | 'medium' | 'large';
 export type Spaces = { [spacing in Space]: number };
-export const SPACES: Space[] = ['tiny', 'small', 'default', 'large'];
+export const SPACES: Space[] = ['none', 'tiny', 'small', 'medium', 'large'];
 
 export interface Spacing {
   (top: Space, right: Space, bottom: Space, left: Space): string;

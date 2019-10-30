@@ -29,7 +29,7 @@ export const defaultTheme: Theme = {
     none: 0,
     tiny: DEFAULT_SPACING_BASE, // 4
     small: DEFAULT_SPACING_BASE * 3, // 12
-    default: DEFAULT_SPACING_BASE * 6, // 24
+    medium: DEFAULT_SPACING_BASE * 6, // 24
     large: DEFAULT_SPACING_BASE * 9, // 36
   }),
   palette: createPalette({
