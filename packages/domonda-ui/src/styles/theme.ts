@@ -6,7 +6,7 @@ import {
 import deepmerge from 'deepmerge';
 import { createSpacing, Spacing } from './spacing';
 import { createShadows, Shadows } from './shadows';
-import { defaultShape, Shape } from './shape';
+import { createShape, Shape } from './shape';
 import { createPalette, Palette } from './palette';
 import { SYSTEM_FONT, createTypography, Typography } from './typography';
 import { defaultTransition, Transition } from './transition';
@@ -70,7 +70,12 @@ export const defaultTheme: Theme = {
     large:
       '0 25px 50px rgba(0, 0, 50, 0.1), 0 8px 20px rgba(0, 0, 50, 0.15), 0 5px 7px rgba(0, 0, 0, 0.05)',
   }),
-  shape: defaultShape,
+  shape: createShape({
+    borderRadius: {
+      small: '2px',
+      pill: '50vh', // applying a very large border radius create the capsule/pill effect
+    },
+  }),
   transition: defaultTransition,
   zIndex: defaultZIndex,
 };

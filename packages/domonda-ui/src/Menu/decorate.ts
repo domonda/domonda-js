@@ -5,7 +5,7 @@ const styles = createStyles(({ palette, spacing, shadows, shape }) => ({
     padding: spacing('small', 'none'),
     backgroundColor: palette.surface,
     boxShadow: shadows.doubleLine,
-    borderRadius: shape.borderRadius,
+    borderRadius: shape.borderRadius.small,
     overflow: 'auto',
   },
 }));

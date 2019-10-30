@@ -31,7 +31,7 @@ const styles = createStyles(({ typography, palette, spacing, shape, shadows }) =
     textAlign: 'inherit',
     backgroundColor: palette.surface,
     border: `1px solid ${palette.border}`,
-    borderRadius: shape.borderRadius,
+    borderRadius: shape.borderRadius.small,
     boxShadow: shadows.line,
     padding: spacing('small'),
     paddingRight: `calc(${spacing('small')} + 16px)`, // accommodate the icon

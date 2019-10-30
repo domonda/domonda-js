@@ -32,7 +32,7 @@ const styles = createStyles(({ typography, palette, spacing, shape, shadows, tra
     textTransform: 'uppercase',
     textAlign: 'center',
     // specifics
-    borderRadius: shape.borderRadius,
+    borderRadius: shape.borderRadius.small,
     [`& .${svgIconClassName}`]: {
       '&:last-child': {
         marginLeft: spacing(0.75),

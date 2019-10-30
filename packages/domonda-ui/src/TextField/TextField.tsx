@@ -28,7 +28,7 @@ const styles = createStyles(({ palette, spacing, shadows, shape, typography }) =
     textAlign: 'inherit',
     backgroundColor: palette.surface,
     border: `1px solid ${palette.border}`,
-    borderRadius: shape.borderRadius,
+    borderRadius: shape.borderRadius.small,
     boxShadow: shadows.line,
     padding: spacing('small'),
     '&$dense': {

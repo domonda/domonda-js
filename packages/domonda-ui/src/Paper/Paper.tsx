@@ -17,7 +17,7 @@ const styles = createStyles(({ shape, palette, shadows }) => ({
   },
   /* Styles applied to the root element if `square={false}`. */
   rounded: {
-    borderRadius: shape.borderRadius,
+    borderRadius: shape.borderRadius.small,
   },
   bordered: {
     border: `1px solid ${palette.border}`,

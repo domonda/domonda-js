@@ -1,7 +1,17 @@
+/**
+ *
+ * shape
+ *
+ */
+
+export type ShapeBorderRadius = 'small' | 'pill';
+export type ShapeBorderRadiuses = { [borderRadius in ShapeBorderRadius]: string };
+export const SHAPE_BORDER_RADIUSES: ShapeBorderRadius[] = ['small', 'pill'];
+
 export interface Shape {
-  borderRadius: number;
+  borderRadius: ShapeBorderRadiuses;
 }
 
-export const defaultShape: Shape = {
-  borderRadius: 5,
-};
+export function createShape(shape: Shape): Shape {
+  return shape;
+}

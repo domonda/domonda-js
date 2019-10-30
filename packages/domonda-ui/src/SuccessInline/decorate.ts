@@ -4,10 +4,10 @@ const styles = createStyles(({ palette, shape, spacing }) => ({
   root: {
     display: 'flex',
     alignItems: 'center',
-    borderRadius: shape.borderRadius,
-    border: `1px solid ${palette.success}`,
+    borderRadius: shape.borderRadius.small,
+    border: `2px solid ${palette.success}`,
     backgroundColor: palette.lighter('success'),
-    padding: spacing('small'),
+    padding: spacing('tiny', 'small'),
   },
   message: {
     flex: 1,
