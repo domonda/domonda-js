@@ -2,7 +2,6 @@ export * from './styles';
 export * from './Baseline';
 export * from './Button';
 export * from './Menu';
-export * from './SvgIcon';
 export * from './Input';
 export * from './Select';
 export * from './Err';
