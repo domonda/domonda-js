@@ -3,7 +3,6 @@ import { createStyles, withStyles, WithStyles, TYPOGRAPHY_SIZES, COLORS } from '
 const styles = createStyles(({ typography, palette, shape, shadows, transition }) => ({
   root: {
     // reset
-    display: 'inline-flex',
     border: 0,
     margin: 0,
     padding: 0,
@@ -11,15 +10,14 @@ const styles = createStyles(({ typography, palette, shape, shadows, transition }
     overflow: 'visible',
     textAlign: 'inherit',
     background: 'transparent',
-    /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
     lineHeight: 'normal',
-    /* Corrects font smoothing for webkit */
     webkitFontSmoothing: 'inherit',
     mozOsxFontSmoothing: 'inherit',
-    /* Corrects inability to style clickable `input` types in iOS */
     webkitAppearance: 'none',
     outline: 'none',
     // ./reset
+    display: 'inline-flex',
+    alignItems: 'center',
     cursor: 'pointer',
     '&:focus': {
       outline: `2px solid ${palette.light('primary')}`,
@@ -81,12 +79,18 @@ const styles = createStyles(({ typography, palette, shape, shadows, transition }
     '&:active': {
       backgroundColor: palette.darken('background', 0.08),
     },
+    '& > $label svg:not(:only-child)': {
+      color: palette.gray40,
+    },
     '&$disabled': {
       cursor: 'not-allowed',
       boxShadow: 'none',
       color: palette.fade('accent', 0.4),
       backgroundColor: palette.darken('background', 0.04),
       border: `1px solid ${palette.darken('background', 0.06)}`,
+      '& > $label svg:not(:only-child)': {
+        color: palette.light('gray40'),
+      },
     },
   },
   // size-{size}
@@ -143,7 +147,15 @@ const styles = createStyles(({ typography, palette, shape, shadows, transition }
       [`size-${size}`]: {
         ...typography.variant(size, 'semiBold'),
         '& > $label svg': {
-          width: typography.sizes[size],
+          height: `calc(${typography.sizes[size]}px + 4px)`,
+          '&:not(:only-child)': {
+            '&:first-child': {
+              marginRight: typography.sizes[size],
+            },
+            '&:last-child': {
+              marginLeft: typography.sizes[size],
+            },
+          },
         },
         '&$primary, &$secondary': {
           padding:
