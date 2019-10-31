@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
-import { Button } from '../src/Button';
+import { Button, ButtonGroup } from '../src/Button';
 
 const stories = storiesOf('Button', module);
 
@@ -158,6 +158,66 @@ stories.add('Overview', () => (
           </svg>
           <span>Upload</span>
         </Button>
+      </p>
+      <p>
+        <ButtonGroup>
+          <Button>Edit</Button>
+          <Button>
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              data-prefix="fas"
+              data-icon="caret-down"
+              className="svg-inline--fa fa-caret-down fa-w-10"
+              role="img"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 320 512"
+            >
+              <path
+                fill="currentColor"
+                d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+              ></path>
+            </svg>
+          </Button>
+        </ButtonGroup>
+      </p>
+      <p>
+        <ButtonGroup style={{ width: '100%' }}>
+          <Button>
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              data-prefix="fas"
+              data-icon="long-arrow-alt-left"
+              className="svg-inline--fa fa-long-arrow-alt-left fa-w-14"
+              role="img"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 448 512"
+            >
+              <path
+                fill="currentColor"
+                d="M134.059 296H436c6.627 0 12-5.373 12-12v-56c0-6.627-5.373-12-12-12H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.569 0 33.941l86.059 86.059c15.119 15.119 40.971 4.411 40.971-16.971V296z"
+              ></path>
+            </svg>
+          </Button>
+          <Button disabled>
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              data-prefix="fas"
+              data-icon="long-arrow-alt-right"
+              className="svg-inline--fa fa-long-arrow-alt-right fa-w-14"
+              role="img"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 448 512"
+            >
+              <path
+                fill="currentColor"
+                d="M313.941 216H12c-6.627 0-12 5.373-12 12v56c0 6.627 5.373 12 12 12h301.941v46.059c0 21.382 25.851 32.09 40.971 16.971l86.059-86.059c9.373-9.373 9.373-24.569 0-33.941l-86.059-86.059c-15.119-15.119-40.971-4.411-40.971 16.971V216z"
+              ></path>
+            </svg>
+          </Button>
+        </ButtonGroup>
       </p>
     </div>
   </div>

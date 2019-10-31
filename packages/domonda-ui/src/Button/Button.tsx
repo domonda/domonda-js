@@ -6,11 +6,14 @@
 
 import React from 'react';
 import clsx from 'clsx';
+import { generateStaticClassName } from '../styles/generateStaticClassName';
 import { Color } from '../styles/palette';
 import { TypographySize } from '../styles/typography';
 
 // decorate
 import { decorate, Decorate } from './decorate';
+
+export const buttonClassName = generateStaticClassName('Button');
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   classes?: Partial<Decorate['classes']>;
@@ -41,6 +44,7 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
         ref={ref as any}
         disabled={disabled}
         className={clsx(
+          buttonClassName,
           classes.root,
           classes[`size-${size}` as keyof typeof classes],
           classes[variant],
