@@ -16,17 +16,22 @@ import {
   TYPOGRAPHY_SIZES,
 } from '../styles';
 
-const styles = createStyles(({ typography, palette, spacing }) => ({
+const styles = createStyles(({ typography, palette, spacing, transition }) => ({
   root: {
     display: 'inline-flex',
     alignItems: 'center',
     cursor: 'pointer',
+    transition: transition.create(['color']),
     '& > input': {
-      display: 'none',
+      // we don't display: 'none' to retain focusable state
+      position: 'absolute',
+      opacity: 0,
+      width: 0,
+      height: 0,
       '&:checked ~ $unchecked': {
         display: 'none',
       },
-      '&:not(:checked) ~ $unchecked ~ $checked': {
+      '&:not(:checked) ~ $checked': {
         display: 'none',
       },
     },
@@ -37,6 +42,16 @@ const styles = createStyles(({ typography, palette, spacing }) => ({
       ...acc,
       [color]: {
         color: palette[color],
+        '&:hover': {
+          color: palette.dark(color),
+        },
+        '& > input:focus ~ $unchecked, & > input:focus ~ $checked': {
+          color: palette.dark(color),
+          outline: `2px solid ${palette.light('primary')}`,
+        },
+        '& > input:focus ~ $label': {
+          color: palette.dark(color),
+        },
       },
     }),
     {},
