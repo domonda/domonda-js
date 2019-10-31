@@ -18,8 +18,12 @@ stories.add('Overview', () => (
       <Checkbox
         label="I acknowledge that this action cannot be undone"
         color="warning"
-        size="large"
+        size="medium"
       />
+    </div>
+    <br />
+    <div>
+      <Checkbox size="large" />
     </div>
   </>
 ));
