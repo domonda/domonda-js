@@ -26,25 +26,29 @@ const styles = createStyles(({ typography, palette, shape, shadows, transition }
     '&:active': {
       outline: 'none',
     },
-    transition: transition.create(['background-color', 'color']),
+    transition: transition.create(['background-color', 'color', 'border-color']),
   },
   text: {
     color: palette.secondary,
-    '&:hover': {
-      textDecoration: 'underline',
+    borderBottom: '2px solid transparent',
+    '&:hover, &:focus': {
+      borderColor: palette.darken('secondary', 0.2),
       color: palette.darken('secondary', 0.2),
     },
     '&:active': {
+      borderColor: palette.darken('secondary', 0.4),
       color: palette.darken('secondary', 0.4),
     },
   },
   link: {
     color: palette.secondary,
-    textDecoration: 'underline',
-    '&:hover': {
+    borderBottom: `2px solid ${palette.secondary}`,
+    '&:hover, &:focus': {
+      borderColor: palette.secondary,
       color: palette.darken('secondary', 0.2),
     },
     '&:active': {
+      borderColor: palette.darken('secondary', 0.4),
       color: palette.darken('secondary', 0.4),
     },
   },
@@ -54,7 +58,7 @@ const styles = createStyles(({ typography, palette, shape, shadows, transition }
     color: palette.white,
     backgroundColor: palette.accent,
     border: `1px solid ${palette.dark('accent')}`,
-    '&:hover': {
+    '&:hover, &:focus': {
       backgroundColor: palette.darken('accent', 0.2),
     },
     '&:active': {
@@ -74,7 +78,7 @@ const styles = createStyles(({ typography, palette, shape, shadows, transition }
     color: palette.accent,
     backgroundColor: palette.background,
     border: `1px solid ${palette.border}`,
-    '&:hover': {
+    '&:hover, &:focus': {
       backgroundColor: palette.darken('background', 0.04),
     },
     '&:active': {
@@ -102,18 +106,22 @@ const styles = createStyles(({ typography, palette, shape, shadows, transition }
         '&$text': {
           color: palette[color],
           '&:hover': {
+            borderColor: palette.darken(color, 0.2),
             color: palette.darken(color, 0.2),
           },
           '&:active': {
+            borderColor: palette.darken(color, 0.4),
             color: palette.darken(color, 0.4),
           },
         },
         '&$link': {
           color: palette[color],
           '&:hover': {
+            borderColor: palette.darken(color, 0.2),
             color: palette.darken(color, 0.2),
           },
           '&:active': {
+            borderColor: palette.darken(color, 0.4),
             color: palette.darken(color, 0.4),
           },
         },
@@ -149,12 +157,16 @@ const styles = createStyles(({ typography, palette, shape, shadows, transition }
         ...typography.variant(size, 'semiBold'),
         '& > $label svg': {
           height: `calc(${typography.sizes[size]}px + 4px)`,
-          '&:not(:only-child)': {
-            '&:first-child': {
-              marginRight: typography.sizes[size],
-            },
-            '&:last-child': {
-              marginLeft: typography.sizes[size],
+        },
+        '&$text, &$link': {
+          '& > $label svg': {
+            '&:not(:only-child)': {
+              '&:first-child': {
+                marginRight: `calc(${typography.sizes.tiny}px / 2)`,
+              },
+              '&:last-child': {
+                marginLeft: `calc(${typography.sizes.tiny}px / 2)`,
+              },
             },
           },
         },
@@ -163,6 +175,16 @@ const styles = createStyles(({ typography, palette, shape, shadows, transition }
             `calc(${typography.sizes[size]}px / 2 + 1px)` +
             ' ' +
             `calc(${typography.sizes[size]}px + 1px)`,
+          '& > $label svg': {
+            '&:not(:only-child)': {
+              '&:first-child': {
+                marginRight: typography.sizes[size],
+              },
+              '&:last-child': {
+                marginLeft: typography.sizes[size],
+              },
+            },
+          },
         },
       },
     }),
