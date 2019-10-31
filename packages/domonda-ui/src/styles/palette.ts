@@ -102,7 +102,7 @@ export function createPalette(baseColors: BaseColors): Palette {
     darken: (color, value) => darken(colors[color], value),
     getContrastText,
     contrastText: (color) => getContrastText(colors[color]),
-    lightest: (color) => lighten(colors[color], 0.95),
+    lightest: (color) => lighten(colors[color], 0.85),
     light: (color) => lighten(colors[color], 0.5),
     dark: (color) => darken(colors[color], 0.2),
   };
