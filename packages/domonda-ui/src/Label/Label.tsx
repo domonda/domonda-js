@@ -32,5 +32,9 @@ const Label = React.forwardRef<HTMLLabelElement, LabelProps & WithStyles<typeof 
   },
 );
 
+if (process.env.NODE_ENV !== 'production') {
+  Label.displayName = 'Label';
+}
+
 const StyledLabel = withStyles(styles)(Label);
 export { StyledLabel as Label };
