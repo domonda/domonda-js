@@ -38,5 +38,16 @@ stories.add('Overview', () => (
       <Input disabled label="Disabled" value="Cannot change" />
     </div>
     <br />
+    <div>
+      <Input naked label="Naked" placeholder="Type here to search..." />
+    </div>
+    <br />
+    <div>
+      <Input naked disabled label="Naked disabled" value="Cannot change" />
+    </div>
+    <br />
+    <div>
+      <Input naked required label="Naked invalid" placeholder="Your first name is required..." />
+    </div>
   </>
 ));

@@ -24,15 +24,19 @@ const styles = createStyles(({ palette, spacing, shadows, shape, typography }) =
     whiteSpace: 'nowrap',
     boxSizing: 'border-box',
     outline: 0,
+    border: 0,
+    backgroundColor: 'transparent',
     // ./reset
     ...typography.variant('small'),
     textAlign: 'inherit',
-    backgroundColor: palette.white,
-    border: `1px solid ${palette.border}`,
-    borderRadius: shape.borderRadius.small,
-    boxShadow: shadows.line,
-    padding: spacing('small'),
     color: palette.textDark,
+    '&:not($naked)': {
+      backgroundColor: palette.white,
+      border: `1px solid ${palette.border}`,
+      borderRadius: shape.borderRadius.small,
+      boxShadow: shadows.line,
+      padding: spacing('small'),
+    },
     '&$dense': {
       padding: spacing('tiny'),
     },
@@ -40,8 +44,10 @@ const styles = createStyles(({ palette, spacing, shadows, shape, typography }) =
       color: palette.light('textDark'),
     },
     '&:invalid': {
-      borderColor: palette.warning,
-      backgroundColor: palette.lightest('warning'),
+      '&:not($naked)': {
+        borderColor: palette.warning,
+        backgroundColor: palette.lightest('warning'),
+      },
       '& + $label': {
         color: palette.warning,
       },
@@ -57,12 +63,15 @@ const styles = createStyles(({ palette, spacing, shadows, shape, typography }) =
     },
     '&$disabled': {
       cursor: 'not-allowed',
-      backgroundColor: palette.disabled,
-      color: palette.light('textDark'),
+      color: palette.lighten('textDark', 0.68),
+      '&:not($naked)': {
+        backgroundColor: palette.disabled,
+      },
     },
   },
   label: {},
   dense: {},
+  naked: {},
   disabled: {},
 }));
 
@@ -70,20 +79,30 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
   classes?: Partial<WithStyles<typeof styles>['classes']>;
   label?: React.ReactNode;
   dense?: boolean;
+  naked?: boolean;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps & WithStyles<typeof styles>>(
   function Input(props, ref) {
-    const { classes, className, label, dense, disabled, ...rest } = props;
+    const { classes, className, label, dense, naked, disabled, ...rest } = props;
     return (
       <div className={clsx(classes.root, className)}>
         <input
           {...rest}
           ref={ref}
           disabled={disabled}
-          className={clsx(classes.input, dense && classes.dense, disabled && classes.disabled)}
+          className={clsx(
+            classes.input,
+            dense && classes.dense,
+            naked && classes.naked,
+            disabled && classes.disabled,
+          )}
         />
-        {label && <Label className={clsx(classes.label, dense && classes.dense)}>{label}</Label>}
+        {label && (
+          <Label className={clsx(classes.label, dense && classes.dense, naked && classes.naked)}>
+            {label}
+          </Label>
+        )}
       </div>
     );
   },
