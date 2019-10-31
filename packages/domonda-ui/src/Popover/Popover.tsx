@@ -136,7 +136,7 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps & WithStyles<typeo
       children,
       classes,
       container: containerProp,
-      shadow = 'doubleLine',
+      shadow = 'small',
       getContentAnchorEl,
       marginThreshold = 16,
       onEnter,
