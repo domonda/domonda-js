@@ -1,12 +1,12 @@
 /**
  *
- * TextField
+ * Input
  *
  */
 
-import * as React from 'react';
+import React from 'react';
 import clsx from 'clsx';
-import { createStyles, withStyles, WithStyles, generateStaticClassName } from '../styles';
+import { createStyles, withStyles, WithStyles } from '../styles';
 import { Label } from '../Label';
 
 const styles = createStyles(({ palette, spacing, shadows, shape, typography }) => ({
@@ -66,19 +66,17 @@ const styles = createStyles(({ palette, spacing, shadows, shape, typography }) =
   disabled: {},
 }));
 
-export interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   classes?: Partial<WithStyles<typeof styles>['classes']>;
   label?: React.ReactNode;
   dense?: boolean;
 }
 
-export const textFieldClassName = generateStaticClassName('TextField');
-
-const TextField = React.forwardRef<HTMLInputElement, TextFieldProps & WithStyles<typeof styles>>(
-  function TextField(props, ref) {
+const Input = React.forwardRef<HTMLInputElement, InputProps & WithStyles<typeof styles>>(
+  function Input(props, ref) {
     const { classes, className, label, dense, disabled, ...rest } = props;
     return (
-      <div className={clsx(classes.root, textFieldClassName, className)}>
+      <div className={clsx(classes.root, className)}>
         <input
           {...rest}
           ref={ref}
@@ -92,8 +90,8 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps & WithStyles
 );
 
 if (process.env.NODE_ENV !== 'production') {
-  TextField.displayName = 'TextField';
+  Input.displayName = 'Input';
 }
 
-const Styled = withStyles(styles)(TextField);
-export { Styled as TextField };
+const Styled = withStyles(styles)(Input);
+export { Styled as Input };

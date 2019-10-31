@@ -9,7 +9,7 @@ import Downshift, { DownshiftProps } from 'downshift';
 import { FixedSizeList } from 'react-window';
 
 // ui
-import { TextField, TextFieldProps } from '../TextField';
+import { Input, InputProps } from '../Input';
 import { Popper, PopperProps } from '../Popper';
 import { MenuList, MenuListProps, MenuItem } from '../Menu';
 import { Paper, PaperProps } from '../Paper';
@@ -27,14 +27,14 @@ export interface AutocompleteProps<T>
   onInputValueChange?: (value: string | null) => void;
   listWidth?: number;
   listHeight?: number;
-  // TextField
+  // Input
   label?: React.ReactNode;
   dense?: boolean;
   required?: boolean;
   disabled?: boolean;
   readOnly?: boolean;
   autoFocus?: boolean;
-  TextFieldProps?: TextFieldProps;
+  InputProps?: InputProps;
   // Popper
   keepPopperMounted?: boolean;
   PopperProps?: Omit<PopperProps, 'open' | 'anchorEl'>;
@@ -51,14 +51,14 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
     onInputValueChange,
     listWidth,
     listHeight,
-    // TextField
+    // Input
     label,
     dense,
     required,
     disabled,
     readOnly,
     autoFocus,
-    TextFieldProps = {},
+    InputProps = {},
     // Popper
     keepPopperMounted,
     PopperProps = {},
@@ -95,8 +95,8 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
         const { ref, ...restInputProps } = getInputProps({
           ref: anchorEl,
           onFocus: (event: React.FocusEvent<HTMLInputElement>) => {
-            if (TextFieldProps.onFocus) {
-              TextFieldProps.onFocus(event);
+            if (InputProps.onFocus) {
+              InputProps.onFocus(event);
             }
             openMenu();
           },
@@ -106,10 +106,10 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
 
         return (
           <div>
-            <TextField
+            <Input
               label={label}
               dense={dense}
-              {...TextFieldProps}
+              {...InputProps}
               {...restInputProps}
               required={required}
               disabled={disabled}
