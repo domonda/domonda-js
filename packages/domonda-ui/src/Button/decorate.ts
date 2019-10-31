@@ -17,6 +17,7 @@ const styles = createStyles(({ typography, palette, shape, shadows, transition }
     outline: 'none',
     // ./reset
     display: 'inline-flex',
+    justifyContent: 'center',
     alignItems: 'center',
     cursor: 'pointer',
     '&:focus': {
@@ -86,8 +87,8 @@ const styles = createStyles(({ typography, palette, shape, shadows, transition }
       cursor: 'not-allowed',
       boxShadow: 'none',
       color: palette.fade('accent', 0.4),
-      backgroundColor: palette.darken('background', 0.04),
-      border: `1px solid ${palette.darken('background', 0.06)}`,
+      backgroundColor: palette.darken('background', 0.08),
+      border: `1px solid ${palette.darken('background', 0.1)}`,
       '& > $label svg:not(:only-child)': {
         color: palette.light('gray40'),
       },
