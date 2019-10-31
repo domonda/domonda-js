@@ -63,7 +63,8 @@ export function makeRowItem<Item>(config: Config<Item>) {
 
     return (
       <Component
-        item={item}
+        // we don't put the Item on string components because they don't accept objects as valid attributes
+        item={typeof Component === 'string' ? (undefined as any) : item}
         className={clsx(classes.root, classes.row, clickable && classes.clickable, className)}
         role="row"
         ref={ref as any}
