@@ -94,7 +94,7 @@ const styles = createStyles(({ typography, palette, shape, shadows, transition }
       },
     },
   },
-  // size-{size}
+  // color-{color}
   ...COLORS.reduce(
     (acc, color) => ({
       ...acc,
@@ -141,7 +141,7 @@ const styles = createStyles(({ typography, palette, shape, shadows, transition }
     }),
     {},
   ),
-  // color-{color}
+  // size-{size}
   ...TYPOGRAPHY_SIZES.reduce(
     (acc, size) => ({
       ...acc,
