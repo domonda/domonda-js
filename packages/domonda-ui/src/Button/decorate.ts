@@ -26,13 +26,12 @@ const styles = createStyles(({ typography, palette, shape, shadows, transition }
     '&:active': {
       outline: 'none',
     },
-    transition: transition.create(['background-color', 'color', 'border-color']),
+    transition: transition.create(['background-color', 'color']),
   },
   text: {
     color: palette.secondary,
-    borderBottom: '2px solid transparent',
     '&:hover, &:focus': {
-      borderColor: palette.darken('secondary', 0.2),
+      textDecoration: 'underline',
       color: palette.darken('secondary', 0.2),
     },
     '&:active': {
@@ -42,9 +41,8 @@ const styles = createStyles(({ typography, palette, shape, shadows, transition }
   },
   link: {
     color: palette.secondary,
-    borderBottom: `2px solid ${palette.secondary}`,
+    textDecoration: 'underline',
     '&:hover, &:focus': {
-      borderColor: palette.secondary,
       color: palette.darken('secondary', 0.2),
     },
     '&:active': {
@@ -106,22 +104,18 @@ const styles = createStyles(({ typography, palette, shape, shadows, transition }
         '&$text': {
           color: palette[color],
           '&:hover': {
-            borderColor: palette.darken(color, 0.2),
             color: palette.darken(color, 0.2),
           },
           '&:active': {
-            borderColor: palette.darken(color, 0.4),
             color: palette.darken(color, 0.4),
           },
         },
         '&$link': {
           color: palette[color],
           '&:hover': {
-            borderColor: palette.darken(color, 0.2),
             color: palette.darken(color, 0.2),
           },
           '&:active': {
-            borderColor: palette.darken(color, 0.4),
             color: palette.darken(color, 0.4),
           },
         },
