@@ -159,7 +159,8 @@ stories.add('Overview', () => (
           <span>Upload</span>
         </Button>
       </p>
-      <p>
+      <br />
+      <div>
         <ButtonGroup>
           <Button>Edit</Button>
           <Button>
@@ -180,8 +181,9 @@ stories.add('Overview', () => (
             </svg>
           </Button>
         </ButtonGroup>
-      </p>
-      <p>
+      </div>
+      <br />
+      <div>
         <ButtonGroup style={{ width: '100%' }}>
           <Button>
             <svg
@@ -218,7 +220,7 @@ stories.add('Overview', () => (
             </svg>
           </Button>
         </ButtonGroup>
-      </p>
+      </div>
     </div>
   </div>
 ));
