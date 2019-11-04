@@ -193,6 +193,8 @@ const styles = createStyles(({ typography, palette, shape, shadows, transition }
     textDecoration: 'inherit',
     '& svg': {
       display: 'block',
+      color: 'inherit',
+      fill: 'currentColor',
     },
   },
   disabled: {},

@@ -28,6 +28,10 @@ const styles = createStyles(({ typography, palette }) => ({
     borderRadius: '50%',
     alignItems: 'center',
     justifyContent: 'center',
+    '& svg': {
+      color: 'inherit',
+      fill: 'currentColor',
+    },
   },
   // {color}
   ...COLORS.reduce(
