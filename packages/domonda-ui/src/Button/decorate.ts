@@ -15,6 +15,7 @@ const styles = createStyles(({ typography, palette, shape, shadows, transition }
     mozOsxFontSmoothing: 'inherit',
     webkitAppearance: 'none',
     outline: 'none',
+    textDecoration: 'none',
     // ./reset
     display: 'inline-flex',
     justifyContent: 'center',
