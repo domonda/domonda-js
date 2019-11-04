@@ -81,7 +81,7 @@ export function createPalette(baseColors: BaseColors): Palette {
   const colors: Colors = {
     ...baseColors,
     background: baseColors.gray04,
-    disabled: baseColors.gray08,
+    disabled: baseColors.gray18,
     border: baseColors.gray18,
     link: baseColors.accent,
     textDark: baseColors.gray80,

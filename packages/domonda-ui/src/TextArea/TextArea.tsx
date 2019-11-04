@@ -66,6 +66,7 @@ const styles = createStyles(({ palette, spacing, shadows, shape, typography }) =
     '&$disabled': {
       cursor: 'not-allowed',
       color: palette.lighten('textDark', 0.68),
+      boxShadow: 'none',
       '&:not($naked)': {
         backgroundColor: palette.disabled,
       },

@@ -21,6 +21,9 @@ const SimpleMenu = () => {
         <MenuList>
           <MenuItem onClick={handleClose}>News</MenuItem>
           <MenuItem onClick={handleClose}>About us</MenuItem>
+          <MenuItem onClick={handleClose} selected>
+            Selected
+          </MenuItem>
           <MenuItem onClick={handleClose} disabled>
             Disabled
           </MenuItem>

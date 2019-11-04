@@ -60,6 +60,7 @@ const styles = createStyles(({ typography, palette, spacing, shape, shadows }) =
       cursor: 'not-allowed',
       backgroundColor: palette.disabled,
       color: palette.light('textDark'),
+      boxShadow: 'none',
       '& + $label + $icon': {
         color: palette.light('textDark'),
       },

@@ -41,7 +41,7 @@ const styles = createStyles(({ palette, spacing, transition, typography }) => {
     clickable,
     selected: {
       color: palette.secondary,
-      backgroundColor: palette.light('secondary'),
+      backgroundColor: palette.lightest('secondary'),
     },
     highlighted,
     disabled: {
