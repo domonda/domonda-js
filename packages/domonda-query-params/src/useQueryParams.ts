@@ -4,7 +4,7 @@
  *
  */
 
-import { useMemo, useRef, useState, useLayoutEffect, useContext } from 'react';
+import { useMemo, useRef, useState, useLayoutEffect, useContext, useCallback } from 'react';
 import { QueryModel, parseQueryParams, stringify } from './queryParams';
 import { QueryParamsContext } from './QueryParamsContext';
 import { deepEqual, shallowEqual } from 'fast-equals';
@@ -91,18 +91,20 @@ export function useQueryParams<T>(
 
   return [
     queryParamsRef.current,
-    ((currParams: T) => (paramsOrUpdater: T | ((currParams: T) => T)) => {
+    useCallback((paramsOrUpdater: T | ((currParams: T) => T)) => {
       const nextParams =
-        paramsOrUpdater instanceof Function ? paramsOrUpdater(currParams) : paramsOrUpdater;
+        paramsOrUpdater instanceof Function
+          ? paramsOrUpdater(queryParamsRef.current)
+          : paramsOrUpdater;
 
-      if (!deepEqual(currParams, nextParams)) {
+      if (!deepEqual(queryParamsRef.current, nextParams)) {
         history.push({
           // if we provided the onPathname, then updating the values should push to the route
           pathname: onPathname ? onPathname : pathname,
           search: stringify(nextParams),
         });
       }
-    })(queryParamsRef.current),
+    }, []),
   ];
 }
 

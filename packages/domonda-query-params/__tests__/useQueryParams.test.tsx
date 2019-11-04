@@ -104,3 +104,58 @@ it('should not allow mutations on resulting parameters', () => {
   expect(result.current[0]).toEqual(state);
   expect(history.location.search).toBe(stringify(state, { prependQuestionMark: true }));
 });
+
+it('should update the state on history location change', () => {
+  const history = createMemoryHistory();
+
+  const model: QueryModel<{ str: string }> = {
+    str: {
+      type: 'string',
+      defaultValue: '',
+    },
+  };
+
+  const { result } = renderHook(() => useQueryParams(model), {
+    wrapper: ({ children }) => (
+      <QueryParamsProvider history={history}>{children}</QueryParamsProvider>
+    ),
+  });
+
+  const nextState = { str: 'test' };
+  act(() => {
+    history.push(stringify(nextState, { prependQuestionMark: true }));
+  });
+
+  expect(result.current[0]).toEqual(nextState);
+});
+
+it('should pass the recent state in the updater when history location changes', () => {
+  const history = createMemoryHistory();
+
+  const model: QueryModel<{ str: string }> = {
+    str: {
+      type: 'string',
+      defaultValue: '',
+    },
+  };
+
+  const { result } = renderHook(() => useQueryParams(model), {
+    wrapper: ({ children }) => (
+      <QueryParamsProvider history={history}>{children}</QueryParamsProvider>
+    ),
+  });
+
+  // take updater reference because `result` changes on acts
+  const updater = result.current[1];
+
+  const nextState = { str: 'test' };
+  act(() => {
+    history.push(stringify(nextState, { prependQuestionMark: true }));
+  });
+
+  expect(result.current[0]).toEqual(nextState);
+  updater((currState) => {
+    expect(currState).toEqual(nextState);
+    return currState;
+  });
+});
