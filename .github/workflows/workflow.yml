@@ -51,4 +51,4 @@ jobs:
         env:
           DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
         with:
-          args: '"-avO --no-perms" "--include='packages/domonda-ui/lib/storybook**' --exclude=*" bob@ui.domonda.dev:/srv/ui.domonda.dev'
+          args: "-avO --no-perms" "--include=packages/domonda-ui/lib/storybook** --exclude=*" bob@ui.domonda.dev:/srv/ui.domonda.dev
