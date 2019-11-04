@@ -9,6 +9,7 @@
     "lint": "eslint 'packages/**/src/**/*.{js,jsx,ts,tsx}'",
     "lint:fix": "npm run lint -- --fix",
     "build": "lerna run build",
+    "build:storybook": "lerna run build:storybook",
     "start": "lerna run start --parallel"
   },
   "devDependencies": {
