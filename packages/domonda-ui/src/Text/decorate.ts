@@ -25,7 +25,7 @@ const styles = createStyles(({ typography, palette, spacing }) => {
     },
     gutterBottom: {
       marginTop: 0,
-      marginBottom: spacing('small'),
+      marginBottom: spacing('tiny'),
     },
     withPlaceholder: {
       '&:empty::before': {

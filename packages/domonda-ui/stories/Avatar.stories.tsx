@@ -9,7 +9,7 @@ import { Button } from '../src/Button';
 const stories = storiesOf('Avatar', module);
 
 stories.add('No bank connections', () => (
-  <Flex container direction="column" spacing="large" align="center" maxWidth={712}>
+  <Flex container direction="column" spacing="medium" align="center" maxWidth={712}>
     <Flex item>
       <Avatar>
         <svg

@@ -14,10 +14,10 @@ it('creates spacing function', () => {
   expect(spacing).toBeInstanceOf(Function);
 });
 
-it('returns the spacing for the passed space', () => {
+it('returns the spacing for the passed space as a number', () => {
   const spacing = createSpacing(spaces);
 
-  expect(spacing('small')).toBe(spaces.small + 'px');
+  expect(spacing('small')).toBe(spaces.small);
 });
 
 it('returns multiple spacings for given spaces', () => {

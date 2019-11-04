@@ -6,7 +6,10 @@ const styles = createStyles(({ spacing }) => ({
     flexDirection: 'column',
     listStyle: 'none',
     margin: 0,
-    padding: spacing('tiny', 'none'),
+    paddingTop: spacing('tiny') / 2,
+    paddingRight: 0,
+    paddingBottom: spacing('tiny') / 2,
+    paddingLeft: 0,
   },
 }));
 

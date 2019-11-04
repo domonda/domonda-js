@@ -22,7 +22,7 @@ const styles = createStyles(({ palette, spacing, transition, typography }) => {
   return {
     root: {
       width: '100%',
-      padding: spacing('small'),
+      padding: spacing('tiny'),
       textDecoration: 'none',
       display: 'inline-flex',
       alignItems: 'center',

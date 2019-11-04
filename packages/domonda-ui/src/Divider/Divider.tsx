@@ -10,7 +10,7 @@ import { createStyles, withStyles, WithStyles, Color } from '../styles';
 
 const styles = createStyles(({ spacing }) => ({
   root: {
-    margin: spacing('small', 'none'),
+    margin: spacing('tiny', 'none'),
     borderStyle: 'solid',
     borderBottom: 0,
     opacity: 0.6,

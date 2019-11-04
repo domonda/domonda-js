@@ -83,8 +83,8 @@ const Flex = React.forwardRef<HTMLElement, FlexProps & Decorate>(function Flex(p
       alignSelf,
       minWidth,
       maxWidth,
-      width: fill ? (spacing ? `calc(100% + ${theme.spacing(spacing)})` : '100%') : undefined,
-      height: fill ? (spacing ? `calc(100% + ${theme.spacing(spacing)})` : '100%') : undefined,
+      width: fill ? (spacing ? `calc(100% + ${theme.spacing(spacing)}px)` : '100%') : undefined,
+      height: fill ? (spacing ? `calc(100% + ${theme.spacing(spacing)}px)` : '100%') : undefined,
       ...style,
     };
   }

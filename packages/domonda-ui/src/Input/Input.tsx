@@ -35,10 +35,10 @@ const styles = createStyles(({ palette, spacing, shadows, shape, typography }) =
       border: `1px solid ${palette.border}`,
       borderRadius: shape.borderRadius.small,
       boxShadow: shadows.line,
-      padding: spacing('small'),
+      padding: spacing('tiny'),
     },
     '&$dense': {
-      padding: spacing('tiny'),
+      padding: spacing('tiny') / 2,
     },
     '&::placeholder': {
       color: palette.light('textDark'),

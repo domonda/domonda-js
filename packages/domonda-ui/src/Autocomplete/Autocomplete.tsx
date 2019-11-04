@@ -14,7 +14,8 @@ import { Popper, PopperProps } from '../Popper';
 import { MenuList, MenuListProps, MenuItem } from '../Menu';
 import { Paper, PaperProps } from '../Paper';
 
-const ITEM_SIZE = 46;
+const ITEM_SIZE = 36;
+const ITEMS_FIT = 8; // how many items should fit the open list
 
 export type AutocompleteGetItemId<T> = (item: T | null) => string;
 
@@ -142,7 +143,7 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
                       height={
                         typeof listHeight === 'number'
                           ? listHeight
-                          : Math.min(ITEM_SIZE * 7, items.length * ITEM_SIZE)
+                          : Math.min(ITEM_SIZE * ITEMS_FIT, items.length * ITEM_SIZE)
                       }
                       itemSize={ITEM_SIZE}
                       itemCount={items.length}
@@ -156,7 +157,12 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
                               item,
                               selected: selectedItem === getItemId(item),
                               tabIndex: -1,
-                              style,
+                              style: {
+                                ...style,
+                                // reset top-bottom padding to accomodate size
+                                paddingTop: 0,
+                                paddingBottom: 0,
+                              },
                             })}
                             highlighted={highlightedIndex === index}
                           >

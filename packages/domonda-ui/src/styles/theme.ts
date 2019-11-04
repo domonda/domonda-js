@@ -22,15 +22,15 @@ export interface Theme {
   zIndex: ZIndex;
 }
 
-export const DEFAULT_SPACING_BASE = 4;
+export const DEFAULT_SPACING_BASE = 8;
 
 export const defaultTheme: Theme = {
   spacing: createSpacing({
     none: 0,
-    tiny: DEFAULT_SPACING_BASE, // 4
-    small: DEFAULT_SPACING_BASE * 3, // 12
-    medium: DEFAULT_SPACING_BASE * 6, // 24
-    large: DEFAULT_SPACING_BASE * 9, // 36
+    tiny: DEFAULT_SPACING_BASE, // 8
+    small: DEFAULT_SPACING_BASE * 2, // 16
+    medium: DEFAULT_SPACING_BASE * 3, // 24
+    large: DEFAULT_SPACING_BASE * 5, // 40
   }),
   palette: createPalette({
     primary: '#F44336', // domonda red

@@ -34,10 +34,10 @@ const styles = createStyles(({ typography, palette, spacing, shape, shadows }) =
     border: `1px solid ${palette.border}`,
     borderRadius: shape.borderRadius.small,
     boxShadow: shadows.line,
-    padding: spacing('small'),
-    paddingRight: `calc(${spacing('small')} + 16px)`, // accommodate the icon
+    padding: spacing('tiny'),
+    paddingRight: spacing('tiny') + 16, // accommodate the icon
     '&$dense': {
-      padding: spacing('tiny'),
+      padding: spacing('tiny') / 2,
     },
     '&:invalid': {
       borderColor: palette.warning,
@@ -69,11 +69,11 @@ const styles = createStyles(({ typography, palette, spacing, shape, shadows }) =
     pointerEvents: 'none',
     zIndex: 1,
     position: 'absolute',
-    right: spacing('small'),
-    bottom: spacing('small'),
+    right: spacing('tiny'),
+    bottom: spacing('tiny'),
     '&$dense': {
-      right: spacing('tiny'),
-      bottom: spacing('tiny'),
+      right: spacing('tiny') / 2,
+      bottom: spacing('tiny') / 2,
     },
     '& > svg': {
       width: 9,

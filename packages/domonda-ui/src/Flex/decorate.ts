@@ -25,10 +25,10 @@ const styles = createStyles(({ spacing }) => ({
     (acc, space) => ({
       ...acc,
       [`spacing-${space}`]: {
-        width: `calc(100% + ${spacing(space)})`,
-        margin: `calc(${spacing(space)} / 2 * -1)`,
+        width: `calc(100% + ${spacing(space)}px)`,
+        margin: (spacing(space) / 2) * -1,
         [`& > $item:not(:empty)`]: {
-          padding: `calc(${spacing(space)} / 2)`,
+          padding: spacing(space) / 2,
         },
       },
     }),
