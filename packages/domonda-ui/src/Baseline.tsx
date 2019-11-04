@@ -4,7 +4,7 @@
  *
  */
 
-import * as React from 'react';
+import React from 'react';
 import { withStyles, WithStyles, createStyles } from './styles';
 
 const styles = createStyles(({ typography, palette }) => ({
@@ -27,7 +27,6 @@ const styles = createStyles(({ typography, palette }) => ({
       backgroundColor: palette.background,
       color: palette.textDark,
       fontFamily: typography.fonts.body,
-      lineHeight: '100%',
     },
   },
 }));
