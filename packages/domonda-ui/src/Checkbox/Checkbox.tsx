@@ -84,7 +84,7 @@ const styles = createStyles(({ typography, palette, spacing, transition }) => ({
   },
 }));
 
-export interface CheckboxProps extends React.HTMLAttributes<HTMLInputElement> {
+export interface CheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
   classes?: WithStyles<typeof styles>['classes'];
   label?: React.ReactNode;
   color?: Color; // default: `accent`
