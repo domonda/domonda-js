@@ -39,6 +39,11 @@ const styles = createStyles(({ typography, palette, shape, shadows, transition }
       borderColor: palette.darken('secondary', 0.4),
       color: palette.darken('secondary', 0.4),
     },
+    '&$disabled': {
+      textDecoration: 'none',
+      cursor: 'not-allowed',
+      color: palette.fade('secondary', 0.4),
+    },
   },
   link: {
     color: palette.secondary,
@@ -49,6 +54,10 @@ const styles = createStyles(({ typography, palette, shape, shadows, transition }
     '&:active': {
       borderColor: palette.darken('secondary', 0.4),
       color: palette.darken('secondary', 0.4),
+    },
+    '&$disabled': {
+      cursor: 'not-allowed',
+      color: palette.fade('secondary', 0.4),
     },
   },
   primary: {
@@ -110,6 +119,9 @@ const styles = createStyles(({ typography, palette, shape, shadows, transition }
           '&:active': {
             color: palette.darken(color, 0.4),
           },
+          '&$disabled': {
+            color: palette.fade(color, 0.4),
+          },
         },
         '&$link': {
           color: palette[color],
@@ -118,6 +130,9 @@ const styles = createStyles(({ typography, palette, shape, shadows, transition }
           },
           '&:active': {
             color: palette.darken(color, 0.4),
+          },
+          '&$disabled': {
+            color: palette.fade(color, 0.4),
           },
         },
         '&$primary': {
