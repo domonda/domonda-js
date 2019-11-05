@@ -27,7 +27,8 @@ const styles = createStyles((theme) => {
     ...rest,
     root: {
       zIndex: 0,
-      borderBottom: `1px solid ${theme.palette.border}`,
+      border: `1px solid ${theme.palette.border}`,
+      borderTop: 0,
       'a&': clickable,
       backgroundColor: theme.palette.lighten('gray08', 0.8),
       '&:nth-child(even)': {
