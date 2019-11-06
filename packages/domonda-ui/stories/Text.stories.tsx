@@ -25,5 +25,6 @@ stories.add('Overview', () => (
       Consectetur adipiscing elit.
     </Text>
     <Label>Some specific label</Label>
+    <Text contained>Some value for label</Text>
   </>
 ));

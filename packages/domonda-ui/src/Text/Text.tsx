@@ -23,6 +23,7 @@ export interface TextProps extends React.HTMLAttributes<HTMLElement> {
   font?: TypographyFont;
   withPlaceholder?: boolean;
   wrap?: boolean;
+  contained?: boolean;
   component?: keyof React.ReactHTML;
 }
 
@@ -43,6 +44,7 @@ const Text = React.forwardRef<HTMLElement, TextProps & Decorate>(function Text(p
     style,
     withPlaceholder,
     wrap,
+    contained,
     component: PropComponent,
     ...rest
   } = props;
@@ -77,6 +79,7 @@ const Text = React.forwardRef<HTMLElement, TextProps & Decorate>(function Text(p
         font && classes[`font-${font}` as keyof typeof classes],
         withPlaceholder && classes.withPlaceholder,
         wrap && classes.wrap,
+        contained && classes.contained,
         className,
       )}
       style={deriveStyle()}

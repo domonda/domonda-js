@@ -7,7 +7,7 @@ import {
   TYPOGRAPHY_FONTS,
 } from '../styles';
 
-const styles = createStyles(({ typography, palette, spacing }) => {
+const styles = createStyles(({ typography, palette, spacing, shape }) => {
   return {
     root: {
       margin: 0,
@@ -32,6 +32,11 @@ const styles = createStyles(({ typography, palette, spacing }) => {
         content: '"\\2014"', // &mdash;
         color: palette.light('textDark'),
       },
+    },
+    contained: {
+      padding: spacing('tiny'),
+      backgroundColor: palette.darken('background', 0.05),
+      borderRadius: shape.borderRadius.small,
     },
     // size-{size}
     ...TYPOGRAPHY_SIZES.reduce(
