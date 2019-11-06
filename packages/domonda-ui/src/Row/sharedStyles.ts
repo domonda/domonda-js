@@ -4,19 +4,19 @@ const sharedStyles = (theme: Theme) => ({
   row: {
     position: 'relative' as 'relative',
     display: 'flex',
-    padding: theme.spacing(1),
+    padding: theme.spacing('tiny'),
   },
   cell: {
-    ...theme.typography.body,
+    ...theme.typography.variant('small'),
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap' as 'nowrap',
     '&:not(:last-child)': {
-      marginRight: theme.spacing(1),
+      marginRight: theme.spacing('tiny'),
     },
     '&:empty::before': {
       content: '"\\2014"', // &mdash;
-      color: theme.palette.textSecondary,
+      color: theme.palette.light('textDark'),
     },
   },
 });

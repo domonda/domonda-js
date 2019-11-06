@@ -8,18 +8,13 @@ const styles = createStyles((theme) => {
     root: {
       ...row,
       zIndex: 2,
-      boxShadow: theme.shadows[1],
-      backgroundColor: theme.palette.dark('background'),
+      boxShadow: theme.shadows.line,
+      border: `1px solid ${theme.palette.border}`,
+      backgroundColor: theme.palette.darken('background', 0.05),
     },
     cell: {
       ...cell,
-      fontWeight: theme.typography.weights.semiBold,
-      fontSize: `calc(${
-        typeof theme.typography.body.fontSize === 'number'
-          ? `${theme.typography.body.fontSize}px`
-          : theme.typography.body.fontSize
-      } - 1px)`,
-      textTransform: 'none' as 'none',
+      ...theme.typography.variant('small', 'semiBold'),
     },
   };
 });

@@ -14,23 +14,22 @@ const styles = createStyles(({ palette, spacing, transition, typography }) => {
     },
     '&:active': {
       outline: 'none',
-      color: palette.darker('primary'),
-      backgroundColor: palette.light('primary'),
+      color: palette.dark('primary'),
+      backgroundColor: palette.lighten('primary', 0.85),
     },
   };
 
   return {
     root: {
       width: '100%',
-      padding: spacing(0.25, 1),
+      padding: spacing('tiny'),
       textDecoration: 'none',
       display: 'inline-flex',
       alignItems: 'center',
-      lineHeight: 3,
-      color: palette.textPrimary,
+      color: palette.textDark,
       borderBottom: '3px solid transparent',
       transition: transition.create(['color', 'background-color']),
-      ...typography.body,
+      ...typography.variant('small'),
       'a&': clickable,
     },
     text: {
@@ -42,13 +41,13 @@ const styles = createStyles(({ palette, spacing, transition, typography }) => {
     clickable,
     selected: {
       color: palette.secondary,
-      backgroundColor: palette.lighter('secondary'),
+      backgroundColor: palette.lightest('secondary'),
     },
     highlighted,
     disabled: {
       pointerEvents: 'none',
-      color: palette.textSecondary,
-      backgroundColor: palette.dark('surface'),
+      backgroundColor: palette.disabled,
+      color: palette.light('textDark'),
     },
   };
 });

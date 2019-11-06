@@ -45,9 +45,7 @@ stories.add('Overview', () => (
     </div>
     <div style={{ margin: '1em 0' }}>
       <Select label="Country" required>
-        <option disabled value="">
-          &mdash;
-        </option>
+        <option value="">&mdash;</option>
         <option value="at">Austria</option>
         <option value="ba">Bosnia and Herzegovina</option>
       </Select>

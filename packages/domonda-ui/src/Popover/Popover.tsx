@@ -11,6 +11,7 @@ import ReactDOM from 'react-dom';
 import clsx from 'clsx';
 import { ownerDocument, ownerWindow, createChainedFunction, debounce } from '../utils';
 import { withStyles, WithStyles, createStyles, TransitionHandlerProps } from '../styles';
+import { Shadow } from '../styles/shadows';
 import { Modal, ModalProps } from '../Modal';
 import { Grow } from '../Grow';
 import { Paper, PaperProps } from '../Paper';
@@ -109,7 +110,7 @@ export interface PopoverProps extends ExtendingProps {
   anchorPosition?: PopoverPosition;
   anchorReference?: PopoverReference;
   children?: React.ReactNode;
-  elevation?: number;
+  shadow?: Shadow;
   getContentAnchorEl?: null | ((element: Element) => Element);
   marginThreshold?: number;
   modal?: boolean;
@@ -135,7 +136,7 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps & WithStyles<typeo
       children,
       classes,
       container: containerProp,
-      elevation = 8,
+      shadow = 'small',
       getContentAnchorEl,
       marginThreshold = 16,
       onEnter,
@@ -406,7 +407,8 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps & WithStyles<typeo
           onEntering={createChainedFunction(handleEntering, TransitionProps.onEntering)}
         >
           <Paper
-            elevation={elevation}
+            bordered
+            shadow={shadow}
             ref={handlePaperRef}
             {...PaperProps}
             className={clsx(classes.paper, PaperProps.className)}

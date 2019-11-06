@@ -4,7 +4,7 @@
  *
  */
 
-import * as React from 'react';
+import React from 'react';
 import { withStyles, WithStyles, createStyles } from './styles';
 
 const styles = createStyles(({ typography, palette }) => ({
@@ -19,14 +19,14 @@ const styles = createStyles(({ typography, palette }) => ({
       MozOsxFontSmoothing: 'grayscale', // Antialiasing.
     },
     'strong, b': {
-      fontWeight: typography.weights.bold,
+      fontWeight: typography.weights.semiBold,
     },
     body: {
       margin: 0, // Remove the margin in all browsers.
       position: 'relative',
       backgroundColor: palette.background,
-      color: palette.textPrimary,
-      ...typography.body,
+      color: palette.textDark,
+      fontFamily: typography.fonts.body,
     },
   },
 }));

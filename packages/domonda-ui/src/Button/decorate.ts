@@ -1,125 +1,197 @@
-import { createStyles, withStyles, WithStyles, COLORS } from '../styles';
-import { darken, lighten } from '../styles/colorManipulator';
-import { svgIconClassName } from '../SvgIcon';
+import { createStyles, withStyles, WithStyles, TYPOGRAPHY_SIZES, COLORS } from '../styles';
 
-export const SIZES: ('sm' | 'md')[] = ['sm', 'md'];
-
-const styles = createStyles(({ typography, palette, spacing, shape, shadows, transition }) => ({
+const styles = createStyles(({ typography, palette, shape, shadows, transition }) => ({
   root: {
-    // resets
-    verticalAlign: 'middle',
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    border: 'none',
-    padding: spacing(0.5, 1.5),
-    outline: 'none',
+    // reset
+    border: 0,
     margin: 0,
-    lineHeight: 1.75,
-    cursor: 'pointer',
-    transition: transition.create(['background-color', 'color', 'transform', 'box-shadow']),
-    WebkitTapHighlightColor: 'transparent',
-    WebkitAppearance: 'none',
-    MozAppearance: 'none',
-    /** https://github.com/cssinjs/jss/issues/1087 */
-    // '&::-moz-focus-inner': {
-    //   borderStyle: 'none', // Remove Firefox dotted outline.
-    // },
-    // text and font
-    ...typography.body,
-    fontWeight: typography.weights.semiBold,
-    whiteSpace: 'nowrap',
+    padding: 0,
+    width: 'auto',
+    overflow: 'visible',
+    textAlign: 'inherit',
+    background: 'transparent',
+    lineHeight: 'normal',
+    webkitFontSmoothing: 'inherit',
+    mozOsxFontSmoothing: 'inherit',
+    webkitAppearance: 'none',
+    outline: 'none',
     textDecoration: 'none',
-    textTransform: 'uppercase',
-    textAlign: 'center',
-    // specifics
-    borderRadius: shape.borderRadius,
-    [`& .${svgIconClassName}`]: {
-      '&:last-child': {
-        marginLeft: spacing(0.75),
-      },
-      '&:first-child': {
-        marginRight: spacing(0.75),
-      },
-      '&:only-child': {
-        margin: 0,
-      },
-    },
-    color: palette.contrastText('surface'),
+    // ./reset
+    display: 'inline-flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    cursor: 'pointer',
     '&:focus': {
-      outline: `3px solid ${palette.light('primary')}`,
+      outline: `2px solid ${palette.light('primary')}`,
     },
     '&:active': {
       outline: 'none',
     },
+    transition: transition.create(['background-color', 'color']),
+  },
+  text: {
+    color: palette.secondary,
+    '&:hover, &:focus': {
+      textDecoration: 'underline',
+      color: palette.darken('secondary', 0.2),
+    },
+    '&:active': {
+      borderColor: palette.darken('secondary', 0.4),
+      color: palette.darken('secondary', 0.4),
+    },
     '&$disabled': {
-      pointerEvents: 'none', // Disable link interactions
-      backgroundColor: palette.darker('surface'),
-      color: palette.darkest('surface'),
+      textDecoration: 'none',
+      cursor: 'not-allowed',
+      color: palette.fade('secondary', 0.4),
     },
   },
+  link: {
+    color: palette.secondary,
+    textDecoration: 'underline',
+    '&:hover, &:focus': {
+      color: palette.darken('secondary', 0.2),
+    },
+    '&:active': {
+      borderColor: palette.darken('secondary', 0.4),
+      color: palette.darken('secondary', 0.4),
+    },
+    '&$disabled': {
+      cursor: 'not-allowed',
+      color: palette.fade('secondary', 0.4),
+    },
+  },
+  primary: {
+    borderRadius: shape.borderRadius.small,
+    boxShadow: shadows.line,
+    color: palette.white,
+    backgroundColor: palette.accent,
+    border: `1px solid ${palette.dark('accent')}`,
+    '&:hover, &:focus': {
+      backgroundColor: palette.darken('accent', 0.2),
+    },
+    '&:active': {
+      backgroundColor: palette.darken('accent', 0.4),
+    },
+    '&$disabled': {
+      cursor: 'not-allowed',
+      boxShadow: 'none',
+      color: palette.fade('white', 0.6),
+      backgroundColor: palette.light('accent'),
+      border: `1px solid ${palette.lighten('accent', 0.4)}`,
+    },
+  },
+  secondary: {
+    borderRadius: shape.borderRadius.small,
+    boxShadow: shadows.line,
+    color: palette.accent,
+    backgroundColor: palette.background,
+    border: `1px solid ${palette.border}`,
+    '&:hover, &:focus': {
+      backgroundColor: palette.darken('background', 0.04),
+    },
+    '&:active': {
+      backgroundColor: palette.darken('background', 0.08),
+    },
+    '& > $label svg:not(:only-child)': {
+      color: palette.gray40,
+    },
+    '&$disabled': {
+      cursor: 'not-allowed',
+      boxShadow: 'none',
+      color: palette.fade('accent', 0.4),
+      backgroundColor: palette.darken('background', 0.08),
+      border: `1px solid ${palette.darken('background', 0.1)}`,
+      '& > $label svg:not(:only-child)': {
+        color: palette.light('gray40'),
+      },
+    },
+  },
+  // color-{color}
+  ...COLORS.reduce(
+    (acc, color) => ({
+      ...acc,
+      [`color-${color}`]: {
+        '&$text': {
+          color: palette[color],
+          '&:hover': {
+            color: palette.darken(color, 0.2),
+          },
+          '&:active': {
+            color: palette.darken(color, 0.4),
+          },
+          '&$disabled': {
+            color: palette.fade(color, 0.4),
+          },
+        },
+        '&$link': {
+          color: palette[color],
+          '&:hover': {
+            color: palette.darken(color, 0.2),
+          },
+          '&:active': {
+            color: palette.darken(color, 0.4),
+          },
+          '&$disabled': {
+            color: palette.fade(color, 0.4),
+          },
+        },
+        '&$primary': {
+          backgroundColor: palette[color],
+          border: `1px solid ${palette.dark(color)}`,
+          '&:hover': {
+            backgroundColor: palette.darken(color, 0.2),
+          },
+          '&:active': {
+            backgroundColor: palette.darken(color, 0.4),
+          },
+          '&$disabled': {
+            backgroundColor: palette.light(color),
+            border: `1px solid ${palette.lighten(color, 0.4)}`,
+          },
+        },
+        '&$secondary': {
+          color: palette[color],
+          '&$disabled': {
+            color: palette.fade(color, 0.4),
+          },
+        },
+      },
+    }),
+    {},
+  ),
   // size-{size}
-  ...SIZES.reduce(
+  ...TYPOGRAPHY_SIZES.reduce(
     (acc, size) => ({
       ...acc,
       [`size-${size}`]: {
-        fontSize: size === 'md' ? '.875rem' : '.6rem',
-      },
-    }),
-    {},
-  ),
-  // contained-{color}
-  ...COLORS.reduce(
-    (acc, color) => ({
-      ...acc,
-      [`contained-${color}`]: {
-        backgroundColor: palette[color],
-        color: palette.getContrastText(palette[color]),
-        boxShadow: shadows[1],
-        '&:hover': {
-          backgroundColor: darken(palette[color], 0.08),
+        ...typography.variant(size, 'semiBold'),
+        '& > $label svg': {
+          height: `calc(${typography.sizes[size]}px + 4px)`,
         },
-        '&:active': {
-          boxShadow: shadows[3],
-          backgroundColor: darken(palette[color], 0.16),
+        '&$text, &$link': {
+          '& > $label svg': {
+            '&:not(:only-child)': {
+              '&:first-child': {
+                marginRight: `calc(${typography.sizes.tiny}px / 2)`,
+              },
+              '&:last-child': {
+                marginLeft: `calc(${typography.sizes.tiny}px / 2)`,
+              },
+            },
+          },
         },
-      },
-    }),
-    {},
-  ),
-  // outlined-{color}
-  ...COLORS.reduce(
-    (acc, color) => ({
-      ...acc,
-      [`outlined-${color}`]: {
-        color: palette[color],
-        border: '1px solid currentColor',
-        backgroundColor: 'transparent',
-        '&:hover': {
-          backgroundColor: lighten(palette[color], 0.8),
-        },
-        '&:active': {
-          backgroundColor: lighten(palette[color], 0.6),
-        },
-      },
-    }),
-    {},
-  ),
-  // text-{color}
-  ...COLORS.reduce(
-    (acc, color) => ({
-      ...acc,
-      [`text-${color}`]: {
-        color: palette[color],
-        backgroundColor: 'transparent',
-        '&:hover': {
-          backgroundColor: lighten(palette[color], 0.8),
-        },
-        '&:active': {
-          backgroundColor: lighten(palette[color], 0.6),
-        },
-        '&$disabled': {
-          backgroundColor: 'transparent',
+        '&$primary, &$secondary': {
+          padding: `${typography.sizes[size] / 2}px` + ' ' + `${typography.sizes[size]}px`,
+          '& > $label svg': {
+            '&:not(:only-child)': {
+              '&:first-child': {
+                marginRight: typography.sizes[size],
+              },
+              '&:last-child': {
+                marginLeft: typography.sizes[size],
+              },
+            },
+          },
         },
       },
     }),
@@ -130,6 +202,12 @@ const styles = createStyles(({ typography, palette, spacing, shape, shadows, tra
     display: 'inherit',
     alignItems: 'inherit',
     justifyContent: 'inherit',
+    textDecoration: 'inherit',
+    '& svg': {
+      display: 'block',
+      color: 'inherit',
+      fill: 'currentColor',
+    },
   },
   disabled: {},
 }));

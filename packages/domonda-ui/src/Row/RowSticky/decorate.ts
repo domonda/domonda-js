@@ -8,13 +8,13 @@ const styles = createStyles((theme) => {
     ...rest,
     root: {
       ...row,
-      ...theme.typography.caption,
-      fontWeight: theme.typography.weights.semiBold,
+      ...theme.typography.variant('small', 'medium'),
       position: 'sticky',
       top: 0,
       zIndex: 1,
-      boxShadow: theme.shadows[1],
-      backgroundColor: theme.palette.background,
+      boxShadow: theme.shadows.line,
+      border: `1px solid ${theme.palette.border}`,
+      backgroundColor: theme.palette.darken('background', 0.03),
     },
   };
 });

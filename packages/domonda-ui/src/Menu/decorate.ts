@@ -1,11 +1,10 @@
 import { createStyles, withStyles, WithStyles } from '../styles';
 
-const styles = createStyles(({ palette, spacing, shadows, shape }) => ({
+const styles = createStyles(({ palette, shadows, shape }) => ({
   root: {
-    padding: spacing(1, 0),
-    backgroundColor: palette.surface,
-    boxShadow: shadows[2],
-    borderRadius: shape.borderRadius,
+    backgroundColor: palette.white,
+    boxShadow: shadows.doubleLine,
+    borderRadius: shape.borderRadius.small,
     overflow: 'auto',
   },
 }));

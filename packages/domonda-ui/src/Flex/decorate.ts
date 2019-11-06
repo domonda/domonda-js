@@ -1,7 +1,5 @@
 import { createStyles, withStyles, WithStyles } from '../styles';
-import { FlexProps } from './Flex';
-
-export const SPACINGS: NonNullable<FlexProps['spacing']>[] = [1, 2, 3, 4];
+import { SPACES } from '../styles/spacing';
 
 const styles = createStyles(({ spacing }) => ({
   container: {
@@ -22,15 +20,15 @@ const styles = createStyles(({ spacing }) => ({
   zeroMinWidth: {
     minWidth: 0,
   },
-  // spacing-{spacing}
-  ...SPACINGS.reduce(
-    (acc, value) => ({
+  // spacing-{space}
+  ...SPACES.reduce(
+    (acc, space) => ({
       ...acc,
-      [`spacing-${value}`]: {
-        width: `calc(100% + ${spacing(value)})`,
-        margin: spacing((value / 2) * -1),
+      [`spacing-${space}`]: {
+        width: `calc(100% + ${spacing(space)}px)`,
+        margin: (spacing(space) / 2) * -1,
         [`& > $item:not(:empty)`]: {
-          padding: spacing(value / 2),
+          padding: spacing(space) / 2,
         },
       },
     }),

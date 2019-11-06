@@ -7,35 +7,39 @@
 import React from 'react';
 import clsx from 'clsx';
 import { createStyles, withStyles, WithStyles } from '../styles';
+import { Shadow, SHADOWS } from '../styles/shadows';
 
-const styles = createStyles((theme) => {
-  const elevations: { [key: string]: any } = {};
-  theme.shadows.forEach((shadow, index) => {
-    elevations[`elevation${index}`] = {
-      boxShadow: shadow,
-    };
-  });
-
-  return {
-    /* Styles applied to the root element. */
-    root: {
-      backgroundColor: theme.palette.surface,
-      color: theme.palette.textPrimary,
-      transition: theme.transition.create('box-shadow'),
-    },
-    /* Styles applied to the root element if `square={false}`. */
-    rounded: {
-      borderRadius: theme.shape.borderRadius,
-    },
-    ...elevations,
-  };
-});
+const styles = createStyles(({ shape, palette, shadows }) => ({
+  /* Styles applied to the root element. */
+  root: {
+    backgroundColor: palette.white,
+    color: palette.textDark,
+  },
+  /* Styles applied to the root element if `square={false}`. */
+  rounded: {
+    borderRadius: shape.borderRadius.small,
+  },
+  bordered: {
+    border: `1px solid ${palette.border}`,
+  },
+  // shadow-{shadow}
+  ...SHADOWS.reduce(
+    (acc, shadow) => ({
+      ...acc,
+      [`shadow-${shadow}`]: {
+        boxShadow: shadows[shadow],
+      },
+    }),
+    {},
+  ),
+}));
 
 export interface PaperProps extends React.HTMLAttributes<HTMLDivElement> {
   classes?: Partial<WithStyles<typeof styles>['classes']>;
   component?: React.ElementType<React.HTMLAttributes<HTMLDivElement>>;
-  elevation?: number;
+  shadow?: Shadow;
   square?: boolean;
+  bordered?: boolean;
 }
 
 const Paper = React.forwardRef<HTMLDivElement, PaperProps & WithStyles<typeof styles>>(
@@ -45,16 +49,18 @@ const Paper = React.forwardRef<HTMLDivElement, PaperProps & WithStyles<typeof st
       className: classNameProp,
       component: Component = 'div' as any,
       square = false,
-      elevation = 1,
+      shadow = 'line',
+      bordered,
       ...other
     } = props;
 
     const className = clsx(
       classes.root,
-      classes[`elevation${elevation}` as keyof typeof classes],
+      classes[`shadow-${shadow}` as keyof typeof classes],
       {
         [classes.rounded]: !square,
       },
+      bordered && classes.bordered,
       classNameProp,
     );
 

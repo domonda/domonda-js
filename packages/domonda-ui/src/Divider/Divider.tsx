@@ -10,7 +10,7 @@ import { createStyles, withStyles, WithStyles, Color } from '../styles';
 
 const styles = createStyles(({ spacing }) => ({
   root: {
-    margin: spacing(1, 0),
+    margin: spacing('tiny', 'none'),
     borderStyle: 'solid',
     borderBottom: 0,
     opacity: 0.6,
@@ -19,7 +19,7 @@ const styles = createStyles(({ spacing }) => ({
 
 export interface DividerProps extends React.HTMLAttributes<HTMLHRElement> {
   classes?: Partial<WithStyles<typeof styles>['classes']>;
-  color?: Color; // default: `textSecondary`
+  color?: Color; // default: `border`
   weight?: 'thin' | 'bold'; // default: `thin`
 }
 
@@ -30,7 +30,7 @@ const Divider = React.forwardRef<HTMLHRElement, DividerProps & WithStyles<typeof
       theme,
       classes,
       className,
-      color = 'textSecondary',
+      color = 'border',
       weight = 'thin',
       style,
       ...rest

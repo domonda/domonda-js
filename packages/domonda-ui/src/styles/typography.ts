@@ -1,103 +1,63 @@
-import { CSSProperties } from './createStyles';
+/**
+ *
+ * typography
+ *
+ */
+
+// font
+
+export const SYSTEM_FONT =
+  '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"';
 
 export type TypographyFont = 'header' | 'body';
 export type TypographyFonts = { [font in TypographyFont]: string };
 export const TYPOGRAPHY_FONTS: TypographyFont[] = ['header', 'body'];
-export const defaultFonts: TypographyFonts = {
-  header: 'Roboto Mono, monospace',
-  body: 'Open Sans, sans-serif',
-};
 
-export type TypographyWeight = 'bold' | 'semiBold' | 'medium' | 'regular' | 'light';
+// weight
+
+export type TypographyWeight = 'regular' | 'medium' | 'semiBold';
 export type TypographyWeights = { [weight in TypographyWeight]: number };
-export const TYPOGRAPHY_WEIGHTS: TypographyWeight[] = [
-  'bold',
-  'semiBold',
-  'medium',
-  'regular',
-  'light',
-];
-export const defaultFontWeights: TypographyWeights = {
-  bold: 700,
-  semiBold: 600,
-  medium: 500,
-  regular: 400,
-  light: 300,
+export const TYPOGRAPHY_WEIGHTS: TypographyWeight[] = ['regular', 'medium', 'semiBold'];
+
+// size
+
+export type TypographySize = 'tiny' | 'small' | 'medium' | 'large';
+export type TypographySizes = { [size in TypographySize]: number };
+export const TYPOGRAPHY_SIZES: TypographySize[] = ['tiny', 'small', 'medium', 'large'];
+
+// variant
+
+export type TypographyVariant = (
+  size: TypographySize,
+  weight?: TypographyWeight, // default: `regular`
+  font?: TypographyFont, // default: `body`
+) => {
+  fontFamily: string;
+  fontSize: number;
+  fontWeight: number;
 };
 
-export type TypographyVariant =
-  | 'headline'
-  | 'subheading'
-  | 'title'
-  | 'subtitle'
-  | 'body'
-  | 'caption'
-  | 'label';
-export type TypographyVariants = {
-  [variant in TypographyVariant]: {
-    fontFamily: string;
-    fontSize: number | string;
-    fontWeight: number;
-    textTransform: CSSProperties['textTransform'] | undefined;
-  };
-};
-export const TYPOGRAPHY_VARIANTS: TypographyVariant[] = [
-  'headline',
-  'subheading',
-  'title',
-  'subtitle',
-  'body',
-  'caption',
-  'label',
-];
-
-export type Typography = { fonts: TypographyFonts } & {
+export type Typography = { fonts: TypographyFonts } & { sizes: TypographySizes } & {
   weights: TypographyWeights;
-} & TypographyVariants;
+} & { variant: TypographyVariant };
 
-export const defaultTypography: Typography = {
-  fonts: defaultFonts,
-  weights: defaultFontWeights,
-  headline: {
-    fontFamily: defaultFonts.header,
-    fontSize: 28,
-    fontWeight: defaultFontWeights.bold,
-    textTransform: undefined,
-  },
-  subheading: {
-    fontFamily: defaultFonts.header,
-    fontSize: 24,
-    fontWeight: defaultFontWeights.regular,
-    textTransform: undefined,
-  },
-  title: {
-    fontFamily: defaultFonts.header,
-    fontSize: 20,
-    fontWeight: defaultFontWeights.bold,
-    textTransform: undefined,
-  },
-  subtitle: {
-    fontFamily: defaultFonts.body,
-    fontSize: 18,
-    fontWeight: defaultFontWeights.semiBold,
-    textTransform: undefined,
-  },
-  body: {
-    fontFamily: defaultFonts.body,
-    fontSize: 15,
-    fontWeight: defaultFontWeights.regular,
-    textTransform: undefined,
-  },
-  caption: {
-    fontFamily: defaultFonts.body,
-    fontSize: 11,
-    fontWeight: defaultFontWeights.regular,
-    textTransform: undefined,
-  },
-  label: {
-    fontFamily: defaultFonts.body,
-    fontSize: '.75rem',
-    fontWeight: defaultFontWeights.semiBold,
-    textTransform: 'uppercase',
-  },
-};
+export function createTypography({
+  fonts,
+  weights,
+  sizes,
+}: {
+  fonts: TypographyFonts;
+  weights: TypographyWeights;
+  sizes: TypographySizes;
+}): Typography {
+  return {
+    fonts,
+    sizes,
+    weights,
+    variant: (size, weight = 'regular', font = 'body') => ({
+      fontSize: sizes[size],
+      fontWeight: weights[weight],
+      fontFamily: fonts[font],
+    }),
+  };
+}

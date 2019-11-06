@@ -220,7 +220,7 @@ const Dialog = React.forwardRef<HTMLDivElement, DialogProps & WithStyles<typeof 
             onMouseDown={handleMouseDown}
           >
             <PaperComponent
-              elevation={24}
+              shadow="large"
               role="dialog"
               {...PaperProps}
               className={clsx(

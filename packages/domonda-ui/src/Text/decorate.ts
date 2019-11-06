@@ -2,22 +2,21 @@ import {
   createStyles,
   withStyles,
   WithStyles,
-  TYPOGRAPHY_VARIANTS,
+  TYPOGRAPHY_SIZES,
   TYPOGRAPHY_WEIGHTS,
   TYPOGRAPHY_FONTS,
 } from '../styles';
 
-const styles = createStyles(({ typography, palette, spacing }) => {
+const styles = createStyles(({ typography, palette, spacing, shape }) => {
   return {
     root: {
       margin: 0,
-      color: palette.textPrimary,
     },
     block: {
       display: 'block',
     },
     inline: {
-      display: 'inline',
+      display: 'inline-block',
     },
     wrap: {
       overflow: 'hidden',
@@ -25,19 +24,27 @@ const styles = createStyles(({ typography, palette, spacing }) => {
       whiteSpace: 'nowrap',
     },
     gutterBottom: {
-      marginBottom: spacing(1),
+      marginTop: 0,
+      marginBottom: spacing('tiny'),
     },
     withPlaceholder: {
       '&:empty::before': {
         content: '"\\2014"', // &mdash;
-        color: palette.textSecondary,
+        color: palette.light('textDark'),
       },
     },
-    // variant-{variant}
-    ...TYPOGRAPHY_VARIANTS.reduce(
-      (acc, variant) => ({
+    contained: {
+      padding: spacing('tiny'),
+      backgroundColor: palette.darken('background', 0.05),
+      borderRadius: shape.borderRadius.small,
+    },
+    // size-{size}
+    ...TYPOGRAPHY_SIZES.reduce(
+      (acc, size) => ({
         ...acc,
-        [`variant-${variant}`]: typography[variant],
+        [`size-${size}`]: {
+          fontSize: typography.sizes[size],
+        },
       }),
       {},
     ),

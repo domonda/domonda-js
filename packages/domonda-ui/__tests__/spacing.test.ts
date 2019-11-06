@@ -1,21 +1,33 @@
 import { createSpacing } from '../src/styles/spacing';
 
-it('createSpacing creates spacing function', () => {
-  const spacing = createSpacing(8);
-  expect(typeof spacing).toBe('function');
+const spaces = {
+  none: 0,
+  tiny: 1,
+  small: 2,
+  medium: 3,
+  large: 4,
+};
+
+it('creates spacing function', () => {
+  const spacing = createSpacing(spaces);
+
+  expect(spacing).toBeInstanceOf(Function);
 });
 
-it('spacing returns multiple of a given factor', () => {
-  const spacing = createSpacing(21);
-  expect(spacing(2)).toBe('42px');
+it('returns the spacing for the passed space as a number', () => {
+  const spacing = createSpacing(spaces);
+
+  expect(spacing('small')).toBe(spaces.small);
 });
 
-it('spacing returns multiple factors in px', () => {
-  const spacing = createSpacing(1);
-  expect(spacing(1, 2, 3, 4)).toBe('1px 2px 3px 4px');
-});
+it('returns multiple spacings for given spaces', () => {
+  const spacing = createSpacing(spaces);
 
-it('spacing returns default spacing with no argument', () => {
-  const spacing = createSpacing(8);
-  expect(spacing()).toBe('8px');
+  expect(spacing('large', 'medium')).toBe(spaces.large + 'px ' + spaces.medium + 'px');
+  expect(spacing('medium', 'medium', 'none')).toBe(
+    spaces.medium + 'px ' + spaces.medium + 'px ' + spaces.none + 'px',
+  );
+  expect(spacing('tiny', 'small', 'medium', 'large')).toBe(
+    spaces.tiny + 'px ' + spaces.small + 'px ' + spaces.medium + 'px ' + spaces.large + 'px',
+  );
 });

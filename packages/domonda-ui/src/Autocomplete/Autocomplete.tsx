@@ -9,17 +9,13 @@ import Downshift, { DownshiftProps } from 'downshift';
 import { FixedSizeList } from 'react-window';
 
 // ui
-import { TextField, TextFieldProps } from '../TextField';
+import { Input, InputProps } from '../Input';
 import { Popper, PopperProps } from '../Popper';
 import { MenuList, MenuListProps, MenuItem } from '../Menu';
 import { Paper, PaperProps } from '../Paper';
 
-const ITEM_SIZE = 46;
-
-const MENU_STYLES = {
-  marginTop: 5,
-  padding: 0,
-};
+const ITEM_SIZE = 36;
+const ITEMS_FIT = 8; // how many items should fit the open list
 
 export type AutocompleteGetItemId<T> = (item: T | null) => string;
 
@@ -32,14 +28,15 @@ export interface AutocompleteProps<T>
   onInputValueChange?: (value: string | null) => void;
   listWidth?: number;
   listHeight?: number;
-  // TextField
+  // Input
   label?: React.ReactNode;
+  placeholder?: string;
   dense?: boolean;
   required?: boolean;
   disabled?: boolean;
   readOnly?: boolean;
   autoFocus?: boolean;
-  TextFieldProps?: TextFieldProps;
+  InputProps?: InputProps;
   // Popper
   keepPopperMounted?: boolean;
   PopperProps?: Omit<PopperProps, 'open' | 'anchorEl'>;
@@ -56,14 +53,15 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
     onInputValueChange,
     listWidth,
     listHeight,
-    // TextField
+    // Input
     label,
+    placeholder,
     dense,
     required,
     disabled,
     readOnly,
     autoFocus,
-    TextFieldProps = {},
+    InputProps = {},
     // Popper
     keepPopperMounted,
     PopperProps = {},
@@ -100,8 +98,8 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
         const { ref, ...restInputProps } = getInputProps({
           ref: anchorEl,
           onFocus: (event: React.FocusEvent<HTMLInputElement>) => {
-            if (TextFieldProps.onFocus) {
-              TextFieldProps.onFocus(event);
+            if (InputProps.onFocus) {
+              InputProps.onFocus(event);
             }
             openMenu();
           },
@@ -111,10 +109,11 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
 
         return (
           <div>
-            <TextField
+            <Input
               label={label}
+              placeholder={placeholder}
               dense={dense}
-              {...TextFieldProps}
+              {...InputProps}
               {...restInputProps}
               required={required}
               disabled={disabled}
@@ -124,13 +123,13 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
             />
             {!readOnly && (keepPopperMounted || isOpen) && (
               <Popper {...PopperProps} open={isOpen} anchorEl={anchorEl.current}>
-                <Paper elevation={2} {...PaperProps}>
+                <Paper bordered shadow="small" {...PaperProps}>
                   <MenuList
                     {...(isOpen
                       ? getMenuProps(
                           {
                             ...MenuListProps,
-                            style: MENU_STYLES,
+                            style: { padding: 0, ...(MenuListProps || {}).style },
                           },
                           { suppressRefError: true },
                         )
@@ -147,7 +146,7 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
                       height={
                         typeof listHeight === 'number'
                           ? listHeight
-                          : Math.min(ITEM_SIZE * 7, items.length * ITEM_SIZE)
+                          : Math.min(ITEM_SIZE * ITEMS_FIT, items.length * ITEM_SIZE)
                       }
                       itemSize={ITEM_SIZE}
                       itemCount={items.length}
@@ -161,7 +160,12 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
                               item,
                               selected: selectedItem === getItemId(item),
                               tabIndex: -1,
-                              style,
+                              style: {
+                                ...style,
+                                // reset top-bottom padding to accomodate size
+                                paddingTop: 0,
+                                paddingBottom: 0,
+                              },
                             })}
                             highlighted={highlightedIndex === index}
                           >

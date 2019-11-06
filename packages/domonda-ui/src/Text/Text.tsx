@@ -6,13 +6,7 @@
 
 import React, { useMemo } from 'react';
 import clsx from 'clsx';
-import {
-  Color,
-  ColorVariant,
-  TypographyFont,
-  TypographyWeight,
-  TypographyVariant,
-} from '../styles';
+import { Color, ColorVariant, TypographySize, TypographyWeight, TypographyFont } from '../styles';
 
 // decorate
 import { decorate, Decorate } from './decorate';
@@ -22,13 +16,14 @@ export interface TextProps extends React.HTMLAttributes<HTMLElement> {
   inline?: boolean;
   gutterBottom?: boolean;
   paragraph?: boolean;
-  color?: 'inherit' | Color; // default: `textPrimary`
+  color?: 'inherit' | Color; // default: `textDark`
   colorVariant?: ColorVariant;
-  variant?: TypographyVariant; // default: `body`
-  weight?: TypographyWeight;
+  size?: TypographySize; // default: `small`
+  weight?: TypographyWeight; // default: `regular`
   font?: TypographyFont;
   withPlaceholder?: boolean;
   wrap?: boolean;
+  contained?: boolean;
   component?: keyof React.ReactHTML;
 }
 
@@ -41,14 +36,15 @@ const Text = React.forwardRef<HTMLElement, TextProps & Decorate>(function Text(p
     inline,
     gutterBottom,
     paragraph,
-    color = 'textPrimary',
+    color = 'textDark',
     colorVariant,
-    variant = 'body',
+    size = 'small',
     weight,
     font,
     style,
     withPlaceholder,
     wrap,
+    contained,
     component: PropComponent,
     ...rest
   } = props;
@@ -57,20 +53,11 @@ const Text = React.forwardRef<HTMLElement, TextProps & Decorate>(function Text(p
     if (PropComponent) {
       return PropComponent as any;
     }
-
-    switch (variant) {
-      case 'title':
-        return 'h3';
-      case 'subtitle':
-        return 'h5';
-      case 'body':
-        return 'p';
-      case 'caption':
-        return 'span';
-      default:
-        return 'span';
+    if (paragraph) {
+      return 'p';
     }
-  }, [PropComponent, variant]);
+    return 'span';
+  }, [PropComponent, paragraph]);
 
   function deriveStyle() {
     const manipulator = colorVariant
@@ -87,11 +74,12 @@ const Text = React.forwardRef<HTMLElement, TextProps & Decorate>(function Text(p
         classes.root,
         inline ? classes.inline : classes.block,
         (gutterBottom || paragraph) && classes.gutterBottom,
-        classes[`variant-${variant}` as keyof typeof classes],
+        classes[`size-${size}` as keyof typeof classes],
         weight && classes[`weight-${weight}` as keyof typeof classes],
         font && classes[`font-${font}` as keyof typeof classes],
         withPlaceholder && classes.withPlaceholder,
         wrap && classes.wrap,
+        contained && classes.contained,
         className,
       )}
       style={deriveStyle()}
