@@ -181,10 +181,7 @@ const styles = createStyles(({ typography, palette, shape, shadows, transition }
           },
         },
         '&$primary, &$secondary': {
-          padding:
-            `calc(${typography.sizes[size]}px / 2 + 1px)` +
-            ' ' +
-            `calc(${typography.sizes[size]}px + 1px)`,
+          padding: `${typography.sizes[size] / 2}px` + ' ' + `${typography.sizes[size]}px`,
           '& > $label svg': {
             '&:not(:only-child)': {
               '&:first-child': {
