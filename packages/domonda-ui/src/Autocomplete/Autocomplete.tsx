@@ -30,6 +30,7 @@ export interface AutocompleteProps<T>
   listHeight?: number;
   // Input
   label?: React.ReactNode;
+  placeholder?: string;
   dense?: boolean;
   required?: boolean;
   disabled?: boolean;
@@ -54,6 +55,7 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
     listHeight,
     // Input
     label,
+    placeholder,
     dense,
     required,
     disabled,
@@ -109,6 +111,7 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
           <div>
             <Input
               label={label}
+              placeholder={placeholder}
               dense={dense}
               {...InputProps}
               {...restInputProps}
