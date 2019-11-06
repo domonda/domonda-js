@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.3](https://github.com/domonda/domonda-js/compare/@domonda/query-params@1.3.2...@domonda/query-params@1.3.3) (2019-11-06)
+
+
+### Bug Fixes
+
+* **useQueryParams:** pass most recent state to update function ([bae8109](https://github.com/domonda/domonda-js/commit/bae8109c5138964524f6df89094f38db55be5e5d))
+
+
+
+
+
 ## [1.3.2](https://github.com/domonda/domonda-js/compare/@domonda/query-params@1.3.1...@domonda/query-params@1.3.2) (2019-10-17)
 
 **Note:** Version bump only for package @domonda/query-params

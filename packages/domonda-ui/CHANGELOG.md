@@ -3,6 +3,67 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@6.3.0...@domonda/ui@7.0.0) (2019-11-06)
+
+
+### Bug Fixes
+
+* **Button:** disabled state on text and link variants ([0629dc0](https://github.com/domonda/domonda-js/commit/0629dc0949274d369a56b29ffda02543d85adf4f))
+* **Button:** no text decoration by default ([cae060e](https://github.com/domonda/domonda-js/commit/cae060edf4e77e26a3f0bf8bea0daebab91fb37f))
+* **Checkbox:** input over checkbox makes all handlers work ([9218080](https://github.com/domonda/domonda-js/commit/9218080e9051d49c6b2a6eacbae248673f486a7c))
+* **Checkbox:** make focusable ([34c3704](https://github.com/domonda/domonda-js/commit/34c37040f06dda113ae12c0239b0658412130ffb))
+* **Checkbox:** props extend InputHTMLAttributes ([5c2e0e3](https://github.com/domonda/domonda-js/commit/5c2e0e3f5a3f49febfc9127314c3bba66f66cc80))
+* **Input/Select/Button:** pixel perfect height fit ([60591f7](https://github.com/domonda/domonda-js/commit/60591f7150b354cc24eb062b201dba63329ab8f6))
+* **Label:** define displayName for easier jss navigation ([58f25c5](https://github.com/domonda/domonda-js/commit/58f25c5aae96458062b5ccf2b72182b172f7732c))
+* **Row:** omit item prop from RowItem for string components ([f4b2872](https://github.com/domonda/domonda-js/commit/f4b287214bafeba04c9a31e405ae492263edeeeb))
+* **svg:** fill is `currentColor` to always have correct color ([af2addf](https://github.com/domonda/domonda-js/commit/af2addfd9156cd88720a3da81fa4ec3b4613a501))
+
+
+### Features
+
+* **Alert:** introduce an inline message alert ([a21a4d0](https://github.com/domonda/domonda-js/commit/a21a4d01a78b0e1f3026b8702cefa11e61be3d67))
+* **Autocomplete:** flatten `placeholder` Input prop ([fc06822](https://github.com/domonda/domonda-js/commit/fc068224032ddd6e40176d867e8d2a457aa83444))
+* **Avatar:** introduce ([c2d4d2b](https://github.com/domonda/domonda-js/commit/c2d4d2bb635761b30cdabf6f18c57e134b067bc5))
+* **Button:** domonda button design with svg icons ([dd6d883](https://github.com/domonda/domonda-js/commit/dd6d88378a97b4c0e8f5a83330ab45e80c0896fa))
+* **Button:** re-design and drop `IconButton` ([9adac60](https://github.com/domonda/domonda-js/commit/9adac60e6833de3776334ed31b7d9e320f1d1ee9))
+* **ButtonGroup:** introduce ([91334b4](https://github.com/domonda/domonda-js/commit/91334b4f5f0aac225cd8fe76db9a3f4e9fba1344))
+* **Checkbox:** introduce ([346e101](https://github.com/domonda/domonda-js/commit/346e10143143c6413ef7d398bef7473d7ba4eab7))
+* **Input:** introduce `naked` variant ([8af25b7](https://github.com/domonda/domonda-js/commit/8af25b76450e59dc543926c533519bb91e6bcdce))
+* **Input:** rename `TextField` to `Input` ([5412168](https://github.com/domonda/domonda-js/commit/5412168ae74f0039de77bb631846e01e76b06a30))
+* **Label:** inline optional, block by default ([d48c5aa](https://github.com/domonda/domonda-js/commit/d48c5aa66ae4b90ebe4f2eed92a9b2f273ecbf89))
+* **Label:** introduce ([e85a004](https://github.com/domonda/domonda-js/commit/e85a00441be58c1af29d42857c558ba7b461023c))
+* **MenuItem:** text is of regular weight ([d97b542](https://github.com/domonda/domonda-js/commit/d97b5420c714fa1c0329c2dd45d98bed10508e1b))
+* **palette:** domonda design language ([b8356ec](https://github.com/domonda/domonda-js/commit/b8356eca943bfc0a14bcfc643083a94c93204d86))
+* **Paper:** introduce `bordered` prop ([6955af4](https://github.com/domonda/domonda-js/commit/6955af45135925066bd467f3a1cd8c1431675294))
+* **Row:** introduce story ([cb6cf40](https://github.com/domonda/domonda-js/commit/cb6cf40b0d772d0096cc1976708b690e3f774602))
+* **Select:** re-design ([1ae5e13](https://github.com/domonda/domonda-js/commit/1ae5e13484f6f728af7a66cace9bc3e7ed315214))
+* **shadows:** fixed list of possible shadows ([fc2ed41](https://github.com/domonda/domonda-js/commit/fc2ed41c1d75b7db17a05c2cbacdcce7344735e3))
+* **shape:** fixed list for borderRadiuses ([b422df0](https://github.com/domonda/domonda-js/commit/b422df00c95a2cb37e76028af8fdd909e4c885fb))
+* **spacing:** fixed list of possible spaces ([3c23df4](https://github.com/domonda/domonda-js/commit/3c23df4294afcc0e4dcc4cb22970f7bec7081443))
+* **Svg:** container for raw SVGs ([fb9e263](https://github.com/domonda/domonda-js/commit/fb9e2630d4817e463eefac0ef25a9b16843f3639))
+* **SvgIcon:** removed ([e134bee](https://github.com/domonda/domonda-js/commit/e134bee59630bdb2a2b194170dd5b1e4c28aa868))
+* **Text:** introduce `contained` style ([2f68f21](https://github.com/domonda/domonda-js/commit/2f68f212693c303ccfba820a23407625037dcb03))
+* **TextArea:** introduce ([b772c83](https://github.com/domonda/domonda-js/commit/b772c83631e805b1d4d8e788ab61735034aa5d6e))
+* **TextField:** re-design ([dd444cc](https://github.com/domonda/domonda-js/commit/dd444ccdccc5c29701849a80b7e4f694749d8cf9))
+* **typography:** domonda design language ([d209ef3](https://github.com/domonda/domonda-js/commit/d209ef390acede9220994148bcd237f8ae90d484))
+
+
+### BREAKING CHANGES
+
+* **SvgIcon:** SvgIcon is dropped in favor of native svg support.
+* **Input:** `TextField` component no longer exists in favor of the rename to `Input`.
+* **Button:** Button `variant` and `size` props have changed. IconButton no longer exists, it is dropped in favor of just using the Button with an svg inside of it.
+* **Alert:** This component supersedes usage of `SuccessInline` and `ErrInline`. The same effect can be achieved with the `Alert` using the `color` prop.
+* **palette:** The palette has changed in favor of following the domonda design language. Please take a look at the new shape and features in: `styles/palette` to help you refactor accordingly.
+* **shape:** Shape no longer has just one `borderRadius`. You must specify the `borderRadius[‘small’ | ‘pill’]` when applying the shape.
+* **shadows:** Shadow is no longer a “magic” number. It has a fixed list of posible shadows which the user has to conform to.
+* **spacing:** Spacing is no longer a “magic” number. It has a fixed list of posible spaces which the user has to conform to.
+* **typography:** Prop `variant` does not exist on `Text` anymore. The “variant” is now derived by combining the typography’s: `size`, `weight` and `font`.
+
+
+
+
+
 # [6.3.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@6.2.0...@domonda/ui@6.3.0) (2019-10-17)
 
 
