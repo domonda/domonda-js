@@ -22,12 +22,14 @@ const styles = createStyles(({ typography, palette, spacing, transition }) => ({
     alignItems: 'center',
     cursor: 'pointer',
     transition: transition.create(['color']),
+    verticalAlign: 'middle',
     '& > input': {
       // we don't display: 'none' to retain focusable state
+      cursor: 'pointer',
       position: 'absolute',
       opacity: 0,
-      width: 0,
-      height: 0,
+      margin: 0,
+      padding: 0,
       '&:checked ~ $unchecked': {
         display: 'none',
       },
@@ -62,6 +64,10 @@ const styles = createStyles(({ typography, palette, spacing, transition }) => ({
       ...acc,
       [size]: {
         fontSize: typography.sizes[size],
+        '& > input': {
+          width: typography.sizes[size],
+          height: typography.sizes[size],
+        },
         '& > $unchecked > svg, & > $checked > svg': {
           width: typography.sizes[size],
         },
