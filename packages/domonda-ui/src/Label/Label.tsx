@@ -15,17 +15,28 @@ const styles = createStyles(({ typography, palette }) => ({
     letterSpacing: 0.6,
     color: palette.secondary,
   },
+  block: {
+    display: 'block',
+  },
+  inline: {
+    display: 'inline-block',
+  },
 }));
 
 export interface LabelProps extends React.HTMLAttributes<HTMLLabelElement> {
   classes?: WithStyles<typeof styles>['classes'];
+  inline?: boolean;
 }
 
 const Label = React.forwardRef<HTMLLabelElement, LabelProps & WithStyles<typeof styles>>(
   function Label(props, ref) {
-    const { children, classes, className, ...rest } = props;
+    const { children, classes, className, inline, ...rest } = props;
     return (
-      <label {...rest} className={clsx(classes.root, className)} ref={ref}>
+      <label
+        {...rest}
+        className={clsx(classes.root, inline ? classes.inline : classes.block, className)}
+        ref={ref}
+      >
         {children}
       </label>
     );

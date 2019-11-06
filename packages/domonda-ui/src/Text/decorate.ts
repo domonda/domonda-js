@@ -16,7 +16,7 @@ const styles = createStyles(({ typography, palette, spacing }) => {
       display: 'block',
     },
     inline: {
-      display: 'inline',
+      display: 'inline-block',
     },
     wrap: {
       overflow: 'hidden',
