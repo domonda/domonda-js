@@ -165,7 +165,7 @@ it('should pass the recent state in the updater when history location changes', 
   });
 });
 
-it.only('should not rerender when location is not on pathname', () => {
+it('should not rerender when location is not on pathname', () => {
   const history = createMemoryHistory();
 
   const model: QueryModel<{ str: string }> = {
