@@ -192,7 +192,7 @@ it('should update params only on pathname', () => {
   expect(result.current[0]).toEqual({ str: 'consider' });
 });
 
-it.only("should retain same result reference when params haven't changed", () => {
+it("should retain same result reference when params haven't changed", () => {
   const history = createMemoryHistory();
 
   const model: QueryModel<{ str: string }> = {
