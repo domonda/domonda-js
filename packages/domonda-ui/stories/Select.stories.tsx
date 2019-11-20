@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { Select } from '../src/Select';
+import { Flex } from '../src/Flex';
+import { Button } from '../src/Button';
 
 const stories = storiesOf('Select', module);
 
@@ -67,5 +69,28 @@ stories.add('Overview', () => (
         </option>
       </Select>
     </div>
+    <Flex container>
+      <Flex item flex={1}>
+        <Select>
+          <option value="">Is the normal size pixel perfect?</option>
+        </Select>
+      </Flex>
+      <Flex item>
+        <Button>Well, you decide</Button>
+      </Flex>
+    </Flex>
+    <br />
+    <Flex container>
+      <Flex item flex={1}>
+        <Select dense>
+          <option value="">Is the dense variant pixel perfect?</option>
+        </Select>
+      </Flex>
+      <Flex item>
+        <Button variant="primary" size="tiny">
+          Looks like it is
+        </Button>
+      </Flex>
+    </Flex>
   </>
 ));

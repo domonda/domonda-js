@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { Input } from '../src/Input';
+import { Button } from '../src/Button';
+import { Flex } from '../src/Flex';
 
 const stories = storiesOf('Input', module);
 
@@ -49,5 +51,25 @@ stories.add('Overview', () => (
     <div>
       <Input naked required label="Naked invalid" placeholder="Your first name is required..." />
     </div>
+    <br />
+    <Flex container>
+      <Flex item flex={1}>
+        <Input placeholder="Is the normal size pixel perfect?" />
+      </Flex>
+      <Flex item>
+        <Button>Well, you decide</Button>
+      </Flex>
+    </Flex>
+    <br />
+    <Flex container>
+      <Flex item flex={1}>
+        <Input dense placeholder="Is the dense variant pixel perfect?" />
+      </Flex>
+      <Flex item>
+        <Button variant="primary" size="tiny">
+          Looks like it is
+        </Button>
+      </Flex>
+    </Flex>
   </>
 ));
