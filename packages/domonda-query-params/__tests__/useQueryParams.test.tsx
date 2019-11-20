@@ -159,3 +159,36 @@ it('should pass the recent state in the updater when history location changes', 
     return currState;
   });
 });
+
+it('should update params only on pathname', () => {
+  const history = createMemoryHistory();
+
+  const model: QueryModel<{ str: string }> = {
+    str: {
+      type: 'string',
+      defaultValue: 'default',
+    },
+  };
+
+  const { result } = renderHook(() => useQueryParams(model, { onPathname: '/documents' }), {
+    wrapper: ({ children }) => (
+      <QueryParamsProvider history={history}>{children}</QueryParamsProvider>
+    ),
+  });
+
+  const initialParams = result.current[0];
+  expect(initialParams).toEqual({ str: 'default' });
+
+  act(() => {
+    history.push(`/invoices${stringify({ str: 'ignore' }, { prependQuestionMark: true })}`);
+  });
+
+  expect(result.current[0]).toBe(initialParams);
+
+  act(() => {
+    history.push(`/documents${stringify({ str: 'consider' }, { prependQuestionMark: true })}`);
+  });
+
+  expect(result.current[0]).toEqual({ str: 'consider' });
+});
+
