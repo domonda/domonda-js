@@ -79,12 +79,9 @@ export function useQueryParams<T>(
     memoModel,
   ]);
 
-  // we mamoize the query params to guarantee same object reference on shallowly equal params
-  const memoQueryParams = useShallowMemoOnValue(queryParams);
-
   // update the values reference only on the locked pathname
-  const queryParamsRef = useRef<T>(memoQueryParams);
-  queryParamsRef.current = memoQueryParams;
+  const queryParamsRef = useRef<T>(queryParams);
+  queryParamsRef.current = queryParams;
 
   useLayoutEffect(() => {
     if (!disableReplace) {
