@@ -29,3 +29,4 @@ export * from './Checkbox';
 export * from './Avatar';
 export * from './TextArea';
 export * from './Svg';
+export * from './Badge';
