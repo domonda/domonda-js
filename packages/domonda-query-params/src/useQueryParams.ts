@@ -4,10 +4,10 @@
  *
  */
 
-import { useMemo, useRef, useState, useLayoutEffect, useContext, useCallback } from 'react';
+import { useRef, useState, useLayoutEffect, useContext, useCallback } from 'react';
 import { QueryModel, parseQueryParams, stringify } from './queryParams';
 import { QueryParamsContext } from './QueryParamsContext';
-import { deepEqual, shallowEqual } from 'fast-equals';
+import { deepEqual } from 'fast-equals';
 import { Location } from 'history';
 
 export interface UseQueryParamsProps {
@@ -44,13 +44,15 @@ export function useQueryParams<T>(
 
   const { once, onPathname, disableReplace } = props;
 
-  const [location, setLocation] = useState(() => history.location);
-  const { pathname, search: queryString } = location;
+  const forceUpdate = useForceUpdate();
 
+  const locationRef = useRef(history.location);
+  const { pathname, search: queryString } = locationRef.current;
   useLayoutEffect(() => {
     function filteredSetLocation(location: Location) {
       if (!onPathname || onPathname === location.pathname) {
-        setLocation(location);
+        locationRef.current = location;
+        forceUpdate();
       }
     }
 
@@ -59,7 +61,7 @@ export function useQueryParams<T>(
     // called, this results in stale location state.
     // to avoid having such states, we compare the location
     // on every effect call and update local state
-    if (history.location !== location) {
+    if (history.location !== locationRef.current) {
       // TODO-db-190830 write tests for the above mentioned case
       filteredSetLocation(history.location);
     }
@@ -70,18 +72,17 @@ export function useQueryParams<T>(
     }
   }, [once]);
 
-  // we want to memoize the model so that we can memoize the query string parser
-  const memoModel = useShallowMemoOnValue(model);
+  // use a ref for the query params to avoid unnecessary effect calls
+  const queryParamsRef = useRef(parseQueryParams(queryString, model));
 
-  // parse the query string on every query or model change change
-  const queryParams = useMemo(() => parseQueryParams(queryString, memoModel), [
-    queryString,
-    memoModel,
-  ]);
-
-  // update the values reference only on the locked pathname
-  const queryParamsRef = useRef<T>(queryParams);
-  queryParamsRef.current = queryParams;
+  // parse the query string on every query or model change and re-render only if the selected params change
+  useLayoutEffect(() => {
+    const nextQueryParms = parseQueryParams(queryString, model);
+    if (!deepEqual(queryParamsRef.current, nextQueryParms)) {
+      queryParamsRef.current = nextQueryParms;
+      forceUpdate();
+    }
+  }, [queryString, model, selector]);
 
   useLayoutEffect(() => {
     if (!disableReplace) {
@@ -113,11 +114,9 @@ export function useQueryParams<T>(
   ];
 }
 
-// Memoizes the passed value by performing a shallow compare.
-export function useShallowMemoOnValue<T>(value: T): T {
-  const ref = useRef<T>(value);
-  if (!shallowEqual(ref.current, value)) {
-    ref.current = value;
-  }
-  return ref.current;
+// Force updates the hook.
+export function useForceUpdate() {
+  const [, setCounter] = useState(0);
+  const forceUpdate = useCallback(() => setCounter((counter) => counter + 1), []);
+  return forceUpdate;
 }

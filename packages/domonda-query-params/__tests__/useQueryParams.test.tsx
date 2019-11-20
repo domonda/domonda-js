@@ -165,6 +165,75 @@ it('should pass the recent state in the updater when history location changes', 
   });
 });
 
+it('should return new params when model changes', () => {
+  const history = createMemoryHistory();
+
+  const { result, rerender } = renderHook(
+    (model: QueryModel<any>) => useQueryParams(model, { disableReplace: true }),
+    {
+      initialProps: {
+        str: {
+          type: 'string',
+          defaultValue: 'default',
+        },
+      },
+      wrapper: ({ children }) => (
+        <QueryParamsProvider history={history}>{children}</QueryParamsProvider>
+      ),
+    },
+  );
+
+  expect(result.current[0]).toEqual({ str: 'default' });
+
+  act(() => {
+    rerender({
+      str: {
+        type: 'string',
+        defaultValue: 'otherdefault',
+      },
+      num: {
+        type: 'number',
+        defaultValue: 7,
+      },
+    });
+  });
+
+  expect(result.current[0]).toEqual({ str: 'otherdefault', num: 7 });
+});
+
+it('should retain params reference when model does not change', () => {
+  const history = createMemoryHistory();
+
+  const { result, rerender } = renderHook(
+    (model: QueryModel<any>) => useQueryParams(model, { disableReplace: true }),
+    {
+      initialProps: {
+        str: {
+          type: 'string',
+          defaultValue: 'default',
+        },
+      },
+      wrapper: ({ children }) => (
+        <QueryParamsProvider history={history}>{children}</QueryParamsProvider>
+      ),
+    },
+  );
+
+  const initialParams = result.current[0];
+  expect(initialParams).toEqual({ str: 'default' });
+
+  act(() => {
+    rerender({
+      str: {
+        type: 'string',
+        defaultValue: 'default',
+      },
+    });
+  });
+
+  expect(result.current[0]).toBe(initialParams);
+});
+
 it('should not rerender when location is not on pathname', () => {
   const history = createMemoryHistory();
 
