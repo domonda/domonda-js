@@ -19,7 +19,7 @@ const styles = createStyles(({ palette, spacing, shadows, shape, typography }) =
   input: {
     // reset
     margin: 0,
-    display: 'inline-block',
+    display: 'inline-flex',
     verticalAlign: 'middle',
     whiteSpace: 'nowrap',
     boxSizing: 'border-box',
@@ -35,11 +35,11 @@ const styles = createStyles(({ palette, spacing, shadows, shape, typography }) =
       border: `1px solid ${palette.border}`,
       borderRadius: shape.borderRadius.small,
       boxShadow: shadows.line,
-      padding: spacing('tiny') - 1,
+      padding: spacing('tiny') - 2.5,
     },
     '&$dense': {
       fontSize: typography.sizes.tiny,
-      padding: spacing('tiny') / 2 + 2,
+      padding: spacing('tiny') / 2 + 0.5,
     },
     '&::placeholder': {
       color: palette.light('textDark'),

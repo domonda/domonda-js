@@ -37,7 +37,7 @@ const styles = createStyles({
     textAlign: 'center',
     '&:after': {
       content: '""',
-      display: 'inline-block',
+      display: 'inline-flex',
       verticalAlign: 'middle',
       height: '100%',
       width: '0',
@@ -70,7 +70,7 @@ const styles = createStyles({
   },
   /* Styles applied to the `Paper` component if `scroll="body"`. */
   paperScrollBody: {
-    display: 'inline-block',
+    display: 'inline-flex',
     verticalAlign: 'middle',
     textAlign: 'left', // 'initial' doesn't work on IE 11
   },

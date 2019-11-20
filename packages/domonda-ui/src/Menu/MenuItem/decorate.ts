@@ -33,7 +33,7 @@ const styles = createStyles(({ palette, spacing, transition, typography }) => {
       'a&': clickable,
     },
     text: {
-      display: 'inline-block',
+      display: 'inline-flex',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
       whiteSpace: 'nowrap',

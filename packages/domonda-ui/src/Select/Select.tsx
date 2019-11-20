@@ -19,7 +19,7 @@ const styles = createStyles(({ typography, palette, spacing, shape, shadows }) =
   select: {
     // reset
     margin: 0,
-    display: 'inline-block',
+    display: 'inline-flex',
     verticalAlign: 'middle',
     boxSizing: 'border-box',
     outline: 0,
@@ -34,11 +34,11 @@ const styles = createStyles(({ typography, palette, spacing, shape, shadows }) =
     border: `1px solid ${palette.border}`,
     borderRadius: shape.borderRadius.small,
     boxShadow: shadows.line,
-    padding: spacing('tiny') - 1,
+    padding: spacing('tiny') - 2.5,
     paddingRight: spacing('tiny') + 16, // accommodate the icon
     '&$dense': {
       fontSize: typography.sizes.tiny,
-      padding: spacing('tiny') / 2 + 2,
+      padding: spacing('tiny') / 2 + 0.5,
       paddingRight: spacing('tiny') / 2 + 16, // accommodate the icon
     },
     '&:invalid': {

@@ -19,7 +19,7 @@ const styles = createStyles(({ typography, palette }) => ({
     display: 'block',
   },
   inline: {
-    display: 'inline-block',
+    display: 'inline-flex',
   },
 }));
 

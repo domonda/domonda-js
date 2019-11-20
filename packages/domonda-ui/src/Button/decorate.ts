@@ -10,7 +10,7 @@ const styles = createStyles(({ typography, palette, shape, shadows, transition }
     overflow: 'visible',
     textAlign: 'inherit',
     background: 'transparent',
-    lineHeight: 'normal',
+    lineHeight: '1em',
     webkitFontSmoothing: 'inherit',
     mozOsxFontSmoothing: 'inherit',
     webkitAppearance: 'none',
