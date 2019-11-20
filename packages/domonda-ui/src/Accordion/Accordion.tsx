@@ -55,8 +55,7 @@ const styles = createStyles(({ palette, spacing }) => ({
     marginLeft: spacing('tiny'),
   },
   content: {
-    padding: spacing('small'),
-    paddingTop: spacing('tiny'),
+    padding: spacing('tiny', 'small', 'small', 'small'),
   },
   open: {},
 }));
