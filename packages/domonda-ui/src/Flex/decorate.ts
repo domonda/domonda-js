@@ -7,7 +7,11 @@ const styles = createStyles(({ spacing }) => ({
     flexWrap: 'wrap',
     width: '100%',
   },
-  item: {},
+  item: {
+    '& > *': {
+      verticalAlign: 'middle',
+    },
+  },
   noWrap: {
     flexWrap: 'nowrap',
   },
