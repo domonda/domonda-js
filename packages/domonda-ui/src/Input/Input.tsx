@@ -27,6 +27,8 @@ const styles = createStyles(({ palette, spacing, shadows, shape, typography }) =
     border: 0,
     backgroundColor: 'transparent',
     textOverflow: 'ellipsis',
+    backgroundClip: 'padding-box',
+    WebkitAppearance: 'none',
     // ./reset
     ...typography.variant('small'),
     textAlign: 'inherit',

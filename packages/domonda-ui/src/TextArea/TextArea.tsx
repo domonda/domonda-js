@@ -26,6 +26,8 @@ const styles = createStyles(({ palette, spacing, shadows, shape, typography }) =
     outline: 0,
     border: 0,
     backgroundColor: 'transparent',
+    backgroundClip: 'padding-box',
+    WebkitAppearance: 'none',
     // ./reset
     ...typography.variant('small'),
     minWidth: '100%',
