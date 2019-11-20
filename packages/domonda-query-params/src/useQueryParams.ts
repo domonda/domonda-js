@@ -8,6 +8,7 @@ import { useMemo, useRef, useState, useLayoutEffect, useContext, useCallback } f
 import { QueryModel, parseQueryParams, stringify } from './queryParams';
 import { QueryParamsContext } from './QueryParamsContext';
 import { deepEqual, shallowEqual } from 'fast-equals';
+import { Location } from 'history';
 
 export interface UseQueryParamsProps {
   /**
@@ -43,10 +44,16 @@ export function useQueryParams<T>(
 
   const { once, onPathname, disableReplace } = props;
 
-  const [location, setLocation] = useState(history.location);
+  const [location, setLocation] = useState(() => history.location);
   const { pathname, search: queryString } = location;
 
   useLayoutEffect(() => {
+    function filteredSetLocation(location: Location) {
+      if (!onPathname || onPathname === location.pathname) {
+        setLocation(location);
+      }
+    }
+
     // guarantee history location consistency. sometimes
     // history gets updated before the effect is even
     // called, this results in stale location state.
@@ -54,11 +61,11 @@ export function useQueryParams<T>(
     // on every effect call and update local state
     if (history.location !== location) {
       // TODO-db-190830 write tests for the above mentioned case
-      setLocation(history.location);
+      filteredSetLocation(history.location);
     }
 
     if (!once) {
-      const unlisten = history.listen((loc) => setLocation(loc));
+      const unlisten = history.listen((loc) => filteredSetLocation(loc));
       return unlisten;
     }
   }, [once]);
@@ -77,9 +84,7 @@ export function useQueryParams<T>(
 
   // update the values reference only on the locked pathname
   const queryParamsRef = useRef<T>(memoQueryParams);
-  if (!onPathname || onPathname === pathname) {
-    queryParamsRef.current = memoQueryParams;
-  }
+  queryParamsRef.current = memoQueryParams;
 
   useLayoutEffect(() => {
     if (!disableReplace) {

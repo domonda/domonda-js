@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import React from 'react';
 import { createMemoryHistory } from 'history';
 import { QueryModel, stringify } from '../src/queryParams';
@@ -6,6 +10,7 @@ import { QueryParamsProvider } from '../src/QueryParamsContext';
 
 // t
 import { renderHook, act } from '@testing-library/react-hooks';
+import { render as renderTree, act as actTree } from '@testing-library/react';
 
 it('should update the state and the url through the setter', () => {
   const history = createMemoryHistory();
@@ -158,6 +163,48 @@ it('should pass the recent state in the updater when history location changes', 
     expect(currState).toEqual(nextState);
     return currState;
   });
+});
+
+it.only('should not rerender when location is not on pathname', () => {
+  const history = createMemoryHistory();
+
+  const model: QueryModel<{ str: string }> = {
+    str: {
+      type: 'string',
+      defaultValue: 'default',
+    },
+  };
+
+  const spy = jest.fn();
+  function Tester() {
+    useQueryParams(model, { onPathname: '/only-here' });
+    spy();
+    return null;
+  }
+
+  renderTree(
+    <QueryParamsProvider history={history}>
+      <Tester />
+    </QueryParamsProvider>,
+  );
+
+  actTree(() => {
+    history.push('/not-here');
+  });
+
+  actTree(() => {
+    history.push('/not-here-either');
+  });
+
+  actTree(() => {
+    history.push('/nor-here');
+  });
+
+  actTree(() => {
+    history.push('/only-here');
+  });
+
+  expect(spy).toBeCalledTimes(2); // initial render and matched pathname
 });
 
 it('should update params only on pathname', () => {
