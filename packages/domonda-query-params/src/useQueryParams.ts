@@ -82,7 +82,7 @@ export function useQueryParams<T>(
       queryParamsRef.current = nextQueryParms;
       forceUpdate();
     }
-  }, [queryString, model, selector]);
+  }, [queryString, model]);
 
   useLayoutEffect(() => {
     if (!disableReplace) {
