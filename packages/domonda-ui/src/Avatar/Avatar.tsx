@@ -52,14 +52,14 @@ const styles = createStyles(({ typography, palette }) => ({
     (acc, size) => ({
       ...acc,
       [size]: {
-        width: `calc(${typography.sizes[size]}px * 4.4)`,
-        height: `calc(${typography.sizes[size]}px * 4.4)`,
+        width: typography.sizes[size] * 2,
+        height: typography.sizes[size] * 2,
         '& > $inner': {
-          width: `calc(${typography.sizes[size]}px * 3)`,
-          height: `calc(${typography.sizes[size]}px * 3)`,
-          fontSize: `calc(${typography.sizes[size]}px * 1.6)`,
+          width: typography.sizes[size] * 1.4,
+          height: typography.sizes[size] * 1.4,
+          fontSize: typography.sizes[size] - 4,
           '& svg': {
-            width: `calc(${typography.sizes[size]}px * 1.6)`,
+            width: typography.sizes[size] - 4,
           },
         },
       },

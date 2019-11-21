@@ -18,7 +18,7 @@ stories.add('No bank connections', () => (
     style={{ margin: '0 auto' }} // center
   >
     <Flex item>
-      <Avatar>
+      <Avatar size="large">
         <svg
           aria-hidden="true"
           focusable="false"
