@@ -14,7 +14,7 @@ const styles = createStyles(({ shape, shadows }) => ({
     display: 'inline-flex',
     flexWrap: 'nowrap',
     boxShadow: shadows.line,
-    borderRadius: shape.borderRadius.small,
+    borderRadius: shape.borderRadius.tiny,
     [`& > .${buttonClassName}`]: {
       flex: 1,
       boxShadow: 'none',
@@ -23,12 +23,12 @@ const styles = createStyles(({ shape, shadows }) => ({
         borderRight: 0,
       },
       '&:first-child': {
-        borderTopLeftRadius: shape.borderRadius.small,
-        borderBottomLeftRadius: shape.borderRadius.small,
+        borderTopLeftRadius: shape.borderRadius.tiny,
+        borderBottomLeftRadius: shape.borderRadius.tiny,
       },
       '&:last-child': {
-        borderTopRightRadius: shape.borderRadius.small,
-        borderBottomRightRadius: shape.borderRadius.small,
+        borderTopRightRadius: shape.borderRadius.tiny,
+        borderBottomRightRadius: shape.borderRadius.tiny,
       },
     },
   },

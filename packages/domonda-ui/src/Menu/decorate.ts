@@ -4,7 +4,7 @@ const styles = createStyles(({ palette, shadows, shape }) => ({
   root: {
     backgroundColor: palette.white,
     boxShadow: shadows.doubleLine,
-    borderRadius: shape.borderRadius.small,
+    borderRadius: shape.borderRadius.tiny,
     overflow: 'auto',
   },
 }));

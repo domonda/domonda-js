@@ -75,7 +75,8 @@ export const defaultTheme: Theme = {
   }),
   shape: createShape({
     borderRadius: {
-      small: '2px',
+      tiny: '2px',
+      small: '4px',
       pill: '50vh', // applying a very large border radius create the capsule/pill effect
     },
   }),

@@ -61,7 +61,7 @@ const styles = createStyles(({ typography, palette, shape, shadows, transition }
     },
   },
   primary: {
-    borderRadius: shape.borderRadius.small,
+    borderRadius: shape.borderRadius.tiny,
     boxShadow: shadows.line,
     color: palette.white,
     backgroundColor: palette.accent,
@@ -81,7 +81,7 @@ const styles = createStyles(({ typography, palette, shape, shadows, transition }
     },
   },
   secondary: {
-    borderRadius: shape.borderRadius.small,
+    borderRadius: shape.borderRadius.tiny,
     boxShadow: shadows.line,
     color: palette.accent,
     backgroundColor: palette.background,
