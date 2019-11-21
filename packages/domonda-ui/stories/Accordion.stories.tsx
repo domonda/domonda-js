@@ -16,7 +16,7 @@ stories.add('Overview', () => (
     <Accordion
       initiallyOpen
       label={
-        <Flex container spacing="tiny">
+        <Flex container spacing="tiny" align="center">
           <Flex item>
             <Svg color="secondary">
               <svg

@@ -8,7 +8,7 @@ const stories = storiesOf('Svg', module);
 
 stories.add('Overview', () => (
   <>
-    <Svg>
+    <Svg style={{ display: 'inline', verticalAlign: 'middle' }}>
       <svg
         aria-hidden="true"
         focusable="false"
@@ -29,7 +29,7 @@ stories.add('Overview', () => (
     <Text inline>Normal</Text>
     <br />
     <br />
-    <Svg size="medium" color="danger">
+    <Svg size="medium" color="danger" style={{ display: 'inline', verticalAlign: 'middle' }}>
       <svg
         aria-hidden="true"
         focusable="false"
@@ -52,7 +52,7 @@ stories.add('Overview', () => (
     </Text>
     <br />
     <br />
-    <Svg size="large" color="warning">
+    <Svg size="large" color="warning" style={{ display: 'inline', verticalAlign: 'middle' }}>
       <svg
         aria-hidden="true"
         focusable="false"

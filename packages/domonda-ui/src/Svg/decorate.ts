@@ -2,8 +2,7 @@ import { createStyles, withStyles, WithStyles, TYPOGRAPHY_SIZES } from '../style
 
 const styles = createStyles(({ typography }) => ({
   root: {
-    lineHeight: 0,
-    verticalAlign: 'middle',
+    display: 'flex',
     '& svg': {
       color: 'inherit',
       fill: 'currentColor',
