@@ -139,7 +139,7 @@ export const Grow = React.forwardRef<HTMLElement, GrowProps>(function Grow(props
             opacity: 0,
             transform: getScale(0.75),
             visibility: state === 'exited' && !inProp ? 'hidden' : undefined,
-            ...styles[state as ('entering' | 'entered')],
+            ...styles[state as 'entering' | 'entered'],
             ...style,
             ...children.props.style,
           },

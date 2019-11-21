@@ -73,7 +73,7 @@ export type QueryModel<V> = {
       : V[K] extends any[]
       ? 'array'
       : string;
-    defaultValue: (() => V[K]) | (V[K]);
+    defaultValue: (() => V[K]) | V[K];
     validate?: (value: V[K]) => boolean;
   };
 };

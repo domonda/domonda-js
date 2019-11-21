@@ -10,10 +10,10 @@ export interface Disposable {
 
 export type Subscriber<S, T> =
   | ((state: Readonly<S>, tag: T) => void)
-  | ({
+  | {
       dispose?: () => void;
       next?: (state: Readonly<S>, tag: T) => void;
-    });
+    };
 
 export type Subscription = Disposable;
 

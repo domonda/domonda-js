@@ -64,7 +64,7 @@ export const COLORS: Color[] = [
 // color variants
 
 export type ColorVariant = 'contrastText' | 'lightest' | 'light' | 'dark';
-export type ColorVariants = { [variant in ColorVariant]: ((color: Color) => string) };
+export type ColorVariants = { [variant in ColorVariant]: (color: Color) => string };
 export const COLOR_VARIANTS: ColorVariant[] = ['contrastText', 'lightest', 'light', 'dark'];
 
 // palette

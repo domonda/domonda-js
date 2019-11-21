@@ -126,16 +126,13 @@ export function createForm<DefaultValues extends FormDefaultValues>(
       );
 
       const { fields } = plumb.state;
-      const validityMessages = Object.keys(fields).reduce(
-        (acc, key) => {
-          const field = fields[key];
-          if (!field) {
-            return acc;
-          }
-          return [...acc, field.validityMessage];
-        },
-        [] as FormFieldValidityMessage[],
-      );
+      const validityMessages = Object.keys(fields).reduce((acc, key) => {
+        const field = fields[key];
+        if (!field) {
+          return acc;
+        }
+        return [...acc, field.validityMessage];
+      }, [] as FormFieldValidityMessage[]);
 
       if (validityMessages.some((validityMessages) => validityMessages != null)) {
         plumb.next(
