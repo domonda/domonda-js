@@ -10,7 +10,7 @@ import { QueryParamsContext } from './QueryParamsContext';
 import { deepEqual } from 'fast-equals';
 import { Location } from 'history';
 
-export interface UseQueryParamsProps {
+export interface UseQueryParamsProps<T, S> {
   /**
    * Parsed values will update only when the current pathname matches `onPathname`.
    */
@@ -23,18 +23,29 @@ export interface UseQueryParamsProps {
    * Disables replacing the URL to match exactly the actual query paramaters.
    */
   disableReplace?: boolean;
+  /**
+   * Selects a part of the result to return and updates only when the selected result changes.
+   */
+  selector?: (params: T) => S;
 }
 
-export type UseQueryParamsReturn<T> = [T, (parmasOrUpdater: T | ((currParams: T) => T)) => void];
+export type UseQueryParamsResult<T, S> = [
+  S,
+  (selectedParmasOrUpdater: T | ((currSelectedParams: T) => T)) => void,
+];
+
+function defaultSelector<T, S>(params: T) {
+  return (params as any) as S;
+}
 
 /**
  * Parses the current URL query string following the `model`.
  * Updating the params on every location change.
  */
-export function useQueryParams<T>(
+export function useQueryParams<T, S = T>(
   model: QueryModel<T>,
-  props: UseQueryParamsProps = {},
-): UseQueryParamsReturn<T> {
+  props: UseQueryParamsProps<T, S> = {},
+): UseQueryParamsResult<T, S> {
   const history = useContext(QueryParamsContext);
   if (!history) {
     throw new Error(
@@ -42,17 +53,37 @@ export function useQueryParams<T>(
     );
   }
 
-  const { once, onPathname, disableReplace } = props;
+  const { once, onPathname, disableReplace, selector = defaultSelector } = props;
 
   const forceUpdate = useForceUpdate();
 
-  const locationRef = useRef(history.location);
-  const { pathname, search: queryString } = locationRef.current;
+  // use a ref for the query params to avoid unnecessary effect calls
+  const queryParamsRef = useRef(parseQueryParams(history.location.search, model));
+  const selectedQueryParamsRef = useRef(selector(queryParamsRef.current));
+  const updateQueryParams = useCallback(
+    (location: Location) => {
+      const nextQueryParms = parseQueryParams(location.search, model);
+      if (!deepEqual(queryParamsRef.current, nextQueryParms)) {
+        queryParamsRef.current = nextQueryParms;
+
+        const selectedNextQueryParams = selector(nextQueryParms);
+        if (
+          // @ts-ignore because the default selector just passes the T back
+          selectedNextQueryParams === nextQueryParms || // <- optimization to avoid double deep equal check when defaultSelector is used
+          !deepEqual(selectedQueryParamsRef.current, selectedNextQueryParams)
+        ) {
+          selectedQueryParamsRef.current = selectedNextQueryParams;
+          forceUpdate();
+        }
+      }
+    },
+    [selector, model],
+  );
+
   useLayoutEffect(() => {
-    function filteredSetLocation(location: Location) {
+    function filteredLocationUpdate(location: Location) {
       if (!onPathname || onPathname === location.pathname) {
-        locationRef.current = location;
-        forceUpdate();
+        updateQueryParams(location);
       }
     }
 
@@ -61,28 +92,13 @@ export function useQueryParams<T>(
     // called, this results in stale location state.
     // to avoid having such states, we compare the location
     // on every effect call and update local state
-    if (history.location !== locationRef.current) {
-      // TODO-db-190830 write tests for the above mentioned case
-      filteredSetLocation(history.location);
-    }
+    filteredLocationUpdate(history.location);
 
     if (!once) {
-      const unlisten = history.listen((loc) => filteredSetLocation(loc));
+      const unlisten = history.listen(filteredLocationUpdate);
       return unlisten;
     }
-  }, [once]);
-
-  // use a ref for the query params to avoid unnecessary effect calls
-  const queryParamsRef = useRef(parseQueryParams(queryString, model));
-
-  // parse the query string on every query or model change and re-render only if the selected params change
-  useLayoutEffect(() => {
-    const nextQueryParms = parseQueryParams(queryString, model);
-    if (!deepEqual(queryParamsRef.current, nextQueryParms)) {
-      queryParamsRef.current = nextQueryParms;
-      forceUpdate();
-    }
-  }, [queryString, model]);
+  }, [updateQueryParams, once]);
 
   useLayoutEffect(() => {
     if (!disableReplace) {
@@ -96,8 +112,8 @@ export function useQueryParams<T>(
   }, [disableReplace, queryParamsRef.current]);
 
   return [
-    queryParamsRef.current,
-    useCallback((paramsOrUpdater: T | ((currParams: T) => T)) => {
+    selectedQueryParamsRef.current,
+    useCallback((paramsOrUpdater) => {
       const nextParams =
         paramsOrUpdater instanceof Function
           ? paramsOrUpdater(queryParamsRef.current)
@@ -106,7 +122,7 @@ export function useQueryParams<T>(
       if (!deepEqual(queryParamsRef.current, nextParams)) {
         history.push({
           // if we provided the onPathname, then updating the values should push to the route
-          pathname: onPathname ? onPathname : pathname,
+          pathname: onPathname ? onPathname : history.location.pathname,
           search: stringify(nextParams),
         });
       }

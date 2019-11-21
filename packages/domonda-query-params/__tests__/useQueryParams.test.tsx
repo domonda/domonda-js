@@ -273,7 +273,14 @@ it('should not rerender when location is not on pathname', () => {
     history.push('/only-here');
   });
 
-  expect(spy).toBeCalledTimes(2); // initial render and matched pathname
+  actTree(() => {
+    history.push({
+      pathname: '/only-here',
+      search: stringify({ str: 'not-default' }),
+    });
+  });
+
+  expect(spy).toBeCalledTimes(2); // initial render and changed params
 });
 
 it('should update params only on pathname', () => {
@@ -358,4 +365,100 @@ it('should retain same result reference returning to the locked pathname with sa
   });
 
   expect(result.current[0]).toBe(initialParams);
+});
+
+it('should return selected param', () => {
+  const history = createMemoryHistory();
+
+  const model: QueryModel<{ str: string; num: number }> = {
+    str: {
+      type: 'string',
+      defaultValue: 'default',
+    },
+    num: {
+      type: 'number',
+      defaultValue: 1,
+    },
+  };
+
+  const { result } = renderHook(() => useQueryParams(model, { selector: ({ str }) => str }), {
+    wrapper: ({ children }) => (
+      <QueryParamsProvider history={history}>{children}</QueryParamsProvider>
+    ),
+  });
+  expect(result.current[0]).toBe('default');
+
+  act(() => {
+    history.push(stringify({ str: 'not-default' }, { prependQuestionMark: true }));
+  });
+  expect(result.current[0]).toBe('not-default');
+
+  act(() => {
+    result.current[1]((params) => ({ ...params, str: 'certainly-not-default' }));
+  });
+  expect(result.current[0]).toBe('certainly-not-default');
+  expect(history.location.search).toBe(
+    stringify({ str: 'certainly-not-default', num: 1 }, { prependQuestionMark: true }),
+  );
+});
+
+it('should not rerender when selected param does not change', () => {
+  const history = createMemoryHistory();
+
+  const model: QueryModel<{ str: string; num: number }> = {
+    str: {
+      type: 'string',
+      defaultValue: 'default',
+    },
+    num: {
+      type: 'number',
+      defaultValue: 1,
+    },
+  };
+
+  const spy = jest.fn();
+  const selector = ({ str }: { str: string }) => str;
+  function Tester() {
+    useQueryParams(model, { selector });
+    spy();
+    return null;
+  }
+
+  renderTree(
+    <QueryParamsProvider history={history}>
+      <Tester />
+    </QueryParamsProvider>,
+  );
+
+  actTree(() => {
+    history.push('/not-here');
+  });
+
+  actTree(() => {
+    history.push('/not-here-either');
+  });
+
+  actTree(() => {
+    history.push('/nor-here');
+  });
+
+  actTree(() => {
+    history.push('/only-here');
+  });
+
+  actTree(() => {
+    history.push({
+      pathname: '/only-here',
+      search: stringify({ num: 2 }),
+    });
+  });
+
+  actTree(() => {
+    history.push({
+      pathname: '/only-here',
+      search: stringify({ str: 'not-default' }),
+    });
+  });
+
+  expect(spy).toBeCalledTimes(2); // initial render and matched pathname
 });
