@@ -11,7 +11,6 @@ import { createStyles, withStyles, WithStyles } from '../styles';
 const styles = createStyles(({ typography, palette }) => ({
   root: {
     ...typography.variant('tiny', 'medium'),
-    textTransform: 'uppercase',
     letterSpacing: 0.6,
     color: palette.secondary,
   },
