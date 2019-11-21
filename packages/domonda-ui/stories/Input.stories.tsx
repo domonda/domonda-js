@@ -3,7 +3,6 @@ import { storiesOf } from '@storybook/react';
 import { Input } from '../src/Input';
 import { Button } from '../src/Button';
 import { Flex } from '../src/Flex';
-import { Svg } from '../src/Svg';
 
 const stories = storiesOf('Input', module);
 
