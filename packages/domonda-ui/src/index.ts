@@ -31,3 +31,4 @@ export * from './TextArea';
 export * from './Svg';
 export * from './Badge';
 export * from './Accordion';
+export * from './Pill';
