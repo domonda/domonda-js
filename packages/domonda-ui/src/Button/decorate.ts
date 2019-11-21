@@ -30,34 +30,34 @@ const styles = createStyles(({ typography, palette, shape, shadows, transition }
     transition: transition.create(['background-color', 'color']),
   },
   text: {
-    color: palette.secondary,
+    color: palette.accent,
     '&:hover, &:focus': {
       textDecoration: 'underline',
-      color: palette.darken('secondary', 0.2),
+      color: palette.darken('accent', 0.2),
     },
     '&:active': {
-      borderColor: palette.darken('secondary', 0.4),
-      color: palette.darken('secondary', 0.4),
+      borderColor: palette.darken('accent', 0.4),
+      color: palette.darken('accent', 0.4),
     },
     '&$disabled': {
       textDecoration: 'none',
       cursor: 'not-allowed',
-      color: palette.fade('secondary', 0.4),
+      color: palette.fade('accent', 0.4),
     },
   },
   link: {
-    color: palette.secondary,
+    color: palette.accent,
     textDecoration: 'underline',
     '&:hover, &:focus': {
-      color: palette.darken('secondary', 0.2),
+      color: palette.darken('accent', 0.2),
     },
     '&:active': {
-      borderColor: palette.darken('secondary', 0.4),
-      color: palette.darken('secondary', 0.4),
+      borderColor: palette.darken('accent', 0.4),
+      color: palette.darken('accent', 0.4),
     },
     '&$disabled': {
       cursor: 'not-allowed',
-      color: palette.fade('secondary', 0.4),
+      color: palette.fade('accent', 0.4),
     },
   },
   primary: {
@@ -114,10 +114,10 @@ const styles = createStyles(({ typography, palette, shape, shadows, transition }
         '&$text': {
           color: palette[color],
           '&:hover': {
-            color: palette.darken(color, 0.2),
+            color: palette.darken(color, 0.05),
           },
           '&:active': {
-            color: palette.darken(color, 0.4),
+            color: palette.darken(color, 0.1),
           },
           '&$disabled': {
             color: palette.fade(color, 0.4),
@@ -126,10 +126,10 @@ const styles = createStyles(({ typography, palette, shape, shadows, transition }
         '&$link': {
           color: palette[color],
           '&:hover': {
-            color: palette.darken(color, 0.2),
+            color: palette.darken(color, 0.05),
           },
           '&:active': {
-            color: palette.darken(color, 0.4),
+            color: palette.darken(color, 0.1),
           },
           '&$disabled': {
             color: palette.fade(color, 0.4),
