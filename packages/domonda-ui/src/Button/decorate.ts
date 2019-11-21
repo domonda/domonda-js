@@ -55,6 +55,12 @@ const styles = createStyles(({ typography, palette, shape, shadows, transition }
     boxShadow: shadows.line,
     backgroundColor: palette.background,
     border: `1px solid ${palette.border}`,
+    '&:hover, &:focus': {
+      backgroundColor: palette.darken('background', 0.05),
+    },
+    '&:active': {
+      backgroundColor: palette.darken('background', 0.1),
+    },
     '&$disabled': {
       cursor: 'not-allowed',
       boxShadow: 'none',
@@ -108,10 +114,10 @@ const styles = createStyles(({ typography, palette, shape, shadows, transition }
           backgroundColor: palette[color],
           border: `1px solid ${palette.dark(color)}`,
           '&:hover': {
-            backgroundColor: palette.darken(color, 0.2),
+            backgroundColor: palette.darken(color, 0.05),
           },
           '&:active': {
-            backgroundColor: palette.darken(color, 0.4),
+            backgroundColor: palette.darken(color, 0.1),
           },
           '& > $label svg:not(:only-child)': {
             color: palette.lighten(color, 0.6),
