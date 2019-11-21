@@ -29,7 +29,13 @@ const styles = createStyles((theme) => {
       zIndex: 0,
       border: `1px solid ${theme.palette.border}`,
       borderTop: 0,
-      'a&': clickable,
+      'a&': {
+        ...clickable,
+        '&:visited': {
+          backgroundColor: theme.palette.lighten('secondary', 0.86),
+          borderBottom: `1px solid ${theme.palette.lighten('secondary', 0.64)}`,
+        },
+      },
       backgroundColor: theme.palette.lighten('gray08', 0.8),
       '&:nth-child(even)': {
         backgroundColor: theme.palette.lighten('gray08', 0.5),
