@@ -17,7 +17,7 @@ export const buttonClassName = generateStaticClassName('Button');
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   classes?: Partial<Decorate['classes']>;
-  color?: Color;
+  color?: Color; // default: `accent`
   variant?: 'text' | 'link' | 'primary' | 'secondary'; // default: `secondary`
   size?: TypographySize; // default: `small`
   component?: string | React.ComponentType<React.HTMLAttributes<HTMLElement>>;
@@ -28,7 +28,7 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
     const {
       children,
       classes,
-      color,
+      color = 'accent',
       variant = 'secondary',
       className,
       size = 'small',

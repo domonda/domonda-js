@@ -1,4 +1,5 @@
 import { createStyles, withStyles, WithStyles, TYPOGRAPHY_SIZES, COLORS } from '../styles';
+import { fade } from '../styles/colorManipulator';
 
 const styles = createStyles(({ typography, palette, shape, shadows, transition }) => ({
   root: {
@@ -30,80 +31,35 @@ const styles = createStyles(({ typography, palette, shape, shadows, transition }
     transition: transition.create(['background-color', 'color']),
   },
   text: {
-    color: palette.accent,
     '&:hover, &:focus': {
       textDecoration: 'underline',
-      color: palette.darken('accent', 0.2),
-    },
-    '&:active': {
-      borderColor: palette.darken('accent', 0.4),
-      color: palette.darken('accent', 0.4),
     },
     '&$disabled': {
       textDecoration: 'none',
       cursor: 'not-allowed',
-      color: palette.fade('accent', 0.4),
     },
   },
   link: {
-    color: palette.accent,
     textDecoration: 'underline',
-    '&:hover, &:focus': {
-      color: palette.darken('accent', 0.2),
-    },
-    '&:active': {
-      borderColor: palette.darken('accent', 0.4),
-      color: palette.darken('accent', 0.4),
-    },
-    '&$disabled': {
-      cursor: 'not-allowed',
-      color: palette.fade('accent', 0.4),
-    },
   },
   primary: {
     borderRadius: shape.borderRadius.tiny,
     boxShadow: shadows.line,
-    color: palette.white,
-    backgroundColor: palette.accent,
-    border: `1px solid ${palette.dark('accent')}`,
-    '&:hover, &:focus': {
-      backgroundColor: palette.darken('accent', 0.2),
-    },
-    '&:active': {
-      backgroundColor: palette.darken('accent', 0.4),
-    },
     '&$disabled': {
       cursor: 'not-allowed',
       boxShadow: 'none',
-      color: palette.fade('white', 0.6),
-      backgroundColor: palette.light('accent'),
-      border: `1px solid ${palette.lighten('accent', 0.4)}`,
     },
   },
   secondary: {
     borderRadius: shape.borderRadius.tiny,
     boxShadow: shadows.line,
-    color: palette.accent,
     backgroundColor: palette.background,
     border: `1px solid ${palette.border}`,
-    '&:hover, &:focus': {
-      backgroundColor: palette.darken('background', 0.04),
-    },
-    '&:active': {
-      backgroundColor: palette.darken('background', 0.08),
-    },
-    '& > $label svg:not(:only-child)': {
-      color: palette.gray40,
-    },
     '&$disabled': {
       cursor: 'not-allowed',
       boxShadow: 'none',
-      color: palette.fade('accent', 0.4),
       backgroundColor: palette.darken('background', 0.08),
       border: `1px solid ${palette.darken('background', 0.1)}`,
-      '& > $label svg:not(:only-child)': {
-        color: palette.light('gray40'),
-      },
     },
   },
   // color-{color}
@@ -119,8 +75,14 @@ const styles = createStyles(({ typography, palette, shape, shadows, transition }
           '&:active': {
             color: palette.darken(color, 0.1),
           },
+          '& > $label svg:not(:only-child)': {
+            color: palette.fade(color, 0.6),
+          },
           '&$disabled': {
             color: palette.fade(color, 0.4),
+            '& > $label svg:not(:only-child)': {
+              color: palette.fade(color, 0.2),
+            },
           },
         },
         '&$link': {
@@ -131,11 +93,18 @@ const styles = createStyles(({ typography, palette, shape, shadows, transition }
           '&:active': {
             color: palette.darken(color, 0.1),
           },
+          '& > $label svg:not(:only-child)': {
+            color: palette.fade(color, 0.6),
+          },
           '&$disabled': {
             color: palette.fade(color, 0.4),
+            '& > $label svg:not(:only-child)': {
+              color: palette.fade(color, 0.2),
+            },
           },
         },
         '&$primary': {
+          color: palette.contrastText(color),
           backgroundColor: palette[color],
           border: `1px solid ${palette.dark(color)}`,
           '&:hover': {
@@ -144,15 +113,25 @@ const styles = createStyles(({ typography, palette, shape, shadows, transition }
           '&:active': {
             backgroundColor: palette.darken(color, 0.4),
           },
+          '& > $label svg:not(:only-child)': {
+            color: palette.lighten(color, 0.6),
+          },
           '&$disabled': {
+            color: fade(palette.contrastText(color), 0.6),
             backgroundColor: palette.light(color),
             border: `1px solid ${palette.lighten(color, 0.4)}`,
           },
         },
         '&$secondary': {
           color: palette[color],
+          '& > $label svg:not(:only-child)': {
+            color: palette.fade(color, 0.6),
+          },
           '&$disabled': {
             color: palette.fade(color, 0.4),
+            '& > $label svg:not(:only-child)': {
+              color: palette.fade(color, 0.2),
+            },
           },
         },
       },
