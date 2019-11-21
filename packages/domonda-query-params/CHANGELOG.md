@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/domonda/domonda-js/compare/@domonda/query-params@1.3.3...@domonda/query-params@1.4.0) (2019-11-21)
+
+
+### Bug Fixes
+
+* **useQueryParams:** same object reference when params are shallowly equal ([f2a533c](https://github.com/domonda/domonda-js/commit/f2a533c34e68fd0f82501c2a17e5f8353443b1fa))
+
+
+### Features
+
+* **useQueryParams:** introduce `selector` & further perf optimizations ([01e2f8f](https://github.com/domonda/domonda-js/commit/01e2f8fdf0443a49c8e6e0cd09e79c7cd243ea4f))
+
+
+### Performance Improvements
+
+* **useQueryParams:** rerender only when pathname matches ([d8806c8](https://github.com/domonda/domonda-js/commit/d8806c8cb20fa27bd00e38205162fa06c7226bf1))
+* **useQueryParams:** rerendering optimizations ([0a03d07](https://github.com/domonda/domonda-js/commit/0a03d074afe3c38233cce6d205f8fa24f063dce3))
+
+
+
+
+
 ## [1.3.3](https://github.com/domonda/domonda-js/compare/@domonda/query-params@1.3.2...@domonda/query-params@1.3.3) (2019-11-06)
 
 

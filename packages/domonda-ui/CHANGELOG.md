@@ -3,6 +3,45 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [8.0.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@7.0.0...@domonda/ui@8.0.0) (2019-11-21)
+
+
+### Bug Fixes
+
+* **Avatar:** adjust sizes fit rows nicely ([64839b5](https://github.com/domonda/domonda-js/commit/64839b53d34081763a37f9827a0ca0e353fc8d8d))
+* **Flex:** vertically center item children ([3491787](https://github.com/domonda/domonda-js/commit/349178713db5606a772acafa44744cf8803c0da3))
+* **Input,TextArea:** remove inset shadow from iOS ([180083d](https://github.com/domonda/domonda-js/commit/180083d9feaa883af3b937d01bad92f3e6d723ee))
+* **Svg:** remove line height ([4645bc1](https://github.com/domonda/domonda-js/commit/4645bc110b10aca0da6c51b48f22484042ce6a51))
+* **Svg:** use flex display to fit content ([01cbff6](https://github.com/domonda/domonda-js/commit/01cbff6f2e167c8348a571b2da08424516cfaa93))
+* micro layout adjustments ([db9141b](https://github.com/domonda/domonda-js/commit/db9141bcb6a813e9afc311169f42e0cb0142e538))
+
+
+### Features
+
+* **Accordion:** introduce ([66de4eb](https://github.com/domonda/domonda-js/commit/66de4ebb2598d6950d138f3d3957461f55509441))
+* **Alert:** design improvements ([32e6002](https://github.com/domonda/domonda-js/commit/32e6002d34f3d835301250137e5c60606e1aabf4))
+* **Badge:** introduce ([14b9183](https://github.com/domonda/domonda-js/commit/14b918308fb0fd7aa3e2d3d85a2f3a998b750fea))
+* **Button:** less present icons & rework color styling ([02c7e38](https://github.com/domonda/domonda-js/commit/02c7e38648bc829f7636fb45d27a36b82ff06a06))
+* **Input:** ellipsis on overflowing text ([15d9ac0](https://github.com/domonda/domonda-js/commit/15d9ac035e870be8499d881063d9c0a7bcc1ba78))
+* **Input:** introduce start and end SVG adornments ([2e44c03](https://github.com/domonda/domonda-js/commit/2e44c0350d7ce998feaed6d68116f06c61dc01ee))
+* **Label:** drop text transform (letters are not uppercase anymore) ([b3fc2aa](https://github.com/domonda/domonda-js/commit/b3fc2aab25887e9cc2070e593e4df08aa041451d))
+* **Pill:** introduce ([81302c3](https://github.com/domonda/domonda-js/commit/81302c30cb4ecad4d4c0ba07c5d142d06f76cbb9))
+* **Row:** :visited style on anchor row items ([358bcd3](https://github.com/domonda/domonda-js/commit/358bcd3fe22789b252d5c1cedc052eeafe90dcea))
+* **Row:** props extend element attributes ([66473ad](https://github.com/domonda/domonda-js/commit/66473adf0b464bca66ff995ad8d4d0d15e9e1ce7))
+* **shape:** add `tiny` variant ([2cc4b9c](https://github.com/domonda/domonda-js/commit/2cc4b9cf5c9b94ce46d5dd29cd1d5f79f3c79634))
+* **storybook:** add link to designer ([0acf61d](https://github.com/domonda/domonda-js/commit/0acf61d1a92791f25a3b4dd29bc17027f00f2873))
+* **theme:** decreate spread for default shadows ([6407c51](https://github.com/domonda/domonda-js/commit/6407c512986ef384c100f81c1b779a8c693fadc4))
+
+
+### BREAKING CHANGES
+
+* **Svg:** The `Svg` element has now display set to `flex`. Refactor your layout accordingly.
+* **Alert:** The `onClose` handler in the `Alert` component is replaced with an `actions` element. This allows you to add any custom actions you want to the `Alert` itself.
+
+
+
+
+
 # [7.0.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@6.3.0...@domonda/ui@7.0.0) (2019-11-06)
 
 
