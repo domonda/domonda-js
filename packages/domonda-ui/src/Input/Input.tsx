@@ -73,10 +73,56 @@ const styles = createStyles(({ palette, spacing, shadows, shape, typography }) =
         backgroundColor: palette.disabled,
       },
     },
+    '&$startSvg, &$endSvg': {
+      '& ~ $startSvg, & ~ $endSvg': {
+        display: 'flex',
+        position: 'absolute',
+        pointerEvents: 'none',
+        color: palette.gray30,
+        bottom: typography.sizes['small'] / 2 + 1,
+        '& > svg': {
+          width: typography.sizes['small'],
+        },
+      },
+      '&$dense': {
+        '& ~ $startSvg, & ~ $endSvg': {
+          bottom: typography.sizes['tiny'] / 2 + 1,
+          '& > svg': {
+            width: typography.sizes['tiny'],
+          },
+        },
+      },
+    },
+    '&$startSvg': {
+      paddingLeft: typography.sizes['small'] + spacing('small'),
+      '& ~ $startSvg': {
+        left: spacing('tiny') + 0.5,
+      },
+      '&$dense': {
+        paddingLeft: typography.sizes['tiny'] + spacing('tiny'),
+        '& ~ $startSvg': {
+          left: spacing('tiny') / 2 + 0.5,
+        },
+      },
+    },
+    '&$endSvg': {
+      paddingRight: typography.sizes['small'] * 2,
+      '& ~ $endSvg': {
+        right: spacing('tiny'),
+      },
+      '&$dense': {
+        paddingRight: typography.sizes['tiny'] * 2 - 2,
+        '& ~ $endSvg': {
+          right: spacing('tiny') - 2,
+        },
+      },
+    },
   },
   label: {},
   dense: {},
   naked: {},
+  startSvg: {},
+  endSvg: {},
   disabled: {},
 }));
 
@@ -85,11 +131,14 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
   label?: React.ReactNode;
   dense?: boolean;
   naked?: boolean;
+  startSvg?: React.ReactNode;
+  endSvg?: React.ReactNode;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps & WithStyles<typeof styles>>(
   function Input(props, ref) {
-    const { classes, className, label, dense, naked, disabled, ...rest } = props;
+    const { classes, className, label, dense, naked, disabled, startSvg, endSvg, ...rest } = props;
+
     return (
       <div className={clsx(classes.root, className)}>
         <input
@@ -100,6 +149,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps & WithStyles<typeof 
             classes.input,
             dense && classes.dense,
             naked && classes.naked,
+            startSvg && classes.startSvg,
+            endSvg && classes.endSvg,
             disabled && classes.disabled,
           )}
         />
@@ -108,6 +159,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps & WithStyles<typeof 
             {label}
           </Label>
         )}
+        {startSvg && <span className={classes.startSvg}>{startSvg}</span>}
+        {endSvg && <span className={classes.endSvg}>{endSvg}</span>}
       </div>
     );
   },
