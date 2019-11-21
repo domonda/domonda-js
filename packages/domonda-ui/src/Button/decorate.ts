@@ -56,16 +56,16 @@ const styles = createStyles(({ typography, palette, shape, shadows, transition }
     backgroundColor: palette.background,
     border: `1px solid ${palette.border}`,
     '&:hover, &:focus': {
-      backgroundColor: palette.darken('background', 0.05),
+      backgroundColor: palette.darken('background', 0.02),
     },
     '&:active': {
-      backgroundColor: palette.darken('background', 0.1),
+      backgroundColor: palette.darken('background', 0.04),
     },
     '&$disabled': {
       cursor: 'not-allowed',
       boxShadow: 'none',
-      backgroundColor: palette.darken('background', 0.08),
-      border: `1px solid ${palette.darken('background', 0.1)}`,
+      backgroundColor: palette.darken('background', 0.1),
+      border: `1px solid ${palette.darken('background', 0.2)}`,
     },
   },
   // color-{color}
