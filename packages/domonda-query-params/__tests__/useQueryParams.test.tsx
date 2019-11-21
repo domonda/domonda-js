@@ -128,7 +128,7 @@ it('should update the state on history location change', () => {
 
   const nextState = { str: 'test' };
   act(() => {
-    history.push(stringify(nextState, { prependQuestionMark: true }));
+    history.push({ search: stringify(nextState) });
   });
 
   expect(result.current[0]).toEqual(nextState);
@@ -155,7 +155,7 @@ it('should pass the recent state in the updater when history location changes', 
 
   const nextState = { str: 'test' };
   act(() => {
-    history.push(stringify(nextState, { prependQuestionMark: true }));
+    history.push({ search: stringify(nextState) });
   });
 
   expect(result.current[0]).toEqual(nextState);
@@ -303,13 +303,19 @@ it('should update params only on pathname', () => {
   expect(initialParams).toEqual({ str: 'default' });
 
   act(() => {
-    history.push(`/invoices${stringify({ str: 'ignore' }, { prependQuestionMark: true })}`);
+    history.push({
+      pathname: '/invoices',
+      search: stringify({ str: 'ignore' }),
+    });
   });
 
   expect(result.current[0]).toBe(initialParams);
 
   act(() => {
-    history.push(`/documents${stringify({ str: 'consider' }, { prependQuestionMark: true })}`);
+    history.push({
+      pathname: '/documents',
+      search: stringify({ str: 'consider' }),
+    });
   });
 
   expect(result.current[0]).toEqual({ str: 'consider' });
@@ -335,7 +341,7 @@ it("should retain same result reference when params haven't changed", () => {
   expect(initialParams).toEqual({ str: 'default' });
 
   act(() => {
-    history.push(stringify({ str: 'default' }, { prependQuestionMark: true }));
+    history.push({ search: stringify({ str: 'default' }) });
   });
 
   expect(result.current[0]).toBe(initialParams);
@@ -389,7 +395,9 @@ it('should return selected param', () => {
   expect(result.current[0]).toBe('default');
 
   act(() => {
-    history.push(stringify({ str: 'not-default' }, { prependQuestionMark: true }));
+    history.push({
+      search: stringify({ str: 'not-default' }),
+    });
   });
   expect(result.current[0]).toBe('not-default');
 
