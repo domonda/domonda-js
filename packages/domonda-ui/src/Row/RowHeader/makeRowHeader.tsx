@@ -11,9 +11,8 @@ import { Config } from '../makeRow';
 // decorate
 import decorate, { Decorate } from './decorate';
 
-export interface RowHeaderProps {
+export interface RowHeaderProps extends React.HTMLAttributes<HTMLElement> {
   classes?: Partial<Decorate['classes']>;
-  className?: string;
   component?: React.ComponentType<{ className: string; role: string; children: React.ReactNode[] }>;
 }
 
@@ -47,15 +46,15 @@ export function makeRowHeader<Item>(config: Config<Item>) {
                 ...style,
               }}
             >
-              {typeof HeaderCell === 'function' ? <HeaderCell {...rest} /> : HeaderCell}
+              {typeof HeaderCell === 'function' ? <HeaderCell /> : HeaderCell}
             </div>
           ),
         ),
-      [classes, rest],
+      [classes],
     );
 
     return (
-      <Component className={clsx(classes.root, className)} role="row" ref={ref as any}>
+      <Component {...rest} className={clsx(classes.root, className)} role="row" ref={ref as any}>
         {children}
       </Component>
     );

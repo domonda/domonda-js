@@ -11,16 +11,15 @@ import { Config } from '../makeRow';
 // decorate
 import decorate, { Decorate } from './decorate';
 
-export interface RowItemProps<Item> {
+export interface RowItemProps<Item> extends React.HTMLAttributes<HTMLElement> {
+  item: Item;
   classes?: Partial<Decorate['classes']>;
-  className?: string;
   component?: React.ComponentType<{
     item: Item;
     className: string;
     role: string;
     children: React.ReactNode[];
   }>;
-  item: Item;
   clickable?: boolean;
 }
 
@@ -31,7 +30,7 @@ export function makeRowItem<Item>(config: Config<Item>) {
     props,
     ref,
   ) {
-    const { classes, item, className, clickable, component: Component = 'div' } = props;
+    const { classes, item, className, clickable, component: Component = 'div', ...rest } = props;
     const children = useMemo(
       () =>
         columns.map(
@@ -63,11 +62,12 @@ export function makeRowItem<Item>(config: Config<Item>) {
 
     return (
       <Component
+        {...rest}
         // we don't put the Item on string components because they don't accept objects as valid attributes
         item={typeof Component === 'string' ? (undefined as any) : item}
         className={clsx(classes.root, classes.row, clickable && classes.clickable, className)}
-        role="row"
         ref={ref as any}
+        role="row"
       >
         {children}
       </Component>

@@ -11,9 +11,8 @@ import { Config } from '../makeRow';
 // decorate
 import decorate, { Decorate } from './decorate';
 
-export interface RowStickyProps {
+export interface RowStickyProps extends React.HTMLAttributes<HTMLElement> {
   classes?: Partial<Decorate['classes']>;
-  className?: string;
   component?: React.ComponentType<{ className: string; role: string }>;
 }
 
@@ -22,9 +21,9 @@ export function makeRowSticky<Item>(_0: Config<Item>) {
     props,
     ref,
   ) {
-    const { children, classes, className, component: Component = 'div' } = props;
+    const { children, classes, className, component: Component = 'div', ...rest } = props;
     return (
-      <Component className={clsx(classes.root, className)} role="row" ref={ref as any}>
+      <Component {...rest} className={clsx(classes.root, className)} role="row" ref={ref as any}>
         {children}
       </Component>
     );
