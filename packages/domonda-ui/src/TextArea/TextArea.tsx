@@ -50,13 +50,9 @@ const styles = createStyles(({ palette, spacing, shadows, shape, typography }) =
     '&:invalid': {
       '&:not($naked)': {
         borderColor: palette.warning,
-        backgroundColor: palette.lightest('warning'),
       },
       '& + $label': {
         color: palette.warning,
-      },
-      '&::placeholder': {
-        color: palette.light('warning'),
       },
     },
     '&:hover:not($disabled), &:focus': {
