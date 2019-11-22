@@ -132,7 +132,7 @@ export function useQueryParams<T, S = T>(
 }
 
 // Force updates the hook.
-export function useForceUpdate() {
+function useForceUpdate() {
   const [, setCounter] = useState(0);
   const forceUpdate = useCallback(() => setCounter((counter) => counter + 1), []);
   return forceUpdate;
