@@ -34,7 +34,7 @@ const styles = createStyles(({ typography, palette, spacing, shape }) => {
       },
     },
     contained: {
-      padding: spacing('tiny'),
+      padding: spacing('tiny') - 1.5,
       backgroundColor: palette.darken('background', 0.05),
       borderRadius: shape.borderRadius.tiny,
     },
