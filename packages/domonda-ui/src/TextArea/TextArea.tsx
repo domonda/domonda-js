@@ -24,8 +24,6 @@ const styles = createStyles(({ palette, spacing, shadows, shape, typography }) =
     whiteSpace: 'nowrap',
     boxSizing: 'border-box',
     outline: 0,
-    border: 0,
-    backgroundColor: 'transparent',
     backgroundClip: 'padding-box',
     WebkitAppearance: 'none',
     // ./reset
@@ -34,13 +32,11 @@ const styles = createStyles(({ palette, spacing, shadows, shape, typography }) =
     minHeight: spacing('tiny') * 6,
     textAlign: 'inherit',
     color: palette.textDark,
-    '&:not($naked)': {
-      backgroundColor: palette.white,
-      border: `1px solid ${palette.border}`,
-      borderRadius: shape.borderRadius.tiny,
-      boxShadow: shadows.line,
-      padding: spacing('tiny') - 2.5,
-    },
+    backgroundColor: palette.white,
+    border: `1px solid ${palette.border}`,
+    borderRadius: shape.borderRadius.tiny,
+    boxShadow: shadows.line,
+    padding: spacing('tiny') - 2.5,
     '&$dense': {
       padding: spacing('tiny') / 2 + 0.5,
     },
@@ -48,9 +44,7 @@ const styles = createStyles(({ palette, spacing, shadows, shape, typography }) =
       color: palette.light('textDark'),
     },
     '&:invalid': {
-      '&:not($naked)': {
-        borderColor: palette.warning,
-      },
+      borderColor: palette.warning,
       '& + $label': {
         color: palette.warning,
       },
