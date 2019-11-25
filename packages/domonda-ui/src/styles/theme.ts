@@ -84,8 +84,17 @@ export const defaultTheme: Theme = {
   zIndex: defaultZIndex,
 };
 
-export const createTheme = (options: Partial<Theme> = defaultTheme) =>
-  deepmerge(defaultTheme, options);
+export const createTheme = (
+  theme: Partial<{
+    palette: Partial<Palette>;
+    typography: Partial<Typography>;
+    spacing: Partial<Spacing>;
+    shadows: Partial<Shadows>;
+    shape: Partial<Shape>;
+    transition: Partial<Transition>;
+    zIndex: Partial<ZIndex>;
+  }> = defaultTheme,
+) => deepmerge(defaultTheme, theme) as Theme;
 
 export interface ThemeProviderProps {
   theme: Theme;
