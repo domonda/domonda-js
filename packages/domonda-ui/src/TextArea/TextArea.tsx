@@ -28,7 +28,7 @@ const styles = createStyles(({ palette, spacing, shadows, shape, typography }) =
     WebkitAppearance: 'none',
     // ./reset
     ...typography.variant('small'),
-    minWidth: '100%',
+    minWidth: 256,
     minHeight: spacing('tiny') * 6,
     textAlign: 'inherit',
     color: palette.textDark,
