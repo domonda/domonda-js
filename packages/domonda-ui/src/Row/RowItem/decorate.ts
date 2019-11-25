@@ -30,11 +30,11 @@ const styles = createStyles((theme) => {
       border: `1px solid ${theme.palette.border}`,
       borderTop: 0,
       'a&': {
-        ...clickable,
         '&:visited': {
           backgroundColor: theme.palette.lighten('secondary', 0.86),
           borderBottom: `1px solid ${theme.palette.lighten('secondary', 0.64)}`,
         },
+        ...clickable,
       },
       backgroundColor: theme.palette.lighten('gray08', 0.8),
       '&:nth-child(even)': {
