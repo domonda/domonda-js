@@ -37,6 +37,12 @@ const styles = createStyles(({ typography, palette, spacing, transition }) => ({
         display: 'none',
       },
     },
+    '&$disabled': {
+      cursor: 'not-allowed',
+      '& > input': {
+        cursor: 'not-allowed',
+      },
+    },
   },
   // {color}
   ...COLORS.reduce(
@@ -44,14 +50,17 @@ const styles = createStyles(({ typography, palette, spacing, transition }) => ({
       ...acc,
       [color]: {
         color: palette[color],
-        '&:hover': {
+        '&$disabled': {
+          color: palette.fade(color, 0.4),
+        },
+        '&:not($disabled):hover': {
           color: palette.dark(color),
         },
-        '& > input:focus ~ $unchecked, & > input:focus ~ $checked': {
+        '&:not($disabled) > input:focus ~ $unchecked, & > input:focus ~ $checked': {
           color: palette.dark(color),
           outline: `2px solid ${palette.light('primary')}`,
         },
-        '& > input:focus ~ $label': {
+        '&:not($disabled) > input:focus ~ $label': {
           color: palette.dark(color),
         },
       },
@@ -88,6 +97,7 @@ const styles = createStyles(({ typography, palette, spacing, transition }) => ({
     display: 'inherit',
     color: 'inherit',
   },
+  disabled: {},
 }));
 
 export interface CheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
@@ -106,6 +116,7 @@ const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps & WithStyles<t
       label,
       color = 'accent',
       size = 'small',
+      disabled,
       ...rest
     } = props;
     return (
@@ -114,10 +125,11 @@ const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps & WithStyles<t
           classes.root,
           classes[color as keyof typeof classes],
           classes[size as keyof typeof classes],
+          disabled && classes.disabled,
           className,
         )}
       >
-        <input {...rest} ref={ref} type="checkbox" />
+        <input {...rest} ref={ref} type="checkbox" disabled={disabled} />
         <div className={classes.unchecked}>
           <svg
             aria-hidden="true"

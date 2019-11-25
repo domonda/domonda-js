@@ -11,6 +11,10 @@ stories.add('Overview', () => (
     </div>
     <br />
     <div>
+      <Checkbox label="I am disabled" color="primary" disabled />
+    </div>
+    <br />
+    <div>
       <Checkbox label="I agree with the terms and conditions" color="success" />
     </div>
     <br />
