@@ -18,11 +18,10 @@ import {
 
 const styles = createStyles(({ typography, palette, spacing, transition }) => ({
   root: {
-    display: 'inline-flex',
+    display: 'flex',
     alignItems: 'center',
     cursor: 'pointer',
     transition: transition.create(['color']),
-    verticalAlign: 'middle',
     '& > input': {
       // we don't display: 'none' to retain focusable state
       cursor: 'pointer',

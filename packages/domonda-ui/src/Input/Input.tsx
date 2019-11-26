@@ -19,8 +19,7 @@ const styles = createStyles(({ palette, spacing, shadows, shape, typography }) =
   input: {
     // reset
     margin: 0,
-    display: 'inline-flex',
-    verticalAlign: 'middle',
+    display: 'inherit',
     whiteSpace: 'nowrap',
     boxSizing: 'border-box',
     outline: 0,

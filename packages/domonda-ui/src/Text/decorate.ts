@@ -13,7 +13,7 @@ const styles = createStyles(({ typography, palette, spacing, shape }) => {
       margin: 0,
     },
     block: {
-      display: 'block',
+      display: 'flex',
     },
     inline: {
       display: 'inline-flex',

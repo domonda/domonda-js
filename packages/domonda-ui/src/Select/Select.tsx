@@ -19,8 +19,7 @@ const styles = createStyles(({ typography, palette, spacing, shape, shadows }) =
   select: {
     // reset
     margin: 0,
-    display: 'inline-flex',
-    verticalAlign: 'middle',
+    display: 'inherit',
     boxSizing: 'border-box',
     outline: 0,
     MozAppearance: 'none',

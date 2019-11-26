@@ -189,7 +189,7 @@ const styles = createStyles(({ typography, palette, shape, shadows, transition }
     justifyContent: 'inherit',
     textDecoration: 'inherit',
     '& svg': {
-      display: 'block',
+      display: 'inherit',
       color: 'inherit',
       fill: 'currentColor',
     },
