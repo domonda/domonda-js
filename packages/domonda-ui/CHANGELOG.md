@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [8.0.3](https://github.com/domonda/domonda-js/compare/@domonda/ui@8.0.2...@domonda/ui@8.0.3) (2019-11-26)
+
+
+### Bug Fixes
+
+* **Text:** use `block` display to support parent text alignments ([5420cfe](https://github.com/domonda/domonda-js/commit/5420cfe3081ca1ed2ad2e597856f6c5880e9d6de))
+
+
+
+
+
 ## [8.0.2](https://github.com/domonda/domonda-js/compare/@domonda/ui@8.0.1...@domonda/ui@8.0.2) (2019-11-26)
 
 
