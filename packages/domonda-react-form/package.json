@@ -48,16 +48,16 @@
     "text-mask-core": "^5.1.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.7.2",
+    "@babel/core": "^7.7.4",
     "@storybook/addon-info": "5.1.11",
     "@storybook/react": "5.1.11",
     "@testing-library/react": "^9.3.2",
     "@testing-library/react-hooks": "^3.2.1",
     "@types/lodash": "^4.14.149",
-    "@types/react-datepicker": "^2.9.4",
+    "@types/react-datepicker": "^2.9.5",
     "@types/storybook__react": "^4.0.2",
     "babel-loader": "^8.0.6",
-    "react-docgen-typescript-loader": "^3.5.0",
+    "react-docgen-typescript-loader": "^3.6.0",
     "react-test-renderer": "^16.12.0",
     "ts-loader": "^6.2.1"
   }
