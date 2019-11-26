@@ -470,3 +470,75 @@ it('should not rerender when selected param does not change', () => {
 
   expect(spy).toBeCalledTimes(2); // initial render and matched pathname
 });
+
+it('should replace the URL with the default values', () => {
+  const history = createMemoryHistory();
+
+  const model: QueryModel<{ str: string; num: number }> = {
+    str: {
+      type: 'string',
+      defaultValue: 'default',
+    },
+    num: {
+      type: 'number',
+      defaultValue: 1,
+    },
+  };
+
+  const defaultParams = { str: 'default', num: 1 };
+
+  renderHook(() => useQueryParams(model), {
+    wrapper: ({ children }) => (
+      <QueryParamsProvider history={history}>{children}</QueryParamsProvider>
+    ),
+  });
+
+  expect(history.location.search).toBe(stringify(defaultParams, { prependQuestionMark: true }));
+
+  act(() => {
+    history.push({ search: '' });
+  });
+
+  expect(history.location.search).toBe(stringify(defaultParams, { prependQuestionMark: true }));
+
+  act(() => {
+    history.replace({ search: '' });
+  });
+
+  expect(history.location.search).toBe(stringify(defaultParams, { prependQuestionMark: true }));
+});
+
+it('should not replace the URL with the default values when replacing is disabled', () => {
+  const history = createMemoryHistory();
+
+  const model: QueryModel<{ str: string; num: number }> = {
+    str: {
+      type: 'string',
+      defaultValue: 'default',
+    },
+    num: {
+      type: 'number',
+      defaultValue: 1,
+    },
+  };
+
+  renderHook(() => useQueryParams(model, { disableReplace: true }), {
+    wrapper: ({ children }) => (
+      <QueryParamsProvider history={history}>{children}</QueryParamsProvider>
+    ),
+  });
+
+  expect(history.location.search).toBe('');
+
+  act(() => {
+    history.push({ search: '' });
+  });
+
+  expect(history.location.search).toBe('');
+
+  act(() => {
+    history.replace({ search: '' });
+  });
+
+  expect(history.location.search).toBe('');
+});

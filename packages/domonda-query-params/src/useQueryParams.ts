@@ -77,8 +77,17 @@ export function useQueryParams<T, S = T>(
           forceUpdate();
         }
       }
+
+      if (!disableReplace) {
+        const actualQueryString = stringify(queryParamsRef.current, { prependQuestionMark: true });
+        if (actualQueryString !== history.location.search) {
+          history.replace({
+            search: actualQueryString,
+          });
+        }
+      }
     },
-    [selector, model],
+    [selector, model, disableReplace],
   );
 
   useLayoutEffect(() => {
@@ -100,17 +109,6 @@ export function useQueryParams<T, S = T>(
       return unlisten;
     }
   }, [updateQueryParams, once]);
-
-  useLayoutEffect(() => {
-    if (!disableReplace) {
-      const actualQueryString = stringify(queryParamsRef.current, { prependQuestionMark: true });
-      if (actualQueryString !== history.location.search) {
-        history.replace({
-          search: actualQueryString,
-        });
-      }
-    }
-  }, [disableReplace, queryParamsRef.current]);
 
   return [
     selectedQueryParamsRef.current,
