@@ -43,8 +43,6 @@ const styles = createStyles(({ typography, palette, spacing, shape, shadows }) =
     },
     '&:invalid': {
       borderColor: palette.warning,
-      backgroundColor: palette.lightest('warning'),
-      color: palette.light('warning'),
       '& + $label': {
         color: palette.warning,
       },
