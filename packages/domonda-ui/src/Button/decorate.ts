@@ -151,7 +151,7 @@ const styles = createStyles(({ typography, palette, shape, shadows, transition }
       [`size-${size}`]: {
         ...typography.variant(size, 'semiBold'),
         '& > $label svg': {
-          height: `calc(${typography.sizes[size]}px + 4px)`,
+          height: typography.sizes[size],
         },
         '&$text, &$link': {
           '& > $label svg': {
