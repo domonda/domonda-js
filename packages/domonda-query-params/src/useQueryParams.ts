@@ -60,6 +60,7 @@ export function useQueryParams<T, S = T>(
   // use a ref for the query params to avoid unnecessary effect calls
   const queryParamsRef = useRef(parseQueryParams(history.location.search, model));
   const selectedQueryParamsRef = useRef(selector(queryParamsRef.current));
+  const replacingRef = useRef(false); // prevents triggering the listener recursively when replacing the URL
   const updateQueryParams = useCallback(
     (location: Location) => {
       const nextQueryParms = parseQueryParams(location.search, model);
@@ -81,9 +82,11 @@ export function useQueryParams<T, S = T>(
       if (!disableReplace) {
         const actualQueryString = stringify(queryParamsRef.current, { prependQuestionMark: true });
         if (actualQueryString !== history.location.search) {
+          replacingRef.current = true;
           history.replace({
             search: actualQueryString,
           });
+          replacingRef.current = false;
         }
       }
     },
@@ -92,7 +95,7 @@ export function useQueryParams<T, S = T>(
 
   useLayoutEffect(() => {
     function filteredLocationUpdate(location: Location) {
-      if (!onPathname || onPathname === location.pathname) {
+      if (!replacingRef.current && (!onPathname || onPathname === location.pathname)) {
         updateQueryParams(location);
       }
     }
