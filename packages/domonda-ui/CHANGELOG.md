@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [8.0.2](https://github.com/domonda/domonda-js/compare/@domonda/ui@8.0.1...@domonda/ui@8.0.2) (2019-11-26)
+
+
+### Bug Fixes
+
+* **Button:** consistent height even with SVGs ([3416593](https://github.com/domonda/domonda-js/commit/34165934ad898b63716b6354bfec2bd8f6fbf240))
+* **Checkbox:** nicer `disabled` state ([4edd8e6](https://github.com/domonda/domonda-js/commit/4edd8e696e338543c9b32d8b9efbb1724f7bf907))
+* **layout:** use flex display to make content fit ([fa7694f](https://github.com/domonda/domonda-js/commit/fa7694f1b504f22f49bd3aa868785d17e987125c))
+* **RowItem:** :hover color over :visited color ([0626e7b](https://github.com/domonda/domonda-js/commit/0626e7bbf00488c67a78cfd9b33c39ff152b7ce4))
+* **Text:** height matches Input/Select height on `contained` variant ([568d2b5](https://github.com/domonda/domonda-js/commit/568d2b59694641a7732da907050b0bcf518c7f2f))
+* **TextArea:** behave nicely in flex containers ([67c5199](https://github.com/domonda/domonda-js/commit/67c519988d6f7e4c925c876f9a0eb060dfb3f9de))
+* **TextArea:** cannot be of `naked` variant ([9b221d5](https://github.com/domonda/domonda-js/commit/9b221d545431f3b649e2791cb1b9a39803ba3b93))
+* **theme:** theme fields are partial ([d7200cd](https://github.com/domonda/domonda-js/commit/d7200cd0da641709852ef9038f71b8c199ffe4d4))
+
+
+### Performance Improvements
+
+* **Input,TextArea:** no placeholder manipulation on :invalid state (reduces reflow area) ([6ee6288](https://github.com/domonda/domonda-js/commit/6ee62889af5d7f25e059ffbd7312a862b52fd55a))
+
+
+
+
+
 ## [8.0.1](https://github.com/domonda/domonda-js/compare/@domonda/ui@8.0.0...@domonda/ui@8.0.1) (2019-11-21)
 
 **Note:** Version bump only for package @domonda/ui

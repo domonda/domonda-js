@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.1](https://github.com/domonda/domonda-js/compare/@domonda/query-params@1.4.0...@domonda/query-params@1.4.1) (2019-11-26)
+
+
+### Bug Fixes
+
+* **useQueryParams:** always replace location with current params ([51910da](https://github.com/domonda/domonda-js/commit/51910daa2c6acb765e8457b62a4198e637eb0a1f))
+
+
+### Performance Improvements
+
+* **useQueryParams:** block listener when replacing internally ([82cbbd0](https://github.com/domonda/domonda-js/commit/82cbbd03f55ff9d05c718d7c54e132b01117db68))
+
+
+
+
+
 # [1.4.0](https://github.com/domonda/domonda-js/compare/@domonda/query-params@1.3.3...@domonda/query-params@1.4.0) (2019-11-21)
 
 
