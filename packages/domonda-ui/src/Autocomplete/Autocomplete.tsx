@@ -11,7 +11,7 @@ import { FixedSizeList } from 'react-window';
 // ui
 import { Input, InputProps } from '../Input';
 import { Popper, PopperProps } from '../Popper';
-import { MenuList, MenuListProps, MenuItem } from '../Menu';
+import { MenuList, MenuListProps, MenuItem, MenuItemProps } from '../Menu';
 import { Paper, PaperProps } from '../Paper';
 
 const ITEM_SIZE = 36;
@@ -40,10 +40,12 @@ export interface AutocompleteProps<T>
   // Popper
   keepPopperMounted?: boolean;
   PopperProps?: Omit<PopperProps, 'open' | 'anchorEl'>;
+  inlineMenu?: boolean; // disables popper
   // Paper
   PaperProps?: PaperProps;
-  // MenuList
+  // Menu
   MenuListProps?: MenuListProps;
+  MenuItemProps?: MenuItemProps;
 }
 
 export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement | null {
@@ -65,10 +67,12 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
     // Popper
     keepPopperMounted,
     PopperProps = {},
+    inlineMenu,
     // Paper
     PaperProps,
-    // MenuList
+    // Menu
     MenuListProps,
+    MenuItemProps = {},
     ...rest
   } = props;
 
@@ -107,6 +111,14 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
 
         const isOpen = downshiftIsOpen && items.length > 0;
 
+        const Container: React.FC<{ children: React.ReactElement }> = inlineMenu
+          ? ({ children }) => children
+          : ({ children }) => (
+              <Popper {...PopperProps} open={isOpen} anchorEl={anchorEl.current}>
+                {children}
+              </Popper>
+            );
+
         return (
           <div>
             <Input
@@ -122,7 +134,7 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
               ref={ref as React.Ref<HTMLInputElement>}
             />
             {!readOnly && (keepPopperMounted || isOpen) && (
-              <Popper {...PopperProps} open={isOpen} anchorEl={anchorEl.current}>
+              <Container>
                 <Paper bordered shadow="small" {...PaperProps}>
                   <MenuList
                     {...(isOpen
@@ -156,6 +168,7 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
                         return (
                           <MenuItem
                             {...getItemProps({
+                              ...MenuItemProps,
                               index,
                               item,
                               selected: selectedItem === getItemId(item),
@@ -165,6 +178,8 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
                                 // reset top-bottom padding to accomodate size
                                 paddingTop: 0,
                                 paddingBottom: 0,
+                                // override with explicit MenuItemProps styles
+                                ...MenuItemProps.style,
                               },
                             })}
                             highlighted={highlightedIndex === index}
@@ -176,7 +191,7 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
                     </FixedSizeList>
                   </MenuList>
                 </Paper>
-              </Popper>
+              </Container>
             )}
           </div>
         );
