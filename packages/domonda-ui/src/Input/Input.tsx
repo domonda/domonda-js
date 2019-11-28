@@ -87,6 +87,22 @@ const styles = createStyles(({ palette, spacing, shadows, shape, typography }) =
           },
         },
       },
+      '&$naked': {
+        '& ~ $startSvg, & ~ $endSvg': {
+          bottom: typography.sizes['tiny'] / 5,
+        },
+        '& ~ $startSvg': {
+          left: 0,
+        },
+        '& ~ $endSvg': {
+          right: 0,
+        },
+      },
+      '&$naked$dense': {
+        '& ~ $startSvg, & ~ $endSvg': {
+          bottom: typography.sizes['tiny'] / 2,
+        },
+      },
     },
     '&$startSvg': {
       paddingLeft: typography.sizes['small'] + spacing('small'),
