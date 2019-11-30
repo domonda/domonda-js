@@ -84,6 +84,16 @@ describe('Creation', () => {
     const [field] = form.makeFormField(path);
     expect(field.state.readOnly).toBeTruthy();
   });
+
+  it('should not override existing fields, if the field already is in use', () => {
+    const [form] = createForm(defaultValues);
+
+    const [field1] = form.makeFormField(path);
+    field1.setValue('some-value');
+
+    const [field2] = form.makeFormField(path);
+    expect(field2.value).toBe('some-value');
+  });
 });
 
 describe('Change', () => {
@@ -323,6 +333,30 @@ describe('Change', () => {
       expect(field.state.readOnly).toBeTruthy();
     });
   });
+
+  it('should update and reset fields correctly when multiple paths are the same', () => {
+    const [form] = createForm({
+      people: [
+        {
+          name: 'John',
+        },
+      ],
+    });
+
+    const path = 'people[0].name';
+    const [fieldArray] = form.makeFormField('people');
+    const [field1] = form.makeFormField(path);
+    const [field2] = form.makeFormField(path);
+
+    field1.setValue('Jane');
+    expect(fieldArray.value).toEqual([{ name: 'Jane' }]);
+    expect(field2.value).toBe('Jane');
+
+    form.reset();
+    expect(fieldArray.value).toEqual([{ name: 'John' }]);
+    expect(field1.value).toBe('John');
+    expect(field2.value).toBe('John');
+  });
 });
 
 describe('Validation', () => {
@@ -462,5 +496,18 @@ describe('Cleanup', () => {
 
     destroy();
     expect(form.state.fields[path]).toBeUndefined();
+  });
+
+  it('should not remove field if its not the last one', () => {
+    const [form] = createForm(defaultValues);
+
+    const [field1, destroy] = form.makeFormField(path);
+    const [field2] = form.makeFormField(path);
+    field1.setValue('some-value');
+
+    destroy();
+
+    expect(field2.value).toBe('some-value');
+    expect(form.state.fields[path]).toBeDefined();
   });
 });

@@ -327,6 +327,61 @@ describe('Update', () => {
     }, 0);
   });
 
+  it('should not render or set undefined values on array fields', (done) => {
+    interface DV {
+      people: string[];
+    }
+
+    const dv: DV = {
+      people: ['John', 'Foo', 'Bar'],
+    };
+
+    let form: DomondaForm<DV>;
+    const { rerender } = render(
+      <Form getForm={(f) => (form = f)} resetOnDefaultValuesChange defaultValues={dv}>
+        <FormField<any[]> path="people">
+          {({ value }) => (
+            <>
+              {value.map((person: any, index) => (
+                <FormField key={person} path={`people[${index}]`}>
+                  {() => null}
+                </FormField>
+              ))}
+            </>
+          )}
+        </FormField>
+      </Form>,
+    );
+
+    // @ts-ignore because form should indeed be set here
+    if (!form) {
+      throw new Error('form instance should be set here!');
+    }
+
+    const nextDv: DV = {
+      people: ['Foo'],
+    };
+
+    rerender(
+      <Form resetOnDefaultValuesChange defaultValues={nextDv}>
+        <FormField<any[]> path="people">
+          {({ value }) => (
+            <>
+              {value.map((person: any, index) => (
+                <FormField key={person} path={`people[${index}]`}>
+                  {() => null}
+                </FormField>
+              ))}
+            </>
+          )}
+        </FormField>
+      </Form>,
+    );
+
+    expect(form.state.values).toEqual(nextDv);
+    done();
+  });
+
   it('should get notified about disabled state changes', () => {
     const [form] = createForm(defaultValues);
 

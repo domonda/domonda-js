@@ -83,7 +83,10 @@ export function createFormField<DefaultValues extends FormDefaultValues, Value>(
       },
       updater: (state, { changed, validityMessage, ...rest }) => ({
         ...state,
-        values: setWith(() => undefined, path, rest.value, form.state.values),
+        values:
+          rest.value === undefined
+            ? state.values
+            : setWith(() => undefined, path, rest.value, form.state.values),
         fields: {
           ...form.state.fields,
           [path]: {
