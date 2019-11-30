@@ -62,6 +62,8 @@ export function useFormDateField(props: UseFormDateFieldProps): FormDateFieldAPI
       popperClassName,
       calendarClassName,
       inputRef,
+      showTimeSelect,
+      showTimeSelectOnly,
       ...rest
     }) => {
       const [{ value, validityMessage, disabled, readOnly }] = usePlumbState({
@@ -81,7 +83,10 @@ export function useFormDateField(props: UseFormDateFieldProps): FormDateFieldAPI
 
       const handleChange = useCallback<DateInputProps['onChange']>(
         (date) => {
-          field.setValue(date ? stripTime(date) : null);
+          field.setValue(
+            // dont strip time when selecting time in the picker
+            date ? (showTimeSelect || showTimeSelectOnly ? date : stripTime(date)) : null,
+          );
 
           if (inputEl) {
             // we want this asynchronously called because some browsers (safari) decide to hide the validity box on input
@@ -92,7 +97,7 @@ export function useFormDateField(props: UseFormDateFieldProps): FormDateFieldAPI
             }
           }
         },
-        [field, inputEl],
+        [field, inputEl, showTimeSelect, showTimeSelectOnly],
       );
 
       const handleRef = useCallback(
