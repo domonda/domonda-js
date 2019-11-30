@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.4](https://github.com/domonda/domonda-js/compare/@domonda/form@2.2.3...@domonda/form@2.2.4) (2019-11-30)
+
+
+### Bug Fixes
+
+* **FormField:** dont set (create path for) undefined values ([caff778](https://github.com/domonda/domonda-js/commit/caff7787947274e2816921bef17a56ad4dea93d8))
+
+
+
+
+
 ## [2.2.3](https://github.com/domonda/domonda-js/compare/@domonda/form@2.2.2...@domonda/form@2.2.3) (2019-11-21)
 
 **Note:** Version bump only for package @domonda/form

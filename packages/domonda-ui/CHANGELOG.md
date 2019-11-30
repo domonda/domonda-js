@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [8.1.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@8.0.3...@domonda/ui@8.1.0) (2019-11-30)
+
+
+### Bug Fixes
+
+* **Input:** position start/end svgs with `naked` input ([a3e3f48](https://github.com/domonda/domonda-js/commit/a3e3f485f437535c4ac8b4371b9ec63069499023))
+
+
+### Features
+
+* **Autocomplete:** introduce `inlineMenu` variant & `MenuItemProps` ([1fa0b1e](https://github.com/domonda/domonda-js/commit/1fa0b1edb6f79ae9838652ad61d9df44eac5aeca))
+
+
+
+
+
 ## [8.0.3](https://github.com/domonda/domonda-js/compare/@domonda/ui@8.0.2...@domonda/ui@8.0.3) (2019-11-26)
 
 

@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.12](https://github.com/domonda/domonda-js/compare/@domonda/react-form@2.4.11...@domonda/react-form@2.4.12) (2019-11-30)
+
+
+### Bug Fixes
+
+* **FormDateField:** dont strip time when selecting time in the picker ([058d9e4](https://github.com/domonda/domonda-js/commit/058d9e42695ead7d0d7af853eaed2e500d975dc8))
+* **FormField:** dont set (create path for) undefined values ([caff778](https://github.com/domonda/domonda-js/commit/caff7787947274e2816921bef17a56ad4dea93d8))
+
+
+
+
+
 ## [2.4.11](https://github.com/domonda/domonda-js/compare/@domonda/react-form@2.4.10...@domonda/react-form@2.4.11) (2019-11-26)
 
 **Note:** Version bump only for package @domonda/react-form
