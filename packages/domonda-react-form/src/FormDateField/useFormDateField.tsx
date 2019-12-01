@@ -120,6 +120,8 @@ export function useFormDateField(props: UseFormDateFieldProps): FormDateFieldAPI
         <DateInput
           disabled={disabled}
           readOnly={readOnly}
+          showTimeSelect={showTimeSelect}
+          showTimeSelectOnly={showTimeSelectOnly}
           {...rest}
           ref={handleRef}
           required={required}
