@@ -8,8 +8,3 @@
 export function stripTime(date: Date) {
   return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
 }
-
-/** Parses the provided string formatted as an ISO date to a UTC date. (Strips time) */
-export function parseISOToDate(str: string): Date {
-  return stripTime(new Date(str));
-}

@@ -126,7 +126,11 @@ export function useFormDateField(props: UseFormDateFieldProps): FormDateFieldAPI
           ref={handleRef}
           required={required}
           selected={
-            value && typeof value === 'string' ? parseISOToDate(value) : (value as Date | null)
+            value && typeof value === 'string'
+              ? showTimeSelect || showTimeSelectOnly
+                ? new Date(value)
+                : stripTime(new Date(value))
+              : (value as Date | null)
           }
           onChange={handleChange}
         />
