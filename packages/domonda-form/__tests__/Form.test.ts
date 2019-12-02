@@ -377,6 +377,144 @@ describe('Submitting', () => {
   });
 });
 
+describe('Transforming', () => {
+  const newBorn = {
+    age: 1,
+  };
+  function ageIncrementor(homosapienssapiens: typeof newBorn): typeof newBorn {
+    return {
+      ...homosapienssapiens,
+      age: homosapienssapiens.age + 1,
+    };
+  }
+
+  it('should transform values immediately', () => {
+    const [form] = createForm(newBorn, {
+      transformer: ageIncrementor,
+    });
+
+    expect(form.state.defaultValues).toBe(newBorn);
+    expect(form.values).toEqual({ age: 2 });
+  });
+
+  it('should transform arriving values', () => {
+    const [form] = createForm(newBorn, { transformer: ageIncrementor });
+
+    expect(form.values).toEqual({ age: 2 });
+
+    form.plumb.next(
+      {
+        ...form.plumb.state,
+        values: {
+          age: 3,
+        },
+      },
+      FormTag.VALUES_CHANGE,
+    );
+
+    expect(form.values).toEqual({ age: 4 });
+  });
+
+  it('should transform values only on values affecting tags', () => {
+    const [form] = createForm(
+      { called: 0 },
+      {
+        transformer: ({ called }) => ({ called: called + 1 }),
+      },
+    );
+
+    expect(form.values.called).toBe(1);
+
+    // ignored
+    form.plumb.next(form.plumb.state, FormTag.SUBMIT_ERROR_RESET);
+    form.plumb.next(form.plumb.state, FormTag.CREATE_FIELD);
+    form.plumb.next(form.plumb.state, FormTag.DISPOSE_FIELD);
+    form.plumb.next(form.plumb.state, FormTag.SUBMIT);
+    form.plumb.next(form.plumb.state, FormTag.FORM_TOGGLE_DISABLE_OR_READ_ONLY);
+    form.makeFormField('called');
+    form.resetSubmitError();
+    form.submit();
+
+    // considered
+    const considered = [
+      () => form.reset(), // resets the value to 0
+      () => form.plumb.next(form.plumb.state, FormTag.DEFAULT_VALUES_CHANGE),
+      () => form.plumb.next(form.plumb.state, FormTag.VALUES_CHANGE),
+      () => form.plumb.next(form.plumb.state, FormTag.VALUES_RESET),
+      () => form.plumb.next(form.plumb.state, FormTag.FIELD_VALUE_CHANGE),
+      () => form.plumb.next(form.plumb.state, FormTag.FIELD_VALUE_RESET),
+      () => form.plumb.next(form.plumb.state, FormTag.SUBMIT_WITH_DEFAULT_VALUES_CHANGE),
+    ];
+    considered.forEach((fn) => fn());
+
+    expect(form.values.called).toBe(considered.length); // exactly length because form.reset() resets the value to 0
+  });
+
+  it('should transform field values', () => {
+    const [form] = createForm(newBorn, { transformer: ageIncrementor });
+    const [field] = form.makeFormField('age');
+
+    field.setValue(10);
+    expect(field.value).toBe(11);
+
+    form.plumb.next(
+      {
+        ...form.plumb.state,
+        values: {
+          age: 35,
+        },
+      },
+      FormTag.VALUES_CHANGE,
+    );
+    expect(field.value).toBe(36);
+  });
+
+  it('should notify fields with already transformed field values', () => {
+    const [form] = createForm(newBorn, { transformer: ageIncrementor });
+    const [field] = form.makeFormField('age');
+
+    const spy = jest.fn((_0) => {});
+    field.plumb.subscribe(spy);
+
+    field.setValue(10);
+    form.plumb.next(
+      {
+        ...form.plumb.state,
+        values: {
+          age: 20,
+        },
+      },
+      FormTag.VALUES_CHANGE,
+    );
+
+    expect(spy).toBeCalledTimes(2);
+    expect(spy.mock.calls[0][0].value).toBe(11);
+    expect(spy.mock.calls[1][0].value).toBe(21);
+  });
+
+  it('should first do field transform then form transform', () => {
+    const calls: string[] = [];
+
+    const [form] = createForm(newBorn, {
+      transformer: (state) => {
+        calls.push('form');
+        return state;
+      },
+    });
+    const [field] = form.makeFormField<number>('age', {
+      transformer: (age) => {
+        calls.push('field');
+        return age;
+      },
+    });
+
+    // trigger
+    field.setValue(10);
+
+    expect(calls).toEqual(['form', 'field', 'field', 'form']);
+  });
+});
+
 describe('Cleanup', () => {
   it('should dispose plumb on destroy', () => {
     const [form, destroy] = createForm(defaultValues);

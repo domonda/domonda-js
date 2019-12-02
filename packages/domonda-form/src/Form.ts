@@ -10,7 +10,7 @@ import {
   FormFieldValidityMessage,
   FormFieldDispose,
 } from './FormField';
-import { Plumb } from '@domonda/plumb';
+import { Plumb, Transformer } from '@domonda/plumb';
 import { FormTag } from './FormTag';
 
 export class FormConfigRef<DefaultValues extends FormDefaultValues> {
@@ -77,6 +77,10 @@ export interface FormConfig<T extends FormDefaultValues> {
    * Related form element, its onsubmit event will be replaced.
    */
   el?: HTMLFormElement | null;
+  /**
+   * Transforms values before dispatching notifications to subscribers.
+   */
+  transformer?: Transformer<T, FormTag>;
 }
 
 export interface FormFieldState {

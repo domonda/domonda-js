@@ -21,15 +21,38 @@ export function createForm<DefaultValues extends FormDefaultValues>(
 ): [Form<DefaultValues>, FormDispose] {
   const configRef = new FormConfigRef(initialConfig, handleSubmit);
 
-  const plumb = createPlumb<FormState<DefaultValues>, FormTag>({
-    defaultValues,
-    values: defaultValues,
-    fields: {},
-    submitting: false,
-    submitError: null,
-    disabled: false,
-    readOnly: false,
-  });
+  const plumb = createPlumb<FormState<DefaultValues>, FormTag>(
+    {
+      defaultValues,
+      values: defaultValues,
+      fields: {},
+      submitting: false,
+      submitError: null,
+      disabled: false,
+      readOnly: false,
+    },
+    {
+      transformer: (state, tag) => {
+        switch (tag) {
+          case undefined:
+          case FormTag.DEFAULT_VALUES_CHANGE:
+          case FormTag.VALUES_CHANGE:
+          case FormTag.VALUES_RESET:
+          case FormTag.FIELD_VALUE_CHANGE:
+          case FormTag.FIELD_VALUE_RESET:
+          case FormTag.SUBMIT_WITH_DEFAULT_VALUES_CHANGE: {
+            if (configRef.current.transformer) {
+              return {
+                ...state,
+                values: configRef.current.transformer(state.values, tag),
+              };
+            }
+          }
+        }
+        return state;
+      },
+    },
+  );
 
   function applyConfig(usingConfig: FormConfig<DefaultValues>) {
     const { autoSubmit, autoSubmitDelay = DEFAULT_AUTO_SUBMIT_DELAY } = usingConfig;

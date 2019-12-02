@@ -5,7 +5,7 @@
  */
 
 import { FormFieldState } from './Form';
-import { Plumb } from '@domonda/plumb';
+import { Plumb, Transformer } from '@domonda/plumb';
 import { FormTag } from './FormTag';
 
 export interface FormFieldStateWithValues<T> extends FormFieldState {
@@ -22,6 +22,7 @@ export type FormFieldValidate<T> = (value: Readonly<T>) => FormFieldValidityMess
 export interface FormFieldConfig<T> {
   validate?: FormFieldValidate<T>;
   immediateValidate?: boolean;
+  transformer?: Transformer<T, FormTag>;
 }
 
 export interface FormField<T> {

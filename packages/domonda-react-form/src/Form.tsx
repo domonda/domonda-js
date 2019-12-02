@@ -51,6 +51,7 @@ export function Form<DefaultValues extends FormDefaultValues>(
     autoSubmitDelay,
     disableOnSubmit,
     getForm,
+    transformer,
     // component
     children,
     ...rest
@@ -64,6 +65,7 @@ export function Form<DefaultValues extends FormDefaultValues>(
       autoSubmit,
       autoSubmitDelay,
       disableOnSubmit,
+      transformer,
     });
 
     // if the state is initally different from the default one, change it during initialization
@@ -92,6 +94,7 @@ export function Form<DefaultValues extends FormDefaultValues>(
       autoSubmit,
       autoSubmitDelay,
       disableOnSubmit,
+      transformer,
     };
   }, [
     formEl,
@@ -101,6 +104,7 @@ export function Form<DefaultValues extends FormDefaultValues>(
     autoSubmit,
     autoSubmitDelay,
     disableOnSubmit,
+    transformer,
   ]);
 
   useEffect(() => () => dispose(), []);

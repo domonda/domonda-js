@@ -359,6 +359,35 @@ describe('Change', () => {
   });
 });
 
+describe('Transform', () => {
+  it('should transform the value immediately', () => {
+    const [form] = createForm({ date: '1935-01-01' });
+
+    const [field] = form.makeFormField<Date | string>('date', {
+      transformer: (date) => new Date(date as string),
+    });
+
+    expect(form.values.date).toBeInstanceOf(Date);
+    expect(field.value).toBeInstanceOf(Date);
+  });
+
+  it('should transform the value before publishing it', () => {
+    const [form] = createForm({ date: '1935-01-01' });
+
+    const [field] = form.makeFormField<Date | string>('date', {
+      transformer: (date) => new Date(date as string),
+    });
+
+    const spy = jest.fn((_0) => {});
+    field.plumb.subscribe(spy);
+
+    field.setValue('1945-01-01');
+
+    expect(spy).toBeCalledTimes(1);
+    expect(spy.mock.calls[0][0].value).toBeInstanceOf(Date);
+  });
+});
+
 describe('Validation', () => {
   function makeForm() {
     const [form] = createForm(defaultValues);
