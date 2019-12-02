@@ -34,6 +34,10 @@ const styles = createStyles(({ spacing, palette, typography, shape }) => ({
       backgroundColor: palette.lighten('gray100', 0.1),
     },
   },
+  lightMenuItemSelected: {
+    color: palette.white,
+    backgroundColor: palette.darken('gray100', 0.4),
+  },
   lightMenuItemHighlighted: {
     color: palette.white,
     backgroundColor: palette.lighten('gray100', 0.1),
@@ -86,6 +90,7 @@ const Overview: React.FC<WithStyles<typeof styles>> = (props) => {
             classes: {
               root: classes.lightMenuItem,
               highlighted: classes.lightMenuItemHighlighted,
+              selected: classes.lightMenuItemSelected,
             },
           }}
           InputProps={{
