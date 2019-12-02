@@ -89,7 +89,7 @@ export function createPalette(baseColors: BaseColors): Palette {
   };
 
   const getContrastText = (background: string) => {
-    const contrastThreshold = 6;
+    const contrastThreshold = 7;
     return getContrastRatio(background, colors.textDark) <= contrastThreshold
       ? colors.textLight
       : colors.textDark;
