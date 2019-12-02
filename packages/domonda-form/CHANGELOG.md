@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.3.0](https://github.com/domonda/domonda-js/compare/@domonda/form@2.2.4...@domonda/form@2.3.0) (2019-12-02)
+
+
+### Features
+
+* **Form,FormField:** `transformers` allow the values to be transformed on the fly before notifying any of the subscribers ([7dafca0](https://github.com/domonda/domonda-js/commit/7dafca0e342b7d96f29cc06e6be149e19414c207))
+
+
+
+
+
 ## [2.2.4](https://github.com/domonda/domonda-js/compare/@domonda/form@2.2.3...@domonda/form@2.2.4) (2019-11-30)
 
 

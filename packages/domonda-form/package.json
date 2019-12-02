@@ -1,6 +1,6 @@
 {
   "name": "@domonda/form",
-  "version": "2.2.4",
+  "version": "2.3.0",
   "description": "Powerful yet simple form library built using @domonda/plumb.",
   "keywords": [
     "domonda",

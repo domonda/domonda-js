@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [8.1.1](https://github.com/domonda/domonda-js/compare/@domonda/ui@8.1.0...@domonda/ui@8.1.1) (2019-12-02)
+
+
+### Bug Fixes
+
+* **palette:** increate contrast threshold ([fa821fa](https://github.com/domonda/domonda-js/commit/fa821fad850593d315503d322b4501de035a8518))
+* **TextArea:** remove usage of naked class ([7a4829a](https://github.com/domonda/domonda-js/commit/7a4829a2ce3db00751405493a993da99ff27a1a3))
+
+
+
+
+
 # [8.1.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@8.0.3...@domonda/ui@8.1.0) (2019-11-30)
 
 

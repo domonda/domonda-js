@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.5.0](https://github.com/domonda/domonda-js/compare/@domonda/react-form@2.4.12...@domonda/react-form@2.5.0) (2019-12-02)
+
+
+### Bug Fixes
+
+* **FormDateField:** dont strip time when showing time ([6506264](https://github.com/domonda/domonda-js/commit/650626472e79b82c6578402ca1426501e07b33e1))
+* **FormDateField:** forward `showTimeSelect` props ([72ac031](https://github.com/domonda/domonda-js/commit/72ac0318e5bb8a751e045a0f45998bf4fe840127))
+
+
+### Features
+
+* **Form,FormField:** `transformers` allow the values to be transformed on the fly before notifying any of the subscribers ([7dafca0](https://github.com/domonda/domonda-js/commit/7dafca0e342b7d96f29cc06e6be149e19414c207))
+
+
+
+
+
 ## [2.4.12](https://github.com/domonda/domonda-js/compare/@domonda/react-form@2.4.11...@domonda/react-form@2.4.12) (2019-11-30)
 
 
