@@ -5,7 +5,7 @@
  */
 
 import React, { useCallback, useMemo, useEffect, useState, useRef } from 'react';
-import { parseISOToDate, stripTime } from './date';
+import { stripTime } from './date';
 import { UseFormFieldProps, FormFieldAPI, FormFieldValidate } from '../FormField';
 import { useFormContext } from '../FormContext';
 import { DateInput, DateInputProps } from './DateInput';
