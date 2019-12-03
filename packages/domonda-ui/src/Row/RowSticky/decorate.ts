@@ -11,7 +11,7 @@ const styles = createStyles((theme) => {
       ...theme.typography.variant('small', 'medium'),
       position: 'sticky',
       top: 0,
-      zIndex: 1,
+      zIndex: 2,
       boxShadow: theme.shadows.line,
       border: `1px solid ${theme.palette.border}`,
       backgroundColor: theme.palette.darken('background', 0.03),
