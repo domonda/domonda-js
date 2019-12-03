@@ -36,6 +36,7 @@ const styles = createStyles(({ palette, spacing }) => ({
     fontSize: 'inherit',
     // ./reset
     display: 'flex',
+    alignItems: 'center',
     padding: spacing('small'),
     cursor: 'pointer',
     '&:focus': {
