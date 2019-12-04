@@ -71,6 +71,7 @@ const styles = createStyles(({ palette, spacing, shadows, shape, typography }) =
     '&$startSvg, &$endSvg': {
       '& ~ $startSvg, & ~ $endSvg': {
         display: 'flex',
+        alignItems: 'flex-start',
         position: 'absolute',
         pointerEvents: 'none',
         color: palette.gray30,

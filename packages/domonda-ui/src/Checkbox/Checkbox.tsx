@@ -89,11 +89,13 @@ const styles = createStyles(({ typography, palette, spacing, transition }) => ({
     marginLeft: spacing('tiny'),
   },
   unchecked: {
-    display: 'inherit',
+    display: 'flex',
+    alignItems: 'flex-start',
     color: 'inherit',
   },
   checked: {
-    display: 'inherit',
+    display: 'flex',
+    alignItems: 'flex-start',
     color: 'inherit',
   },
   disabled: {},
