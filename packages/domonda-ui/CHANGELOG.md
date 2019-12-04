@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [8.1.2](https://github.com/domonda/domonda-js/compare/@domonda/ui@8.1.1...@domonda/ui@8.1.2) (2019-12-04)
+
+
+### Bug Fixes
+
+* **Accordion:** vertically center items ([99fd338](https://github.com/domonda/domonda-js/commit/99fd33823f90a4243e121a7994629165b4258e5e))
+* **Flex:** default wrap is `nowrap` allowing for correct height interpolation in Safari ([0db2c16](https://github.com/domonda/domonda-js/commit/0db2c16a53dd4147e6405b72f98d88ecb4f84727))
+* **Input,Checkbox:** explicit items alignment to avoid stretching ([96480ec](https://github.com/domonda/domonda-js/commit/96480ec6d1822849d556bf28ff2821b552e0d78e))
+* **RowSticky:** increase z-index over highlighted item ([a16f4cb](https://github.com/domonda/domonda-js/commit/a16f4cb1117832789449b854de2d2e5e1230b14f))
+
+
+### Performance Improvements
+
+* **Autocomplete:** reduce reflows by using the same Popper instance ([de29ac4](https://github.com/domonda/domonda-js/commit/de29ac448c7b4a0a535c3b8b685caf8fe1da9cd5))
+
+
+
+
+
 ## [8.1.1](https://github.com/domonda/domonda-js/compare/@domonda/ui@8.1.0...@domonda/ui@8.1.1) (2019-12-02)
 
 
