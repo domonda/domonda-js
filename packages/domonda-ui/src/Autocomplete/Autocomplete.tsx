@@ -111,13 +111,64 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
 
         const isOpen = downshiftIsOpen && items.length > 0;
 
-        const Container: React.FC<{ children: React.ReactElement }> = inlineMenu
-          ? ({ children }) => children
-          : ({ children }) => (
-              <Popper {...PopperProps} open={isOpen} anchorEl={anchorEl.current}>
-                {children}
-              </Popper>
-            );
+        const content = (
+          <Paper bordered shadow="small" {...PaperProps}>
+            <MenuList
+              {...(isOpen
+                ? getMenuProps(
+                    {
+                      ...MenuListProps,
+                      style: { padding: 0, ...(MenuListProps || {}).style },
+                    },
+                    { suppressRefError: true },
+                  )
+                : {})}
+            >
+              <FixedSizeList
+                width={
+                  typeof listWidth === 'number'
+                    ? listWidth
+                    : anchorEl.current
+                    ? anchorEl.current.clientWidth
+                    : 0
+                }
+                height={
+                  typeof listHeight === 'number'
+                    ? listHeight
+                    : Math.min(ITEM_SIZE * ITEMS_FIT, items.length * ITEM_SIZE)
+                }
+                itemSize={ITEM_SIZE}
+                itemCount={items.length}
+              >
+                {({ index, style }) => {
+                  const item = items[index];
+                  return (
+                    <MenuItem
+                      {...getItemProps({
+                        ...MenuItemProps,
+                        index,
+                        item,
+                        selected: selectedItem === getItemId(item),
+                        tabIndex: -1,
+                        style: {
+                          ...style,
+                          // reset top-bottom padding to accomodate size
+                          paddingTop: 0,
+                          paddingBottom: 0,
+                          // override with explicit MenuItemProps styles
+                          ...MenuItemProps.style,
+                        },
+                      })}
+                      highlighted={highlightedIndex === index}
+                    >
+                      {itemToString(item)}
+                    </MenuItem>
+                  );
+                }}
+              </FixedSizeList>
+            </MenuList>
+          </Paper>
+        );
 
         return (
           <div>
@@ -133,66 +184,15 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
               autoFocus={autoFocus}
               ref={ref as React.Ref<HTMLInputElement>}
             />
-            {!readOnly && (keepPopperMounted || isOpen) && (
-              <Container>
-                <Paper bordered shadow="small" {...PaperProps}>
-                  <MenuList
-                    {...(isOpen
-                      ? getMenuProps(
-                          {
-                            ...MenuListProps,
-                            style: { padding: 0, ...(MenuListProps || {}).style },
-                          },
-                          { suppressRefError: true },
-                        )
-                      : {})}
-                  >
-                    <FixedSizeList
-                      width={
-                        typeof listWidth === 'number'
-                          ? listWidth
-                          : anchorEl.current
-                          ? anchorEl.current.clientWidth
-                          : 0
-                      }
-                      height={
-                        typeof listHeight === 'number'
-                          ? listHeight
-                          : Math.min(ITEM_SIZE * ITEMS_FIT, items.length * ITEM_SIZE)
-                      }
-                      itemSize={ITEM_SIZE}
-                      itemCount={items.length}
-                    >
-                      {({ index, style }) => {
-                        const item = items[index];
-                        return (
-                          <MenuItem
-                            {...getItemProps({
-                              ...MenuItemProps,
-                              index,
-                              item,
-                              selected: selectedItem === getItemId(item),
-                              tabIndex: -1,
-                              style: {
-                                ...style,
-                                // reset top-bottom padding to accomodate size
-                                paddingTop: 0,
-                                paddingBottom: 0,
-                                // override with explicit MenuItemProps styles
-                                ...MenuItemProps.style,
-                              },
-                            })}
-                            highlighted={highlightedIndex === index}
-                          >
-                            {itemToString(item)}
-                          </MenuItem>
-                        );
-                      }}
-                    </FixedSizeList>
-                  </MenuList>
-                </Paper>
-              </Container>
-            )}
+            {!readOnly &&
+              (keepPopperMounted || isOpen) &&
+              (inlineMenu ? (
+                content
+              ) : (
+                <Popper {...PopperProps} open={isOpen} anchorEl={anchorEl.current}>
+                  {content}
+                </Popper>
+              ))}
           </div>
         );
       }}
