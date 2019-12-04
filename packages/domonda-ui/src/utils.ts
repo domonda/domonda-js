@@ -33,6 +33,7 @@ export function createChainedFunction(...funcs: ChainedFunction[]): (...args: an
         func.apply(this, args);
       };
     },
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     () => {},
   );
 }
