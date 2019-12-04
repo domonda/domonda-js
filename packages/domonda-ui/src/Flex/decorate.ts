@@ -4,12 +4,12 @@ import { SPACES } from '../styles/spacing';
 const styles = createStyles(({ spacing }) => ({
   container: {
     display: 'flex',
-    flexWrap: 'wrap',
+    flexWrap: 'nowrap',
     width: '100%',
   },
   item: {},
-  noWrap: {
-    flexWrap: 'nowrap',
+  wrap: {
+    flexWrap: 'wrap',
   },
   overflowing: {
     overflow: 'auto',

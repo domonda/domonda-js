@@ -17,7 +17,7 @@ export interface FlexProps extends React.HTMLAttributes<HTMLElement> {
   container?: boolean;
   item?: boolean;
   flex?: number | string;
-  noWrap?: boolean;
+  wrap?: boolean;
   direction?: React.CSSProperties['flexDirection'];
   justify?: React.CSSProperties['justifyContent'];
   align?: React.CSSProperties['alignItems'];
@@ -42,7 +42,7 @@ const Flex = React.forwardRef<HTMLElement, FlexProps & Decorate>(function Flex(p
     container,
     item,
     flex,
-    noWrap,
+    wrap,
     direction,
     justify,
     align,
@@ -97,7 +97,7 @@ const Flex = React.forwardRef<HTMLElement, FlexProps & Decorate>(function Flex(p
         clsx(
           container && classes.container,
           item && classes.item,
-          noWrap && classes.noWrap,
+          wrap && classes.wrap,
           spacing && classes[`spacing-${spacing}` as keyof typeof classes],
           overflowing && classes.overflowing,
           zeroMinWidth && classes.zeroMinWidth,
