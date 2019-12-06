@@ -70,10 +70,10 @@ const styles = createStyles(({ typography, palette, spacing, shape, shadows }) =
     zIndex: 1,
     position: 'absolute',
     right: spacing('tiny') + 2,
-    bottom: spacing('tiny') - 2,
+    bottom: spacing('tiny') - 3,
     '&$dense': {
       right: spacing('tiny') / 2 + 2,
-      bottom: spacing('tiny') / 2,
+      bottom: spacing('tiny') / 2 - 1,
     },
     '& > svg': {
       width: 9,
