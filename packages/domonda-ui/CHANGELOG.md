@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [8.1.3](https://github.com/domonda/domonda-js/compare/@domonda/ui@8.1.2...@domonda/ui@8.1.3) (2019-12-12)
+
+
+### Bug Fixes
+
+* **Checkbox:** input position is relative to the parent ([e4b4502](https://github.com/domonda/domonda-js/commit/e4b45027a253ebdeaa93b1dda10bb67f000d69d4))
+* **Select:** caret vertically centered ([d7d9821](https://github.com/domonda/domonda-js/commit/d7d98212206f8ee86ea70a4f147bffa03d35d030))
+* **Select:** vertically center caret ([a76e289](https://github.com/domonda/domonda-js/commit/a76e2893eed328ae6dff3d4f7927173935dff32b))
+
+
+
+
+
 ## [8.1.2](https://github.com/domonda/domonda-js/compare/@domonda/ui@8.1.1...@domonda/ui@8.1.2) (2019-12-04)
 
 
