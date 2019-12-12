@@ -66,14 +66,16 @@ const styles = createStyles(({ typography, palette, spacing, shape, shadows }) =
     },
   },
   icon: {
+    display: 'flex',
+    alignItems: 'center',
     pointerEvents: 'none',
     zIndex: 1,
     position: 'absolute',
     right: spacing('tiny') + 2,
-    bottom: spacing('tiny') - 3,
+    bottom: spacing('tiny'),
     '&$dense': {
       right: spacing('tiny') / 2 + 2,
-      bottom: spacing('tiny') / 2 - 1,
+      bottom: spacing('tiny') / 2 + 2,
     },
     '& > svg': {
       width: 9,
