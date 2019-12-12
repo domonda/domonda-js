@@ -18,6 +18,7 @@ import {
 
 const styles = createStyles(({ typography, palette, spacing, transition }) => ({
   root: {
+    position: 'relative',
     display: 'flex',
     alignItems: 'center',
     cursor: 'pointer',
