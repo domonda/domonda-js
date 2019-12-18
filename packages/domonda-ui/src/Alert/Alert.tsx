@@ -45,7 +45,11 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps & Decorate>(function A
       )}
       ref={ref}
     >
-      <Text color="inherit" paragraph className={clsx(classes.message)}>
+      <Text
+        color="inherit"
+        paragraph
+        className={clsx(classes.message, actions && classes.rightMargin)}
+      >
         {message instanceof Error ? message.message : message}
       </Text>
       {actions}

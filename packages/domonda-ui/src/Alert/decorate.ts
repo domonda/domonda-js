@@ -14,6 +14,9 @@ const styles = createStyles(({ palette, shape, spacing, shadows, typography }) =
     margin: 0,
     fontWeight: typography.weights.semiBold,
   },
+  rightMargin: {
+    marginRight: spacing('small'),
+  },
   flat: {
     borderRadius: 0,
     boxShadow: 'none',
