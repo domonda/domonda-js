@@ -39,6 +39,7 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-var-requires': 'off',
     '@typescript-eslint/no-use-before-define': ['error', { functions: false }],
+    '@typescript-eslint/ban-ts-ignore': 'off', // is used with caution
 
     // sometimes type assertion is neccessary and TypeScript will dissalow it if it does not fit
     '@typescript-eslint/no-object-literal-type-assertion': 'off',
