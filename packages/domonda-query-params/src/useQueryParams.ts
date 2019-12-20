@@ -57,7 +57,11 @@ export function useQueryParams<T, S = T>(
 
   const forceUpdate = useForceUpdate();
 
-  // use a ref for the query params to avoid unnecessary effect calls
+  // use a refs to avoid unnecessary effect calls
+  const onPathnameRef = useRef(onPathname);
+  if (onPathnameRef.current !== onPathname) {
+    onPathnameRef.current = onPathname;
+  }
   const queryParamsRef = useRef(parseQueryParams(history.location.search, model));
   const selectedQueryParamsRef = useRef(selector(queryParamsRef.current));
   const replacingRef = useRef(false); // prevents triggering the listener recursively when replacing the URL
@@ -95,7 +99,10 @@ export function useQueryParams<T, S = T>(
 
   useLayoutEffect(() => {
     function filteredLocationUpdate(location: Location) {
-      if (!replacingRef.current && (!onPathname || onPathname === location.pathname)) {
+      if (
+        !replacingRef.current &&
+        (!onPathnameRef.current || onPathnameRef.current === location.pathname)
+      ) {
         updateQueryParams(location);
       }
     }
@@ -124,7 +131,7 @@ export function useQueryParams<T, S = T>(
       if (!deepEqual(queryParamsRef.current, nextParams)) {
         history.push({
           // if we provided the onPathname, then updating the values should push to the route
-          pathname: onPathname ? onPathname : history.location.pathname,
+          pathname: onPathnameRef.current ? onPathnameRef.current : history.location.pathname,
           search: stringify(nextParams),
         });
       }
