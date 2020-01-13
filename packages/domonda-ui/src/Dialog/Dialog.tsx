@@ -6,7 +6,7 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import { createStyles, withStyles } from '../styles';
+import { createStyles, withStyles, WithStyles } from '../styles';
 import { capitalize } from '../utils';
 import { Modal, ModalProps } from '../Modal';
 import { Backdrop } from '../Backdrop';
@@ -14,7 +14,6 @@ import { Fade } from '../Fade';
 import { defaultDuration, TransitionHandlerProps } from '../styles/transition';
 import { Paper, PaperProps } from '../Paper';
 import { TransitionProps } from 'react-transition-group/Transition';
-import { WithStyles } from 'react-jss';
 
 const styles = createStyles({
   /* Styles applied to the root element. */

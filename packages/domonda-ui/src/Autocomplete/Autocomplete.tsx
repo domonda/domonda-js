@@ -148,7 +148,8 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
                         ...MenuItemProps,
                         index,
                         item,
-                        selected: selectedItem === getItemId(item),
+                        selected:
+                          (selectedItem && getItemId(selectedItem) === getItemId(item)) || false,
                         tabIndex: -1,
                         style: {
                           ...style,
