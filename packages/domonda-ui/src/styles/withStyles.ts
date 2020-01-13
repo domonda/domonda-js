@@ -28,7 +28,7 @@ export function withStyles<S extends Styles<any, any>, Options extends WithStyle
 ): <P extends WithStyles<S, Options['injectTheme']> & PropsOfStyles<S>>(
   Component: React.ComponentType<P>,
 ) => React.ComponentType<Omit<P, 'theme' | 'classes'> & { classes?: Partial<P['classes']> }> {
-  return jssWithStyles(styles, {
+  return jssWithStyles(styles as any, {
     injectTheme: options && options.injectTheme,
     ...options,
   }) as any;
