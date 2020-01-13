@@ -8,9 +8,6 @@ import React from 'react';
 import clsx from 'clsx';
 import { Color } from '../styles/palette';
 
-// ui
-import { Text } from '../Text';
-
 // decorate
 import { decorate, Decorate } from './decorate';
 
@@ -45,9 +42,9 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps & Decorate>(function A
       )}
       ref={ref}
     >
-      <Text inherit paragraph className={clsx(classes.message, actions && classes.rightMargin)}>
+      <div className={clsx(classes.message, actions && classes.rightMargin)}>
         {message instanceof Error ? message.message : message}
-      </Text>
+      </div>
       {actions}
     </div>
   );

@@ -13,6 +13,7 @@ const styles = createStyles(({ palette, shape, spacing, shadows, typography }) =
     flex: 1,
     margin: 0,
     fontWeight: typography.weights.semiBold,
+    fontSize: typography.sizes.small,
   },
   rightMargin: {
     marginRight: spacing('small'),
