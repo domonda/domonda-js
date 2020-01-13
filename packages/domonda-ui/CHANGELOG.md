@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [8.2.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@8.1.3...@domonda/ui@8.2.0) (2020-01-13)
+
+
+### Bug Fixes
+
+* **Alert:** add right margin to text when actions are present ([23d3e03](https://github.com/domonda/domonda-js/commit/23d3e03bc767277a9a04520860d41d9a1ac78207))
+* **Text:** explicit style props take precidence when using inherit ([0250ee6](https://github.com/domonda/domonda-js/commit/0250ee600d4222f54e26659cc7acf03a79427d35))
+
+
+### Features
+
+* **Text:** introduce `inherit` prop for style inheritance ([0c5d322](https://github.com/domonda/domonda-js/commit/0c5d32239c7d30a434ccf644098839085920e55d))
+
+
+### Performance Improvements
+
+* **styles:** use memoized derived style over hot function ([4fc76a0](https://github.com/domonda/domonda-js/commit/4fc76a01e8ac3fb250af371baeb0ebe3d5a72394))
+
+
+
+
+
 ## [8.1.3](https://github.com/domonda/domonda-js/compare/@domonda/ui@8.1.2...@domonda/ui@8.1.3) (2019-12-12)
 
 

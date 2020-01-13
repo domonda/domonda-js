@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.4](https://github.com/domonda/domonda-js/compare/@domonda/query-params@1.4.3...@domonda/query-params@1.4.4) (2020-01-13)
+
+
+### Bug Fixes
+
+* **useQueryParams:** respect `onPathname` changes ([58495e9](https://github.com/domonda/domonda-js/commit/58495e9fe6ec7bd859e9e2f4111c282cfe2817eb))
+
+
+
+
+
 ## [1.4.3](https://github.com/domonda/domonda-js/compare/@domonda/query-params@1.4.2...@domonda/query-params@1.4.3) (2019-12-12)
 
 **Note:** Version bump only for package @domonda/query-params
