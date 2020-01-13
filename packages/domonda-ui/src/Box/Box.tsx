@@ -4,7 +4,7 @@
  *
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import clsx from 'clsx';
 import { Space } from '../styles/spacing';
 
@@ -41,7 +41,7 @@ const Box = React.forwardRef<HTMLElement, BoxProps & Decorate>(function Box(prop
     ...rest
   } = props;
 
-  function deriveStyle() {
+  const derivedStyle = useMemo(() => {
     if (padding == null && margin == null && !style) {
       return undefined;
     }
@@ -61,7 +61,7 @@ const Box = React.forwardRef<HTMLElement, BoxProps & Decorate>(function Box(prop
           : undefined,
       ...style,
     };
-  }
+  }, [theme, padding, margin, style]);
 
   return (
     <Component
@@ -73,7 +73,7 @@ const Box = React.forwardRef<HTMLElement, BoxProps & Decorate>(function Box(prop
         overflowing && classes.overflowing,
         className,
       )}
-      style={deriveStyle()}
+      style={derivedStyle}
     >
       {children}
     </Component>

@@ -40,19 +40,19 @@ const Svg = React.forwardRef<HTMLElement, SvgProps & Decorate>(function Svg(prop
     return 'span';
   }, [PropComponent]);
 
-  function deriveStyle() {
+  const derivedStyle = useMemo(() => {
     const manipulator = colorVariant
       ? theme.palette[colorVariant]
       : (color: Color) => theme.palette[color];
     return { color: color === 'inherit' ? 'inherit' : manipulator(color), ...style };
-  }
+  }, [theme, color, colorVariant, style]);
 
   return (
     <Component
       {...rest}
       ref={ref}
       className={clsx(classes.root, classes[`size-${size}` as keyof typeof classes], className)}
-      style={deriveStyle()}
+      style={derivedStyle}
     >
       {children}
     </Component>

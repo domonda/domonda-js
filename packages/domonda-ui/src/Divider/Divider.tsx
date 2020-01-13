@@ -4,7 +4,7 @@
  *
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import clsx from 'clsx';
 import { createStyles, withStyles, WithStyles, Color } from '../styles';
 
@@ -36,16 +36,17 @@ const Divider = React.forwardRef<HTMLHRElement, DividerProps & WithStyles<typeof
       ...rest
     } = props;
 
-    function deriveStyle() {
-      return {
+    const derivedStyle = useMemo(
+      () => ({
         borderColor: theme.palette[color],
         borderWidth: weight === 'thin' ? 1 : 2,
         ...style,
-      };
-    }
+      }),
+      [theme, color, weight, style],
+    );
 
     return (
-      <hr {...rest} ref={ref} className={clsx(classes.root, className)} style={deriveStyle()} />
+      <hr {...rest} ref={ref} className={clsx(classes.root, className)} style={derivedStyle} />
     );
   },
 );

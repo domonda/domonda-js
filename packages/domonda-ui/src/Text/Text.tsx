@@ -59,12 +59,12 @@ const Text = React.forwardRef<HTMLElement, TextProps & Decorate>(function Text(p
     return 'span';
   }, [PropComponent, paragraph]);
 
-  function deriveStyle() {
+  const derivedStyle = useMemo(() => {
     const manipulator = colorVariant
       ? theme.palette[colorVariant]
       : (color: Color) => theme.palette[color];
     return { color: color === 'inherit' ? 'inherit' : manipulator(color), ...style };
-  }
+  }, [theme, color, colorVariant, style]);
 
   return (
     <Component
@@ -82,7 +82,7 @@ const Text = React.forwardRef<HTMLElement, TextProps & Decorate>(function Text(p
         contained && classes.contained,
         className,
       )}
-      style={deriveStyle()}
+      style={derivedStyle}
     >
       {children}
     </Component>

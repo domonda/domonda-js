@@ -4,7 +4,7 @@
  *
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import clsx from 'clsx';
 import { Theme } from '../styles';
 
@@ -43,13 +43,12 @@ const Grid = React.forwardRef<HTMLElement, GridProps & Decorate>(function Grid(p
     ...rest
   } = props;
 
-  function deriveStyle() {
+  const derivedStyle = useMemo(() => {
     if (!template && !area && !gap && !style) {
       return undefined;
     }
 
     return {
-      ...style,
       gridTemplate: template
         ? typeof template === 'function'
           ? template(theme)
@@ -57,8 +56,9 @@ const Grid = React.forwardRef<HTMLElement, GridProps & Decorate>(function Grid(p
         : undefined,
       gridArea: area ? area : undefined,
       gridGap: gap ? (typeof gap === 'function' ? gap(theme) : gap) : undefined,
+      ...style,
     };
-  }
+  }, [theme, template, area, gap, style]);
 
   return (
     <Component
@@ -72,7 +72,7 @@ const Grid = React.forwardRef<HTMLElement, GridProps & Decorate>(function Grid(p
           className,
         ) || undefined
       }
-      style={deriveStyle()}
+      style={derivedStyle}
     >
       {children}
     </Component>

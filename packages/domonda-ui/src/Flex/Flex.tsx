@@ -4,7 +4,7 @@
  *
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import clsx from 'clsx';
 import { Space } from '../styles/spacing';
 
@@ -58,7 +58,7 @@ const Flex = React.forwardRef<HTMLElement, FlexProps & Decorate>(function Flex(p
     ...rest
   } = props;
 
-  function deriveStyle() {
+  const derivedStyle = useMemo(() => {
     if (
       flex === undefined &&
       !direction &&
@@ -87,7 +87,20 @@ const Flex = React.forwardRef<HTMLElement, FlexProps & Decorate>(function Flex(p
       height: fill ? (spacing ? `calc(100% + ${theme.spacing(spacing)}px)` : '100%') : undefined,
       ...style,
     };
-  }
+  }, [
+    theme,
+    flex,
+    direction,
+    justify,
+    align,
+    justifySelf,
+    alignSelf,
+    minWidth,
+    maxWidth,
+    fill,
+    spacing,
+    style,
+  ]);
 
   return (
     <Component
@@ -104,7 +117,7 @@ const Flex = React.forwardRef<HTMLElement, FlexProps & Decorate>(function Flex(p
           className,
         ) || undefined
       }
-      style={deriveStyle()}
+      style={derivedStyle}
     >
       {children}
     </Component>
