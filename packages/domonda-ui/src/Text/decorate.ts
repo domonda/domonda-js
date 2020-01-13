@@ -11,12 +11,19 @@ const styles = createStyles(({ typography, palette, spacing, shape }) => {
   return {
     root: {
       margin: 0,
+      color: palette['textDark'],
     },
     block: {
       display: 'block',
     },
     inline: {
       display: 'inline-flex',
+    },
+    inherit: {
+      color: 'inherit',
+      fontSize: 'inherit',
+      fontWeight: 'inherit',
+      fontFamily: 'inherit',
     },
     wrap: {
       overflow: 'hidden',
@@ -68,11 +75,6 @@ const styles = createStyles(({ typography, palette, spacing, shape }) => {
       }),
       {},
     ),
-    inherit: {
-      fontSize: 'inherit',
-      fontWeight: 'inherit',
-      fontFamily: 'inherit',
-    },
   };
 });
 
