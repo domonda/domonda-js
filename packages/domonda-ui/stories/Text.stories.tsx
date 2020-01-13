@@ -25,6 +25,11 @@ stories.add('Overview', () => (
       Consectetur adipiscing elit.
     </Text>
     <Label>Some specific label</Label>
-    <Text contained>Some value for label</Text>
+    <Text contained gutterBottom>
+      Some value for label
+    </Text>
+    <Text size="medium" weight="medium" color="gray60">
+      <Text inherit>Nested style inheriting text</Text>
+    </Text>
   </>
 ));

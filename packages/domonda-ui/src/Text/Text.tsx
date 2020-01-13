@@ -16,7 +16,7 @@ export interface TextProps extends React.HTMLAttributes<HTMLElement> {
   inline?: boolean;
   gutterBottom?: boolean;
   paragraph?: boolean;
-  color?: 'inherit' | Color; // default: `textDark`
+  color?: Color; // default: `textDark`
   colorVariant?: ColorVariant;
   size?: TypographySize; // default: `small`
   weight?: TypographyWeight; // default: `regular`
@@ -24,6 +24,7 @@ export interface TextProps extends React.HTMLAttributes<HTMLElement> {
   withPlaceholder?: boolean;
   wrap?: boolean;
   contained?: boolean;
+  inherit?: boolean;
   component?: keyof React.ReactHTML;
 }
 
@@ -45,6 +46,7 @@ const Text = React.forwardRef<HTMLElement, TextProps & Decorate>(function Text(p
     withPlaceholder,
     wrap,
     contained,
+    inherit,
     component: PropComponent,
     ...rest
   } = props;
@@ -63,8 +65,8 @@ const Text = React.forwardRef<HTMLElement, TextProps & Decorate>(function Text(p
     const manipulator = colorVariant
       ? theme.palette[colorVariant]
       : (color: Color) => theme.palette[color];
-    return { color: color === 'inherit' ? 'inherit' : manipulator(color), ...style };
-  }, [theme, color, colorVariant, style]);
+    return { color: inherit ? 'inherit' : manipulator(color), ...style };
+  }, [theme, inherit, color, colorVariant, style]);
 
   return (
     <Component
@@ -80,6 +82,7 @@ const Text = React.forwardRef<HTMLElement, TextProps & Decorate>(function Text(p
         withPlaceholder && classes.withPlaceholder,
         wrap && classes.wrap,
         contained && classes.contained,
+        inherit && classes.inherit,
         className,
       )}
       style={derivedStyle}

@@ -24,7 +24,7 @@ const Loading = React.forwardRef<HTMLElement, LoadingProps & Decorate>(function 
   return (
     <Flex container align="center" justify="center" {...rest} ref={ref} classes={FlexClasses}>
       <Flex item className={classes.loadingContainer}>
-        <Text color="inherit" size="medium">
+        <Text inherit size="medium">
           Loading...
         </Text>
       </Flex>

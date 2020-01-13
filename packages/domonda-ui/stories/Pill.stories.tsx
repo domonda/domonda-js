@@ -11,12 +11,12 @@ const stories = storiesOf('Pill', module);
 stories.add('Overview', () => (
   <>
     <Pill>
-      <Text color="inherit">Beef</Text>
+      <Text inherit>Beef</Text>
     </Pill>
     <br />
     <br />
     <Pill color="success">
-      <Text color="inherit">Jerky</Text>
+      <Text inherit>Jerky</Text>
     </Pill>
     <br />
     <br />
@@ -42,7 +42,7 @@ stories.add('Overview', () => (
           </Svg>
         </Flex>
         <Flex item>
-          <Text color="inherit">Chicken</Text>
+          <Text inherit>Chicken</Text>
         </Flex>
       </Flex>
     </Pill>

@@ -68,6 +68,11 @@ const styles = createStyles(({ typography, palette, spacing, shape }) => {
       }),
       {},
     ),
+    inherit: {
+      fontSize: 'inherit',
+      fontWeight: 'inherit',
+      fontFamily: 'inherit',
+    },
   };
 });
 
