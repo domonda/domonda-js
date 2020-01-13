@@ -12,7 +12,7 @@ const styles = createStyles(({ palette, shape, spacing, shadows, typography }) =
   message: {
     flex: 1,
     margin: 0,
-    fontWeight: typography.weights.semiBold,
+    fontWeight: typography.weights.medium,
     fontSize: typography.sizes.small,
   },
   rightMargin: {
