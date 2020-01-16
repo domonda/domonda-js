@@ -39,7 +39,7 @@
   "devDependencies": {
     "@testing-library/react": "^9.4.0",
     "@testing-library/react-hooks": "^3.2.1",
-    "@types/history": "^4.7.3",
+    "@types/history": "^4.7.4",
     "@types/lodash": "^4.14.149",
     "@types/react": "^16.9.17",
     "@types/react-dom": "^16.9.4",
@@ -50,6 +50,6 @@
     "history": "^4.10.1",
     "lodash.clonedeepwith": "^4.5.0",
     "lodash.pickby": "^4.6.0",
-    "query-string": "^6.9.0"
+    "query-string": "^6.10.0"
   }
 }
