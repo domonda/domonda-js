@@ -1,4 +1,7 @@
+const path = require('path');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+
+const tsconfigPath = path.resolve(__dirname, 'tsconfig.json');
 
 module.exports = ({ config }) => {
   const dev = config.mode === 'development';
@@ -10,7 +13,9 @@ module.exports = ({ config }) => {
     use: [
       {
         loader: require.resolve('ts-loader'),
-        options: dev ? { transpileOnly: true, experimentalWatchApi: true } : {},
+        options: Object.assign(dev ? { transpileOnly: true, experimentalWatchApi: true } : {}, {
+          configFile: tsconfigPath,
+        }),
       },
       {
         loader: require.resolve('react-docgen-typescript-loader'),
@@ -21,6 +26,7 @@ module.exports = ({ config }) => {
   if (dev) {
     config.plugins.push(
       new ForkTsCheckerWebpackPlugin({
+        tsconfig: tsconfigPath,
         checkSyntacticErrors: true,
       }),
     );

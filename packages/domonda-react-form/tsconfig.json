@@ -3,5 +3,5 @@
   "compilerOptions": {
     "outDir": "lib"
   },
-  "include": ["src", "stories", "__tests__"]
+  "include": ["src", "__tests__"]
 }
