@@ -133,6 +133,11 @@ export function parseQueryParams<V>(queryString: string, model: QueryModel<V>): 
   return parsedValues as V;
 }
 
+/** Following the model, gives the query params populated with default values. */
+export function defaultQueryParams<V>(model: QueryModel<V>) {
+  return parseQueryParams<V>('', model);
+}
+
 function deepFreeze<T extends { [key: string]: any }>(object: T): T {
   Object.freeze(object);
   Object.getOwnPropertyNames(object).forEach((name) => {

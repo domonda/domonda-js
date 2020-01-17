@@ -1,4 +1,4 @@
-import { QueryModel, parseQueryParams, stringify } from '../src/queryParams';
+import { QueryModel, parseQueryParams, defaultQueryParams, stringify } from '../src/queryParams';
 
 it('should parse strings', () => {
   const model: QueryModel<{ str: string }> = {
@@ -289,4 +289,36 @@ it('should not allow mutations on resulting parameters', () => {
   }
 
   expect(values).toEqual(state);
+});
+
+describe('defaultQueryParams', () => {
+  it('should return default params given a model', () => {
+    const model: QueryModel<unknown> = {
+      str: {
+        type: 'string',
+        defaultValue: 'default',
+      },
+      num: {
+        type: 'number',
+        defaultValue: -1,
+      },
+      strs: {
+        type: 'array',
+        defaultValue: [''],
+      },
+      nums: {
+        type: 'array',
+        defaultValue: [-1],
+      },
+    };
+
+    const defaultParams = defaultQueryParams(model);
+
+    expect(defaultParams).toEqual({
+      str: 'default',
+      num: -1,
+      strs: [''],
+      nums: [-1],
+    });
+  });
 });
