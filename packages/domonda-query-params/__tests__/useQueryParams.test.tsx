@@ -615,3 +615,40 @@ it('should update the history only once when partially setting the params', () =
 
   expect(spy).toBeCalledTimes(2); // initially and when updating
 });
+
+it('should use new model before partially setting the params', () => {
+  const history = createMemoryHistory();
+
+  const { result, rerender } = renderHook((model: QueryModel<any>) => useQueryParams(model), {
+    initialProps: {
+      str: {
+        type: 'string',
+        defaultValue: 'default',
+      },
+    },
+    wrapper: ({ children }) => (
+      <QueryParamsProvider history={history}>{children}</QueryParamsProvider>
+    ),
+  });
+
+  expect(result.current[0]).toEqual({ str: 'default' });
+
+  rerender({
+    num: {
+      type: 'number',
+      defaultValue: -1,
+    },
+    arr: {
+      type: 'array',
+      defaultValue: [-1],
+    },
+  });
+
+  expect(result.current[0]).toEqual({ num: -1, arr: [-1] });
+
+  act(() => {
+    result.current[1]({ num: 1 });
+  });
+
+  expect(result.current[0]).toEqual({ num: 1, arr: [-1] });
+});
