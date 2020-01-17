@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/domonda/domonda-js/compare/@domonda/query-params@1.4.4...@domonda/query-params@1.5.0) (2020-01-17)
+
+
+### Features
+
+* **defaultQueryParams:** following the model, gives the query params populated with default values ([0f9eca0](https://github.com/domonda/domonda-js/commit/0f9eca0be2c5dfa78a463ad7530d214ddb5de39d))
+* **partial params:** setParams function now allows partial params which get merged with default values as per model ([4b98106](https://github.com/domonda/domonda-js/commit/4b98106ad258632a0b06f7e70f406cfa93bee29f))
+
+
+
+
+
 ## [1.4.4](https://github.com/domonda/domonda-js/compare/@domonda/query-params@1.4.3...@domonda/query-params@1.4.4) (2020-01-13)
 
 

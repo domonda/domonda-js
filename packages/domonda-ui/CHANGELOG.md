@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [8.2.1](https://github.com/domonda/domonda-js/compare/@domonda/ui@8.2.0...@domonda/ui@8.2.1) (2020-01-17)
+
+**Note:** Version bump only for package @domonda/ui
+
+
+
+
+
 # [8.2.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@8.1.3...@domonda/ui@8.2.0) (2020-01-13)
 
 
