@@ -5,7 +5,7 @@
  */
 
 import { useRef, useState, useLayoutEffect, useContext, useCallback } from 'react';
-import { QueryModel, parseQueryParams, stringify } from './queryParams';
+import { QueryModel, parseQueryParams, defaultQueryParams, stringify } from './queryParams';
 import { QueryParamsContext } from './QueryParamsContext';
 import { deepEqual } from 'fast-equals';
 import { Location } from 'history';
@@ -31,7 +31,7 @@ export interface UseQueryParamsProps<T, S> {
 
 export type UseQueryParamsResult<T, S> = [
   S,
-  (selectedParmasOrUpdater: T | ((currSelectedParams: T) => T)) => void,
+  (selectedParmasOrUpdater: Partial<T> | ((currSelectedParams: T) => Partial<T>)) => void,
 ];
 
 function defaultSelector<T, S>(params: T) {
@@ -123,10 +123,12 @@ export function useQueryParams<T, S = T>(
   return [
     selectedQueryParamsRef.current,
     useCallback((paramsOrUpdater) => {
-      const nextParams =
-        paramsOrUpdater instanceof Function
+      const nextParams = {
+        ...defaultQueryParams(model),
+        ...(paramsOrUpdater instanceof Function
           ? paramsOrUpdater(queryParamsRef.current)
-          : paramsOrUpdater;
+          : paramsOrUpdater),
+      };
 
       if (!deepEqual(queryParamsRef.current, nextParams)) {
         history.push({

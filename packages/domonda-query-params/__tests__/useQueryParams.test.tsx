@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { createMemoryHistory } from 'history';
-import { QueryModel, stringify } from '../src/queryParams';
+import { QueryModel, stringify, defaultQueryParams } from '../src/queryParams';
 import { useQueryParams } from '../src/useQueryParams';
 import { QueryParamsProvider } from '../src/QueryParamsContext';
 
@@ -541,4 +541,77 @@ it('should not replace the URL with the default values when replacing is disable
   });
 
   expect(history.location.search).toBe('');
+});
+
+it('should use defaults from the model when partially setting the params', () => {
+  const history = createMemoryHistory();
+
+  const model: QueryModel<{ str: string; num: number; arr: number[] }> = {
+    str: {
+      type: 'string',
+      defaultValue: 'default',
+    },
+    num: {
+      type: 'number',
+      defaultValue: 1,
+    },
+    arr: {
+      type: 'array',
+      defaultValue: [-1],
+    },
+  };
+
+  const { result } = renderHook(() => useQueryParams(model), {
+    wrapper: ({ children }) => (
+      <QueryParamsProvider history={history}>{children}</QueryParamsProvider>
+    ),
+  });
+
+  act(() => {
+    result.current[1]({ str: 'not-default' });
+  });
+
+  const expectingParams = { ...defaultQueryParams(model), str: 'not-default' };
+  expect(result.current[0]).toEqual(expectingParams);
+  expect(history.location.search).toBe(stringify(expectingParams, { prependQuestionMark: true }));
+});
+
+it('should update the history only once when partially setting the params', () => {
+  const history = createMemoryHistory();
+
+  const spy = jest.fn();
+  history.listen(spy);
+
+  const model: QueryModel<{ str: string; num: number; arr: number[] }> = {
+    str: {
+      type: 'string',
+      defaultValue: 'default',
+    },
+    num: {
+      type: 'number',
+      defaultValue: 1,
+    },
+    arr: {
+      type: 'array',
+      defaultValue: [-1],
+    },
+  };
+
+  const { result } = renderHook(() => useQueryParams(model), {
+    wrapper: ({ children }) => (
+      <QueryParamsProvider history={history}>{children}</QueryParamsProvider>
+    ),
+  });
+
+  // defaults stayed
+  act(() => {
+    result.current[1]({});
+  });
+
+  // changed
+  act(() => {
+    result.current[1]({ str: 'not-default' });
+  });
+
+  expect(spy).toBeCalledTimes(2); // initially and when updating
 });
