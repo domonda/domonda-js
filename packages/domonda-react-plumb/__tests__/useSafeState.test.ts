@@ -8,6 +8,7 @@ import { useSafeState } from '../src/useSafeState';
 import { renderHook, act } from '@testing-library/react-hooks';
 
 it('should not set state when unmounted', () => {
+  // eslint-disable-next-line no-console
   console.error = jest.fn();
 
   const { result, unmount } = renderHook(useSafeState);
@@ -18,5 +19,6 @@ it('should not set state when unmounted', () => {
     result.current[1]({});
   });
 
+  // eslint-disable-next-line no-console
   expect(console.error).not.toBeCalled();
 });

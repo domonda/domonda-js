@@ -64,7 +64,7 @@ describe('Updating', () => {
 
   it('should next updated state instead of re-creating the plumb', () => {
     const { result, rerender } = renderHook(({ state, tag }) => usePlumb(state, tag), {
-      initialProps: { state: initialState, tag: undefined as (string | undefined) },
+      initialProps: { state: initialState, tag: undefined as string | undefined },
     });
 
     const spy = jest.fn();

@@ -41,10 +41,14 @@ describe('Plumb', () => {
 
       const tags = ['1', '2', 'three', 'f0ur'];
 
-      const spy1 = jest.fn((_0, _1) => {});
+      const spy1 = jest.fn((_0, _1) => {
+        // noop
+      });
       plumb.subscribe(spy1);
 
-      const spy2 = jest.fn((_0, _1) => {});
+      const spy2 = jest.fn((_0, _1) => {
+        // noop
+      });
       plumb.subscribe({ next: spy2 });
 
       tags.forEach((tag) => {
@@ -66,7 +70,20 @@ describe('Plumb', () => {
       it('should remove the subscriber', () => {
         const plumb = createPlumb('');
 
-        const others = [() => {}, () => {}, () => {}, () => {}];
+        const others = [
+          () => {
+            // noop
+          },
+          () => {
+            // noop
+          },
+          () => {
+            // noop
+          },
+          () => {
+            // noop
+          },
+        ];
 
         others.forEach((sub) => {
           plumb.subscribe(sub);
@@ -247,7 +264,9 @@ describe('Plumb', () => {
         undefined,
       );
 
-      const plumbSpy = jest.fn((_0) => {});
+      const plumbSpy = jest.fn((_0) => {
+        // noop
+      });
       plumb.subscribe(plumbSpy);
 
       const jane = {
@@ -255,7 +274,9 @@ describe('Plumb', () => {
         name: 'Jane',
       };
 
-      const personSpy = jest.fn((_0) => {});
+      const personSpy = jest.fn((_0) => {
+        // noop
+      });
       person.subscribe(personSpy);
 
       person.next(jane, undefined);
@@ -277,7 +298,9 @@ describe('Plumb', () => {
         };
       });
 
-      const spy = jest.fn((_0, _1) => {});
+      const spy = jest.fn((_0, _1) => {
+        // noop
+      });
       plumb.subscribe(spy);
 
       const person = plumb.chain(
@@ -609,9 +632,23 @@ describe('Plumb', () => {
       expect(() => {
         plumb.subscribers;
       }).toThrow();
-      expect(() => plumb.chain({ selector: () => {}, updater: () => '' }, undefined)).toThrow();
+      expect(() =>
+        plumb.chain(
+          {
+            selector: () => {
+              // noop
+            },
+            updater: () => '',
+          },
+          undefined,
+        ),
+      ).toThrow();
       expect(() => plumb.next('', undefined)).toThrow();
-      expect(() => plumb.subscribe(() => {})).toThrow();
+      expect(() =>
+        plumb.subscribe(() => {
+          // noop
+        }),
+      ).toThrow();
       expect(() => plumb.dispose()).toThrow();
     });
 

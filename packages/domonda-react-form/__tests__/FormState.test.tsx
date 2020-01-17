@@ -221,7 +221,7 @@ describe('Updating', () => {
 
     let form: DomondaForm<typeof dv>;
 
-    let { rerender } = render(
+    const { rerender } = render(
       <Form getForm={(f) => (form = f)} resetOnDefaultValuesChange defaultValues={dv}>
         <FormChangedState>{spy}</FormChangedState>
       </Form>,

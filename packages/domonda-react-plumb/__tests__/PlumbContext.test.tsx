@@ -10,10 +10,6 @@ import { PlumbProvider, usePlumbContext } from '../src/PlumbContext';
 import { renderHook, act as hookAct } from '@testing-library/react-hooks';
 import { render } from '@testing-library/react';
 
-afterEach(() => {
-  debugger;
-});
-
 interface State {
   document: {
     id: string;

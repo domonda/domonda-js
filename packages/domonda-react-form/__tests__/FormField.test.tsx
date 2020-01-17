@@ -111,8 +111,8 @@ describe('Update', () => {
   it('should properly handle field path change', () => {
     const [form] = createForm(defaultValues);
 
-    let denisNamePath = pathToDenis + '.name';
-    let erikNamePath = pathToErik + '.name';
+    const denisNamePath = pathToDenis + '.name';
+    const erikNamePath = pathToErik + '.name';
     const initialProps: UseFormFieldProps<string> = { path: denisNamePath };
 
     const { result, rerender } = renderHook(useFormField, {
@@ -135,7 +135,7 @@ describe('Update', () => {
   it('should get new value if changed on form', () => {
     const [form] = createForm(defaultValues);
 
-    let path = pathToDenis + '.name';
+    const path = pathToDenis + '.name';
     const initialProps: UseFormFieldProps<string> = { path };
 
     const { result } = renderHook(useFormField, {
@@ -167,7 +167,7 @@ describe('Update', () => {
   it('should properly handle value update', () => {
     const [form] = createForm(defaultValues);
 
-    let path = pathToDenis + '.name';
+    const path = pathToDenis + '.name';
     const initialProps: UseFormFieldProps<string> = { path };
 
     const { result } = renderHook(useFormField, {
@@ -189,7 +189,7 @@ describe('Update', () => {
   it('should reset to default value on reset call', () => {
     const [form] = createForm(defaultValues);
 
-    let path = pathToDenis + '.name';
+    const path = pathToDenis + '.name';
     const initialProps: UseFormFieldProps<string> = { path };
 
     const { result } = renderHook(useFormField, {
@@ -217,7 +217,7 @@ describe('Update', () => {
   it('should call subscribers only when value changes', () => {
     const [form] = createForm(defaultValues);
 
-    let path = pathToDenis + '.name';
+    const path = pathToDenis + '.name';
     const initialProps: UseFormFieldProps<string> = { path };
 
     const { result, rerender } = renderHook(useFormField, {

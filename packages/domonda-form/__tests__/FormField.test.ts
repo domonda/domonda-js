@@ -378,7 +378,9 @@ describe('Transform', () => {
       transformer: (date) => new Date(date as string),
     });
 
-    const spy = jest.fn((_0) => {});
+    const spy = jest.fn((_0) => {
+      // noop
+    });
     field.plumb.subscribe(spy);
 
     field.setValue('1945-01-01');

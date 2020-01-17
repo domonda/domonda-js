@@ -473,7 +473,9 @@ describe('Transforming', () => {
     const [form] = createForm(newBorn, { transformer: ageIncrementor });
     const [field] = form.makeFormField('age');
 
-    const spy = jest.fn((_0) => {});
+    const spy = jest.fn((_0) => {
+      // noop
+    });
     field.plumb.subscribe(spy);
 
     field.setValue(10);

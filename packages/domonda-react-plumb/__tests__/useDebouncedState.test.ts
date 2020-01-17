@@ -25,6 +25,7 @@ it('should set state after debounced time', async () => {
 });
 
 it('should not set state when unmounted', (done) => {
+  // eslint-disable-next-line no-console
   console.error = jest.fn();
 
   const delay = 1;
@@ -37,6 +38,7 @@ it('should not set state when unmounted', (done) => {
   unmount();
 
   setTimeout(() => {
+    // eslint-disable-next-line no-console
     expect(console.error).not.toBeCalled();
     done();
   }, delay);
