@@ -38,7 +38,7 @@
   "dependencies": {
     "clsx": "^1.0.4",
     "deepmerge": "^4.2.2",
-    "downshift": "^4.0.6",
+    "downshift": "^4.0.7",
     "fast-equals": "^2.0.0",
     "jss-plugin-camel-case": "^10.0.3",
     "jss-plugin-global": "^10.0.3",
@@ -64,7 +64,7 @@
     "@types/react-virtualized-auto-sizer": "^1.0.0",
     "@types/react-window": "^1.8.1",
     "babel-loader": "^8.0.6",
-    "fork-ts-checker-webpack-plugin": "^3.1.1",
+    "fork-ts-checker-webpack-plugin": "^4.0.1",
     "react-docgen-typescript-loader": "^3.6.0",
     "react-test-renderer": "^16.12.0",
     "ts-loader": "^6.2.1"
