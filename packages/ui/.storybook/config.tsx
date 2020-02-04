@@ -7,7 +7,7 @@
 import React, { StrictMode } from 'react';
 import { configure, addDecorator } from '@storybook/react';
 
-import { createTheme, ThemeProvider } from '../src/styles';
+import { ThemeProvider } from '../src/styles';
 import { ThemeProvider as TreatThemeProvider } from '../src/styles/treat';
 import { Baseline } from '../src/Baseline';
 import { Text } from '../src/Text';
