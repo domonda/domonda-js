@@ -1,10 +1,8 @@
 const path = require('path');
-
-const tsconfigPath = path.resolve(__dirname, 'tsconfig.json');
+const TreatPlugin = require('treat/webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = ({ config }) => {
-  const dev = config.mode === 'development';
-
   config.resolve.extensions.push('.ts', '.tsx');
 
   config.module.rules.push({
@@ -20,6 +18,15 @@ module.exports = ({ config }) => {
       },
     ],
   });
+
+  config.plugins = [
+    new TreatPlugin({
+      verbose: true,
+      outputLoaders: [MiniCssExtractPlugin.loader],
+    }),
+    new MiniCssExtractPlugin(),
+    ...config.plugins,
+  ];
 
   return config;
 };

@@ -42,8 +42,10 @@
     "jss-plugin-vendor-prefixer": "^10.3.0",
     "popper.js": "^1.16.1",
     "react-jss": "^10.3.0",
+    "react-treat": "^1.2.4",
     "react-window": "^1.8.5",
-    "resize-observer-polyfill": "^1.5.1"
+    "resize-observer-polyfill": "^1.5.1",
+    "treat": "^1.2.2"
   },
   "devDependencies": {
     "@storybook/addon-info": "^5.3.19",
@@ -56,6 +58,7 @@
     "@types/react-virtualized-auto-sizer": "^1.0.0",
     "@types/react-window": "^1.8.2",
     "babel-loader": "^8.1.0",
+    "mini-css-extract-plugin": "^0.9.0",
     "react-test-renderer": "^16.13.1",
     "typescript": "^3.9.5",
     "webpack": "^4.43.0"
