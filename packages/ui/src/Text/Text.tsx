@@ -7,12 +7,10 @@
 import React, { useMemo } from 'react';
 import clsx from 'clsx';
 import { Color, ColorVariant, TypographySize, TypographyWeight, TypographyFont } from '../styles';
-
-// decorate
-import { decorate, Decorate } from './decorate';
+import { useStyles, useTheme } from '../styles/treat';
+import { styles } from './Text.treat';
 
 export interface TextProps extends React.HTMLAttributes<HTMLElement> {
-  classes?: Partial<Decorate['classes']>;
   inline?: boolean;
   inherit?: boolean;
   gutterBottom?: boolean;
@@ -28,11 +26,9 @@ export interface TextProps extends React.HTMLAttributes<HTMLElement> {
   component?: keyof React.ReactHTML;
 }
 
-const Text = React.forwardRef<HTMLElement, TextProps & Decorate>(function Text(props, ref) {
+export const Text = React.forwardRef<HTMLElement, TextProps>(function Text(props, ref) {
   const {
     children,
-    theme,
-    classes,
     className,
     inline,
     inherit,
@@ -50,6 +46,9 @@ const Text = React.forwardRef<HTMLElement, TextProps & Decorate>(function Text(p
     component: PropComponent,
     ...rest
   } = props;
+
+  const theme = useTheme();
+  const classes = useStyles(styles);
 
   const Component = useMemo(() => {
     if (PropComponent) {
@@ -94,10 +93,3 @@ const Text = React.forwardRef<HTMLElement, TextProps & Decorate>(function Text(p
     </Component>
   );
 });
-
-if (process.env.NODE_ENV !== 'production') {
-  Text.displayName = 'Text';
-}
-
-const StyledText = decorate(Text);
-export { StyledText as Text };
