@@ -92,6 +92,7 @@ const Overview: React.FC<WithStyles<typeof styles>> = (props) => {
           }}
           InputProps={{
             naked: true,
+            // TODO-db-200502 solve this with new treat implementation
             classes: { input: classes.lightInput, endSvg: classes.lightInputEndSvg },
             endSvg: (
               <svg
