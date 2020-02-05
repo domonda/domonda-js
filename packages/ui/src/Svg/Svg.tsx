@@ -7,23 +7,19 @@
 import React, { useMemo } from 'react';
 import clsx from 'clsx';
 import { Color, ColorVariant, TypographySize } from '../styles';
-
-// decorate
-import { decorate, Decorate } from './decorate';
+import { useTheme, useStyles } from '../styles/treat';
+import { styles } from './Svg.treat';
 
 export interface SvgProps extends React.HTMLAttributes<HTMLElement> {
-  classes?: Partial<Decorate['classes']>;
   color?: 'inherit' | Color; // default: `textDark`
   colorVariant?: ColorVariant;
   size?: TypographySize; // default: `small`
   component?: keyof React.ReactHTML;
 }
 
-const Svg = React.forwardRef<HTMLElement, SvgProps & Decorate>(function Svg(props, ref) {
+export const Svg = React.forwardRef<HTMLElement, SvgProps>(function Svg(props, ref) {
   const {
     children,
-    theme,
-    classes,
     className,
     color = 'textDark',
     colorVariant,
@@ -40,12 +36,15 @@ const Svg = React.forwardRef<HTMLElement, SvgProps & Decorate>(function Svg(prop
     return 'span';
   }, [PropComponent]);
 
+  const theme = useTheme();
   const derivedStyle = useMemo(() => {
     const manipulator = colorVariant
       ? theme.palette[colorVariant]
       : (color: Color) => theme.palette[color];
     return { color: color === 'inherit' ? 'inherit' : manipulator(color), ...style };
   }, [theme, color, colorVariant, style]);
+
+  const classes = useStyles(styles);
 
   return (
     <Component
@@ -58,10 +57,3 @@ const Svg = React.forwardRef<HTMLElement, SvgProps & Decorate>(function Svg(prop
     </Component>
   );
 });
-
-if (process.env.NODE_ENV !== 'production') {
-  Svg.displayName = 'Svg';
-}
-
-const StyledSvg = decorate(Svg);
-export { StyledSvg as Svg };
