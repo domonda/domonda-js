@@ -60,6 +60,7 @@ export const COLORS: Color[] = [
   'textDark',
   'textLight',
 ];
+export const COLOR_PREFIX = 'color-';
 
 // color variants
 

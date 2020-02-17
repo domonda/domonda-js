@@ -24,6 +24,7 @@ export const TYPOGRAPHY_WEIGHTS: TypographyWeight[] = ['regular', 'medium', 'sem
 export type TypographySize = 'tiny' | 'small' | 'medium' | 'large';
 export type TypographySizes = { [size in TypographySize]: number };
 export const TYPOGRAPHY_SIZES: TypographySize[] = ['tiny', 'small', 'medium', 'large'];
+export const TYPOGRAPHY_SIZE_PREFIX = 'size-';
 
 // variant
 
