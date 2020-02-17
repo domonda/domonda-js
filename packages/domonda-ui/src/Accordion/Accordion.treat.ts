@@ -5,6 +5,7 @@ export const styles = styleMap(({ spacing }) => ({
     display: 'flex',
     flexDirection: 'column',
   },
+  open: {},
   button: {
     // reset
     border: 0,
@@ -35,7 +36,6 @@ export const styles = styleMap(({ spacing }) => ({
   content: {
     padding: spacing('tiny', 'small', 'small', 'small'),
   },
-  open: {},
 }));
 
 // open
@@ -43,17 +43,15 @@ globalStyle(`${styles.root}${styles.open}`, ({ palette }) => ({
   borderBottom: `1px solid ${palette.gray08}`,
 }));
 
-// hover
+// button
 globalStyle(`${styles.button}:hover`, ({ palette }) => ({
   backgroundColor: palette.lightest('gray08'),
 }));
 
-// focus
 globalStyle(`${styles.button}:focus`, ({ palette }) => ({
   outline: `2px solid ${palette.light('primary')}`,
 }));
 
-// active
 globalStyle(`${styles.button}:active`, () => ({
   outline: 'none',
 }));
