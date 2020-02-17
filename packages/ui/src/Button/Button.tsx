@@ -4,64 +4,55 @@
  *
  */
 
-import clsx from 'clsx';
 import React from 'react';
-import { generateStaticClassName } from '../styles/generateStaticClassName';
-import { Color } from '../styles/palette';
-import { TypographySize } from '../styles/typography';
+import clsx from 'clsx';
 
-// decorate
-import { decorate, Decorate } from './decorate';
+import { useStyles } from '../styles/treat';
+import { COLOR_PREFIX, Color } from '../styles/palette';
+import { TYPOGRAPHY_SIZE_PREFIX, TypographySize } from '../styles/typography';
 
-export const buttonClassName = generateStaticClassName('Button');
+import { styles } from './Button.treat';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  classes?: Partial<Decorate['classes']>;
   color?: Color; // default: `accent`
-  variant?: 'text' | 'link' | 'primary' | 'secondary'; // default: `secondary`
-  size?: TypographySize; // default: `small`
   component?: string | React.ComponentType<React.HTMLAttributes<HTMLElement>>;
+  disabled?: boolean;
+  size?: TypographySize; // default: `small`
+  variant?: 'text' | 'link' | 'primary' | 'secondary'; // default: `secondary`
 }
 
-const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps & Decorate>(
+export const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
   function Button(props, ref) {
     const {
       children,
-      classes,
-      color = 'accent',
-      variant = 'secondary',
       className,
-      size = 'small',
-      disabled,
+      color = 'accent',
       component: Component = 'button' as React.ElementType<React.ComponentPropsWithRef<'button'>>,
+      disabled,
+      size = 'small',
+      variant = 'secondary',
       ...rest
     } = props;
 
+    const classes = useStyles(styles);
+
     return (
       <Component
-        type="button"
         {...rest}
         ref={ref as any}
-        disabled={disabled}
         className={clsx(
-          buttonClassName,
           classes.root,
-          classes[`size-${size}` as keyof typeof classes],
+          color && classes[(COLOR_PREFIX + color) as keyof typeof classes],
+          classes[(TYPOGRAPHY_SIZE_PREFIX + size) as keyof typeof classes],
           classes[variant],
           disabled && classes.disabled,
-          color && classes[`color-${color}` as keyof typeof classes],
           className,
         )}
+        disabled={disabled}
+        type="button"
       >
         <span className={clsx(classes.label)}>{children}</span>
       </Component>
     );
   },
 );
-
-if (process.env.NODE_ENV !== 'production') {
-  Button.displayName = 'Button';
-}
-
-const StyledButton = decorate(Button);
-export { StyledButton as Button };
