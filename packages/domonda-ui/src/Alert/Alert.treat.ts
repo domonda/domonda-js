@@ -1,35 +1,35 @@
 import { styleMap } from '../styles/treat';
-import { COLORS } from '../styles/palette';
+import { COLORS, COLOR_PREFIX } from '../styles/palette';
 
 export const styles = styleMap(({ palette, shape, spacing, shadows, typography }) => ({
   root: {
-    display: 'flex',
     alignItems: 'center',
-    padding: spacing('small', 'medium'),
-    borderRadius: shape.borderRadius.small,
+    display: 'flex',
     boxShadow: shadows.line,
-  },
-  message: {
-    flex: 1,
-    margin: 0,
-    fontWeight: typography.weights.medium,
-    fontSize: typography.sizes.small,
-  },
-  rightMargin: {
-    marginRight: spacing('small'),
-  },
-  flat: {
-    borderRadius: 0,
-    boxShadow: 'none',
+    borderRadius: shape.borderRadius.small,
+    padding: spacing('small', 'medium'),
   },
   ...COLORS.reduce(
     (acc, color) => ({
       ...acc,
-      [color]: {
-        color: palette.contrastText(color),
+      [COLOR_PREFIX + color]: {
         backgroundColor: palette[color],
+        color: palette.contrastText(color),
       },
     }),
     {},
   ),
+  flat: {
+    boxShadow: 'none',
+    borderRadius: 0,
+  },
+  message: {
+    flex: 1,
+    margin: 0,
+    fontSize: typography.sizes.small,
+    fontWeight: typography.weights.medium,
+  },
+  rightMargin: {
+    marginRight: spacing('small'),
+  },
 }));
