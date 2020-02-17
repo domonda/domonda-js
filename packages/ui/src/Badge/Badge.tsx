@@ -6,12 +6,13 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import { styles } from './Badge.treat';
+
 import { useStyles } from '../styles/treat';
-import { Color } from '../styles/palette';
+import { COLOR_PREFIX, Color } from '../styles/palette';
+
+import { styles } from './Badge.treat';
 
 export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
-  children: React.ReactNode;
   color?: Color; // default: `accent`
 }
 
@@ -22,9 +23,13 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(function Badg
 
   return (
     <span
-      ref={ref}
-      className={clsx(classes.root, classes[color as keyof typeof classes], className)}
       {...rest}
+      ref={ref}
+      className={clsx(
+        classes.root,
+        classes[(COLOR_PREFIX + color) as keyof typeof classes],
+        className,
+      )}
     >
       {children}
     </span>
