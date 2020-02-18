@@ -5,9 +5,10 @@
  */
 
 import React from 'react';
+
+import { Button } from '../Button';
 import { Flex, FlexProps } from '../Flex';
 import { Text } from '../Text';
-import { Button } from '../Button';
 
 export interface ErrProps extends FlexProps {
   error: Error;
@@ -16,20 +17,22 @@ export interface ErrProps extends FlexProps {
 
 export const Err = React.forwardRef<HTMLElement, ErrProps>(function Err(props, ref) {
   const { children, error, onRetry, ...rest } = props;
+
   return (
     <Flex
-      fill
-      container
-      spacing="small"
-      direction="column"
-      align="center"
-      justify="center"
-      {...rest}
       ref={ref}
+      container
+      fill
+      align="center"
+      direction="column"
+      justify="center"
+      spacing="small"
+      {...rest}
     >
       <Flex item style={{ textAlign: 'center' }}>
         <Text color="danger">{error.message}</Text>
       </Flex>
+
       {onRetry && (
         <Flex item>
           <Button variant="secondary" onClick={onRetry}>
@@ -40,7 +43,3 @@ export const Err = React.forwardRef<HTMLElement, ErrProps>(function Err(props, r
     </Flex>
   );
 });
-
-if (process.env.NODE_ENV !== 'production') {
-  Err.displayName = 'Err';
-}
