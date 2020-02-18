@@ -5,24 +5,23 @@
  */
 
 import React from 'react';
+
+import { useStyles } from '../styles/treat';
+
 import { Flex, FlexProps } from '../Flex';
 import { Text } from '../Text';
 
-// decorate
-import { decorate, Decorate } from './decorate';
+import { styles } from './Loading.treat';
 
-export interface LoadingProps extends Omit<FlexProps, 'classes'> {
-  classes?: Partial<Decorate['classes']>;
-  FlexClasses?: FlexProps['classes'];
-}
+export interface LoadingProps extends FlexProps {}
 
-const Loading = React.forwardRef<HTMLElement, LoadingProps & Decorate>(function Loading(
-  props,
-  ref,
-) {
-  const { children, classes, FlexClasses, ...rest } = props;
+export const Loading = React.forwardRef<HTMLElement, LoadingProps>(function Loading(props, ref) {
+  const { children, ...rest } = props;
+
+  const classes = useStyles(styles);
+
   return (
-    <Flex container align="center" justify="center" {...rest} ref={ref} classes={FlexClasses}>
+    <Flex ref={ref} container align="center" justify="center" {...rest}>
       <Flex item className={classes.loadingContainer}>
         <Text inherit size="medium">
           Loading...
@@ -31,10 +30,3 @@ const Loading = React.forwardRef<HTMLElement, LoadingProps & Decorate>(function 
     </Flex>
   );
 });
-
-if (process.env.NODE_ENV !== 'production') {
-  Loading.displayName = 'Loading';
-}
-
-const StyledLoading = decorate(Loading);
-export { StyledLoading as Loading };
