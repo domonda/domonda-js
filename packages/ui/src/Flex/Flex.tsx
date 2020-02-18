@@ -6,100 +6,101 @@
 
 import React, { useMemo } from 'react';
 import clsx from 'clsx';
-import { Space } from '../styles/spacing';
 
-// decorate
-import { decorate, Decorate } from './decorate';
+import { useStyles, useTheme } from '../styles/treat';
+import { SPACE_PREFIX, Space } from '../styles/spacing';
+
+import { styles } from './Flex.treat';
 
 export interface FlexProps extends React.HTMLAttributes<HTMLElement> {
-  classes?: Partial<Decorate['classes']>;
+  align?: React.CSSProperties['alignItems'];
+  alignSelf?: React.CSSProperties['alignSelf'];
+  autoWidth?: boolean;
   component?: string | React.ComponentType<React.HTMLAttributes<HTMLElement>>;
   container?: boolean;
-  item?: boolean;
-  flex?: number | string;
-  wrap?: boolean;
   direction?: React.CSSProperties['flexDirection'];
-  justify?: React.CSSProperties['justifyContent'];
-  align?: React.CSSProperties['alignItems'];
-  justifySelf?: React.CSSProperties['justifySelf'];
-  alignSelf?: React.CSSProperties['alignSelf'];
-  spacing?: Exclude<Space, 'none'>;
-  minWidth?: number | string;
-  maxWidth?: number | string;
-  autoWidth?: boolean;
   fill?: boolean;
+  flex?: number | string;
+  item?: boolean;
+  justify?: React.CSSProperties['justifyContent'];
+  justifySelf?: React.CSSProperties['justifySelf'];
+  maxWidth?: number | string;
+  minWidth?: number | string;
   overflowing?: boolean;
+  spacing?: Exclude<Space, 'none'>;
+  wrap?: boolean;
   zeroMinWidth?: boolean;
 }
 
-const Flex = React.forwardRef<HTMLElement, FlexProps & Decorate>(function Flex(props, ref) {
+export const Flex = React.forwardRef<HTMLElement, FlexProps>(function Flex(props, ref) {
   const {
     children,
-    theme,
-    classes,
     className,
+    align,
+    alignSelf,
     component: Component = 'div' as React.ElementType<React.ComponentPropsWithRef<'div'>>,
     container,
-    item,
-    flex,
-    wrap,
     direction,
-    justify,
-    align,
-    justifySelf,
-    alignSelf,
-    spacing,
-    minWidth,
-    maxWidth,
-    overflowing,
     fill,
+    flex,
+    item,
+    justify,
+    justifySelf,
+    maxWidth,
+    minWidth,
+    overflowing,
+    spacing,
     style,
+    wrap,
     zeroMinWidth,
     ...rest
   } = props;
 
+  const classes = useStyles(styles);
+  const theme = useTheme();
+
   const derivedStyle = useMemo(() => {
     if (
-      flex === undefined &&
-      !direction &&
-      !justify &&
       !align &&
-      !justifySelf &&
       !alignSelf &&
-      minWidth === undefined &&
-      maxWidth === undefined &&
+      !direction &&
       !fill &&
+      flex === undefined &&
+      !justify &&
+      !justifySelf &&
+      maxWidth === undefined &&
+      minWidth === undefined &&
       !style
     ) {
       return undefined;
     }
 
     return {
+      alignItems: align,
+      alignSelf,
+      height: fill ? (spacing ? `calc(100% + ${theme.spacing(spacing)}px)` : '100%') : undefined,
+      justifyContent: justify,
+      justifySelf,
       flex,
       flexDirection: direction,
-      justifyContent: justify,
-      alignItems: align,
-      justifySelf,
-      alignSelf,
-      minWidth,
       maxWidth,
+      minWidth,
       width: fill ? (spacing ? `calc(100% + ${theme.spacing(spacing)}px)` : '100%') : undefined,
-      height: fill ? (spacing ? `calc(100% + ${theme.spacing(spacing)}px)` : '100%') : undefined,
       ...style,
     };
   }, [
-    theme,
-    flex,
-    direction,
-    justify,
     align,
-    justifySelf,
     alignSelf,
-    minWidth,
-    maxWidth,
+    direction,
     fill,
+    flex,
+    justify,
+    justifySelf,
+    maxWidth,
+    minWidth,
     spacing,
     style,
+    theme,
   ]);
 
   return (
@@ -110,8 +111,8 @@ const Flex = React.forwardRef<HTMLElement, FlexProps & Decorate>(function Flex(p
         clsx(
           container && classes.container,
           item && classes.item,
+          spacing && classes[(SPACE_PREFIX + spacing) as keyof typeof classes],
           wrap && classes.wrap,
-          spacing && classes[`spacing-${spacing}` as keyof typeof classes],
           overflowing && classes.overflowing,
           zeroMinWidth && classes.zeroMinWidth,
           className,
@@ -123,10 +124,3 @@ const Flex = React.forwardRef<HTMLElement, FlexProps & Decorate>(function Flex(p
     </Component>
   );
 });
-
-if (process.env.NODE_ENV !== 'production') {
-  Flex.displayName = 'Flex';
-}
-
-const StyledFlex = decorate(Flex);
-export { StyledFlex as Flex };

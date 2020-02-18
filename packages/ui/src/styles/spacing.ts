@@ -7,6 +7,7 @@
 export type Space = 'none' | 'tiny' | 'small' | 'medium' | 'large';
 export type Spaces = { [spacing in Space]: number };
 export const SPACES: Space[] = ['none', 'tiny', 'small', 'medium', 'large'];
+export const SPACE_PREFIX = 'spacing-';
 
 export interface Spacing {
   (top: Space, right: Space, bottom: Space, left: Space): string;
