@@ -19,7 +19,7 @@ import {
 const styles = createStyles(({ typography, palette, spacing, transition }) => ({
   root: {
     position: 'relative',
-    display: 'flex',
+    display: 'inline-flex',
     alignItems: 'center',
     cursor: 'pointer',
     transition: transition.create(['color']),
