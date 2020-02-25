@@ -104,7 +104,7 @@ export const Popper = React.forwardRef<Element | null, PopperProps>(function Pop
   }, [handlePopperRef]);
   useImperativeHandle(popperRefProp, () => popperRef.current!, []);
 
-  const [placement, setPlacement] = useState();
+  const [placement, setPlacement] = useState<PopperJS.Data['placement']>();
 
   const handleOpen = useCallback(() => {
     const handlePopperUpdate = (data: PopperJS.Data) => {
