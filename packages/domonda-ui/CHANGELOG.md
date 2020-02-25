@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [8.3.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@8.2.1...@domonda/ui@8.3.0) (2020-02-25)
+
+
+### Bug Fixes
+
+* **Checkbox:** width fits the content, not the fill width of the container ([9c046b1](https://github.com/domonda/domonda-js/commit/9c046b1174a2a15fa9b7b14c4c5fcfd231fcb30f))
+* **Text:** inherit font-size from parent ([a4ef2e3](https://github.com/domonda/domonda-js/commit/a4ef2e3881eecc795b176b9cd24bdcbbd275c593)), closes [#32](https://github.com/domonda/domonda-js/issues/32)
+
+
+### Features
+
+* **Radio:** introduce radio input ([28cc66b](https://github.com/domonda/domonda-js/commit/28cc66b3263ffa69b18a897313894cebf7395ad4))
+
+
+
+
+
 ## [8.2.1](https://github.com/domonda/domonda-js/compare/@domonda/ui@8.2.0...@domonda/ui@8.2.1) (2020-01-17)
 
 **Note:** Version bump only for package @domonda/ui
