@@ -4,6 +4,7 @@ import {
   Form,
   FormState,
   FormInputField,
+  FormRadioField,
   FormDateField,
   FormNumberField,
   FormLockedState,
@@ -15,6 +16,7 @@ const stories = storiesOf('Form', module);
 const defaultValues = {
   name: null,
   surname: null,
+  gender: null,
   birthday: null,
   num: null,
   perc: null,
@@ -56,6 +58,19 @@ const Basic: React.FC = () => {
             </>
           )}
         </FormInputField>
+      </p>
+      <p>
+        <FormRadioField path="gender" required>
+          {({ inputProps, value }) => (
+            <>
+              <label>Male:</label>
+              <input {...inputProps} value="male" checked={value === 'male'} />
+              &nbsp;
+              <label>Female:</label>
+              <input {...inputProps} value="female" checked={value === 'female'} />
+            </>
+          )}
+        </FormRadioField>
       </p>
       <div>
         <FormDateField path="birthday">

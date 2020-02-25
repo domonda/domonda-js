@@ -5,6 +5,7 @@ export * from './FormState';
 export * from './FormInputField';
 export * from './FormTextAreaField';
 export * from './FormCheckboxField';
+export * from './FormRadioField';
 export * from './FormSelectField';
 export * from './FormFileField';
 export * from './FormDateField';
