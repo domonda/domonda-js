@@ -37,11 +37,11 @@
     "react-dom": "^16.9.0"
   },
   "devDependencies": {
-    "@testing-library/react": "^9.4.0",
+    "@testing-library/react": "^9.4.1",
     "@testing-library/react-hooks": "^3.2.1",
-    "@types/history": "^4.7.4",
+    "@types/history": "^4.7.5",
     "@types/lodash": "^4.14.149",
-    "@types/react": "^16.9.19",
+    "@types/react": "^16.9.22",
     "@types/react-dom": "^16.9.5",
     "react-test-renderer": "^16.12.0"
   },
@@ -50,6 +50,6 @@
     "history": "^4.10.1",
     "lodash.clonedeepwith": "^4.5.0",
     "lodash.pickby": "^4.6.0",
-    "query-string": "^6.10.1"
+    "query-string": "^6.11.0"
   }
 }
