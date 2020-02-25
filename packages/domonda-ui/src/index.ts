@@ -32,3 +32,4 @@ export * from './Svg';
 export * from './Badge';
 export * from './Accordion';
 export * from './Pill';
+export * from './Radio';
