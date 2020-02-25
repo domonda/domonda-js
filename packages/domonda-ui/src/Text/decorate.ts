@@ -12,6 +12,7 @@ const styles = createStyles(({ typography, palette, spacing, shape }) => {
     root: {
       margin: 0,
       color: palette['textDark'],
+      fontSize: typography.sizes['small'],
     },
     block: {
       display: 'block',
