@@ -11,7 +11,7 @@ import { useStyles } from '../styles/treat';
 
 import { Label } from '../Label';
 
-import { styles } from './TextArea.treat';
+import * as styles from './TextArea.treat';
 
 export interface TextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   dense?: boolean;
