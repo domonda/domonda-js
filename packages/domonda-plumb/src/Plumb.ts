@@ -17,7 +17,7 @@ export type Subscriber<S, T> =
 
 export type Subscription = Disposable;
 
-export type Transformer<S, T> = (state: Readonly<S>, tag: T | undefined) => S; // tag is undefined on initial transform
+export type Transformer<S, T> = (state: Readonly<S>, tag: T | undefined) => Readonly<S>; // tag is undefined on initial transform
 
 export type Filter<S, T> = (state: S, tag: T) => boolean;
 

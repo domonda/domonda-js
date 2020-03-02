@@ -123,7 +123,7 @@ describe('Plumb', () => {
 
     it('should receive tags from tagged nexts and store the last tag', () => {
       const spy = jest.fn((_0, _1) => '');
-      const plumb = createPlumb('', { transformer: spy, skipInitialTransform: true });
+      const plumb = createPlumb('' as string, { transformer: spy, skipInitialTransform: true });
 
       const tags = ['one', '2', 'three', '4'];
 
