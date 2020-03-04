@@ -1,22 +1,23 @@
-import { styleMap } from '../styles/treat';
-import { COLORS, COLOR_PREFIX } from '../styles/palette';
+import { style, styleMap, Style } from '../styles/treat';
+import { COLORS } from '../styles/palette';
 
-export const styles = styleMap(({ palette, shape, spacing, typography }) => ({
-  root: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    display: 'inline-flex',
-    borderRadius: shape.borderRadius.pill,
-    padding: spacing('tiny') - 2,
-    backgroundColor: palette.accent,
-    fontSize: typography.sizes.tiny,
-    lineHeight: '50%',
-    fontWeight: typography.weights.semiBold,
-  },
-  ...COLORS.reduce(
+export const root = style(({ palette, shape, spacing, typography }) => ({
+  alignItems: 'center',
+  justifyContent: 'center',
+  display: 'inline-flex',
+  padding: spacing('tiny') - 2,
+  borderRadius: shape.borderRadius.pill,
+  backgroundColor: palette.accent,
+  fontSize: typography.sizes.tiny,
+  lineHeight: '50%',
+  fontWeight: typography.weights.semiBold,
+}));
+
+export const colors = styleMap(({ palette }) => ({
+  ...COLORS.reduce<Record<string, Style>>(
     (acc, color) => ({
       ...acc,
-      [COLOR_PREFIX + color]: {
+      [color]: {
         backgroundColor: palette[color],
         color: palette.contrastText(color),
       },
