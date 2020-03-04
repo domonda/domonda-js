@@ -1,10 +1,8 @@
-import { styleMap } from '../styles/treat';
+import { style } from '../styles/treat';
 
-export const styles = styleMap(({ spacing }) => ({
-  root: {
-    opacity: 0.6,
-    margin: spacing('tiny', 'none'),
-    borderStyle: 'solid',
-    borderBottom: 0,
-  },
+export const root = style(({ spacing }) => ({
+  opacity: 0.6,
+  borderBottom: 0,
+  borderStyle: 'solid',
+  margin: spacing('tiny', 'none'),
 }));

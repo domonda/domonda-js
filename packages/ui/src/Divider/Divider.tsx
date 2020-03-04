@@ -10,7 +10,7 @@ import clsx from 'clsx';
 import { useStyles, useTheme } from '../styles/treat';
 import { Color } from '../styles/palette';
 
-import { styles } from './Divider.treat';
+import * as styles from './Divider.treat';
 
 export interface DividerProps extends React.HTMLAttributes<HTMLHRElement> {
   color?: Color; // default: `border`
