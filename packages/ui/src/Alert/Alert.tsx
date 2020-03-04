@@ -8,9 +8,9 @@ import React from 'react';
 import clsx from 'clsx';
 
 import { useStyles } from '../styles/treat';
-import { COLOR_PREFIX, Color } from '../styles/palette';
+import { Color } from '../styles/palette';
 
-import { styles } from './Alert.treat';
+import * as styles from './Alert.treat';
 
 export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
   actions?: React.ReactNode;
@@ -35,12 +35,7 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert
     <div
       {...rest}
       ref={ref}
-      className={clsx(
-        classes.root,
-        classes[(COLOR_PREFIX + color) as keyof typeof classes],
-        flat && classes.flat,
-        className,
-      )}
+      className={clsx(classes.root, flat && classes.flat, classes.colors[color], className)}
       role="alert"
     >
       <div className={clsx(classes.message, actions && classes.rightMargin)}>

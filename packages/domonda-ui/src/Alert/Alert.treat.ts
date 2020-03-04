@@ -1,35 +1,43 @@
-import { styleMap } from '../styles/treat';
-import { COLORS, COLOR_PREFIX } from '../styles/palette';
+import { style, styleMap, Style } from '../styles/treat';
+import { COLORS } from '../styles/palette';
 
-export const styles = styleMap(({ palette, shape, spacing, shadows, typography }) => ({
-  root: {
-    alignItems: 'center',
-    display: 'flex',
-    boxShadow: shadows.line,
-    borderRadius: shape.borderRadius.small,
-    padding: spacing('small', 'medium'),
-  },
-  ...COLORS.reduce(
+export const root = style(({ shadows, shape, spacing }) => ({
+  alignItems: 'center',
+  display: 'flex',
+  padding: spacing('small', 'medium'),
+  borderRadius: shape.borderRadius.small,
+  boxShadow: shadows.line,
+}));
+
+export const flat = style(() => ({
+  boxShadow: 'none',
+  borderRadius: 0,
+}));
+
+export const message = style(({ typography }) => ({
+  flex: 1,
+  margin: 0,
+  fontSize: typography.sizes.small,
+  fontWeight: typography.weights.medium,
+}));
+
+export const rightMargin = style(({ spacing }) => ({
+  marginRight: spacing('small'),
+}));
+
+export const colors = styleMap(({ palette }) => ({
+  ...COLORS.reduce<Record<string, Style>>(
     (acc, color) => ({
       ...acc,
-      [COLOR_PREFIX + color]: {
-        backgroundColor: palette[color],
-        color: palette.contrastText(color),
+      [color]: {
+        selectors: {
+          [`${root}&`]: {
+            backgroundColor: palette[color],
+            color: palette.contrastText(color),
+          },
+        },
       },
     }),
     {},
   ),
-  flat: {
-    boxShadow: 'none',
-    borderRadius: 0,
-  },
-  message: {
-    flex: 1,
-    margin: 0,
-    fontSize: typography.sizes.small,
-    fontWeight: typography.weights.medium,
-  },
-  rightMargin: {
-    marginRight: spacing('small'),
-  },
 }));
