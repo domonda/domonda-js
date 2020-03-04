@@ -8,10 +8,10 @@ import React from 'react';
 import clsx from 'clsx';
 
 import { useStyles } from '../styles/treat';
-import { COLOR_PREFIX, Color } from '../styles/palette';
-import { TYPOGRAPHY_SIZE_PREFIX, TypographySize } from '../styles/typography';
+import { Color } from '../styles/palette';
+import { TypographySize } from '../styles/typography';
 
-import { styles } from './Checkbox.treat';
+import * as styles from './Checkbox.treat';
 
 export interface CheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
   color?: Color; // default: `accent`
@@ -31,9 +31,9 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(functi
     <label
       className={clsx(
         classes.root,
-        classes[(COLOR_PREFIX + color) as keyof typeof classes],
-        classes[(TYPOGRAPHY_SIZE_PREFIX + size) as keyof typeof classes],
         disabled && classes.disabled,
+        classes.colors[color],
+        classes.sizes[size],
         className,
       )}
     >
