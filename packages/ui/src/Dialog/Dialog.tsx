@@ -20,7 +20,7 @@ import { Modal, ModalProps } from '../Modal';
 >>>>>>> refactor(Dialog): use treat
 import { Paper, PaperProps } from '../Paper';
 
-import { styles } from './Dialog.treat';
+import * as styles from './Dialog.treat';
 
 type ExtendingProps = Omit<ModalProps, 'children'>;
 
