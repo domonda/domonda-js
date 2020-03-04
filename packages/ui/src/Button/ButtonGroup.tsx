@@ -9,7 +9,7 @@ import clsx from 'clsx';
 
 import { useStyles } from '../styles/treat';
 
-import { styles } from './ButtonGroup.treat';
+import * as styles from './ButtonGroup.treat';
 
 export interface ButtonGroupProps extends React.HTMLAttributes<HTMLDivElement> {}
 

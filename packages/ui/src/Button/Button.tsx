@@ -8,10 +8,10 @@ import React from 'react';
 import clsx from 'clsx';
 
 import { useStyles } from '../styles/treat';
-import { COLOR_PREFIX, Color } from '../styles/palette';
-import { TYPOGRAPHY_SIZE_PREFIX, TypographySize } from '../styles/typography';
+import { Color } from '../styles/palette';
+import { TypographySize } from '../styles/typography';
 
-import { styles } from './Button.treat';
+import * as styles from './Button.treat';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   color?: Color; // default: `accent`
@@ -42,10 +42,10 @@ export const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Bu
         ref={ref as any}
         className={clsx(
           classes.root,
-          color && classes[(COLOR_PREFIX + color) as keyof typeof classes],
-          classes[(TYPOGRAPHY_SIZE_PREFIX + size) as keyof typeof classes],
           classes[variant],
           disabled && classes.disabled,
+          classes.colors[color],
+          classes.sizes[size],
           className,
         )}
         disabled={disabled}
