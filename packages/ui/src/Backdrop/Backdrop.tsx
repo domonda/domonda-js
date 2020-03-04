@@ -10,7 +10,7 @@ import React from 'react';
 import clsx from 'clsx';
 
 import { useStyles } from '../styles/treat';
-import { styles } from './Backdrop.treat';
+import * as styles from './Backdrop.treat';
 
 // TODO-db-190902 extend FadeProps
 
