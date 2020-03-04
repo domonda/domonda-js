@@ -10,7 +10,7 @@ import clsx from 'clsx';
 import { useStyles, useTheme } from '../styles/treat';
 import { Theme } from '../styles/theme';
 
-import { styles } from './Grid.treat';
+import * as styles from './Grid.treat';
 
 export interface GridProps extends React.HTMLAttributes<HTMLElement> {
   /** A container can also be in an area of another container. */

@@ -1,18 +1,18 @@
-import { styleMap } from '../styles/treat';
+import { style } from '../styles/treat';
 
-export const styles = styleMap(() => ({
-  container: {
-    display: 'grid',
-    width: '100%',
-  },
-  fill: {
-    width: '100%',
-    height: '100%',
-  },
-  overflowing: {
-    overflow: 'auto',
-    backfaceVisibility: 'hidden',
-    willChange: 'scroll-position',
-    WebkitOverflowScrolling: 'touch',
-  },
-}));
+export const container = style({
+  display: 'grid',
+  width: '100%',
+});
+
+export const fill = style({
+  width: '100%',
+  height: '100%',
+});
+
+export const overflowing = style({
+  overflow: 'auto',
+  backfaceVisibility: 'hidden',
+  willChange: 'scroll-position',
+  WebkitOverflowScrolling: 'touch',
+});
