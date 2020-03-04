@@ -10,7 +10,7 @@ import clsx from 'clsx';
 import { useStyles, useTheme } from '../styles/treat';
 import { Space } from '../styles/spacing';
 
-import { styles } from './Box.treat';
+import * as styles from './Box.treat';
 
 type Spacing =
   | Exclude<Space, 'none'> // top
