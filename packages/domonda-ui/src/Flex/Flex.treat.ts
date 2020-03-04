@@ -1,47 +1,47 @@
-import { styleMap, globalStyle } from '../styles/treat';
-import { SPACES, SPACE_PREFIX, Space } from '../styles/spacing';
+import { style, styleMap, globalStyle, Style } from '../styles/treat';
+import { SPACES, Space } from '../styles/spacing';
 
-const core = styleMap(() => ({
-  container: {
-    flexWrap: 'nowrap',
-    display: 'flex',
-    width: '100%',
-  },
-  item: {},
-  wrap: {
-    flexWrap: 'wrap',
-  },
-  overflowing: {
-    overflow: 'auto',
-    WebkitOverflowScrolling: 'touch',
-    willChange: 'scroll-position',
-    backfaceVisibility: 'hidden',
-  },
-  zeroMinWidth: {
-    minWidth: 0,
-  },
-}));
+export const container = style({
+  flexWrap: 'nowrap',
+  display: 'flex',
+  width: '100%',
+});
 
-const spaces = styleMap(({ spacing }) => ({
-  ...SPACES.reduce(
+export const item = style({});
+
+export const wrap = style({
+  flexWrap: 'wrap',
+});
+
+export const overflowing = style({
+  overflow: 'auto',
+  WebkitOverflowScrolling: 'touch',
+  willChange: 'scroll-position',
+  backfaceVisibility: 'hidden',
+});
+
+export const zeroMinWidth = style({
+  minWidth: 0,
+});
+
+export const spaces = styleMap(({ spacing }) => ({
+  ...SPACES.reduce<Record<string, Style>>(
     (acc, space) => ({
       ...acc,
-      [SPACE_PREFIX + space]: {
-        margin: (spacing(space) / 2) * -1,
+      [space]: {
         width: `calc(100% + ${spacing(space)}px)`,
+        margin: (spacing(space) / 2) * -1,
       },
     }),
     {},
   ),
 }));
 
-export const styles = { ...core, ...spaces };
-
 Object.keys(spaces).forEach((key) => {
   const className = spaces[key as keyof typeof spaces];
-  const space = key.replace(SPACE_PREFIX, '') as Space;
+  const space = key as Space;
 
-  globalStyle(`${className} > ${core.item}:not(:empty)`, ({ spacing }) => ({
+  globalStyle(`${className} > ${item}:not(:empty)`, ({ spacing }) => ({
     padding: spacing(space) / 2,
   }));
 });

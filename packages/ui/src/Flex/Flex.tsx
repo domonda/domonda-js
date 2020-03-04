@@ -8,9 +8,9 @@ import React, { useMemo } from 'react';
 import clsx from 'clsx';
 
 import { useStyles, useTheme } from '../styles/treat';
-import { SPACE_PREFIX, Space } from '../styles/spacing';
+import { Space } from '../styles/spacing';
 
-import { styles } from './Flex.treat';
+import * as styles from './Flex.treat';
 
 export interface FlexProps extends React.HTMLAttributes<HTMLElement> {
   align?: React.CSSProperties['alignItems'];
@@ -111,7 +111,7 @@ export const Flex = React.forwardRef<HTMLElement, FlexProps>(function Flex(props
         clsx(
           container && classes.container,
           item && classes.item,
-          spacing && classes[(SPACE_PREFIX + spacing) as keyof typeof classes],
+          spacing && classes.spaces[spacing],
           wrap && classes.wrap,
           overflowing && classes.overflowing,
           zeroMinWidth && classes.zeroMinWidth,
