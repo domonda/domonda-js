@@ -11,7 +11,7 @@ import { useStyles } from '../styles/treat';
 
 import { Svg } from '../Svg';
 
-import { styles } from './Accordion.treat';
+import * as styles from './Accordion.treat';
 
 export interface AccordionProps extends React.HTMLAttributes<HTMLDivElement> {
   initiallyOpen?: boolean;

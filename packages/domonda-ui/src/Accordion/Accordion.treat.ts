@@ -1,57 +1,55 @@
-import { styleMap, globalStyle } from '../styles/treat';
+import { style } from '../styles/treat';
 
-export const styles = styleMap(({ spacing }) => ({
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  open: {},
-  button: {
-    // reset
-    border: 0,
-    margin: 0,
-    width: 'auto',
-    overflow: 'visible',
-    textAlign: 'inherit',
-    background: 'transparent',
-    lineHeight: '1em',
-    webkitFontSmoothing: 'inherit',
-    mozOsxFontSmoothing: 'inherit',
-    webkitAppearance: 'none',
-    outline: 'none',
-    textDecoration: 'none',
-    fontSize: 'inherit',
-    // ./reset
-    display: 'flex',
-    alignItems: 'center',
-    padding: spacing('small'),
-    cursor: 'pointer',
-  },
-  labelContent: {
-    flex: 1,
-  },
-  labelIcon: {
-    marginLeft: spacing('tiny'),
-  },
-  content: {
-    padding: spacing('tiny', 'small', 'small', 'small'),
+export const root = style({
+  display: 'flex',
+  flexDirection: 'column',
+});
+
+export const open = style(({ palette }) => ({
+  selectors: {
+    [`${root}&`]: {
+      borderBottom: `1px solid ${palette.gray08}`,
+    },
   },
 }));
 
-// open
-globalStyle(`${styles.root}${styles.open}`, ({ palette }) => ({
-  borderBottom: `1px solid ${palette.gray08}`,
-}));
-
-// button
-globalStyle(`${styles.button}:hover`, ({ palette }) => ({
-  backgroundColor: palette.lightest('gray08'),
-}));
-
-globalStyle(`${styles.button}:focus`, ({ palette }) => ({
-  outline: `2px solid ${palette.light('primary')}`,
-}));
-
-globalStyle(`${styles.button}:active`, () => ({
+export const button = style(({ palette, spacing }) => ({
+  alignItems: 'center',
+  display: 'flex',
+  overflow: 'visible',
+  width: 'auto',
+  padding: spacing('small'),
+  border: 0,
   outline: 'none',
+  margin: 0,
+  background: 'transparent',
+  fontSize: 'inherit',
+  lineHeight: '1em',
+  textAlign: 'inherit',
+  textDecoration: 'none',
+  cursor: 'pointer',
+  webkitFontSmoothing: 'inherit',
+  mozOsxFontSmoothing: 'inherit',
+  webkitAppearance: 'none',
+  ':hover': {
+    backgroundColor: palette.lightest('gray08'),
+  },
+  ':focus': {
+    outline: `2px solid ${palette.light('primary')}`,
+  },
+  ':active': {
+    outline: 'none',
+  },
+}));
+
+export const labelContent = style({
+  flex: 1,
+});
+
+export const labelIcon = style(({ spacing }) => ({
+  marginLeft: spacing('tiny'),
+}));
+
+export const content = style(({ spacing }) => ({
+  padding: spacing('tiny', 'small', 'small', 'small'),
 }));
