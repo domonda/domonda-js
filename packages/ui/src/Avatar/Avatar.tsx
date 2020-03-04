@@ -8,10 +8,10 @@ import React from 'react';
 import clsx from 'clsx';
 
 import { useStyles } from '../styles/treat';
-import { COLOR_PREFIX, Color } from '../styles/palette';
-import { TYPOGRAPHY_SIZE_PREFIX, TypographySize } from '../styles/typography';
+import { Color } from '../styles/palette';
+import { TypographySize } from '../styles/typography';
 
-import { styles } from './Avatar.treat';
+import * as styles from './Avatar.treat';
 
 export interface AvatarProps extends React.HTMLAttributes<HTMLDivElement> {
   color?: Color; // default: `accent`
@@ -27,14 +27,11 @@ export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(function Ava
     <div
       {...rest}
       ref={ref}
-      className={clsx(
-        classes.root,
-        classes[(COLOR_PREFIX + color) as keyof typeof classes],
-        classes[(TYPOGRAPHY_SIZE_PREFIX + size) as keyof typeof classes],
-        className,
-      )}
+      className={clsx(classes.root, classes.colors[color], classes.sizes[size], className)}
     >
-      <div className={classes.inner}>{children}</div>
+      <div className={clsx(classes.inner, classes.colors[color], classes.sizes[size])}>
+        {children}
+      </div>
     </div>
   );
 });
