@@ -11,7 +11,7 @@ import { useStyles } from '../styles/treat';
 import { Flex, FlexProps } from '../Flex';
 import { Text } from '../Text';
 
-import { styles } from './Loading.treat';
+import * as styles from './Loading.treat';
 
 export interface LoadingProps extends FlexProps {}
 
