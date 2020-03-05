@@ -6,9 +6,11 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import { styles } from './Pill.treat';
+
 import { useStyles } from '../styles/treat';
 import { Color } from '../styles/palette';
+
+import * as styles from './Pill.treat';
 
 export interface PillProps extends React.HTMLAttributes<HTMLSpanElement> {
   color?: Color; // default: `secondary`
@@ -16,13 +18,11 @@ export interface PillProps extends React.HTMLAttributes<HTMLSpanElement> {
 
 export const Pill = React.forwardRef<HTMLSpanElement, PillProps>(function Pill(props, ref) {
   const { children, className, color = 'secondary', ...rest } = props;
+
   const classes = useStyles(styles);
+
   return (
-    <span
-      {...rest}
-      className={clsx(classes.root, classes[color as keyof typeof classes], className)}
-      ref={ref}
-    >
+    <span {...rest} ref={ref} className={clsx(classes.root, classes.colors[color], className)}>
       {children}
     </span>
   );
