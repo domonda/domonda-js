@@ -6,9 +6,11 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import { Label } from '../Label';
-import { styles } from './Input.treat';
+
 import { useStyles } from '../styles/treat';
+import { Label } from '../Label';
+
+import * as styles from './Input.treat';
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: React.ReactNode;
@@ -19,8 +21,10 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
 }
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Input(props, ref) {
-  const { className, label, dense, naked, disabled, startSvg, endSvg, ...rest } = props;
+  const { className, label, naked, dense, disabled, startSvg, endSvg, ...rest } = props;
+
   const classes = useStyles(styles);
+
   return (
     <div className={clsx(classes.root, className)}>
       <input
@@ -29,20 +33,23 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
         disabled={disabled}
         className={clsx(
           classes.input,
-          dense && classes.dense,
           naked && classes.naked,
+          dense && classes.dense,
+          disabled && classes.disabled,
           startSvg && classes.startSvg,
           endSvg && classes.endSvg,
-          disabled && classes.disabled,
         )}
       />
+
       {label && (
         <Label className={clsx(classes.label, dense && classes.dense, naked && classes.naked)}>
           {label}
         </Label>
       )}
-      {startSvg && <span className={classes.startSvg}>{startSvg}</span>}
-      {endSvg && <span className={classes.endSvg}>{endSvg}</span>}
+
+      {startSvg && <span className={clsx(classes.svg, classes.startSvg)}>{startSvg}</span>}
+
+      {endSvg && <span className={clsx(classes.svg, classes.endSvg)}>{endSvg}</span>}
     </div>
   );
 });
