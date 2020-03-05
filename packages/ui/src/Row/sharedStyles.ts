@@ -1,22 +1,24 @@
-import { Theme } from '../styles';
+import { Theme } from '../styles/theme';
 
-const sharedStyles = (theme: Theme) => ({
+const sharedStyles = ({ palette, spacing, typography }: Theme) => ({
   row: {
     position: 'relative' as const,
     display: 'flex',
-    padding: theme.spacing('tiny'),
+    padding: spacing('tiny'),
   },
   cell: {
-    ...theme.typography.variant('small'),
     overflow: 'hidden',
+    ...typography.variant('small'),
     textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap' as const,
-    '&:not(:last-child)': {
-      marginRight: theme.spacing('tiny'),
-    },
-    '&:empty::before': {
-      content: '"\\2014"', // &mdash;
-      color: theme.palette.light('textDark'),
+    whiteSpace: 'nowrap' as 'nowrap',
+    selectors: {
+      '&:empty::before': {
+        content: '"\\2014"', // &mdash;
+        color: palette.light('textDark'),
+      },
+      '&:not(:last-child)': {
+        marginRight: spacing('tiny'),
+      },
     },
   },
 });
