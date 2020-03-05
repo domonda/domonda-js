@@ -6,9 +6,11 @@
 
 import React, { useMemo } from 'react';
 import clsx from 'clsx';
+
 import { Color, ColorVariant, TypographySize, TypographyWeight, TypographyFont } from '../styles';
 import { useStyles, useTheme } from '../styles/treat';
-import { styles } from './Text.treat';
+
+import * as styles from './Text.treat';
 
 export interface TextProps extends React.HTMLAttributes<HTMLElement> {
   inline?: boolean;
@@ -78,9 +80,9 @@ export const Text = React.forwardRef<HTMLElement, TextProps>(function Text(props
         classes.root,
         inline ? classes.inline : classes.block,
         (gutterBottom || paragraph) && classes.gutterBottom,
-        size && classes[`size-${size}` as keyof typeof classes],
-        weight && classes[`weight-${weight}` as keyof typeof classes],
-        font && classes[`font-${font}` as keyof typeof classes],
+        size && classes.sizes[size],
+        font && classes.fonts[font],
+        weight && classes.weights[weight],
         withPlaceholder && classes.withPlaceholder,
         wrap && classes.wrap,
         contained && classes.contained,

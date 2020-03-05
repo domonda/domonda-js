@@ -1,71 +1,82 @@
-import { styleMap } from '../styles/treat';
+import { style, styleMap, Style } from '../styles/treat';
 
-export const styles = styleMap(({ typography, palette, spacing, shape }) => ({
-  root: {
-    margin: 0,
-    color: palette['textDark'],
-    fontSize: typography.sizes['small'],
-  },
-  block: {
-    display: 'block',
-  },
-  inline: {
-    display: 'inline-flex',
-  },
-  inherit: {
-    color: 'inherit',
-    fontSize: 'inherit',
-    fontWeight: 'inherit',
-    fontFamily: 'inherit',
-  },
-  wrap: {
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap',
-  },
-  gutterBottom: {
-    marginTop: 0,
-    marginBottom: spacing('tiny'),
-  },
-  withPlaceholder: {
-    selectors: {
-      '&:empty::before': {
-        content: '"\\2014"', // &mdash;
-        color: palette.light('textDark'),
-      },
+export const root = style(({ palette, typography }) => ({
+  margin: 0,
+  color: palette['textDark'],
+  fontSize: typography.sizes['small'],
+}));
+
+export const block = style(() => ({
+  display: 'block',
+}));
+
+export const inline = style(() => ({
+  display: 'inline-flex',
+}));
+
+export const inherit = style(() => ({
+  color: 'inherit',
+  fontFamily: 'inherit',
+  fontSize: 'inherit',
+  fontWeight: 'inherit',
+}));
+
+export const wrap = style(() => ({
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+}));
+
+export const gutterBottom = style(({ spacing }) => ({
+  marginTop: 0,
+  marginBottom: spacing('tiny'),
+}));
+
+export const withPlaceholder = style(({ palette }) => ({
+  selectors: {
+    '&:empty::before': {
+      content: '"\\2014"', // &mdash;
+      color: palette.light('textDark'),
     },
   },
-  contained: {
-    padding: spacing('tiny') - 1.5,
-    backgroundColor: palette.darken('background', 0.05),
-    borderRadius: shape.borderRadius.tiny,
-  },
-  // size-{size}
-  ...Object.keys(typography.sizes).reduce(
-    (acc, size) => ({
-      ...acc,
-      [`size-${size}`]: {
-        fontSize: typography.sizes[size as keyof typeof typography.sizes],
-      },
-    }),
-    {},
-  ),
-  // weight-{weight}
-  ...Object.keys(typography.weights).reduce(
-    (acc, weight) => ({
-      ...acc,
-      [`weight-${weight}`]: {
-        fontWeight: typography.weights[weight as keyof typeof typography.weights],
-      },
-    }),
-    {},
-  ),
-  // font-{font}
-  ...Object.keys(typography.fonts).reduce(
+}));
+
+export const contained = style(({ palette, shape, spacing }) => ({
+  padding: spacing('tiny') - 1.5,
+  borderRadius: shape.borderRadius.tiny,
+  backgroundColor: palette.darken('background', 0.05),
+}));
+
+export const fonts = styleMap(({ typography: { fonts } }) => ({
+  ...Object.keys(fonts).reduce<Record<string, Style>>(
     (acc, font) => ({
       ...acc,
-      [`font-${font}`]: {
-        fontFamily: typography.fonts[font as keyof typeof typography.fonts],
+      [font]: {
+        fontFamily: fonts[font as keyof typeof fonts],
+      },
+    }),
+    {},
+  ),
+}));
+
+export const sizes = styleMap(({ typography: { sizes } }) => ({
+  ...Object.keys(sizes).reduce<Record<string, Style>>(
+    (acc, size) => ({
+      ...acc,
+      [size]: {
+        fontSize: sizes[size as keyof typeof sizes],
+      },
+    }),
+    {},
+  ),
+}));
+
+export const weights = styleMap(({ typography: { weights } }) => ({
+  ...Object.keys(weights).reduce<Record<string, Style>>(
+    (acc, weight) => ({
+      ...acc,
+      [weight]: {
+        fontWeight: weights[weight as keyof typeof weights],
       },
     }),
     {},
