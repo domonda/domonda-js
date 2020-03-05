@@ -1,99 +1,88 @@
-import { styleMap, globalStyle } from '../styles/treat';
+import { style, globalStyle } from '../styles/treat';
 
-export const styles = styleMap(({ palette, spacing, shadows, shape, typography }) => ({
-  root: {
-    position: 'relative',
-    flexDirection: 'column-reverse', // because we select the `label` using the CSS `+` adjacent sibling selector
-    display: 'flex',
-    textAlign: 'left',
+export const root = style({
+  position: 'relative',
+  flexDirection: 'column-reverse', // because we select the `label` using the CSS `+` adjacent sibling selector
+  display: 'flex',
+  textAlign: 'left',
+});
+
+export const dense = style({});
+
+export const disabled = style({});
+
+export const select = style(({ palette, shadows, shape, spacing, typography }) => ({
+  display: 'inherit',
+  boxSizing: 'border-box',
+  padding: spacing('tiny') - 2.5,
+  paddingRight: spacing('tiny') + 16, // accommodate the icon
+  border: `1px solid ${palette.border}`,
+  borderRadius: shape.borderRadius.tiny,
+  boxShadow: shadows.line,
+  outline: 0,
+  margin: 0,
+  backgroundColor: palette.white,
+  ...typography.variant('small'),
+  textAlign: 'inherit',
+  whiteSpace: 'nowrap',
+  cursor: 'pointer',
+  WebkitAppearance: 'none',
+  MozAppearance: 'none',
+  selectors: {
+    '&:invalid': {
+      borderColor: palette.warning,
+    },
+    [`&:hover:not(${disabled}), &:focus`]: {
+      borderColor: palette.dark('border'),
+    },
+    [`&:hover:invalid, &:focus:invalid`]: {
+      borderColor: palette.dark('warning'),
+    },
+    [`${dense}&`]: {
+      padding: spacing('tiny') / 2 + 0.5,
+      paddingRight: spacing('tiny') / 2 + 16, // accommodate the icon
+      fontSize: typography.sizes.tiny,
+    },
+    [`${disabled}&`]: {
+      boxShadow: 'none',
+      backgroundColor: palette.disabled,
+      color: palette.light('textDark'),
+      cursor: 'not-allowed',
+    },
   },
-  select: {
-    // reset
-    display: 'inherit',
-    margin: 0,
-    outline: 0,
-    boxSizing: 'border-box',
-    MozAppearance: 'none',
-    WebkitAppearance: 'none',
-    // ./reset
-    boxShadow: shadows.line,
-    border: `1px solid ${palette.border}`,
-    borderRadius: shape.borderRadius.tiny,
-    padding: spacing('tiny') - 2.5,
-    paddingRight: spacing('tiny') + 16, // accommodate the icon
-    backgroundColor: palette.white,
-    cursor: 'pointer',
-    ...typography.variant('small'),
-    textAlign: 'inherit',
-    whiteSpace: 'nowrap',
+}));
+
+export const label = style(({ palette }) => ({
+  selectors: {
+    [`${select}:invalid + &`]: {
+      color: palette.warning,
+    },
   },
-  label: {},
-  icon: {
-    position: 'absolute',
-    zIndex: 1,
-    right: spacing('tiny') + 2,
-    bottom: spacing('tiny'),
-    alignItems: 'center',
-    display: 'flex',
-    pointerEvents: 'none',
+}));
+
+export const icon = style(({ palette, spacing }) => ({
+  position: 'absolute',
+  zIndex: 1,
+  bottom: spacing('tiny'),
+  right: spacing('tiny') + 2,
+  alignItems: 'center',
+  display: 'flex',
+  pointerEvents: 'none',
+  selectors: {
+    [`${dense}&`]: {
+      bottom: spacing('tiny') / 2 + 2,
+      right: spacing('tiny') / 2 + 2,
+    },
+    [`${select}:invalid + ${label} + &`]: {
+      color: palette.warning,
+    },
+    [`${select}${disabled} + ${label} + &`]: {
+      color: palette.light('textDark'),
+    },
   },
-  dense: {},
-  disabled: {},
 }));
-
-// select
-globalStyle(`${styles.select}${styles.dense}`, ({ spacing, typography }) => ({
-  padding: spacing('tiny') / 2 + 0.5,
-  paddingRight: spacing('tiny') / 2 + 16, // accommodate the icon
-  fontSize: typography.sizes.tiny,
-}));
-
-globalStyle(`${styles.select}${styles.disabled}`, ({ palette }) => ({
-  boxShadow: 'none',
-  backgroundColor: palette.disabled,
-  cursor: 'not-allowed',
-  color: palette.light('textDark'),
-}));
-
-globalStyle(
-  `${styles.select}${styles.disabled} + ${styles.label} + ${styles.icon}`,
-  ({ palette }) => ({
-    color: palette.light('textDark'),
-  }),
-);
-
-globalStyle(`${styles.select}:invalid`, ({ palette }) => ({
-  borderColor: palette.warning,
-}));
-
-globalStyle(`${styles.select}:invalid + ${styles.label}`, ({ palette }) => ({
-  color: palette.warning,
-}));
-
-globalStyle(`${styles.select}:invalid + ${styles.label} + ${styles.icon}`, ({ palette }) => ({
-  color: palette.warning,
-}));
-
-globalStyle(
-  `${styles.select}:hover:not(${styles.disabled}), ${styles.select}:focus`,
-  ({ palette }) => ({
-    borderColor: palette.dark('border'),
-  }),
-);
-
-globalStyle(
-  `${styles.select}:hover:not(${styles.disabled}):invalid, ${styles.select}:focus:invalid`,
-  ({ palette }) => ({
-    borderColor: palette.dark('warning'),
-  }),
-);
 
 // icon
-globalStyle(`${styles.icon}${styles.dense}`, ({ spacing }) => ({
-  right: spacing('tiny') / 2 + 2,
-  bottom: spacing('tiny') / 2 + 2,
-}));
-
-globalStyle(`${styles.icon} > svg`, () => ({
+globalStyle(`${icon} > svg`, () => ({
   width: 9,
 }));

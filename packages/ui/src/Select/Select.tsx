@@ -8,10 +8,9 @@ import React from 'react';
 import clsx from 'clsx';
 
 import { useStyles } from '../styles/treat';
-
 import { Label } from '../Label';
 
-import { styles } from './Select.treat';
+import * as styles from './Select.treat';
 
 export interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   dense?: boolean;
@@ -37,10 +36,10 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(function 
         />
       ) : (
         <select
+          {...rest}
           ref={ref}
           className={clsx(classes.select, dense && classes.dense, disabled && classes.disabled)}
           disabled={disabled}
-          {...rest}
         >
           {children}
         </select>
