@@ -6,8 +6,9 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import { styles } from './Label.treat';
 import { useStyles } from '../styles/treat';
+
+import * as styles from './Label.treat';
 
 export interface LabelProps extends React.HTMLAttributes<HTMLLabelElement> {
   inline?: boolean;
@@ -20,9 +21,9 @@ export const Label = React.forwardRef<HTMLLabelElement, LabelProps>(function Lab
 
   return (
     <label
+      {...rest}
       ref={ref}
       className={clsx(classes.root, inline ? classes.inline : classes.block, className)}
-      {...rest}
     >
       {children}
     </label>
