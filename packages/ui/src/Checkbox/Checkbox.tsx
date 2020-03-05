@@ -37,7 +37,7 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(functi
         className,
       )}
     >
-      <input {...rest} ref={ref} disabled={disabled} type="checkbox" />
+      <input {...rest} ref={ref} className={classes.input} disabled={disabled} type="checkbox" />
 
       <div className={classes.unchecked}>
         <svg
