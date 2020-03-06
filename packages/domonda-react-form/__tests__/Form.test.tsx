@@ -304,6 +304,72 @@ describe('Updating', () => {
     expect(field.state.changed).toBeFalsy();
     expect(form.state.fields[path].changed).toBe(field.state.changed);
   });
+
+  it('should properly update default values when arrays lose items', () => {
+    interface DefaultValues {
+      people: string[];
+    }
+
+    let form: DomondaForm<DefaultValues>;
+
+    const defaultValues = { people: ['John', 'Jane'] };
+
+    const { rerender } = render(
+      <Form getForm={(f) => (form = f)} defaultValues={defaultValues}>
+        {null}
+      </Form>,
+    );
+
+    const nextDefaultValues: DefaultValues = {
+      people: ['John'],
+    };
+
+    rerender(
+      <Form getForm={(f) => (form = f)} defaultValues={nextDefaultValues}>
+        {null}
+      </Form>,
+    );
+
+    // @ts-ignore because form should indeed be set here
+    if (!form) {
+      throw new Error('form instance should be set here!');
+    }
+
+    expect(form.values).toBe(nextDefaultValues);
+  });
+
+  it('should properly update default values when arrays get new items', () => {
+    interface DefaultValues {
+      people: string[];
+    }
+
+    let form: DomondaForm<DefaultValues>;
+
+    const defaultValues = { people: ['John', 'Jane'] };
+
+    const { rerender } = render(
+      <Form getForm={(f) => (form = f)} defaultValues={defaultValues}>
+        {null}
+      </Form>,
+    );
+
+    // @ts-ignore because form should indeed be set here
+    if (!form) {
+      throw new Error('form instance should be set here!');
+    }
+
+    const nextDefaultValues: DefaultValues = {
+      people: ['John', 'Jane', 'Foo'],
+    };
+
+    rerender(
+      <Form getForm={(f) => (form = f)} defaultValues={nextDefaultValues}>
+        {null}
+      </Form>,
+    );
+
+    expect(form.values).toBe(defaultValues);
+  });
 });
 
 describe('Cleanup', () => {
