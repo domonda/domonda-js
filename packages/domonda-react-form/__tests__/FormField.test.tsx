@@ -10,11 +10,12 @@ import React from 'react';
 import { FormContext } from '../src/FormContext';
 import { Form } from '../src/Form';
 import { useFormField, UseFormFieldProps, FormField } from '../src/FormField';
+import { changedSelector } from '../src/FormState/selectors';
 import { createForm, Form as DomondaForm, FormTag } from '@domonda/form';
 import get from 'lodash/get';
 
 // t
-import { render } from '@testing-library/react';
+import { render, act as actTree } from '@testing-library/react';
 import { renderHook, act } from '@testing-library/react-hooks';
 
 interface DefaultValues {
@@ -380,6 +381,75 @@ describe('Update', () => {
 
     expect(form.state.values).toEqual(nextDv);
     done();
+  });
+
+  it('should stay unchanged when added array value maches receiving default array value', () => {
+    interface DefaultValues {
+      people: (string | null)[];
+    }
+
+    let form: DomondaForm<DefaultValues>, add: () => void;
+
+    const defaultValues: DefaultValues = { people: ['John'] };
+
+    const { rerender } = render(
+      <Form getForm={(f) => (form = f)} defaultValues={defaultValues}>
+        <FormField<DefaultValues['people']> path="people">
+          {({ value, setValue }) => {
+            add = () => setValue([...value, null]);
+            return (
+              <>
+                {value.map((_0, index) => (
+                  <FormField key={index.toString()} path={`people[${index}]`}>
+                    {() => null}
+                  </FormField>
+                ))}
+              </>
+            );
+          }}
+        </FormField>
+      </Form>,
+    );
+
+    // @ts-ignore because form should indeed be set here
+    if (!form) {
+      throw new Error('form instance should be set here!');
+    }
+    // @ts-ignore because add should indeed be set here
+    if (!add) {
+      throw new Error('add instance should be set here!');
+    }
+
+    actTree(() => {
+      add();
+    });
+
+    expect(form.values.people).toEqual(['John', null]);
+    expect(changedSelector(form.state)).toBeTruthy();
+
+    const nextDefaultValues: DefaultValues = {
+      people: ['John', null],
+    };
+    rerender(
+      <Form defaultValues={nextDefaultValues}>
+        <FormField<DefaultValues['people']> path="people">
+          {({ value, setValue }) => {
+            add = () => setValue([...value, null]);
+            return (
+              <>
+                {value.map((_0, index) => (
+                  <FormField key={index.toString()} path={`people[${index}]`}>
+                    {() => null}
+                  </FormField>
+                ))}
+              </>
+            );
+          }}
+        </FormField>
+      </Form>,
+    );
+    expect(form.values).toEqual(nextDefaultValues);
+    expect(changedSelector(form.state)).toBeFalsy();
   });
 
   it('should get notified about disabled state changes', () => {
