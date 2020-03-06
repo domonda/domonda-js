@@ -6,6 +6,8 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { Form as DomondaForm } from '@domonda/form';
 import { Form } from '../src/Form';
+import { FormField } from '../src/FormField';
+import { changedSelector } from '../src/FormState/selectors';
 
 interface DefaultValues {
   title: string | null;
@@ -425,6 +427,51 @@ describe('Updating', () => {
     rerender(<Form defaultValues={nextDefaultValues}>{null}</Form>);
 
     expect(form.values).toEqual(nextDefaultValues);
+  });
+
+  it('should stay unchanged when receiving new default values arrays', () => {
+    interface DefaultValues {
+      people: string[];
+    }
+
+    let form: DomondaForm<DefaultValues>;
+
+    const defaultValues = { people: ['John', 'Jane'] };
+
+    const { rerender } = render(
+      <Form getForm={(f) => (form = f)} defaultValues={defaultValues}>
+        <FormField path="people">{() => null}</FormField>
+      </Form>,
+    );
+
+    // @ts-ignore because form should indeed be set here
+    if (!form) {
+      throw new Error('form instance should be set here!');
+    }
+
+    expect(changedSelector(form.state)).toBeFalsy();
+
+    let nextDefaultValues: DefaultValues = {
+      people: ['John', 'Jane', 'Foo'],
+    };
+    rerender(
+      <Form defaultValues={nextDefaultValues}>
+        <FormField path="people">{() => null}</FormField>
+      </Form>,
+    );
+    expect(form.values).toEqual(nextDefaultValues);
+    expect(changedSelector(form.state)).toBeFalsy();
+
+    nextDefaultValues = {
+      people: ['Jane'],
+    };
+    rerender(
+      <Form defaultValues={nextDefaultValues}>
+        <FormField path="people">{() => null}</FormField>
+      </Form>,
+    );
+    expect(form.values).toEqual(nextDefaultValues);
+    expect(changedSelector(form.state)).toBeFalsy();
   });
 });
 
