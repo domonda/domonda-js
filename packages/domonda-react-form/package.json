@@ -40,9 +40,9 @@
     "@domonda/react-plumb": "^2.0.10",
     "@domonda/ui": "^8.3.0",
     "clsx": "^1.1.0",
+    "deepmerge": "^4.2.2",
     "fast-equals": "^2.0.0",
     "lodash.get": "^4.4.2",
-    "lodash.merge": "^4.6.2",
     "lodash.omit": "^4.5.0",
     "react-datepicker": "^2.13.0",
     "text-mask-core": "^5.1.2"

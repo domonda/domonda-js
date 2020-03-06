@@ -175,7 +175,7 @@ describe('Updating', () => {
     expect(spy).toBeCalledTimes(1);
   });
 
-  it('should reset unchanged values on default values change', () => {
+  it('should reset unchanged values only when default values change', () => {
     interface DefVals {
       name: string;
       other: {
@@ -233,6 +233,70 @@ describe('Updating', () => {
       other: {
         details: {
           title: 'Mr.', // not resetted because the value changed
+          surname: 'Doe', // resetted because the value hasn't changed
+        },
+      },
+    });
+  });
+
+  it('should reset all values when default values change regardless of the "changed" state when reset is enabled', () => {
+    interface DefVals {
+      name: string;
+      other: {
+        details: {
+          title: string | null;
+          surname: string;
+        };
+      };
+    }
+    const defaultValues: DefVals = {
+      name: 'Denis',
+      other: {
+        details: {
+          title: null,
+          surname: 'Badurina',
+        },
+      },
+    };
+
+    let form: DomondaForm<DefVals>;
+
+    const { rerender } = render(
+      <Form resetOnDefaultValuesChange defaultValues={defaultValues} getForm={(f) => (form = f)}>
+        <div />
+      </Form>,
+    );
+
+    // @ts-ignore because form should indeed be set here
+    if (!form) {
+      throw new Error('form instance should be set here!');
+    }
+
+    expect(form.state.values).toBe(defaultValues);
+
+    const [field] = form.makeFormField('other.details.title');
+    field.setValue('Mr.');
+
+    const nextDefaultValues: DefVals = {
+      name: 'John',
+      other: {
+        details: {
+          title: 'Not Mr.',
+          surname: 'Doe',
+        },
+      },
+    };
+    rerender(
+      <Form resetOnDefaultValuesChange defaultValues={nextDefaultValues}>
+        <div />
+      </Form>,
+    );
+
+    expect(form.state.values).toEqual({
+      name: 'John', // resetted because the value hasn't changed
+      other: {
+        details: {
+          title: 'Not Mr.', // resetted because the `resetOnDefaultValuesChange` is present
           surname: 'Doe', // resetted because the value hasn't changed
         },
       },
@@ -324,18 +388,14 @@ describe('Updating', () => {
       people: ['John'],
     };
 
-    rerender(
-      <Form getForm={(f) => (form = f)} defaultValues={nextDefaultValues}>
-        {null}
-      </Form>,
-    );
+    rerender(<Form defaultValues={nextDefaultValues}>{null}</Form>);
 
     // @ts-ignore because form should indeed be set here
     if (!form) {
       throw new Error('form instance should be set here!');
     }
 
-    expect(form.values).toBe(nextDefaultValues);
+    expect(form.values).toEqual(nextDefaultValues);
   });
 
   it('should properly update default values when arrays get new items', () => {
@@ -362,13 +422,9 @@ describe('Updating', () => {
       people: ['John', 'Jane', 'Foo'],
     };
 
-    rerender(
-      <Form getForm={(f) => (form = f)} defaultValues={nextDefaultValues}>
-        {null}
-      </Form>,
-    );
+    rerender(<Form defaultValues={nextDefaultValues}>{null}</Form>);
 
-    expect(form.values).toBe(defaultValues);
+    expect(form.values).toEqual(nextDefaultValues);
   });
 });
 

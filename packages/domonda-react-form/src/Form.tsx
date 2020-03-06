@@ -15,7 +15,8 @@ import {
 } from '@domonda/form';
 import { shallowEqual } from 'fast-equals';
 import omit from 'lodash/fp/omit';
-import merge from 'lodash/fp/merge';
+import deepmerge from 'deepmerge';
+
 export { FormSubmitHandler } from '@domonda/form';
 
 export type FormProps<V extends FormDefaultValues> = FormConfig<V> &
@@ -26,7 +27,13 @@ export type FormProps<V extends FormDefaultValues> = FormConfig<V> &
     disabled?: boolean;
     readOnly?: boolean;
     defaultValues?: V;
-    resetOnDefaultValuesChange?: boolean; // should this be `true` by default?
+    /**
+     * Resets the from completely when the default values change.
+     * Default behaviour merges the incoming default values by
+     * reseting the "unchanged" fields and leaving the "changed"
+     * ones intact.
+     */
+    resetOnDefaultValuesChange?: boolean;
     getForm?: (form: DomondaForm<V>) => void;
     children:
       | ((form: DomondaForm<V>) => React.ReactElement | React.ReactElement | null)
@@ -121,8 +128,13 @@ export function Form<DefaultValues extends FormDefaultValues>(
           ...form.state,
           defaultValues,
           values: resetOnDefaultValuesChange
-            ? defaultValues // hard reset to default values
-            : merge(form.state.values, omit(changedPaths, defaultValues)), // update values which haven't changed
+            ? // hard reset to default values
+              defaultValues
+            : // update values which haven't changed
+              deepmerge(form.state.values, omit(changedPaths, defaultValues), {
+                // arrays dont merge, they overwrite
+                arrayMerge: (_0, source) => source,
+              }),
         },
         FormTag.DEFAULT_VALUES_CHANGE,
       );
