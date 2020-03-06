@@ -197,7 +197,3 @@ export const Popper = React.forwardRef<Element | null, PopperProps>(function Pop
     </Portal>
   );
 });
-
-if (process.env.NODE_ENV !== 'production') {
-  Popper.displayName = 'Popper';
-}
