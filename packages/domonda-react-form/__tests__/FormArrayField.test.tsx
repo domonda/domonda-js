@@ -3,8 +3,8 @@
  */
 
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-import { renderHook, act } from '@testing-library/react-hooks';
+import { render, act } from '@testing-library/react';
+import { renderHook, act as actHook } from '@testing-library/react-hooks';
 import { createForm, Form as DomondaForm } from '@domonda/form';
 
 import { Form } from '../src/Form';
@@ -60,7 +60,7 @@ describe('Update', () => {
       ),
     });
 
-    act(() => {
+    actHook(() => {
       result.current.add();
     });
 
@@ -80,7 +80,7 @@ describe('Update', () => {
       ),
     });
 
-    act(() => {
+    actHook(() => {
       result.current.remove();
     });
 
@@ -100,7 +100,7 @@ describe('Update', () => {
       ),
     });
 
-    act(() => {
+    actHook(() => {
       result.current.remove();
     });
 
@@ -120,14 +120,14 @@ describe('Update', () => {
       ),
     });
 
-    act(() => {
+    actHook(() => {
       result.current.remove();
     });
 
     expect(form.values[path]).toEqual([]);
   });
 
-  it('should remove path to the value from the values', (done) => {
+  it('should remove path to the value from the values', () => {
     interface DefaultValues {
       people: string[];
     }
@@ -135,33 +135,41 @@ describe('Update', () => {
     const defaultValues = { people: ['John', 'Jane'] };
 
     let form: DomondaForm<DefaultValues>;
+    let remove: () => void;
 
-    const { getByText } = render(
+    render(
       <Form getForm={(f) => (form = f)} defaultValues={defaultValues}>
         <FormArrayField path="people">
-          {({ items, remove }) => (
-            <>
-              {items &&
-                items.map((_0, index) => (
+          {({ items, remove: innerRemove }) => {
+            remove = innerRemove;
+            return (
+              <>
+                {(items || []).map((_0, index) => (
                   <FormField key={index.toString()} path={`people[${index}]`}>
                     {() => null}
                   </FormField>
                 ))}
-
-              <button type="button" onClick={remove}>
-                -
-              </button>
-            </>
-          )}
+              </>
+            );
+          }}
         </FormArrayField>
       </Form>,
     );
 
-    fireEvent.click(getByText('-'));
+    // @ts-ignore because form should indeed be set here
+    if (!form) {
+      throw new Error('form instance should be set here!');
+    }
 
-    setTimeout(() => {
-      expect(form.state.values.people).toEqual(['John']);
-      done();
-    }, 0);
+    // @ts-ignore because form should indeed be set here
+    if (!remove) {
+      throw new Error('remove should be set here!');
+    }
+
+    act(() => {
+      remove();
+    });
+
+    expect(form.state.values.people).toEqual(['John']);
   });
 });
