@@ -18,7 +18,7 @@ const styles = createStyles(({ typography, palette, spacing, shape }) => {
       display: 'block',
     },
     inline: {
-      display: 'inline-flex',
+      display: 'inline',
     },
     inherit: {
       color: 'inherit',
