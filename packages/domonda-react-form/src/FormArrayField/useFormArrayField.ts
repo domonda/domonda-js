@@ -4,7 +4,7 @@
  *
  */
 
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { Transformer } from '@domonda/plumb';
 import { FormTag } from '@domonda/form';
 import { useFormField, UseFormFieldProps } from '../FormField';
@@ -41,22 +41,25 @@ export function useFormArrayField(props: UseFormArrayFieldProps): FormArrayField
     ...formFieldProps,
   });
 
-  return {
-    items,
-    insert: (
-      // defaults to inserting `null`
-      value = null,
-      // defaults to inserting after list item
-      afterIndex = (items || []).length - 1,
-    ) => {
-      if (!items) {
-        return setItems([value]);
-      }
-      return setItems([...items.slice(0, afterIndex + 1), value, ...items.slice(afterIndex + 1)]);
-    },
-    remove: (
-      // defaults to removing the last element in the array
-      atIndex = (items || []).length - 1,
-    ) => setItems((items || []).filter((_0, index) => index !== atIndex)),
-  };
+  return useMemo(
+    () => ({
+      items,
+      insert: (
+        // defaults to inserting `null`
+        value = null,
+        // defaults to inserting after list item
+        afterIndex = (items || []).length - 1,
+      ) => {
+        if (!items) {
+          return setItems([value]);
+        }
+        return setItems([...items.slice(0, afterIndex + 1), value, ...items.slice(afterIndex + 1)]);
+      },
+      remove: (
+        // defaults to removing the last element in the array
+        atIndex = (items || []).length - 1,
+      ) => setItems((items || []).filter((_0, index) => index !== atIndex)),
+    }),
+    [items],
+  );
 }
