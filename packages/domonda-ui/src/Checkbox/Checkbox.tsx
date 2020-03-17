@@ -30,10 +30,10 @@ const styles = createStyles(({ typography, palette, spacing, transition }) => ({
       opacity: 0,
       margin: 0,
       padding: 0,
-      '&:checked ~ $unchecked': {
+      '&:checked ~ $uncheckedIcon, &$checked ~ $uncheckedIcon': {
         display: 'none',
       },
-      '&:not(:checked) ~ $checked': {
+      '&:not(:checked):not($checked) ~ $checkedIcon': {
         display: 'none',
       },
     },
@@ -56,7 +56,7 @@ const styles = createStyles(({ typography, palette, spacing, transition }) => ({
         '&:not($disabled):hover': {
           color: palette.dark(color),
         },
-        '&:not($disabled) > input:focus ~ $unchecked, & > input:focus ~ $checked': {
+        '&:not($disabled) > input:focus ~ $uncheckedIcon, & > input:focus ~ $checkedIcon': {
           color: palette.dark(color),
           outline: `2px solid ${palette.light('primary')}`,
         },
@@ -77,7 +77,7 @@ const styles = createStyles(({ typography, palette, spacing, transition }) => ({
           width: typography.sizes[size],
           height: typography.sizes[size],
         },
-        '& > $unchecked > svg, & > $checked > svg': {
+        '& > $uncheckedIcon > svg, & > $checkedIcon > svg': {
           width: typography.sizes[size],
         },
       },
@@ -89,16 +89,17 @@ const styles = createStyles(({ typography, palette, spacing, transition }) => ({
     color: 'inherit',
     marginLeft: spacing('tiny'),
   },
-  unchecked: {
+  uncheckedIcon: {
     display: 'flex',
     alignItems: 'flex-start',
     color: 'inherit',
   },
-  checked: {
+  checkedIcon: {
     display: 'flex',
     alignItems: 'flex-start',
     color: 'inherit',
   },
+  checked: {},
   disabled: {},
 }));
 
@@ -119,6 +120,7 @@ const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps & WithStyles<t
       color = 'accent',
       size = 'small',
       disabled,
+      checked,
       ...rest
     } = props;
     return (
@@ -127,12 +129,19 @@ const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps & WithStyles<t
           classes.root,
           classes[color as keyof typeof classes],
           classes[size as keyof typeof classes],
+          checked && classes.checked,
           disabled && classes.disabled,
-          className,
         )}
       >
-        <input {...rest} ref={ref} type="checkbox" disabled={disabled} />
-        <div className={classes.unchecked}>
+        <input
+          {...rest}
+          className={clsx(checked && classes.checked, className)}
+          ref={ref}
+          type="checkbox"
+          checked={checked}
+          disabled={disabled}
+        />
+        <div className={classes.uncheckedIcon}>
           <svg
             aria-hidden="true"
             focusable="false"
@@ -149,7 +158,7 @@ const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps & WithStyles<t
             ></path>
           </svg>
         </div>
-        <div className={classes.checked}>
+        <div className={classes.checkedIcon}>
           <svg
             aria-hidden="true"
             focusable="false"
