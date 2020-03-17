@@ -13,15 +13,22 @@ module.exports = ({ config }) => {
     use: [
       {
         loader: require.resolve('ts-loader'),
-        options: Object.assign(dev ? { transpileOnly: true, experimentalWatchApi: true } : {}, {
+        options: {
+          transpileOnly: !dev,
           configFile: tsconfigPath,
-        }),
+        },
       },
       {
         loader: require.resolve('react-docgen-typescript-loader'),
       },
     ],
   });
+
+  // https://github.com/TypeStrong/ts-loader/tree/87340f49e2ebfd5158c26dbcfef1b2beb177f7c3#transpileonly
+  config.stats = {
+    ...config.stats,
+    warningsFilter: /export .* was not found in/,
+  };
 
   if (dev) {
     config.plugins.push(
