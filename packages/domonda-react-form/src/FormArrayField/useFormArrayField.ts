@@ -16,8 +16,8 @@ export interface UseFormArrayFieldProps extends UseFormFieldProps<any[] | null |
 
 export interface FormArrayFieldAPI {
   items: any[] | null;
-  add: () => void;
-  remove: () => void;
+  add: (value?: any, afterIndex?: number) => void;
+  remove: (atIndex?: number) => void;
 }
 
 export function useFormArrayField(props: UseFormArrayFieldProps): FormArrayFieldAPI {
@@ -61,8 +61,26 @@ export function useFormArrayField(props: UseFormArrayFieldProps): FormArrayField
 
   return {
     items,
-    add: () => setValue((items && [...items, null]) || [null]),
-    remove: () =>
-      setValue(items && items.length > 1 ? items.slice(0, -1) : allowEmptyArray ? [] : null),
+    add: (
+      // defaults to adding `null`
+      value = null,
+      // defaults to adding after list item
+      afterIndex = (items || []).length - 1,
+    ) => {
+      if (!items) {
+        return setValue([value]);
+      }
+      return setValue([...items.slice(0, afterIndex + 1), value, ...items.slice(afterIndex + 1)]);
+    },
+    remove: (
+      // defaults to removing the last element in the array
+      atIndex = (items || []).length - 1,
+    ) => {
+      const nextArray = (items || []).filter((_0, index) => index !== atIndex);
+      if (allowEmptyArray) {
+        return setValue(nextArray.length === 0 ? null : nextArray);
+      }
+      return setValue(nextArray);
+    },
   };
 }
