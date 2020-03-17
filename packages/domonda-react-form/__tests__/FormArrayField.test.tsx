@@ -47,7 +47,7 @@ describe('Creation', () => {
 });
 
 describe('Update', () => {
-  it('should add empty array element on add action', () => {
+  it('should insert item on insert action', () => {
     const [form] = createForm({ names: [] });
 
     const path = 'names';
@@ -61,13 +61,13 @@ describe('Update', () => {
     });
 
     actHook(() => {
-      result.current.add();
+      result.current.insert(null);
     });
 
     expect(form.values[path]).toEqual([null]);
   });
 
-  it('should add empty array element on add action when allowing nulls', () => {
+  it('should insert item on insert action when allowing nulls', () => {
     const [form] = createForm({ names: null });
 
     const path = 'names';
@@ -81,10 +81,57 @@ describe('Update', () => {
     });
 
     actHook(() => {
-      result.current.add();
+      result.current.insert(null);
     });
 
     expect(form.values[path]).toEqual([null]);
+  });
+
+  it('should insert item after index when provided', () => {
+    interface DefaultValues {
+      people: string[];
+    }
+
+    const defaultValues = { people: ['John', 'Doe', 'Jane'] };
+
+    let form: DomondaForm<DefaultValues>;
+    let insert: (value: any, afterIndex?: number) => void;
+
+    render(
+      <Form getForm={(f) => (form = f)} defaultValues={defaultValues}>
+        <FormArrayField path="people">
+          {({ items, insert: innerInsert }) => {
+            insert = innerInsert;
+            return (
+              <>
+                {(items || []).map((_0, index) => (
+                  <FormField key={index.toString()} path={`people[${index}]`}>
+                    {() => null}
+                  </FormField>
+                ))}
+              </>
+            );
+          }}
+        </FormArrayField>
+      </Form>,
+    );
+
+    // @ts-ignore because form should indeed be set here
+    if (!form) {
+      throw new Error('form instance should be set here!');
+    }
+
+    // @ts-ignore because form should indeed be set here
+    if (!insert) {
+      throw new Error('insert should be set here!');
+    }
+
+    const specifiedValue = 'Bar';
+    act(() => {
+      insert(specifiedValue, 1); // 'Doe' is at index 1
+    });
+
+    expect(form.state.values.people).toEqual(['John', 'Doe', specifiedValue, 'Jane']);
   });
 
   it('should remove last array element on remove action', () => {
@@ -237,99 +284,5 @@ describe('Update', () => {
     });
 
     expect(form.state.values.people).toEqual(['John', 'Jane', 'Foo', 'Bar']);
-  });
-
-  it('should add specified value when provided', () => {
-    interface DefaultValues {
-      people: string[];
-    }
-
-    const defaultValues = { people: ['John', 'Jane'] };
-
-    let form: DomondaForm<DefaultValues>;
-    let add: (value?: any) => void;
-
-    render(
-      <Form getForm={(f) => (form = f)} defaultValues={defaultValues}>
-        <FormArrayField path="people">
-          {({ items, add: innerAdd }) => {
-            add = innerAdd;
-            return (
-              <>
-                {(items || []).map((_0, index) => (
-                  <FormField key={index.toString()} path={`people[${index}]`}>
-                    {() => null}
-                  </FormField>
-                ))}
-              </>
-            );
-          }}
-        </FormArrayField>
-      </Form>,
-    );
-
-    // @ts-ignore because form should indeed be set here
-    if (!form) {
-      throw new Error('form instance should be set here!');
-    }
-
-    // @ts-ignore because form should indeed be set here
-    if (!add) {
-      throw new Error('add should be set here!');
-    }
-
-    const specifiedValue = 'Doe';
-    act(() => {
-      add(specifiedValue);
-    });
-
-    expect(form.state.values.people).toEqual(['John', 'Jane', specifiedValue]);
-  });
-
-  it('should add after index when provided', () => {
-    interface DefaultValues {
-      people: string[];
-    }
-
-    const defaultValues = { people: ['John', 'Doe', 'Jane'] };
-
-    let form: DomondaForm<DefaultValues>;
-    let add: (value?: any, afterIndex?: number) => void;
-
-    render(
-      <Form getForm={(f) => (form = f)} defaultValues={defaultValues}>
-        <FormArrayField path="people">
-          {({ items, add: innerAdd }) => {
-            add = innerAdd;
-            return (
-              <>
-                {(items || []).map((_0, index) => (
-                  <FormField key={index.toString()} path={`people[${index}]`}>
-                    {() => null}
-                  </FormField>
-                ))}
-              </>
-            );
-          }}
-        </FormArrayField>
-      </Form>,
-    );
-
-    // @ts-ignore because form should indeed be set here
-    if (!form) {
-      throw new Error('form instance should be set here!');
-    }
-
-    // @ts-ignore because form should indeed be set here
-    if (!add) {
-      throw new Error('add should be set here!');
-    }
-
-    const specifiedValue = 'Bar';
-    act(() => {
-      add(specifiedValue, 1); // 'Doe' is at index 1
-    });
-
-    expect(form.state.values.people).toEqual(['John', 'Doe', specifiedValue, 'Jane']);
   });
 });

@@ -15,66 +15,48 @@ export interface UseFormArrayFieldProps extends UseFormFieldProps<any[] | null |
 }
 
 export interface FormArrayFieldAPI {
-  items: any[] | null;
-  add: (value?: any, afterIndex?: number) => void;
-  remove: (atIndex?: number) => void;
+  items: any[] | null | undefined;
+  insert: (value: any, afterIndex?: number) => void; // inserts an element (optionally after an index)
+  remove: (atIndex?: number) => void; // remove element at index (optionally at an index)
 }
 
 export function useFormArrayField(props: UseFormArrayFieldProps): FormArrayFieldAPI {
   const { required, allowEmptyArray, ...formFieldProps } = props;
 
-  const transformer = useCallback<Transformer<any[] | null | undefined, FormTag>>(
-    (values) => {
-      if (!values || values.length === 0) {
-        if (allowEmptyArray) {
-          return [];
-        } else {
-          return null;
-        }
-      }
-
-      return values;
-    },
-    [allowEmptyArray],
-  );
-
-  const formField = useFormField<any[] | null | undefined>({ transformer, ...formFieldProps });
-
-  const { value, setValue } = formField;
-
-  let filtered = false;
-
-  const items =
-    !value || value.length === 0 || (value.length === 1 && value[0] === undefined)
-      ? null
-      : value.filter((val) => {
-          if (val === undefined) {
-            filtered = true;
-            return false;
+  const { value: items, setValue: setItems } = useFormField<any[] | null | undefined>({
+    transformer: useCallback<Transformer<any[] | null | undefined, FormTag>>(
+      (values) => {
+        if (!values || values.length === 0) {
+          if (allowEmptyArray) {
+            return [];
+          } else {
+            return null;
           }
-          return true;
-        });
+        }
 
-  if (filtered) {
-    setTimeout(() => setValue(items), 0);
-  }
+        return values;
+      },
+      [allowEmptyArray],
+    ),
+    ...formFieldProps,
+  });
 
   return {
     items,
-    add: (
-      // defaults to adding `null`
+    insert: (
+      // defaults to inserting `null`
       value = null,
-      // defaults to adding after list item
+      // defaults to inserting after list item
       afterIndex = (items || []).length - 1,
     ) => {
       if (!items) {
-        return setValue([value]);
+        return setItems([value]);
       }
-      return setValue([...items.slice(0, afterIndex + 1), value, ...items.slice(afterIndex + 1)]);
+      return setItems([...items.slice(0, afterIndex + 1), value, ...items.slice(afterIndex + 1)]);
     },
     remove: (
       // defaults to removing the last element in the array
       atIndex = (items || []).length - 1,
-    ) => setValue((items || []).filter((_0, index) => index !== atIndex)),
+    ) => setItems((items || []).filter((_0, index) => index !== atIndex)),
   };
 }
