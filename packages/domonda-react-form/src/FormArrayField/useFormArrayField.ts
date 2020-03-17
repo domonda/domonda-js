@@ -45,8 +45,7 @@ export function useFormArrayField(props: UseFormArrayFieldProps): FormArrayField
     () => ({
       items,
       insert: (
-        // defaults to inserting `null`
-        value = null,
+        value,
         // defaults to inserting after list item
         afterIndex = (items || []).length - 1,
       ) => {
