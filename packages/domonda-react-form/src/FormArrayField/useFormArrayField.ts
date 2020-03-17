@@ -75,12 +75,6 @@ export function useFormArrayField(props: UseFormArrayFieldProps): FormArrayField
     remove: (
       // defaults to removing the last element in the array
       atIndex = (items || []).length - 1,
-    ) => {
-      const nextArray = (items || []).filter((_0, index) => index !== atIndex);
-      if (allowEmptyArray) {
-        return setValue(nextArray.length === 0 ? null : nextArray);
-      }
-      return setValue(nextArray);
-    },
+    ) => setValue((items || []).filter((_0, index) => index !== atIndex)),
   };
 }
