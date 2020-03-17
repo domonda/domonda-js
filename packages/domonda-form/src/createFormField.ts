@@ -7,7 +7,7 @@
 import { Plumb } from '@domonda/plumb';
 import get from 'lodash/get';
 import setWith from 'lodash/fp/setWith';
-import omit from 'lodash/fp/omit';
+import unset from 'lodash/fp/unset';
 import { deepEqual } from 'fast-equals';
 
 // form
@@ -132,7 +132,7 @@ export function createFormField<DefaultValues extends FormDefaultValues, Value>(
       form.next(
         {
           ...form.state,
-          fields: omit(path, form.state.fields),
+          fields: unset(path, form.state.fields),
         },
         FormTag.DISPOSE_FIELD,
       );

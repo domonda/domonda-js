@@ -14,7 +14,7 @@ import {
   FormTag,
 } from '@domonda/form';
 import { shallowEqual } from 'fast-equals';
-import omit from 'lodash/fp/omit';
+import unset from 'lodash/fp/unset';
 import deepmerge from 'deepmerge';
 
 export { FormSubmitHandler } from '@domonda/form';
@@ -131,10 +131,14 @@ export function Form<DefaultValues extends FormDefaultValues>(
             ? // hard reset to default values
               defaultValues
             : // update values which haven't changed
-              deepmerge(form.state.values, omit(changedPaths, defaultValues), {
-                // arrays dont merge, they overwrite
-                arrayMerge: (_0, source) => source,
-              }),
+              deepmerge(
+                form.state.values,
+                changedPaths.reduce((acc, changedPath) => unset(changedPath, acc), defaultValues),
+                {
+                  // arrays dont merge, they overwrite
+                  arrayMerge: (_0, source) => source,
+                },
+              ),
         },
         FormTag.DEFAULT_VALUES_CHANGE,
       );
