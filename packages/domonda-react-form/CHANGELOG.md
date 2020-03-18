@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.7.0](https://github.com/domonda/domonda-js/compare/@domonda/react-form@2.6.0...@domonda/react-form@2.7.0) (2020-03-18)
+
+
+### Bug Fixes
+
+* **defaultValues:** immutable proper unchanged default values merge ([5812d8c](https://github.com/domonda/domonda-js/commit/5812d8ca97e618c67d917489b60f4d9101aa9e29))
+* **Form:** merging default values behaves as expected ([bfb1e79](https://github.com/domonda/domonda-js/commit/bfb1e79bc3c75d87af7113d13c336913db2ce821))
+
+
+### Features
+
+* **FormArrayField:** introduce array helper allowing for easier array manipulation ([#35](https://github.com/domonda/domonda-js/issues/35)) ([cf37f79](https://github.com/domonda/domonda-js/commit/cf37f79541ac5065b8baa0212249a2d78b598008))
+
+
+
+
+
 # [2.6.0](https://github.com/domonda/domonda-js/compare/@domonda/react-form@2.5.4...@domonda/react-form@2.6.0) (2020-02-25)
 
 

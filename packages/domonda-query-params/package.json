@@ -1,6 +1,6 @@
 {
   "name": "@domonda/query-params",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "Useful but simple query params manipulator for React.",
   "keywords": [
     "domonda",

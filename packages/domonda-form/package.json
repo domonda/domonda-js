@@ -1,6 +1,6 @@
 {
   "name": "@domonda/form",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "Powerful yet simple form library built using @domonda/plumb.",
   "keywords": [
     "domonda",
@@ -28,7 +28,7 @@
     "url": "https://github.com/domonda/domonda-js/issues"
   },
   "dependencies": {
-    "@domonda/plumb": "^2.2.5",
+    "@domonda/plumb": "^2.2.6",
     "fast-equals": "^2.0.0",
     "lodash.get": "^4.4.2",
     "lodash.setwith": "^4.3.2",

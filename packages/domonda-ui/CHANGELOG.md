@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [8.4.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@8.3.0...@domonda/ui@8.4.0) (2020-03-18)
+
+
+### Bug Fixes
+
+* **Text:** inline is truly `display: inline` ([0c99120](https://github.com/domonda/domonda-js/commit/0c9912021bfecb917b44047f74363dc63b0af871))
+
+
+### Features
+
+* **Checkbox:** display checked status even when preventing default ([5a49ae3](https://github.com/domonda/domonda-js/commit/5a49ae32452ae2d0d79db43026a81df1bb5e2ae7))
+
+
+
+
+
 # [8.3.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@8.2.1...@domonda/ui@8.3.0) (2020-02-25)
 
 

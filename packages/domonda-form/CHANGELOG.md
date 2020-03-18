@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.1](https://github.com/domonda/domonda-js/compare/@domonda/form@2.3.0...@domonda/form@2.3.1) (2020-03-18)
+
+
+### Bug Fixes
+
+* **defaultValues:** immutable proper unchanged default values merge ([5812d8c](https://github.com/domonda/domonda-js/commit/5812d8ca97e618c67d917489b60f4d9101aa9e29))
+
+
+
+
+
 # [2.3.0](https://github.com/domonda/domonda-js/compare/@domonda/form@2.2.4...@domonda/form@2.3.0) (2019-12-02)
 
 
