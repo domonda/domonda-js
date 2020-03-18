@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [8.4.1](https://github.com/domonda/domonda-js/compare/@domonda/ui@8.4.0...@domonda/ui@8.4.1) (2020-03-18)
+
+
+### Bug Fixes
+
+* **Checkbox:** detect if the input is controlled or not in order to provide correct checked states ([a83c81c](https://github.com/domonda/domonda-js/commit/a83c81c19cc6c5f126ac06ab823e8373d7a6e4b9))
+
+
+
+
+
 # [8.4.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@8.3.0...@domonda/ui@8.4.0) (2020-03-18)
 
 
