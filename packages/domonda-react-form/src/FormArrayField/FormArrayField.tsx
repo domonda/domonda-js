@@ -7,12 +7,17 @@
 import React from 'react';
 import { useFormArrayField, UseFormArrayFieldProps, FormArrayFieldAPI } from './useFormArrayField';
 
-export interface FormArrayFieldProps extends UseFormArrayFieldProps {
-  children: (field: FormArrayFieldAPI) => React.ReactElement | null;
-}
-
-export const FormArrayField: React.FC<FormArrayFieldProps> = (props) => {
-  const { children, ...rest } = props;
-  const api = useFormArrayField(rest);
-  return children(api);
+export type FormArrayFieldProps<
+  V,
+  AllowEmptyArray extends boolean = false
+> = UseFormArrayFieldProps<V, AllowEmptyArray> & {
+  children: (field: FormArrayFieldAPI<V, AllowEmptyArray>) => React.ReactElement | null;
 };
+
+export function FormArrayField<V, AllowEmptyArray extends boolean = false>(
+  props: FormArrayFieldProps<V, AllowEmptyArray>,
+): React.ReactElement | null {
+  const { children, ...rest } = props;
+  const api = useFormArrayField((rest as any) as UseFormArrayFieldProps<V, AllowEmptyArray>);
+  return children(api);
+}

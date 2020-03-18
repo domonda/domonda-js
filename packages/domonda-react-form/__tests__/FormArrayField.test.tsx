@@ -17,7 +17,7 @@ describe('Creation', () => {
     const [form] = createForm({ names: [] });
 
     const path = 'names';
-    const initialProps: UseFormArrayFieldProps = { path };
+    const initialProps: UseFormArrayFieldProps<any> = { path };
 
     renderHook(useFormArrayField, {
       initialProps,
@@ -33,7 +33,7 @@ describe('Creation', () => {
     const [form] = createForm({ names: null });
 
     const path = 'names';
-    const initialProps: UseFormArrayFieldProps = { path, allowEmptyArray: true };
+    const initialProps: UseFormArrayFieldProps<any, true> = { path, allowEmptyArray: true };
 
     renderHook(useFormArrayField, {
       initialProps,
@@ -51,7 +51,7 @@ describe('Update', () => {
     const [form] = createForm({ names: [] });
 
     const path = 'names';
-    const initialProps: UseFormArrayFieldProps = { path };
+    const initialProps: UseFormArrayFieldProps<any> = { path };
 
     const { result } = renderHook(useFormArrayField, {
       initialProps,
@@ -71,7 +71,7 @@ describe('Update', () => {
     const [form] = createForm({ names: null });
 
     const path = 'names';
-    const initialProps: UseFormArrayFieldProps = { path };
+    const initialProps: UseFormArrayFieldProps<any> = { path };
 
     const { result } = renderHook(useFormArrayField, {
       initialProps,
@@ -138,7 +138,7 @@ describe('Update', () => {
     const [form] = createForm({ names: [1, 2] });
 
     const path = 'names';
-    const initialProps: UseFormArrayFieldProps = { path };
+    const initialProps: UseFormArrayFieldProps<any> = { path };
 
     const { result } = renderHook(useFormArrayField, {
       initialProps,
@@ -158,7 +158,7 @@ describe('Update', () => {
     const [form] = createForm({ names: [1] });
 
     const path = 'names';
-    const initialProps: UseFormArrayFieldProps = { path };
+    const initialProps: UseFormArrayFieldProps<any> = { path };
 
     const { result } = renderHook(useFormArrayField, {
       initialProps,
@@ -178,7 +178,7 @@ describe('Update', () => {
     const [form] = createForm({ names: [1] });
 
     const path = 'names';
-    const initialProps: UseFormArrayFieldProps = { path, allowEmptyArray: true };
+    const initialProps: UseFormArrayFieldProps<any, true> = { path, allowEmptyArray: true };
 
     const { result } = renderHook(useFormArrayField, {
       initialProps,
