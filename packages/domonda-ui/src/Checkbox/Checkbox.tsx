@@ -30,11 +30,23 @@ const styles = createStyles(({ typography, palette, spacing, transition }) => ({
       opacity: 0,
       margin: 0,
       padding: 0,
-      '&:checked ~ $uncheckedIcon, &$checked ~ $uncheckedIcon': {
-        display: 'none',
+      // controlled
+      '&$controlled': {
+        '&$checked ~ $uncheckedIcon': {
+          display: 'none',
+        },
+        '&:not($checked) ~ $checkedIcon': {
+          display: 'none',
+        },
       },
-      '&:not(:checked):not($checked) ~ $checkedIcon': {
-        display: 'none',
+      // uncontrolled
+      '&:not($controlled)': {
+        '&:checked ~ $uncheckedIcon': {
+          display: 'none',
+        },
+        '&:not(:checked) ~ $checkedIcon': {
+          display: 'none',
+        },
       },
     },
     '&$disabled': {
@@ -99,6 +111,7 @@ const styles = createStyles(({ typography, palette, spacing, transition }) => ({
     alignItems: 'flex-start',
     color: 'inherit',
   },
+  controlled: {},
   checked: {},
   disabled: {},
 }));
@@ -129,13 +142,16 @@ const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps & WithStyles<t
           classes.root,
           classes[color as keyof typeof classes],
           classes[size as keyof typeof classes],
-          checked && classes.checked,
           disabled && classes.disabled,
         )}
       >
         <input
           {...rest}
-          className={clsx(checked && classes.checked, className)}
+          className={clsx(
+            checked && classes.checked,
+            checked !== undefined && classes.controlled, // when `checked` prop is not provided the input is uncontrolled
+            className,
+          )}
           ref={ref}
           type="checkbox"
           checked={checked}
