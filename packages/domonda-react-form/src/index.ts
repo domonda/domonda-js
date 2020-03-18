@@ -11,3 +11,4 @@ export * from './FormFileField';
 export * from './FormDateField';
 export * from './FormMaskedField';
 export * from './FormNumberField';
+export * from './FormArrayField';

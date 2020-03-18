@@ -11,12 +11,13 @@ import { FormContext } from '../src/FormContext';
 import { Form } from '../src/Form';
 import { useFormField, UseFormFieldProps, FormField } from '../src/FormField';
 import { changedSelector } from '../src/FormState/selectors';
+import { FormInputField } from '../src/FormInputField';
 import { createForm, Form as DomondaForm, FormTag } from '@domonda/form';
 import get from 'lodash/get';
 
 // t
-import { render, act as actTree } from '@testing-library/react';
-import { renderHook, act } from '@testing-library/react-hooks';
+import { render, act } from '@testing-library/react';
+import { renderHook, act as actHook } from '@testing-library/react-hooks';
 
 interface DefaultValues {
   person: {
@@ -125,7 +126,7 @@ describe('Update', () => {
 
     expect(result.current.value).toBe(denis.name);
 
-    act(() => rerender({ path: erikNamePath }));
+    actHook(() => rerender({ path: erikNamePath }));
 
     expect(result.current.value).toBe(erik.name);
 
@@ -148,7 +149,7 @@ describe('Update', () => {
 
     const nextValue = 'New denis';
 
-    act(() => {
+    actHook(() => {
       form.plumb.next(
         {
           ...form.plumb.state,
@@ -179,7 +180,7 @@ describe('Update', () => {
     });
 
     const nextValue = 'New denis';
-    act(() => {
+    actHook(() => {
       result.current.setValue(nextValue);
     });
 
@@ -202,13 +203,13 @@ describe('Update', () => {
 
     const nextValue = 'New denis';
 
-    act(() => {
+    actHook(() => {
       result.current.setValue(nextValue);
     });
 
     expect(result.current.value).toBe(nextValue);
 
-    act(() => {
+    actHook(() => {
       result.current.resetValue();
     });
 
@@ -233,15 +234,15 @@ describe('Update', () => {
 
     const nextValue = 'New denis';
 
-    act(() => {
+    actHook(() => {
       result.current.setValue(nextValue);
     });
 
-    act(() => {
+    actHook(() => {
       rerender(initialProps);
     });
 
-    act(() => {
+    actHook(() => {
       result.current.setValue(nextValue);
     });
 
@@ -420,7 +421,7 @@ describe('Update', () => {
       throw new Error('add instance should be set here!');
     }
 
-    actTree(() => {
+    act(() => {
       add();
     });
 
@@ -466,7 +467,7 @@ describe('Update', () => {
 
     expect(result.current.state.disabled).toBeFalsy();
 
-    act(() => {
+    actHook(() => {
       form.plumb.next(
         {
           ...form.state,
@@ -478,7 +479,7 @@ describe('Update', () => {
 
     expect(result.current.state.disabled).toBeTruthy();
 
-    act(() => {
+    actHook(() => {
       form.plumb.next(
         {
           ...form.state,
@@ -505,7 +506,7 @@ describe('Update', () => {
 
     expect(result.current.state.readOnly).toBeFalsy();
 
-    act(() => {
+    actHook(() => {
       form.plumb.next(
         {
           ...form.state,
@@ -517,7 +518,7 @@ describe('Update', () => {
 
     expect(result.current.state.readOnly).toBeTruthy();
 
-    act(() => {
+    actHook(() => {
       form.plumb.next(
         {
           ...form.state,
@@ -528,6 +529,63 @@ describe('Update', () => {
     });
 
     expect(result.current.state.readOnly).toBeFalsy();
+  });
+
+  it('should correctly manipulate nested array fields', () => {
+    interface DefaultValues {
+      people: string[];
+    }
+
+    const defaultValues = { people: ['John', 'Jane'] };
+
+    let form: DomondaForm<DefaultValues>;
+    let add: () => void;
+    let remove: () => void;
+
+    render(
+      <Form getForm={(f) => (form = f)} defaultValues={defaultValues}>
+        <FormField<(string | null)[]> path="people">
+          {({ value, setValue }) => {
+            add = () => setValue([...value, null]);
+            remove = () => setValue(value.slice(0, -1));
+            return (
+              <>
+                {value.map((_0, index) => (
+                  <FormInputField key={index.toString()} path={`people[${index}]`}>
+                    {({ inputProps }) => <input {...inputProps} />}
+                  </FormInputField>
+                ))}
+              </>
+            );
+          }}
+        </FormField>
+      </Form>,
+    );
+
+    // @ts-ignore because form should indeed be set here
+    if (!form) {
+      throw new Error('form instance should be set here!');
+    }
+
+    // @ts-ignore because form should indeed be set here
+    if (!add) {
+      throw new Error('add should be set here!');
+    }
+
+    // @ts-ignore because form should indeed be set here
+    if (!remove) {
+      throw new Error('remove should be set here!');
+    }
+
+    act(() => {
+      remove();
+    });
+    expect(form.state.values.people).toEqual(['John']);
+
+    act(() => {
+      add();
+    });
+    expect(form.state.values.people).toEqual(['John', null]);
   });
 });
 
@@ -583,7 +641,7 @@ describe('Cleanup', () => {
       dispose: spy,
     });
 
-    act(() => rerender({ path: pathToErik + '.name' }));
+    actHook(() => rerender({ path: pathToErik + '.name' }));
 
     expect(spy).toBeCalled();
   });
@@ -607,7 +665,7 @@ describe('Cleanup', () => {
       dispose: spy,
     });
 
-    act(() => rerender({ path, validate: () => null }));
+    actHook(() => rerender({ path, validate: () => null }));
 
     expect(spy).toBeCalled();
   });

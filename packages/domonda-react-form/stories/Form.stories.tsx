@@ -7,6 +7,7 @@ import {
   FormRadioField,
   FormDateField,
   FormNumberField,
+  FormArrayField,
   FormLockedState,
   FormContext,
 } from '../src';
@@ -20,6 +21,7 @@ const defaultValues = {
   birthday: null,
   num: null,
   perc: null,
+  alternativeNames: [],
   parents: [
     {
       name: 'John',
@@ -113,6 +115,32 @@ const Basic: React.FC = () => {
           )}
         </FormNumberField>
       </p>
+      <div>
+        <label>Alternative names:</label>
+        <FormArrayField path="alternativeNames">
+          {({ items, add, remove }) => (
+            <>
+              {items &&
+                items.map((_, index) => (
+                  <div key={index.toString()}>
+                    <FormInputField path={`alternativeNames[${index}]`}>
+                      {({ inputProps }) => <input {...inputProps} />}
+                    </FormInputField>
+                  </div>
+                ))}
+
+              <div>
+                <button type="button" onClick={remove}>
+                  -
+                </button>
+                <button type="button" onClick={add}>
+                  +
+                </button>
+              </div>
+            </>
+          )}
+        </FormArrayField>
+      </div>
       <p>
         <FormLockedState>
           {(locked) => (
