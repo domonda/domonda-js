@@ -587,6 +587,32 @@ describe('Update', () => {
     });
     expect(form.state.values.people).toEqual(['John', null]);
   });
+
+  it('should update field config when new one is passed', () => {
+    const [form] = createForm(defaultValues);
+
+    const denisNamePath = pathToDenis + '.name';
+    const initialProps: UseFormFieldProps<string> = {
+      path: denisNamePath,
+      transformer: () => 'John',
+    };
+
+    const { result, rerender } = renderHook(useFormField, {
+      initialProps,
+      wrapper: ({ children }) => (
+        <FormContext.Provider value={form}>{children}</FormContext.Provider>
+      ),
+    });
+
+    expect(result.current.value).toBe('John');
+
+    rerender({
+      path: denisNamePath,
+      transformer: () => 'Jane',
+    });
+
+    expect(result.current.value).toBe('Jane');
+  });
 });
 
 describe('Cleanup', () => {
