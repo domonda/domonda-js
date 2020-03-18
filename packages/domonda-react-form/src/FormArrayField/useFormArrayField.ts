@@ -24,23 +24,23 @@ export interface FormArrayFieldAPI<V, AllowEmptyArray extends boolean = false> {
 export function useFormArrayField<V, AllowEmptyArray extends boolean = false>(
   props: UseFormArrayFieldProps<V, AllowEmptyArray>,
 ): FormArrayFieldAPI<V, AllowEmptyArray> {
-  const { required, allowEmptyArray, ...formFieldProps } = props;
+  const { required, allowEmptyArray, transformer, ...formFieldProps } = props;
 
   const { value: items, setValue: setItems } = useFormField<
     AllowEmptyArray extends true ? V[] : V[] | null
   >({
     transformer: useCallback<Transformer<AllowEmptyArray extends true ? V[] : V[] | null, FormTag>>(
-      (values) => {
+      (values, tag) => {
         if (!values || ((values as any) as V[]).length === 0) {
           if (allowEmptyArray) {
-            return [];
+            return transformer ? transformer([] as any, tag) : ([] as any);
           } else {
-            return null as any;
+            return transformer ? transformer(null as any, tag) : (null as any);
           }
         }
-        return values;
+        return transformer ? transformer(values, tag) : values;
       },
-      [allowEmptyArray],
+      [allowEmptyArray, transformer],
     ),
     ...formFieldProps,
   });

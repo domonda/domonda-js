@@ -286,3 +286,49 @@ describe('Update', () => {
     expect(form.state.values.people).toEqual(['John', 'Jane', 'Foo', 'Bar']);
   });
 });
+
+describe('Transform', () => {
+  it('should transform if the transformer is provided', () => {
+    const [form] = createForm({ names: null });
+
+    const transformer = jest.fn((_0) => ['John']);
+
+    const path = 'names';
+    const initialProps: UseFormArrayFieldProps<any> = { path, transformer };
+
+    renderHook(useFormArrayField, {
+      initialProps,
+      wrapper: ({ children }) => (
+        <FormContext.Provider value={form}>{children}</FormContext.Provider>
+      ),
+    });
+
+    expect(transformer).toBeCalledTimes(1);
+    expect(transformer.mock.calls[0][0]).toBe(null);
+    expect(form.values[path]).toEqual(['John']);
+  });
+
+  it('should transform after internal transformer if the transformer is provided', () => {
+    const [form] = createForm({ names: null });
+
+    const transformer = jest.fn((_0) => ['Jane']);
+
+    const path = 'names';
+    const initialProps: UseFormArrayFieldProps<any, true> = {
+      path,
+      allowEmptyArray: true, // toggles the internal transformer
+      transformer: transformer,
+    };
+
+    renderHook(useFormArrayField, {
+      initialProps,
+      wrapper: ({ children }) => (
+        <FormContext.Provider value={form}>{children}</FormContext.Provider>
+      ),
+    });
+
+    expect(transformer).toBeCalledTimes(1);
+    expect(transformer.mock.calls[0][0]).toEqual([]); // allowEmptyArray transformer
+    expect(form.values[path]).toEqual(['Jane']);
+  });
+});
