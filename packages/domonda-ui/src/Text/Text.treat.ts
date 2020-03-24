@@ -11,7 +11,7 @@ export const block = style(() => ({
 }));
 
 export const inline = style(() => ({
-  display: 'inline-flex',
+  display: 'inline',
 }));
 
 export const inherit = style(() => ({
