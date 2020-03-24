@@ -2,6 +2,10 @@ import { style, styleMap, globalStyle, Style } from '../styles/treat';
 import { COLORS, Color } from '../styles/palette';
 import { TYPOGRAPHY_SIZES, TypographySize } from '../styles/typography';
 
+export const checked = style({});
+
+export const controlled = style({});
+
 export const disabled = style({});
 
 export const root = style(({ transition }) => ({
@@ -30,23 +34,23 @@ export const input = style({
   },
 });
 
-export const unchecked = style({
+export const uncheckedIcon = style({
   alignItems: 'flex-start',
   display: 'flex',
   color: 'inherit',
   selectors: {
-    [`${input}:checked ~ &`]: {
+    [`${input}:not(${controlled}):checked ~ &, ${controlled}${checked} ~ &`]: {
       display: 'none',
     },
   },
 });
 
-export const checked = style({
+export const checkedIcon = style({
   alignItems: 'flex-start',
   display: 'flex',
   color: 'inherit',
   selectors: {
-    [`${input}:not(:checked) ~ &`]: {
+    [`${input}:not(${controlled}):not(:checked) ~ &, ${controlled}:not(${checked}) ~ &`]: {
       display: 'none',
     },
   },
@@ -96,7 +100,7 @@ Object.keys(colors).forEach((key) => {
   const color = key as Color;
 
   globalStyle(
-    `${className}:not(${disabled}) > ${input}:focus ~ ${unchecked}, ${className} > ${input}:focus ~ ${checked}`,
+    `${className}:not(${disabled}) > ${input}:focus ~ ${uncheckedIcon}, ${className} > ${input}:focus ~ ${checkedIcon}`,
     ({ palette }) => ({
       outline: `2px solid ${palette.light('primary')}`,
       color: palette.dark(color),
@@ -119,7 +123,7 @@ Object.keys(sizes).forEach((key) => {
   }));
 
   globalStyle(
-    `${className} > ${unchecked} > svg, ${className} > ${checked} > svg`,
+    `${className} > ${uncheckedIcon} > svg, ${className} > ${checkedIcon} > svg`,
     ({ typography }) => ({
       width: typography.sizes[size],
     }),

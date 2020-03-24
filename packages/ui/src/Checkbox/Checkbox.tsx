@@ -23,7 +23,16 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(functi
   props,
   ref,
 ) {
-  const { children, className, label, color = 'accent', size = 'small', disabled, ...rest } = props;
+  const {
+    children,
+    className,
+    label,
+    checked,
+    color = 'accent',
+    disabled,
+    size = 'small',
+    ...rest
+  } = props;
 
   const classes = useStyles(styles);
 
@@ -31,15 +40,28 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(functi
     <label
       className={clsx(
         classes.root,
+        checked && classes.checked,
         disabled && classes.disabled,
         classes.colors[color],
         classes.sizes[size],
         className,
       )}
     >
-      <input {...rest} ref={ref} className={classes.input} disabled={disabled} type="checkbox" />
+      <input
+        {...rest}
+        ref={ref}
+        className={clsx(
+          classes.input,
+          checked && classes.checked,
+          checked !== undefined && classes.controlled, // when `checked` prop is not provided the input is uncontrolled,
+          className,
+        )}
+        checked={checked}
+        disabled={disabled}
+        type="checkbox"
+      />
 
-      <div className={classes.unchecked}>
+      <div className={classes.uncheckedIcon}>
         <svg
           aria-hidden="true"
           className="svg-inline--fa fa-circle fa-w-16"
@@ -57,7 +79,7 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(functi
         </svg>
       </div>
 
-      <div className={classes.checked}>
+      <div className={classes.checkedIcon}>
         <svg
           aria-hidden="true"
           className="svg-inline--fa fa-check-circle fa-w-16"
