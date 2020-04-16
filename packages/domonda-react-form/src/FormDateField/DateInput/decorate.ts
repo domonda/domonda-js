@@ -1,6 +1,6 @@
 import { createStyles, withStyles, WithStyles } from '@domonda/ui/styles';
 
-const styles = createStyles({
+const styles = createStyles(({ zIndex }) => ({
   root: {
     '& > div, & .react-datepicker-wrapper, & .react-datepicker__input-container': {
       display: 'inherit',
@@ -11,7 +11,7 @@ const styles = createStyles({
   },
   popper: {
     // NOTE: here we use `!important` because the default `react-datepicker` stylesheet is prioritized
-    zIndex: '1500 !important' as any,
+    zIndex: `${zIndex.tooltip} !important` as any,
     '& .react-datepicker__triangle': {
       left: '50%',
     },
@@ -21,7 +21,7 @@ const styles = createStyles({
       boxSizing: 'border-box',
     },
   },
-});
+}));
 
 export type Decorate = WithStyles<typeof styles>;
 
