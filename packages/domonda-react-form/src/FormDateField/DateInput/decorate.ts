@@ -11,7 +11,7 @@ const styles = createStyles({
   },
   popper: {
     // NOTE: here we use `!important` because the default `react-datepicker` stylesheet is prioritized
-    zIndex: '999 !important' as any,
+    zIndex: '1500 !important' as any,
     '& .react-datepicker__triangle': {
       left: '50%',
     },
