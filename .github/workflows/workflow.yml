@@ -47,8 +47,8 @@ jobs:
         run: npm run build:storybook -- --scope @domonda/ui
       - name: Publish on ui.domonda.dev
         if: github.ref == 'refs/heads/master'
-        uses: ./.github/actions/rsync-deploy
-        env:
-          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+        uses: domonda/actions-rsync@v1
         with:
-          args: '"-avO --no-perms" packages/domonda-ui/lib/storybook bob@ui.domonda.dev:/srv/ui.domonda.dev'
+          deploy-key: ${{ secrets.DEPLOY_KEY }}
+          from: packages/domonda-ui/lib/storybook
+          to: bob@ui.domonda.dev:/srv/ui.domonda.dev
