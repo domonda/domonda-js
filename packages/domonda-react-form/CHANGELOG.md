@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.7.2](https://github.com/domonda/domonda-js/compare/@domonda/react-form@2.7.1...@domonda/react-form@2.7.2) (2020-04-20)
+
+
+### Bug Fixes
+
+* **DateInput:** use tooltip z-index ([#40](https://github.com/domonda/domonda-js/issues/40)) ([d5f92a7](https://github.com/domonda/domonda-js/commit/d5f92a7ae84d760c272755ae2d1d9f5b3ba58160))
+
+
+
+
+
 ## [2.7.1](https://github.com/domonda/domonda-js/compare/@domonda/react-form@2.7.0...@domonda/react-form@2.7.1) (2020-03-18)
 
 **Note:** Version bump only for package @domonda/react-form
