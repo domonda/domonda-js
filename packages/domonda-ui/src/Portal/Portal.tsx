@@ -62,7 +62,7 @@ export const Portal = React.forwardRef<Element | null, PortalProps>(function Por
     }
   }, [container, disablePortal]);
 
-  useImperativeHandle(ref, () => mountNode || childRef.current, [mountNode]);
+  useImperativeHandle(ref, () => mountNode || childRef.current!, [mountNode]);
 
   useLayoutEffect(() => {
     if (onRendered && mountNode) {

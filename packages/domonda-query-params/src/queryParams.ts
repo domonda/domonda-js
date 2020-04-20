@@ -19,11 +19,7 @@ function isNaN(num: number) {
 export function strictUriEncode(str: string) {
   return encodeURIComponent(str).replace(
     /[!'()*]/g,
-    (x) =>
-      `%${x
-        .charCodeAt(0)
-        .toString(16)
-        .toUpperCase()}`,
+    (x) => `%${x.charCodeAt(0).toString(16).toUpperCase()}`,
   );
 }
 

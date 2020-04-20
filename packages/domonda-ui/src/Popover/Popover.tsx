@@ -290,8 +290,9 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps & WithStyles<typeo
           console.warn(
             [
               '@domonda/ui: the popover component is too tall.',
-              `Some part of it can not be seen on the screen (${elemRect.height -
-                heightThreshold}px).`,
+              `Some part of it can not be seen on the screen (${
+                elemRect.height - heightThreshold
+              }px).`,
               'Please consider adding a `max-height` to improve the user-experience.',
             ].join('\n'),
           );
