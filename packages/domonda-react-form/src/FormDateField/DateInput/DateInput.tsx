@@ -6,7 +6,8 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import ReactDatePicker from 'react-datepicker';
+import enGB from 'date-fns/locale/en-GB';
+import ReactDatePicker, { registerLocale } from 'react-datepicker';
 
 // ui
 import { Portal } from '@domonda/ui/Portal';
@@ -14,6 +15,8 @@ import { Portal } from '@domonda/ui/Portal';
 // decorate
 import 'react-datepicker/dist/react-datepicker.min.css';
 import { decorate, Decorate } from './decorate';
+
+registerLocale('en-gb', enGB);
 
 export interface DateInputProps {
   classes?: Partial<Decorate['classes']>;
@@ -157,6 +160,7 @@ const DateInput = React.forwardRef<ReactDatePicker, DateInputProps & Decorate>(f
   return (
     <div className={clsx(classes.root, className)}>
       <ReactDatePicker
+        locale="en-gb"
         dateFormat="dd.MM.yyyy"
         popperContainer={DateInputPopperPortal}
         popperPlacement="bottom"
