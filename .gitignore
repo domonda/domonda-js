@@ -6,4 +6,7 @@ lerna-debug.log*
 npm-debug.log*
 .vscode
 .pnp*
-.yarn
+
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
