@@ -27,7 +27,7 @@
     "react-dom": "^16.9.0"
   },
   "dependencies": {
-    "@domonda/plumb": "workspace:packages/plumb",
+    "@domonda/plumb": "^2.2.6",
     "fast-equals": "^2.0.0"
   },
   "devDependencies": {

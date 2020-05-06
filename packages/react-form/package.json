@@ -27,10 +27,10 @@
     "react-dom": "^16.9.0"
   },
   "dependencies": {
-    "@domonda/form": "workspace:packages/form",
-    "@domonda/plumb": "workspace:packages/plumb",
-    "@domonda/react-plumb": "workspace:packages/react-plumb",
-    "@domonda/ui": "workspace:packages/ui",
+    "@domonda/form": "^2.3.2",
+    "@domonda/plumb": "^2.2.6",
+    "@domonda/react-plumb": "^2.0.13",
+    "@domonda/ui": "^8.5.0",
     "clsx": "^1.1.0",
     "deepmerge": "^4.2.2",
     "fast-equals": "^2.0.0",

@@ -14,18 +14,11 @@
     "type": "git",
     "url": "git+https://github.com/domonda/domonda-js.git"
   },
-  "publishConfig": {
-    "access": "public"
-  },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1",
-    "clean": "rm -rf lib",
+    "start": "tsc --watch --incremental",
     "build": "tsc",
-    "prepack": "yarn build",
-    "start": "tsc --watch"
-  },
-  "bugs": {
-    "url": "https://github.com/domonda/domonda-js/issues"
+    "clean": "rm -rf lib",
+    "prepare": "yarn clean; yarn build"
   },
   "devDependencies": {
     "typescript": "^3.8.3"

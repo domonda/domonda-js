@@ -7,13 +7,12 @@
     "yarn": ">=2"
   },
   "scripts": {
-    "bump": "lerna version --conventional-commits -m \"chore(release): bump\" --create-release github",
-    "publish": "lerna publish from-package --contents lib",
-    "test": "jest",
-    "lint": "eslint 'packages/**/{src,__tests__}/**/*.{js,jsx,ts,tsx}'",
     "clean": "yarn workspaces foreach -v -p run clean",
+    "lint": "eslint 'packages/**/{src,__tests__}/**/*.{js,jsx,ts,tsx}'",
+    "test": "jest",
     "build": "yarn workspaces foreach -v -p run build",
-    "prepack": "yarn build"
+    "prepare": "yarn clean; yarn build",
+    "release": "lerna version --conventional-commits"
   },
   "devDependencies": {
     "@types/jest": "^25.1.4",
@@ -30,6 +29,7 @@
     "lerna": "^3.20.2",
     "lodash": "^4.17.15",
     "prettier": "^2.0.5",
+    "standard-version": "^8.0.0",
     "ts-jest": "^25.5.0",
     "typescript": "^3.8.3"
   }
