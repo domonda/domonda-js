@@ -7,11 +7,17 @@ const styles = createStyles(({ spacing }) => ({
   clearButton: {
     zIndex: 1,
     position: 'absolute',
+    top: spacing('tiny'),
     right: spacing('tiny'),
-    bottom: spacing('tiny'),
+    '&$hasLabel': {
+      top: spacing('tiny') * 3 - 1,
+    },
     '&$dense': {
+      top: spacing('tiny') - 1,
       right: spacing('tiny') - 1,
-      bottom: spacing('tiny') - 1,
+      '&$hasLabel': {
+        top: spacing('tiny') * 3 - 2,
+      },
     },
   },
   inputWithClearButton: {
@@ -20,6 +26,7 @@ const styles = createStyles(({ spacing }) => ({
       paddingRight: `${spacing('tiny') * 3}px !important`,
     },
   },
+  hasLabel: {},
   dense: {},
 }));
 

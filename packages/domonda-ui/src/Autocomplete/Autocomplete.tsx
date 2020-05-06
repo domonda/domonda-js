@@ -206,7 +206,11 @@ function Autocomplete<T>(props: AutocompleteProps<T> & Decorate): React.ReactEle
             {!hideClearButton && (
               <Button
                 disabled={!selectedItem}
-                className={clsx(classes.clearButton, dense && classes.dense)}
+                className={clsx(
+                  classes.clearButton,
+                  label && classes.hasLabel,
+                  dense && classes.dense,
+                )}
                 color="danger"
                 variant="text"
                 size={dense ? 'tiny' : 'small'}
