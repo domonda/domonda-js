@@ -1,4 +1,5 @@
-import { createStyles, withStyles, WithStyles } from '../styles';
+import { createStyles, WithStyles } from '../styles';
+import { createUseStyles } from 'react-jss';
 
 const styles = createStyles(({ spacing }) => ({
   root: {
@@ -32,4 +33,4 @@ const styles = createStyles(({ spacing }) => ({
 
 export type Decorate = WithStyles<typeof styles>;
 
-export const decorate = withStyles(styles);
+export const useDecorate = createUseStyles(styles, { name: 'Autocomplete' });

@@ -16,7 +16,7 @@ import { MenuList, MenuListProps, MenuItem, MenuItemProps } from '../Menu';
 import { Paper, PaperProps } from '../Paper';
 
 // decorate
-import { decorate, Decorate } from './decorate';
+import { useDecorate, Decorate } from './decorate';
 import clsx from 'clsx';
 
 const ITEM_SIZE = 36;
@@ -55,9 +55,9 @@ export interface AutocompleteProps<T>
   MenuItemProps?: MenuItemProps;
 }
 
-function Autocomplete<T>(props: AutocompleteProps<T> & Decorate): React.ReactElement | null {
+export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement | null {
   const {
-    classes,
+    classes: outerClasses,
     items,
     getItemId = (item: T) => (typeof item === 'string' ? item : JSON.stringify(item)),
     onInputValueChange,
@@ -84,6 +84,8 @@ function Autocomplete<T>(props: AutocompleteProps<T> & Decorate): React.ReactEle
     MenuItemProps = {},
     ...rest
   } = props;
+
+  const classes = useDecorate({ classes: outerClasses });
 
   const handleInputValueChange = useCallback(
     (value: string) => {
@@ -249,10 +251,3 @@ function Autocomplete<T>(props: AutocompleteProps<T> & Decorate): React.ReactEle
     </Downshift>
   );
 }
-
-if (process.env.NODE_ENV !== 'production') {
-  Autocomplete.displayName = 'Autocomplete';
-}
-
-const StyledAutocomplete = decorate(Autocomplete);
-export { StyledAutocomplete as Autocomplete };
