@@ -4,8 +4,9 @@
   "description": "Implementation of @domonda/form for React.",
   "license": "ISC",
   "homepage": "https://github.com/domonda/domonda-js#readme",
-  "main": "lib/react-form/src/index.js",
-  "types": "lib/react-form/src/index.d.ts",
+  "main": "lib",
+  "module": "lib",
+  "types": "lib",
   "keywords": [
     "domonda",
     "form",
@@ -18,8 +19,9 @@
   },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
-    "clean": "rm -rf lib/*",
-    "prepack": "tsc",
+    "clean": "rm -rf lib",
+    "build": "tsc",
+    "prepack": "yarn build",
     "storybook": "start-storybook --ci",
     "start": "tsc --watch"
   },
@@ -31,7 +33,7 @@
     "@domonda/form": "^2.3.2",
     "@domonda/plumb": "^2.2.6",
     "@domonda/react-plumb": "^2.0.13",
-    "@domonda/ui": "^8.5.0",
+    "@domonda/ui": "workspace:packages/ui",
     "clsx": "^1.1.0",
     "deepmerge": "^4.2.2",
     "fast-equals": "^2.0.0",
@@ -50,9 +52,12 @@
     "@types/node": "12.12.36",
     "@types/react-datepicker": "^2.11.0",
     "babel-loader": "^8.0.6",
+    "react": "^16.13.1",
     "react-docgen-typescript-loader": "^3.7.1",
+    "react-dom": "^16.13.1",
     "react-test-renderer": "^16.13.0",
     "ts-loader": "^7.0.2",
+    "typescript": "^3.8.3",
     "webpack": "^4.43.0"
   }
 }

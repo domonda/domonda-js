@@ -11,7 +11,9 @@
     "publish": "lerna publish from-package --contents lib",
     "test": "jest",
     "lint": "eslint 'packages/**/{src,__tests__}/**/*.{js,jsx,ts,tsx}'",
-    "prepack": "yarn workspaces foreach -v -p run prepack"
+    "clean": "yarn workspaces foreach -v -p run clean",
+    "build": "yarn workspaces foreach -v -p run build",
+    "prepack": "yarn build"
   },
   "devDependencies": {
     "@types/jest": "^25.1.4",

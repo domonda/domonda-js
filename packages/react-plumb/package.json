@@ -4,8 +4,9 @@
   "description": "Simple state management and utilities for React inspired by Observables.",
   "license": "ISC",
   "homepage": "https://github.com/domonda/domonda-js#readme",
-  "main": "lib/react-plumb/src/index.js",
-  "types": "lib/react-plumb/src/index.d.ts",
+  "main": "lib",
+  "module": "lib",
+  "types": "lib",
   "keywords": [
     "domonda",
     "state",
@@ -19,8 +20,9 @@
   },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
-    "clean": "rm -rf lib/*",
-    "prepack": "tsc",
+    "clean": "rm -rf lib",
+    "build": "tsc",
+    "prepack": "yarn build",
     "start": "tsc --watch"
   },
   "peerDependencies": {
@@ -36,6 +38,7 @@
     "@testing-library/react-hooks": "^3.2.1",
     "@types/react": "^16.9.34",
     "@types/react-dom": "^16.9.7",
-    "react-test-renderer": "^16.13.0"
+    "react-test-renderer": "^16.13.0",
+    "typescript": "^3.8.3"
   }
 }

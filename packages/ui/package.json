@@ -4,8 +4,9 @@
   "description": "UI framework developed and used by domonda.",
   "license": "ISC",
   "homepage": "https://github.com/domonda/domonda-js#readme",
-  "main": "lib/src/index.js",
-  "types": "lib/src/index.d.ts",
+  "main": "lib",
+  "module": "lib",
+  "types": "lib",
   "keywords": [
     "domonda",
     "ui",
@@ -19,8 +20,9 @@
   },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
-    "clean": "rm -rf lib/*",
-    "prepack": "tsc",
+    "clean": "rm -rf lib",
+    "build": "tsc",
+    "prepack": "yarn build",
     "storybook": "start-storybook --ci",
     "start": "tsc --watch"
   },

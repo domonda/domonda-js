@@ -4,8 +4,9 @@
   "license": "ISC",
   "description": "Powerful yet simple form library built using @domonda/plumb.",
   "homepage": "https://github.com/domonda/domonda-js#readme",
-  "main": "lib/form/src/index.js",
-  "types": "lib/form/src/index.d.ts",
+  "main": "lib",
+  "module": "lib",
+  "types": "lib",
   "keywords": [
     "domonda",
     "form",
@@ -17,8 +18,9 @@
   },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
-    "clean": "rm -rf lib/*",
-    "prepack": "tsc",
+    "clean": "rm -rf lib",
+    "build": "tsc",
+    "prepack": "yarn build",
     "start": "tsc --watch"
   },
   "bugs": {
@@ -32,6 +34,7 @@
     "lodash.unset": "^4.5.2"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.150"
+    "@types/lodash": "^4.14.150",
+    "typescript": "^3.8.3"
   }
 }

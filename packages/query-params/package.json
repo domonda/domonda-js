@@ -4,8 +4,9 @@
   "description": "Useful but simple query params manipulator for React.",
   "license": "ISC",
   "homepage": "https://github.com/domonda/domonda-js#readme",
-  "main": "lib/src/index.js",
-  "types": "lib/src/index.d.ts",
+  "main": "lib",
+  "module": "lib",
+  "types": "lib",
   "keywords": [
     "domonda",
     "state",
@@ -22,8 +23,9 @@
   },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
-    "clean": "rm -rf lib/*",
-    "prepack": "tsc",
+    "clean": "rm -rf lib",
+    "build": "tsc",
+    "prepack": "yarn build",
     "start": "tsc --watch"
   },
   "bugs": {
@@ -40,7 +42,8 @@
     "@types/lodash": "^4.14.150",
     "@types/react": "^16.9.34",
     "@types/react-dom": "^16.9.7",
-    "react-test-renderer": "^16.13.0"
+    "react-test-renderer": "^16.13.0",
+    "typescript": "^3.8.3"
   },
   "dependencies": {
     "fast-equals": "^2.0.0",

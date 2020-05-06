@@ -1298,12 +1298,15 @@ __metadata:
     lodash.get: ^4.4.2
     lodash.setwith: ^4.3.2
     lodash.unset: ^4.5.2
+    typescript: ^3.8.3
   languageName: unknown
   linkType: soft
 
 "@domonda/plumb@^2.2.6, @domonda/plumb@workspace:packages/plumb":
   version: 0.0.0-use.local
   resolution: "@domonda/plumb@workspace:packages/plumb"
+  dependencies:
+    typescript: ^3.8.3
   languageName: unknown
   linkType: soft
 
@@ -1323,6 +1326,7 @@ __metadata:
     lodash.pickby: ^4.6.0
     query-string: ^6.12.1
     react-test-renderer: ^16.13.0
+    typescript: ^3.8.3
   peerDependencies:
     react: ^16.9.0
     react-dom: ^16.9.0
@@ -1337,7 +1341,7 @@ __metadata:
     "@domonda/form": ^2.3.2
     "@domonda/plumb": ^2.2.6
     "@domonda/react-plumb": ^2.0.13
-    "@domonda/ui": ^8.5.0
+    "@domonda/ui": "workspace:packages/ui"
     "@storybook/addon-info": ^5.3.17
     "@storybook/react": ^5.3.17
     "@testing-library/react": ^10.0.4
@@ -1351,11 +1355,14 @@ __metadata:
     fast-equals: ^2.0.0
     lodash.get: ^4.4.2
     lodash.unset: ^4.5.2
+    react: ^16.13.1
     react-datepicker: ^2.14.0
     react-docgen-typescript-loader: ^3.7.1
+    react-dom: ^16.13.1
     react-test-renderer: ^16.13.0
     text-mask-core: ^5.1.2
     ts-loader: ^7.0.2
+    typescript: ^3.8.3
     webpack: ^4.43.0
   peerDependencies:
     react: ^16.9.0
@@ -1374,13 +1381,14 @@ __metadata:
     "@types/react-dom": ^16.9.7
     fast-equals: ^2.0.0
     react-test-renderer: ^16.13.0
+    typescript: ^3.8.3
   peerDependencies:
     react: ^16.9.0
     react-dom: ^16.9.0
   languageName: unknown
   linkType: soft
 
-"@domonda/ui@^8.5.0, @domonda/ui@workspace:packages/ui":
+"@domonda/ui@workspace:packages/ui":
   version: 0.0.0-use.local
   resolution: "@domonda/ui@workspace:packages/ui"
   dependencies:
@@ -2844,11 +2852,11 @@ __metadata:
   linkType: hard
 
 "@octokit/types@npm:^2.0.0, @octokit/types@npm:^2.0.1, @octokit/types@npm:^2.11.1":
-  version: 2.13.0
-  resolution: "@octokit/types@npm:2.13.0"
+  version: 2.14.0
+  resolution: "@octokit/types@npm:2.14.0"
   dependencies:
     "@types/node": ">= 8"
-  checksum: 3/68128c0d4d1d7eccb780f91271711e2fd2be7df0f64f15afc4f9b8483ba17b337baa3ff4779c6f8dfbd9a14c3a7b2f1484f4753b0aabdfae76a5f463f5755ece
+  checksum: 3/a173a4886efb1048b126552f2df2466173664fa52e2eb41e09789c8637f526bfa06007c5c2b38ddd1066c5f77c3c6079a592446f1405dcc499254638385f0525
   languageName: node
   linkType: hard
 
@@ -14692,7 +14700,7 @@ fsevents@^2.1.2:
   languageName: node
   linkType: hard
 
-"react-dom@npm:^16.8.3":
+"react-dom@npm:^16.13.1, react-dom@npm:^16.8.3":
   version: 16.13.1
   resolution: "react-dom@npm:16.13.1"
   dependencies:
@@ -14945,7 +14953,7 @@ fsevents@^2.1.2:
   languageName: node
   linkType: hard
 
-"react@npm:^16.8.3":
+"react@npm:^16.13.1, react@npm:^16.8.3":
   version: 16.13.1
   resolution: "react@npm:16.13.1"
   dependencies:
