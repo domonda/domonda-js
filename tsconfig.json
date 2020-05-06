@@ -1,9 +1,5 @@
 {
   "compilerOptions": {
-    "baseUrl": "./packages",
-    "paths": {
-      "@domonda/*": ["*/src"]
-    },
     "target": "esnext",
     "module": "esnext",
     "moduleResolution": "node",
@@ -16,7 +12,17 @@
     "noUnusedParameters": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "declaration": true
+    "declaration": true,
+    "baseUrl": "./packages",
+    "paths": {
+      "@domonda/form/*": ["form/src/*"],
+      "@domonda/plumb/*": ["plumb/src/*"],
+      "@domonda/query-params/*": ["query-params/src/*"],
+      "@domonda/react-form/*": ["react-form/src/*"],
+      "@domonda/react-plumb/*": ["react-plumb/src/*"],
+      "@domonda/ui/*": ["ui/src/*"],
+      "@domonda/*": ["*/src/"]
+    }
   },
   "exclude": ["node_modules"]
 }

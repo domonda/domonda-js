@@ -4,9 +4,9 @@
   "description": "Useful but simple query params manipulator for React.",
   "license": "ISC",
   "homepage": "https://github.com/domonda/domonda-js#readme",
-  "main": "lib",
+  "main": "lib/index.js",
   "module": "lib",
-  "types": "lib",
+  "types": "lib/index.d.ts",
   "keywords": [
     "domonda",
     "state",
