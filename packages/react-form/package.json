@@ -4,9 +4,6 @@
   "description": "Implementation of @domonda/form for React.",
   "license": "ISC",
   "homepage": "https://github.com/domonda/domonda-js#readme",
-  "main": "lib",
-  "module": "lib",
-  "types": "lib",
   "keywords": [
     "domonda",
     "form",

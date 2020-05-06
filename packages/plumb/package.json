@@ -4,9 +4,6 @@
   "license": "ISC",
   "description": "Simple state management inspired by Observables.",
   "homepage": "https://github.com/domonda/domonda-js#readme",
-  "main": "lib",
-  "module": "lib",
-  "types": "lib",
   "keywords": [
     "domonda",
     "state",
