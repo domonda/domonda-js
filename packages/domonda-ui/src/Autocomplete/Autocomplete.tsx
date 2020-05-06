@@ -119,6 +119,12 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
             }
             openMenu();
           },
+          onClick: (event: React.MouseEvent<HTMLInputElement>) => {
+            if (InputProps.onClick) {
+              InputProps.onClick(event);
+            }
+            openMenu();
+          },
         });
 
         const isOpen = downshiftIsOpen && items.length > 0;
