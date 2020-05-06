@@ -29,26 +29,3 @@ jobs:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
         with:
           args: '"run publish -- --yes"'
-  ui-storybook:
-    name: UI storybook
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@master
-      - name: Setup node
-        uses: actions/setup-node@v1
-        with:
-          node-version: '11.x'
-      - name: Install
-        run: npm ci
-      - name: Bootstrap
-        run: npm run bootstrap -- --scope @domonda/ui --ci
-      - name: Build
-        run: npm run build:storybook -- --scope @domonda/ui
-      - name: Publish on ui.domonda.dev
-        if: github.ref == 'refs/heads/master'
-        uses: domonda/actions-rsync@v1
-        with:
-          deploy-key: ${{ secrets.DEPLOY_KEY }}
-          from: packages/domonda-ui/lib/storybook
-          to: bob@ui.domonda.dev:/srv/ui.domonda.dev
