@@ -1,6 +1,6 @@
 {
   "name": "@domonda/react-plumb",
-  "version": "2.0.12",
+  "version": "2.0.13",
   "description": "Simple state management and utilities for React inspired by Observables.",
   "keywords": [
     "domonda",

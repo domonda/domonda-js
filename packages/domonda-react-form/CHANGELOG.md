@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.8.0](https://github.com/domonda/domonda-js/compare/@domonda/react-form@2.7.2...@domonda/react-form@2.8.0) (2020-05-06)
+
+
+### Features
+
+* **FormDateField:** expose `registerLocale` function ([#45](https://github.com/domonda/domonda-js/issues/45)) ([9763dfe](https://github.com/domonda/domonda-js/commit/9763dfe7171ceefc868abbbee2bb31256f3d1c9d))
+
+
+
+
+
 ## [2.7.2](https://github.com/domonda/domonda-js/compare/@domonda/react-form@2.7.1...@domonda/react-form@2.7.2) (2020-04-20)
 
 

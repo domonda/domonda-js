@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [8.5.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@8.4.2...@domonda/ui@8.5.0) (2020-05-06)
+
+
+### Features
+
+* **Autocomplete:** add clear selection button ([#42](https://github.com/domonda/domonda-js/issues/42)) ([4a18e74](https://github.com/domonda/domonda-js/commit/4a18e74de4a34104b1541651aad2b5d75979fcd7))
+* **Autocomplete:** open dropdown on input click ([60db945](https://github.com/domonda/domonda-js/commit/60db9455561073bca6ae0f223ca753b119ab3677)), closes [#41](https://github.com/domonda/domonda-js/issues/41)
+
+
+
+
+
 ## [8.4.2](https://github.com/domonda/domonda-js/compare/@domonda/ui@8.4.1...@domonda/ui@8.4.2) (2020-04-20)
 
 **Note:** Version bump only for package @domonda/ui

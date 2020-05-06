@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.4](https://github.com/domonda/domonda-js/compare/@domonda/query-params@1.5.3...@domonda/query-params@1.5.4) (2020-05-06)
+
+**Note:** Version bump only for package @domonda/query-params
+
+
+
+
+
 ## [1.5.3](https://github.com/domonda/domonda-js/compare/@domonda/query-params@1.5.2...@domonda/query-params@1.5.3) (2020-04-20)
 
 **Note:** Version bump only for package @domonda/query-params
