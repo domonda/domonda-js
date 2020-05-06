@@ -194,6 +194,7 @@ function Autocomplete<T>(props: AutocompleteProps<T> & Decorate): React.ReactEle
                 input: clsx(
                   InputProps.classes?.input,
                   !hideClearButton && classes.inputWithClearButton,
+                  !hideClearButton && dense && classes.dense,
                 ),
               }}
               {...restInputProps}
@@ -205,9 +206,10 @@ function Autocomplete<T>(props: AutocompleteProps<T> & Decorate): React.ReactEle
             {!hideClearButton && (
               <Button
                 disabled={!selectedItem}
-                className={classes.clearButton}
+                className={clsx(classes.clearButton, dense && classes.dense)}
                 color="danger"
                 variant="text"
+                size={dense ? 'tiny' : 'small'}
                 onClick={() => clearSelection()}
               >
                 <svg

@@ -9,10 +9,18 @@ const styles = createStyles(({ spacing }) => ({
     position: 'absolute',
     right: spacing('tiny'),
     bottom: spacing('tiny'),
+    '&$dense': {
+      right: spacing('tiny') - 1,
+      bottom: spacing('tiny') - 1,
+    },
   },
   inputWithClearButton: {
     paddingRight: `${spacing('tiny') * 4}px !important`,
+    '&$dense': {
+      paddingRight: `${spacing('tiny') * 3}px !important`,
+    },
   },
+  dense: {},
 }));
 
 export type Decorate = WithStyles<typeof styles>;
