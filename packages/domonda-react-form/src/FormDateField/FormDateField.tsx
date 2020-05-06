@@ -7,6 +7,8 @@
 import React from 'react';
 import { useFormDateField, UseFormDateFieldProps, FormDateFieldAPI } from './useFormDateField';
 
+export { registerLocale } from 'react-datepicker';
+
 export interface FormDateFieldProps extends UseFormDateFieldProps {
   children: (api: FormDateFieldAPI) => React.ReactElement | null;
 }
