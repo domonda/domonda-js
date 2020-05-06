@@ -12,7 +12,7 @@
     "test": "jest",
     "build": "yarn workspaces foreach -v -p run build",
     "prepare": "yarn clean; yarn build",
-    "bumpver": "lerna version --conventional-commits"
+    "bumpver": "lerna version -m \"verbumped\" --conventional-commits --tag-version-prefix='testing'"
   },
   "devDependencies": {
     "@types/jest": "^25.1.4",

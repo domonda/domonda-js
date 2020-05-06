@@ -20,4 +20,4 @@ jobs:
           node-version: '12'
           registry-url: 'https://npm.pkg.github.com'
       - name: Bump version
-        run: yarn bumpver --yes --tag-version-prefix='testing'
+        run: yarn bumpver --yes
