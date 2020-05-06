@@ -213,15 +213,15 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
                   label && classes.hasLabel,
                   dense && classes.dense,
                 )}
-                color="danger"
+                color="secondary"
                 variant="text"
-                size={dense ? 'tiny' : 'small'}
+                size="tiny"
                 onClick={() => clearSelection()}
               >
                 <svg
                   aria-hidden="true"
                   focusable="false"
-                  data-prefix="far"
+                  data-prefix="fal"
                   data-icon="times"
                   className="svg-inline--fa fa-times fa-w-10"
                   role="img"
@@ -230,7 +230,7 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
                 >
                   <path
                     fill="currentColor"
-                    d="M207.6 256l107.72-107.72c6.23-6.23 6.23-16.34 0-22.58l-25.03-25.03c-6.23-6.23-16.34-6.23-22.58 0L160 208.4 52.28 100.68c-6.23-6.23-16.34-6.23-22.58 0L4.68 125.7c-6.23 6.23-6.23 16.34 0 22.58L112.4 256 4.68 363.72c-6.23 6.23-6.23 16.34 0 22.58l25.03 25.03c6.23 6.23 16.34 6.23 22.58 0L160 303.6l107.72 107.72c6.23 6.23 16.34 6.23 22.58 0l25.03-25.03c6.23-6.23 6.23-16.34 0-22.58L207.6 256z"
+                    d="M193.94 256L296.5 153.44l21.15-21.15c3.12-3.12 3.12-8.19 0-11.31l-22.63-22.63c-3.12-3.12-8.19-3.12-11.31 0L160 222.06 36.29 98.34c-3.12-3.12-8.19-3.12-11.31 0L2.34 120.97c-3.12 3.12-3.12 8.19 0 11.31L126.06 256 2.34 379.71c-3.12 3.12-3.12 8.19 0 11.31l22.63 22.63c3.12 3.12 8.19 3.12 11.31 0L160 289.94 262.56 392.5l21.15 21.15c3.12 3.12 8.19 3.12 11.31 0l22.63-22.63c3.12-3.12 3.12-8.19 0-11.31L193.94 256z"
                   ></path>
                 </svg>
               </Button>

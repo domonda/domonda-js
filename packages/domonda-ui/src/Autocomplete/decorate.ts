@@ -11,7 +11,7 @@ const styles = createStyles(({ spacing }) => ({
     top: spacing('tiny'),
     right: spacing('tiny'),
     '&$hasLabel': {
-      top: spacing('tiny') * 3 - 1,
+      top: spacing('tiny') * 3,
     },
     '&$dense': {
       top: spacing('tiny') - 1,
@@ -22,7 +22,7 @@ const styles = createStyles(({ spacing }) => ({
     },
   },
   inputWithClearButton: {
-    paddingRight: `${spacing('tiny') * 4}px !important`,
+    paddingRight: `${spacing('tiny') * 4 - 4}px !important`,
     '&$dense': {
       paddingRight: `${spacing('tiny') * 3}px !important`,
     },
