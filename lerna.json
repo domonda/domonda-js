@@ -8,11 +8,5 @@
       "allowBranch": "master"
     }
   },
-  "ignoreChanges": [
-    "**/.storybook/**",
-    "**/stories/**",
-    "**/__tests__/**",
-    "**/*.md",
-    "package-lock.json"
-  ]
+  "ignoreChanges": ["**/.storybook/**", "**/stories/**", "**/__tests__/**", "**/*.md"]
 }
