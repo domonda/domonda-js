@@ -4,8 +4,8 @@
  *
  */
 
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 import { generateStaticClassName } from '../styles/generateStaticClassName';
 import { Color } from '../styles/palette';
 import { TypographySize } from '../styles/typography';
