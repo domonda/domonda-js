@@ -8,7 +8,7 @@ const stories = storiesOf('Autocomplete', module);
 const styles = createStyles(({ spacing, palette, typography, shape }) => ({
   inlineAutocompleteContainer: {
     backgroundColor: palette.gray100,
-    width: 192,
+    width: 256,
     borderRadius: shape.borderRadius.small,
     overflow: 'hidden',
   },
@@ -51,11 +51,7 @@ const Overview: React.FC<WithStyles<typeof styles>> = (props) => {
     () =>
       Array(1000)
         .fill('')
-        .map(() =>
-          Math.random()
-            .toString(36)
-            .substring(8),
-        ),
+        .map(() => Math.random().toString(36).substring(8)),
     [],
   );
 
@@ -81,6 +77,7 @@ const Overview: React.FC<WithStyles<typeof styles>> = (props) => {
       <div className={classes.inlineAutocompleteContainer}>
         <Autocomplete
           inlineMenu
+          hideClearButton
           items={refinedPasswords}
           placeholder="Type to search..."
           PaperProps={{
