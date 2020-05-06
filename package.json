@@ -33,8 +33,6 @@
     "lerna": "^3.20.2",
     "lodash": "^4.17.15",
     "prettier": "^2.0.5",
-    "react": "^16.13.0",
-    "react-dom": "^16.13.0",
     "rimraf": "^3.0.2",
     "ts-jest": "^25.5.0",
     "typescript": "^3.8.3"

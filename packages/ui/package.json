@@ -2,6 +2,10 @@
   "name": "@domonda/ui",
   "version": "8.5.0",
   "description": "UI framework developed and used by domonda.",
+  "license": "ISC",
+  "homepage": "https://github.com/domonda/domonda-js#readme",
+  "main": "lib/src/index.js",
+  "types": "lib/src/index.d.ts",
   "keywords": [
     "domonda",
     "ui",
@@ -9,27 +13,16 @@
     "react",
     "typescript"
   ],
-  "homepage": "https://github.com/domonda/domonda-js#readme",
-  "license": "ISC",
-  "main": "lib/src/index.js",
-  "typings": "lib/src/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/domonda/domonda-js.git"
   },
-  "publishConfig": {
-    "access": "public"
-  },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
     "clean": "rimraf lib/*",
-    "build:storybook": "npm run clean && build-storybook -o ./lib/storybook",
-    "build": "npm run clean && tsc && node ../../scripts/copyFiles.js",
-    "start:storybook": "start-storybook --ci -p 6006",
-    "start": "npm run clean && tsc --watch --preserveWatchOutput"
-  },
-  "bugs": {
-    "url": "https://github.com/domonda/domonda-js/issues"
+    "prepack": "tsc",
+    "storybook": "start-storybook --ci",
+    "start": "tsc --watch"
   },
   "peerDependencies": {
     "react": "^16.9.0",
@@ -64,10 +57,13 @@
     "@types/react-transition-group": "4.2.3",
     "@types/react-virtualized-auto-sizer": "^1.0.0",
     "@types/react-window": "^1.8.2",
+    "@yarnpkg/pnpify": "^2.0.0-rc.22",
     "babel-loader": "^8.0.6",
     "fork-ts-checker-webpack-plugin": "^4.1.3",
     "react-docgen-typescript-loader": "^3.7.1",
     "react-test-renderer": "^16.13.0",
-    "ts-loader": "^7.0.2"
+    "ts-loader": "^7.0.2",
+    "typescript": "^3.8.3",
+    "webpack": "^4.43.0"
   }
 }
