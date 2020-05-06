@@ -3,5 +3,10 @@
   "npmClient": "yarn",
   "version": "independent",
   "packages": ["packages/*"],
-  "ignoreChanges": ["**/.storybook/**", "**/stories/**", "**/__tests__/**", "**/*.md"]
+  "ignoreChanges": ["**/.storybook/**", "**/stories/**", "**/__tests__/**", "**/*.md"],
+  "command": {
+    "version": {
+      "message": "%s"
+    }
+  }
 }
