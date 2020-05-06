@@ -77,6 +77,7 @@ const Overview: React.FC<WithStyles<typeof styles>> = (props) => {
       <div className={classes.inlineAutocompleteContainer}>
         <Autocomplete
           inlineMenu
+          hideClearButton
           items={refinedPasswords}
           placeholder="Type to search..."
           PaperProps={{

@@ -9,13 +9,15 @@ import Downshift, { DownshiftProps } from 'downshift';
 import { FixedSizeList } from 'react-window';
 
 // ui
-import { Flex } from '../Flex';
-import { Box } from '../Box';
 import { Input, InputProps } from '../Input';
 import { Button } from '../Button';
 import { Popper, PopperProps } from '../Popper';
 import { MenuList, MenuListProps, MenuItem, MenuItemProps } from '../Menu';
 import { Paper, PaperProps } from '../Paper';
+
+// decorate
+import { decorate, Decorate } from './decorate';
+import clsx from 'clsx';
 
 const ITEM_SIZE = 36;
 const ITEMS_FIT = 8; // how many items should fit the open list
@@ -27,10 +29,12 @@ export type AutocompleteItemToString<T> = (item: T | null) => string;
 export interface AutocompleteProps<T>
   extends Omit<DownshiftProps<T>, 'onInputValueChange' | 'getItemId' | 'children'> {
   readonly items: readonly T[];
+  classes?: Partial<Decorate['classes']>;
   getItemId?: (item: T | null) => string;
   onInputValueChange?: (value: string | null) => void;
   listWidth?: number;
   listHeight?: number;
+  hideClearButton?: boolean;
   // Input
   label?: React.ReactNode;
   placeholder?: string;
@@ -51,13 +55,15 @@ export interface AutocompleteProps<T>
   MenuItemProps?: MenuItemProps;
 }
 
-export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement | null {
+function Autocomplete<T>(props: AutocompleteProps<T> & Decorate): React.ReactElement | null {
   const {
+    classes,
     items,
     getItemId = (item: T) => (typeof item === 'string' ? item : JSON.stringify(item)),
     onInputValueChange,
     listWidth,
     listHeight,
+    hideClearButton,
     // Input
     label,
     placeholder,
@@ -176,52 +182,51 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
         );
 
         return (
-          <div>
-            <Flex container align="flex-end" spacing="tiny">
-              <Flex item flex={1}>
-                <Input
-                  ref={ref as React.Ref<HTMLInputElement>}
-                  label={label}
-                  placeholder={placeholder}
-                  dense={dense}
-                  {...InputProps}
-                  {...restInputProps}
-                  required={required}
-                  disabled={disabled}
-                  readOnly={readOnly}
-                  autoFocus={autoFocus}
-                />
-              </Flex>
-
-              <Flex item>
-                <Box padding={['none', 'tiny', 'tiny', 'none']}>
-                  <Button
-                    color="secondary"
-                    variant="text"
-                    style={{ display: 'flex' }}
-                    onClick={() => {
-                      clearSelection();
-                    }}
-                  >
-                    <svg
-                      aria-hidden="true"
-                      focusable="false"
-                      data-prefix="far"
-                      data-icon="times"
-                      className="svg-inline--fa fa-times fa-w-10"
-                      role="img"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 320 512"
-                    >
-                      <path
-                        fill="currentColor"
-                        d="M207.6 256l107.72-107.72c6.23-6.23 6.23-16.34 0-22.58l-25.03-25.03c-6.23-6.23-16.34-6.23-22.58 0L160 208.4 52.28 100.68c-6.23-6.23-16.34-6.23-22.58 0L4.68 125.7c-6.23 6.23-6.23 16.34 0 22.58L112.4 256 4.68 363.72c-6.23 6.23-6.23 16.34 0 22.58l25.03 25.03c6.23 6.23 16.34 6.23 22.58 0L160 303.6l107.72 107.72c6.23 6.23 16.34 6.23 22.58 0l25.03-25.03c6.23-6.23 6.23-16.34 0-22.58L207.6 256z"
-                      ></path>
-                    </svg>
-                  </Button>
-                </Box>
-              </Flex>
-            </Flex>
+          <div className={classes.root}>
+            <Input
+              ref={ref as React.Ref<HTMLInputElement>}
+              label={label}
+              placeholder={placeholder}
+              dense={dense}
+              {...InputProps}
+              classes={{
+                ...InputProps.classes,
+                input: clsx(
+                  InputProps.classes?.input,
+                  !hideClearButton && classes.inputWithClearButton,
+                ),
+              }}
+              {...restInputProps}
+              required={required}
+              disabled={disabled}
+              readOnly={readOnly}
+              autoFocus={autoFocus}
+            />
+            {!hideClearButton && (
+              <Button
+                disabled={!selectedItem}
+                className={classes.clearButton}
+                color="danger"
+                variant="text"
+                onClick={() => clearSelection()}
+              >
+                <svg
+                  aria-hidden="true"
+                  focusable="false"
+                  data-prefix="far"
+                  data-icon="times"
+                  className="svg-inline--fa fa-times fa-w-10"
+                  role="img"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 80 352 352"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M207.6 256l107.72-107.72c6.23-6.23 6.23-16.34 0-22.58l-25.03-25.03c-6.23-6.23-16.34-6.23-22.58 0L160 208.4 52.28 100.68c-6.23-6.23-16.34-6.23-22.58 0L4.68 125.7c-6.23 6.23-6.23 16.34 0 22.58L112.4 256 4.68 363.72c-6.23 6.23-6.23 16.34 0 22.58l25.03 25.03c6.23 6.23 16.34 6.23 22.58 0L160 303.6l107.72 107.72c6.23 6.23 16.34 6.23 22.58 0l25.03-25.03c6.23-6.23 6.23-16.34 0-22.58L207.6 256z"
+                  ></path>
+                </svg>
+              </Button>
+            )}
 
             {!readOnly &&
               (keepPopperMounted || isOpen) &&
@@ -238,3 +243,10 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
     </Downshift>
   );
 }
+
+if (process.env.NODE_ENV !== 'production') {
+  Autocomplete.displayName = 'Autocomplete';
+}
+
+const StyledAutocomplete = decorate(Autocomplete);
+export { StyledAutocomplete as Autocomplete };
