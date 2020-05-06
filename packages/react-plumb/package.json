@@ -11,8 +11,8 @@
   ],
   "homepage": "https://github.com/domonda/domonda-js#readme",
   "license": "ISC",
-  "main": "lib/domonda-react-plumb/src/index.js",
-  "typings": "lib/domonda-react-plumb/src/index.d.ts",
+  "main": "lib/react-plumb/src/index.js",
+  "typings": "lib/react-plumb/src/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/domonda/domonda-js.git"

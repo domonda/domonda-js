@@ -10,8 +10,8 @@ module.exports = ({ config }) => {
   config.resolve.alias = {
     react: path.resolve(__dirname, '../node_modules/react'),
     'react-dom': path.resolve(__dirname, '../node_modules/react-dom'),
-    '@domonda/form': path.resolve(__dirname, '../../domonda-form/src'),
-    '@domonda/ui': path.resolve(__dirname, '../../domonda-ui/src'),
+    '@domonda/form': path.resolve(__dirname, '../../form/src'),
+    '@domonda/ui': path.resolve(__dirname, '../../ui/src'),
   };
 
   config.module.rules.push({

@@ -10,8 +10,8 @@
   ],
   "homepage": "https://github.com/domonda/domonda-js#readme",
   "license": "ISC",
-  "main": "lib/domonda-react-form/src/index.js",
-  "typings": "lib/domonda-react-form/src/index.d.ts",
+  "main": "lib/react-form/src/index.js",
+  "typings": "lib/react-form/src/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/domonda/domonda-js.git"

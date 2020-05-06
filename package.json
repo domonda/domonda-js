@@ -1,5 +1,11 @@
 {
-  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=12",
+    "yarn": ">=2"
+  },
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "bump": "lerna version --conventional-commits -m \"chore(release): bump\" --create-release github",
@@ -32,6 +38,5 @@
     "rimraf": "^3.0.2",
     "ts-jest": "^25.5.0",
     "typescript": "^3.8.3"
-  },
-  "dependencies": {}
+  }
 }
