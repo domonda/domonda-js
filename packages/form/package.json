@@ -1,28 +1,25 @@
 {
   "name": "@domonda/form",
   "version": "2.3.2",
+  "license": "ISC",
   "description": "Powerful yet simple form library built using @domonda/plumb.",
+  "homepage": "https://github.com/domonda/domonda-js#readme",
+  "main": "lib/form/src/index.js",
+  "types": "lib/form/src/index.d.ts",
   "keywords": [
     "domonda",
     "form",
     "plumb"
   ],
-  "homepage": "https://github.com/domonda/domonda-js#readme",
-  "license": "ISC",
-  "main": "lib/form/src/index.js",
-  "typings": "lib/form/src/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/domonda/domonda-js.git"
   },
-  "publishConfig": {
-    "access": "public"
-  },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
-    "clean": "rimraf lib/*",
-    "build": "npm run clean && tsc && node ../../scripts/copyFiles.js",
-    "start": "npm run clean && tsc --watch --preserveWatchOutput"
+    "clean": "rm -rf lib/*",
+    "prepack": "tsc",
+    "start": "tsc --watch"
   },
   "bugs": {
     "url": "https://github.com/domonda/domonda-js/issues"

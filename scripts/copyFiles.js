@@ -49,11 +49,11 @@ async function createLibPackage() {
     'dependencies',
   ];
 
-  const { main, typings, ...packageData } = await readPackageData();
+  const { main, types, ...packageData } = await readPackageData();
   const libPackageData = {
     ...pick(packageData, includedLibPackageDataKeys),
     main: path.basename(main),
-    typings: path.basename(typings),
+    types: path.basename(types),
   };
 
   const libDir = await getLibDir();

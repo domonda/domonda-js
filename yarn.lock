@@ -15555,7 +15555,7 @@ fsevents@^2.1.2:
   languageName: node
   linkType: hard
 
-"rimraf@npm:^3.0.0, rimraf@npm:^3.0.2":
+"rimraf@npm:^3.0.0":
   version: 3.0.2
   resolution: "rimraf@npm:3.0.2"
   dependencies:
@@ -15594,7 +15594,6 @@ fsevents@^2.1.2:
     lerna: ^3.20.2
     lodash: ^4.17.15
     prettier: ^2.0.5
-    rimraf: ^3.0.2
     ts-jest: ^25.5.0
     typescript: ^3.8.3
   languageName: unknown
