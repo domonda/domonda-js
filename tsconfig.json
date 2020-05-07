@@ -14,6 +14,7 @@
     "skipLibCheck": true,
     "declaration": true,
     "baseUrl": "./packages",
+    "outDir": "lib",
     "paths": {
       "@domonda/form/*": ["form/src/*"],
       "@domonda/plumb/*": ["plumb/src/*"],

@@ -3,10 +3,13 @@
   "npmClient": "yarn",
   "version": "independent",
   "packages": ["packages/*"],
-  "ignoreChanges": ["**/.storybook/**", "**/stories/**", "**/__tests__/**", "**/*.md"],
+  "ignoreChanges": ["**/.storybook/**", "**/__stories__/**", "**/__tests__/**", "**/*.md"],
   "command": {
+    "publish": {
+      "contents": "lib"
+    },
     "version": {
-      "message": "%s"
+      "message": "release"
     }
   }
 }

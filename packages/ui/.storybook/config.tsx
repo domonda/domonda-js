@@ -12,7 +12,7 @@ import { Baseline } from '../src/Baseline';
 import { Text } from '../src/Text';
 import { Button } from '../src/Button';
 
-const req = require.context('../stories', true, /\.stories\.tsx$/);
+const req = require.context('../__stories__', true, /\.stories\.tsx$/);
 
 function loadStories() {
   req.keys().forEach(req);

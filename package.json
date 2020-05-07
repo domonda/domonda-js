@@ -7,12 +7,13 @@
     "yarn": ">=2"
   },
   "scripts": {
-    "clean": "yarn workspaces foreach -v -p run clean",
-    "lint": "eslint 'packages/**/{src,__tests__}/**/*.{js,jsx,ts,tsx}'",
+    "clean": "lerna run clean",
+    "lint": "eslint 'packages/**/{src,__tests__}/**/*.{ts,tsx}'",
     "test": "jest",
-    "build": "yarn workspaces foreach -v -p run build",
+    "build": "lerna run build",
     "prepare": "yarn clean; yarn build",
-    "bumpver": "lerna version -m \"verbumped\" --conventional-commits --tag-version-prefix='testing'"
+    "release": "lerna version --conventional-commits --tag-version-prefix='testing'",
+    "publish": "lerna publish from-git --contents lib"
   },
   "devDependencies": {
     "@types/jest": "^25.1.4",
