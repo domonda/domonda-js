@@ -15,9 +15,14 @@
     "url": "git+https://github.com/domonda/domonda-js.git"
   },
   "scripts": {
-    "type-check": "tsc --noEmit",
-    "build": "node ../../scripts/build.js src",
-    "start": "yarn type-check --watch"
+    "type-check": "tsc -p tsconfig.test.json --noEmit",
+    "build": "tsc --outDir lib",
+    "prepare": "yarn build",
+    "prepack": "node ../../scripts/copyFiles.js lib",
+    "start": "yarn build --watch"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "devDependencies": {
     "typescript": "^3.8.3"

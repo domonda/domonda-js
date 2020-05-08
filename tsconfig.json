@@ -13,7 +13,6 @@
     "skipLibCheck": true,
     "declaration": true,
     "baseUrl": "./packages",
-    "outDir": "lib",
     "paths": {
       "@domonda/form/*": ["form/src/*"],
       "@domonda/plumb/*": ["plumb/src/*"],
@@ -24,5 +23,5 @@
       "@domonda/*": ["*/src/"]
     }
   },
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "packages/**/node_modules"]
 }

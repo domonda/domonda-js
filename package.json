@@ -7,12 +7,10 @@
     "yarn": ">=2"
   },
   "scripts": {
-    "clean": "lerna exec 'rm -rf lib || 0'",
+    "clean": "lerna exec 'rm -rf lib node_modules'",
     "lint": "eslint 'packages/**/{src,__tests__}/**/*.{ts,tsx}'",
     "test": "jest",
-    "type-check": "lerna run type-check --parallel",
-    "prepare": "yarn clean; lerna run build",
-    "version": "lerna version --conventional-commits",
+    "release": "lerna version --allow-branch master --message release --conventional-commits",
     "publish": "lerna publish from-git --contents lib"
   },
   "devDependencies": {

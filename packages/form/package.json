@@ -14,11 +14,14 @@
     "url": "git+https://github.com/domonda/domonda-js.git"
   },
   "scripts": {
-    "type-check": "tsc --noEmit",
-    "start": "yarn type-check --watch"
+    "type-check": "tsc -p tsconfig.test.json --noEmit",
+    "build": "tsc --outDir lib",
+    "prepare": "yarn build",
+    "prepack": "node ../../scripts/copyFiles.js lib",
+    "start": "yarn build --watch"
   },
-  "bugs": {
-    "url": "https://github.com/domonda/domonda-js/issues"
+  "publishConfig": {
+    "access": "public"
   },
   "dependencies": {
     "@domonda/plumb": "^2.2.6",

@@ -3,13 +3,5 @@
   "npmClient": "yarn",
   "version": "independent",
   "packages": ["packages/*"],
-  "ignoreChanges": ["**/.storybook/**", "**/__stories__/**", "**/__tests__/**", "**/*.md"],
-  "command": {
-    "publish": {
-      "contents": "lib"
-    },
-    "version": {
-      "message": "release"
-    }
-  }
+  "ignoreChanges": ["**/.storybook/**", "**/__stories__/**", "**/__tests__/**", "**/*.md"]
 }
