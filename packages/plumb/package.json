@@ -15,8 +15,8 @@
     "url": "git+https://github.com/domonda/domonda-js.git"
   },
   "scripts": {
-    "start": "tsc --watch --incremental",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "start": "yarn type-check --watch"
   },
   "devDependencies": {
     "typescript": "^3.8.3"

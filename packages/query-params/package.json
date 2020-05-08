@@ -19,11 +19,8 @@
     "url": "git+https://github.com/domonda/domonda-js.git"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1",
-    "clean": "rm -rf lib",
-    "build": "tsc",
-    "prepack": "yarn build",
-    "start": "tsc --watch"
+    "type-check": "tsc --noEmit",
+    "start": "yarn type-check --watch"
   },
   "bugs": {
     "url": "https://github.com/domonda/domonda-js/issues"
