@@ -11,8 +11,8 @@
     "lint": "eslint 'packages/**/{src,__tests__}/**/*.{ts,tsx}'",
     "test": "jest",
     "type-check": "lerna run type-check --parallel",
-    "prepare": "yarn clean; yarn build",
-    "version": "lerna version --conventional-commits --tag-version-prefix='testing'",
+    "prepare": "yarn clean; lerna run build",
+    "version": "lerna version --conventional-commits",
     "publish": "lerna publish from-git --contents lib"
   },
   "devDependencies": {
