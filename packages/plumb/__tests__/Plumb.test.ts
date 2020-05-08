@@ -13,7 +13,6 @@ describe('Plumb', () => {
   describe('subscribe', () => {
     it('should not be notified with initial state', () => {
       const plumb = createPlumb('');
-
       const spy1 = jest.fn();
       const spy2 = jest.fn();
 
