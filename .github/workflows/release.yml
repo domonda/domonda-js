@@ -78,6 +78,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Configure git
+        run: |
+          git config --global user.name 'domondabot'
+          git config --global user.email 'bot@domonda.com'
+          git remote set-url origin https://x-access-token:${{ secrets.BOT_PAT }}@github.com/$GITHUB_REPOSITORY
       - name: Set up node
         uses: actions/setup-node@v1.4.2
         with:
@@ -92,4 +97,4 @@ jobs:
       - name: Install
         run: yarn install --immutable
       - name: Version
-        run: exit 0
+        run: yarn version
