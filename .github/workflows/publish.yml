@@ -22,5 +22,5 @@ jobs:
           node-version: '12'
           registry-url: 'https://npm.pkg.github.com'
       - name: Publish
-        run: echo :)
+        run: yarn prepare
         # run: yarn publish
