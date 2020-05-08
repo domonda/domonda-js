@@ -26,7 +26,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
       - name: Install
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
       - name: Lint
         run: npm run lint
 
@@ -51,7 +51,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
       - name: Install
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
       - name: Test
         run: yarn test
 
@@ -76,7 +76,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
       - name: Install
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
       - name: Build
         run: yarn build # will be changed
 
@@ -102,6 +102,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
       - name: Install
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
       - name: Version
         run: exit 0
