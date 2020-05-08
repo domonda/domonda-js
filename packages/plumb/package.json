@@ -16,9 +16,8 @@
   },
   "scripts": {
     "start": "tsc --watch --incremental",
-    "build": "tsc",
-    "clean": "rm -rf lib",
-    "prepare": "yarn clean; yarn build"
+    "build": "node ../../scripts/transpileOnly.js src",
+    "prepare": "yarn build"
   },
   "devDependencies": {
     "typescript": "^3.8.3"

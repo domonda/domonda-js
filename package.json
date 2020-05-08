@@ -7,12 +7,12 @@
     "yarn": ">=2"
   },
   "scripts": {
-    "clean": "lerna run clean",
+    "clean": "lerna exec 'rm -rf lib || 0'",
     "lint": "eslint 'packages/**/{src,__tests__}/**/*.{ts,tsx}'",
     "test": "jest",
     "build": "lerna run build",
     "prepare": "yarn clean; yarn build",
-    "release": "lerna version --conventional-commits --tag-version-prefix='testing'",
+    "version": "lerna version --conventional-commits --tag-version-prefix='testing'",
     "publish": "lerna publish from-git --contents lib"
   },
   "devDependencies": {

@@ -135,7 +135,8 @@ export function createPlumb<S, T>(initialState: S, props: PlumbProps<S, T> = {})
       },
     });
 
-    const subscription = subscribe((state, tag) => {
+    const subscription = subscribe((state, tag, sektur) => {
+      console.log(sektur);
       if (!chainedNext) {
         const selectedState = memoSelector(state);
         if (filter(selectedState, tag)) {
