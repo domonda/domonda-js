@@ -77,8 +77,8 @@ jobs:
             ${{ runner.os }}-yarn-
       - name: Install
         run: yarn install --immutable
-      - name: Build
-        run: yarn build # will be changed
+      - name: Check
+        run: yarn type-check
 
   version:
     name: Version

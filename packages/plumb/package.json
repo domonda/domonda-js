@@ -16,8 +16,7 @@
   },
   "scripts": {
     "start": "tsc --watch --incremental",
-    "build": "node ../../scripts/transpileOnly.js src",
-    "prepare": "yarn build"
+    "type-check": "tsc --noEmit"
   },
   "devDependencies": {
     "typescript": "^3.8.3"

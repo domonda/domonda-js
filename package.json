@@ -10,7 +10,7 @@
     "clean": "lerna exec 'rm -rf lib || 0'",
     "lint": "eslint 'packages/**/{src,__tests__}/**/*.{ts,tsx}'",
     "test": "jest",
-    "build": "lerna run build",
+    "type-check": "lerna run type-check",
     "prepare": "yarn clean; yarn build",
     "version": "lerna version --conventional-commits --tag-version-prefix='testing'",
     "publish": "lerna publish from-git --contents lib"
