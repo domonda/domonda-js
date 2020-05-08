@@ -19,9 +19,9 @@ jobs:
         uses: actions/cache@v1.1.2
         with:
           path: .yarn/cache
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-yarn-cache-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-yarn-
+            ${{ runner.os }}-yarn-cache-
       - name: Install
         run: yarn install --immutable
       - name: Lint
@@ -41,9 +41,9 @@ jobs:
         uses: actions/cache@v1.1.2
         with:
           path: .yarn/cache
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-yarn-cache-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-yarn-
+            ${{ runner.os }}-yarn-cache-
       - name: Install
         run: yarn install --immutable
       - name: Test
@@ -63,9 +63,9 @@ jobs:
         uses: actions/cache@v1.1.2
         with:
           path: .yarn/cache
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-yarn-cache-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-yarn-
+            ${{ runner.os }}-yarn-cache-
       - name: Install
         run: yarn install --immutable
       - name: Check
@@ -86,9 +86,9 @@ jobs:
         uses: actions/cache@v1.1.2
         with:
           path: .yarn/cache
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-yarn-cache-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-yarn-
+            ${{ runner.os }}-yarn-cache-
       - name: Install
         run: yarn install --immutable
       - name: Version
