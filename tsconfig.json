@@ -3,7 +3,6 @@
     "target": "esnext",
     "module": "esnext",
     "moduleResolution": "node",
-    "sourceMap": true,
     "importHelpers": true,
     "strict": true,
     "jsx": "react",

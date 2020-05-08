@@ -16,6 +16,7 @@
   },
   "scripts": {
     "type-check": "tsc --noEmit",
+    "build": "node ../../scripts/build.js src",
     "start": "yarn type-check --watch"
   },
   "devDependencies": {
