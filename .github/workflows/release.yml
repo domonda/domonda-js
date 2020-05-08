@@ -97,4 +97,4 @@ jobs:
       - name: Install
         run: yarn install --immutable
       - name: Version
-        run: yarn version
+        run: yarn version --yes
