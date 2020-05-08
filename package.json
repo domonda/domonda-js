@@ -12,7 +12,7 @@
     "test": "jest",
     "type-check": "lerna run type-check --parallel",
     "prepare": "yarn clean; yarn build",
-    "version": "lerna version --preid --conventional-commits --tag-version-prefix='testing'",
+    "version": "lerna version --conventional-commits --tag-version-prefix='testing'",
     "publish": "lerna publish from-git --contents lib"
   },
   "devDependencies": {
