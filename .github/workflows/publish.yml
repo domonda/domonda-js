@@ -1,12 +1,12 @@
 on:
-  create:
+  push:
     tags:
       - '@domonda/*'
 
 name: Publish
 jobs:
   publish:
-    name: Publish
+    name: Publish to NPM
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
