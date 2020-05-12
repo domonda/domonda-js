@@ -11,10 +11,9 @@ import {
   FormMaskedFieldAPI,
 } from './useFormMaskedField';
 
-export interface FormMaskedFieldProps<V extends string | number>
-  extends UseFormMaskedFieldProps<V> {
+export type FormMaskedFieldProps<V extends string | number> = UseFormMaskedFieldProps<V> & {
   children: (api: FormMaskedFieldAPI<V>) => React.ReactElement | null;
-}
+};
 
 export function FormMaskedField<Value extends string | number>(
   props: FormMaskedFieldProps<Value>,

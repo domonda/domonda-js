@@ -40,8 +40,7 @@
     "imask": "^6.0.3",
     "lodash.get": "^4.4.2",
     "lodash.unset": "^4.5.2",
-    "react-datepicker": "^2.14.0",
-    "text-mask-core": "^5.1.2"
+    "react-datepicker": "^2.14.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.6",

@@ -1424,7 +1424,6 @@ __metadata:
     react-docgen-typescript-loader: ^3.7.1
     react-dom: ^16.13.1
     react-test-renderer: ^16.13.0
-    text-mask-core: ^5.1.2
     ts-loader: ^7.0.2
     typescript: ^3.8.3
     webpack: ^4.43.0
@@ -17158,13 +17157,6 @@ fsevents@^2.1.2:
   version: 1.9.0
   resolution: "text-extensions@npm:1.9.0"
   checksum: 3/fecf1f4962209f8309cd90b045305c417016c4afa34d9df58b0885b7031da57acdef0771512eb031dbc795759972089ff099ba944b0437576d0012eb20db7825
-  languageName: node
-  linkType: hard
-
-"text-mask-core@npm:^5.1.2":
-  version: 5.1.2
-  resolution: "text-mask-core@npm:5.1.2"
-  checksum: 3/5f1bc2040001b8cb63f6c0630ac78fbb09d2db88ff5ee11bdc3f5756afa33b2103dedd6298a55add846bb5603837a5b7f2b82973121046aa0a50217c03383be9
   languageName: node
   linkType: hard
 
