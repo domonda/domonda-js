@@ -33,8 +33,23 @@ it.each([
   }),
   // 1
   createCase({
+    type: ['1234.', '5'],
+    expected: '1,234.5',
+  }),
+  // 2
+  createCase({
+    type: ['1234.', '5', '0'],
+    expected: '1,234.50',
+  }),
+  // 3
+  createCase({
     type: ['1234.', '0'],
     expected: '1,234.0',
+  }),
+  // 4
+  createCase({
+    type: ['1234.', '0', '1'],
+    expected: '1,234.01',
   }),
 ])(
   'should have "%s" when typing %p with props %o (case index %#)',
