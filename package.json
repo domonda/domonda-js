@@ -10,6 +10,7 @@
     "clean": "lerna exec 'rm -rf lib node_modules'",
     "lint": "eslint 'packages/**/{src,__tests__}/**/*.{ts,tsx}'",
     "test": "jest",
+    "type-check": "lerna run type-check --parallel",
     "release": "lerna version --allow-branch master --message release --conventional-commits",
     "publish": "lerna publish from-git --contents lib"
   },
