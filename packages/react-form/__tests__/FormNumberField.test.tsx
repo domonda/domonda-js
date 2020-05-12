@@ -4,7 +4,7 @@
 
 import React from 'react';
 import '@testing-library/jest-dom';
-import { render } from '@testing-library/react';
+import { render, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 // lib
@@ -29,27 +29,32 @@ it.each([
   // 0
   createCase({
     type: ['1234'],
-    expected: '1,234',
+    expected: '1234',
   }),
   // 1
   createCase({
     type: ['1234.', '5'],
-    expected: '1,234.5',
+    expected: '1234.5',
   }),
   // 2
   createCase({
     type: ['1234.', '5', '0'],
-    expected: '1,234.50',
+    expected: '1234.50',
   }),
   // 3
   createCase({
     type: ['1234.', '0'],
-    expected: '1,234.0',
+    expected: '1234.0',
   }),
   // 4
   createCase({
     type: ['1234.', '0', '1'],
-    expected: '1,234.01',
+    expected: '1234.01',
+  }),
+  // 5
+  createCase({
+    type: ['123456,12'],
+    expected: '123456.12',
   }),
 ])(
   'should have "%s" when typing %p with props %o (case index %#)',
@@ -63,9 +68,11 @@ it.each([
       },
     );
     const input = getByRole('textbox');
-    for (const part of type) {
-      await userEvent.type(input, part);
-    }
+    await act(async () => {
+      for (const part of type) {
+        await userEvent.type(input, part);
+      }
+    });
     expect(input).toHaveAttribute('value', expected);
   },
 );
