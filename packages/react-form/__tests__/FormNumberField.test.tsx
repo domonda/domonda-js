@@ -33,7 +33,6 @@ it.each([
   }),
   // 1
   createCase({
-    props: { allowDecimal: true },
     type: ['1234.', '0'],
     expected: '1,234.0',
   }),
