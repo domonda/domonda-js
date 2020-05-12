@@ -31,7 +31,7 @@ it.each([
     expected: '1,234',
   }),
 ])(
-  'should have "%s" when typing %j with props %o (case index %#)',
+  'should have "%s" when typing %p with props %o (case index %#)',
   async (expected, type, props) => {
     const { getByRole } = render(
       <FormNumberField {...props} path="void">
