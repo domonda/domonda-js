@@ -31,6 +31,12 @@ it.each([
     type: ['1234'],
     expected: '1,234',
   }),
+  // 1
+  createCase({
+    props: { allowDecimal: true },
+    type: ['1234.', '0'],
+    expected: '1,234.0',
+  }),
 ])(
   'should have "%s" when typing %p with props %o (case index %#)',
   async (expected, type, props) => {
