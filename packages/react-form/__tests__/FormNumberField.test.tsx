@@ -8,6 +8,7 @@ import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 // lib
+import { Form } from '../src/Form';
 import { FormNumberField, FormNumberFieldProps } from '../src/FormNumberField';
 
 interface Case {
@@ -37,6 +38,9 @@ it.each([
       <FormNumberField {...props} path="void">
         {({ inputProps }) => <input {...inputProps} />}
       </FormNumberField>,
+      {
+        wrapper: Form as React.ComponentType,
+      },
     );
     const input = getByRole('textbox');
     for (const part of type) {
