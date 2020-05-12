@@ -1,0 +1,37 @@
+{
+  "name": "@domonda/form",
+  "version": "2.3.2",
+  "license": "ISC",
+  "description": "Powerful yet simple form library built using @domonda/plumb.",
+  "homepage": "https://github.com/domonda/domonda-js#readme",
+  "keywords": [
+    "domonda",
+    "form",
+    "plumb"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/domonda/domonda-js.git"
+  },
+  "scripts": {
+    "type-check": "tsc -p tsconfig.test.json --noEmit",
+    "build": "tsc --outDir lib",
+    "prepare": "yarn build",
+    "prepack": "node ../../scripts/copyFiles.js lib",
+    "start": "yarn build --watch"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@domonda/plumb": "^2.2.6",
+    "fast-equals": "^2.0.0",
+    "lodash.get": "^4.4.2",
+    "lodash.setwith": "^4.3.2",
+    "lodash.unset": "^4.5.2"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.150",
+    "typescript": "^3.8.3"
+  }
+}

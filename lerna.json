@@ -1,16 +1,7 @@
 {
+  "useWorkspaces": true,
+  "npmClient": "yarn",
   "version": "independent",
   "packages": ["packages/*"],
-  "command": {
-    "version": {
-      "allowBranch": "master"
-    }
-  },
-  "ignoreChanges": [
-    "**/.storybook/**",
-    "**/stories/**",
-    "**/__tests__/**",
-    "**/*.md",
-    "package-lock.json"
-  ]
+  "ignoreChanges": ["**/.storybook/**", "**/__stories__/**", "**/__tests__/**", "**/*.md"]
 }

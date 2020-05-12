@@ -1,0 +1,44 @@
+{
+  "name": "@domonda/react-plumb",
+  "version": "2.0.13",
+  "description": "Simple state management and utilities for React inspired by Observables.",
+  "license": "ISC",
+  "homepage": "https://github.com/domonda/domonda-js#readme",
+  "keywords": [
+    "domonda",
+    "state",
+    "observables",
+    "react",
+    "plumb"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/domonda/domonda-js.git"
+  },
+  "scripts": {
+    "type-check": "tsc -p tsconfig.test.json --noEmit",
+    "build": "tsc --outDir lib",
+    "prepare": "yarn build",
+    "prepack": "node ../../scripts/copyFiles.js lib",
+    "start": "yarn build --watch"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0"
+  },
+  "dependencies": {
+    "@domonda/plumb": "^2.2.6",
+    "fast-equals": "^2.0.0"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^10.0.4",
+    "@testing-library/react-hooks": "^3.2.1",
+    "@types/react": "^16.9.34",
+    "@types/react-dom": "^16.9.7",
+    "react-test-renderer": "^16.13.0",
+    "typescript": "^3.8.3"
+  }
+}

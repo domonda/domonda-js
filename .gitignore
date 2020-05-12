@@ -5,3 +5,8 @@ node_modules/
 lerna-debug.log*
 npm-debug.log*
 .vscode
+.pnp*
+
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
