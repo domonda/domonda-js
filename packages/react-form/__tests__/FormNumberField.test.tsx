@@ -48,12 +48,12 @@ it.each([
   // 2
   createCase({
     type: '1234.50',
-    expected: '1234.50',
+    expected: '1234.5',
   }),
   // 3
   createCase({
     type: '1234.0',
-    expected: '1234.0',
+    expected: '1234',
   }),
   // 4
   createCase({
@@ -65,6 +65,41 @@ it.each([
     allAtOnce: true,
     type: '123456,12',
     expected: '123456.12',
+  }),
+  // 6
+  createCase({
+    type: '-123.45',
+    expected: '-123.45',
+  }),
+  // 7
+  createCase({
+    props: { signed: false },
+    type: '-123,45',
+    expected: '123.45',
+  }),
+  // 8
+  createCase({
+    props: { max: 1000 },
+    allAtOnce: true,
+    type: '123456,12',
+    expected: '123.12',
+  }),
+  // 9
+  createCase({
+    type: '123456,1234',
+    expected: '123456.12', // default scale is `2`
+  }),
+  // 10
+  createCase({
+    props: { padFractionalZeros: true, scale: 4 },
+    type: '123,45',
+    expected: '123.4500',
+  }),
+  // 11
+  createCase({
+    props: { normalizeZeros: false },
+    type: '123,100',
+    expected: '123.10', // default scale is `2`
   }),
 ])(
   'should have "%s" when typing %p with props %o (case index %#)',
@@ -79,7 +114,9 @@ it.each([
     );
     const input = getByRole('textbox');
     await act(async () => {
+      input.focus();
       await userEvent.type(input, type, { allAtOnce });
+      input.blur(); // we blur to fully apply the mask
     });
     expect(input).toHaveAttribute('value', expected);
   },
