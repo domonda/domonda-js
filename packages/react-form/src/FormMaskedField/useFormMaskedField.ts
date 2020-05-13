@@ -4,14 +4,19 @@
  *
  */
 
-import React, { useCallback, useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useFormField, UseFormFieldProps, FormFieldAPI, FormFieldValidate } from '../FormField';
+import { useForceUpdate } from '@domonda/react-plumb/useForceUpdate';
 import IMask from 'imask';
 
-export type FormMaskedFieldValidate = FormFieldValidate<string | null>;
+export type FormMaskedFieldValidate<V extends string | null> = FormFieldValidate<V | null>;
+
+export type FormMaskedFieldMaskOptions =
+  | IMask.MaskedOptions<IMask.MaskedRegExp>
+  | IMask.MaskedNumberOptions;
 
 export type UseFormMaskedFieldProps<V extends string | number> = UseFormFieldProps<V | null> &
-  (IMask.MaskedPatternOptions | IMask.MaskedNumberOptions) & {
+  FormMaskedFieldMaskOptions & {
     required?: boolean;
   };
 
@@ -19,12 +24,11 @@ export interface FormMaskedFieldAPI<V extends string | number> extends FormField
   inputProps: {
     type: 'text';
     name: string;
-    value: string;
+    defaultValue: string;
     required: boolean | undefined;
     disabled: boolean;
     readOnly: boolean;
     ref: (element: HTMLInputElement | null) => void;
-    onChange: React.ChangeEventHandler<HTMLInputElement>;
   };
 }
 
@@ -48,6 +52,8 @@ export function useFormMaskedField<Value extends string | number>(
 
   // prepare input
   const [inputEl, setInputEl] = useState<HTMLInputElement | null>(null);
+
+  // synchronize validity
   const { validityMessage } = formField.state;
   useEffect(() => {
     if (inputEl) {
@@ -58,53 +64,68 @@ export function useFormMaskedField<Value extends string | number>(
     }
   }, [validityMessage || '']);
 
-  // initialize mask
-  const maskRef = useRef<IMask.InputMask<typeof maskedOptions> | null>(null);
+  // create mask for value manipulation
+  const maskRef = useRef(IMask.createMask(maskedOptions));
+  // TODO-db-200512 update mask options on options change
+  // useEffect(() => {
+  //   if (maskRef.current && maskRef.current.el === inputEl) {
+  //     maskRef.current.updateOptions(maskedOptions);
+  //   }
+  // }, []);
+
+  // useful for when the actual typed value did not change, but the
+  // masked value did change. forcing an update synchronises the UI
+  const forceUpdate = useForceUpdate();
+
+  // prepare input mask
+  const inputMaskRef = useRef<IMask.InputMask<typeof maskedOptions> | null>(null);
   useEffect(() => {
-    // TODO-db-200512 update mask options on options change
-    // if (maskRef.current && maskRef.current.el === inputEl) {
-    //   maskRef.current.updateOptions(maskedOptions);
-    // }
     if (inputEl) {
-      maskRef.current = IMask(inputEl, maskedOptions);
-      return () => maskRef.current?.destroy();
+      inputMaskRef.current = IMask<typeof maskedOptions>(inputEl, maskRef.current).on(
+        'complete',
+        () => {
+          const typedValue = inputMaskRef.current?.typedValue as Value | undefined;
+          const nextFieldValue = !typedValue && typedValue !== 0 ? null : typedValue;
+
+          // we access the underlying plumb because it holds
+          // the reference to the orignal object, giving us
+          // always the most current value. if value didn't
+          // change, do a force update to keep the UI in sync
+          if (formField.plumb.state.value !== nextFieldValue) {
+            formField.setValue(nextFieldValue);
+          } else {
+            forceUpdate();
+          }
+
+          // we want this asynchronously called because some browsers (safari) decide to hide the validity box on input
+          const { validity } = inputEl;
+          if (!validity.valid) {
+            const reportValidity = () => inputEl.reportValidity();
+            setTimeout(reportValidity, 0);
+          }
+        },
+      );
+      return () => inputMaskRef.current?.destroy();
     }
   }, [inputEl]);
 
-  // sync form value with mask, is it necessary?
+  // TODO-db-200513 sync mask with form value, is it necessary?
   // useEffect(() => {
-  //   if (maskRef.current) {
-  //     maskRef.current.value === formField.value ?? '';
+  //   if (inputMaskRef.current) {
+  //     inputMaskRef.current.value === formField.value ?? '';
   //   }
   // }, [formField.value]);
-
-  const handleChange = useCallback<React.FormEventHandler<HTMLInputElement>>(
-    ({ currentTarget }) => {
-      if (maskRef.current) {
-        formField.setValue((maskRef.current.value ?? null) as Value | null);
-      }
-
-      // we want this asynchronously called because some browsers (safari) decide to hide the validity box on input
-      const { validity } = currentTarget;
-      if (!validity.valid) {
-        const reportValidity = () => currentTarget.reportValidity();
-        setTimeout(reportValidity, 0);
-      }
-    },
-    [formField.setValue],
-  );
 
   return {
     ...formField,
     inputProps: {
       type: 'text',
       name: path,
-      value: String(formField.value ?? ''),
+      defaultValue: maskRef.current.value,
       required,
       disabled: formField.state.disabled,
       readOnly: formField.state.readOnly,
       ref: setInputEl,
-      onChange: handleChange,
     },
   };
 }
