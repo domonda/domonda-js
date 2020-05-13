@@ -11,7 +11,7 @@ import IMask from 'imask';
 export type FormMaskedFieldValidate = FormFieldValidate<string | null>;
 
 export type UseFormMaskedFieldProps<V extends string | number> = UseFormFieldProps<V | null> &
-  IMask.AnyMaskedOptions & {
+  (IMask.MaskedPatternOptions | IMask.MaskedNumberOptions) & {
     required?: boolean;
   };
 
