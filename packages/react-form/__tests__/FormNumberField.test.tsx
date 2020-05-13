@@ -13,52 +13,62 @@ import { FormNumberField, FormNumberFieldProps } from '../src/FormNumberField';
 
 interface Case {
   props?: Omit<FormNumberFieldProps<any>, 'path' | 'children'>;
-  type: string[];
+  allAtOnce?: boolean;
+  type: string;
   expected: string;
 }
 
 function createCase({
   props = {},
+  allAtOnce = false,
   type,
   expected,
-}: Case): [Case['expected'], Case['type'], Case['props']] {
-  return [expected, type, props];
+}: Case): [
+  typeof expected,
+  {
+    type: typeof type;
+    allAtOnce: typeof allAtOnce;
+  },
+  typeof props,
+] {
+  return [expected, { type, allAtOnce }, props];
 }
 
 it.each([
   // 0
   createCase({
-    type: ['1234'],
+    type: '1234',
     expected: '1234',
   }),
   // 1
   createCase({
-    type: ['1234.', '5'],
+    type: '1234.5',
     expected: '1234.5',
   }),
   // 2
   createCase({
-    type: ['1234.', '5', '0'],
+    type: '1234.50',
     expected: '1234.50',
   }),
   // 3
   createCase({
-    type: ['1234.', '0'],
+    type: '1234.0',
     expected: '1234.0',
   }),
   // 4
   createCase({
-    type: ['1234.', '0', '1'],
+    type: '1234.01',
     expected: '1234.01',
   }),
   // 5
   createCase({
-    type: ['123456,12'],
+    allAtOnce: true,
+    type: '123456,12',
     expected: '123456.12',
   }),
 ])(
   'should have "%s" when typing %p with props %o (case index %#)',
-  async (expected, type, props) => {
+  async (expected, { type, allAtOnce }, props) => {
     const { getByRole } = render(
       <FormNumberField {...props} path="void">
         {({ inputProps }) => <input {...inputProps} />}
@@ -69,9 +79,7 @@ it.each([
     );
     const input = getByRole('textbox');
     await act(async () => {
-      for (const part of type) {
-        await userEvent.type(input, part);
-      }
+      await userEvent.type(input, type, { allAtOnce });
     });
     expect(input).toHaveAttribute('value', expected);
   },
