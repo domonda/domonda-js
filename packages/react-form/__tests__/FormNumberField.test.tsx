@@ -20,18 +20,25 @@ interface Case {
 
 function createCase({
   props = {},
-  allAtOnce = false,
+  allAtOnce,
   type,
   expected,
 }: Case): [
   typeof expected,
   {
     type: typeof type;
-    allAtOnce: typeof allAtOnce;
+    allAtOnce?: typeof allAtOnce;
   },
   typeof props,
 ] {
-  return [expected, { type, allAtOnce }, props];
+  return [
+    expected,
+    {
+      type,
+      ...(allAtOnce ? { allAtOnce } : undefined),
+    },
+    props,
+  ];
 }
 
 it.each([
