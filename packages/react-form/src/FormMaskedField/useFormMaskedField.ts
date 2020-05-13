@@ -18,6 +18,8 @@ export type FormMaskedFieldMaskOptions =
 export type UseFormMaskedFieldProps<V extends string | number> = UseFormFieldProps<V | null> &
   FormMaskedFieldMaskOptions & {
     required?: boolean;
+    prefix?: string;
+    suffix?: string;
   };
 
 export interface FormMaskedFieldAPI<V extends string | number> extends FormFieldAPI<V | null> {
@@ -38,6 +40,8 @@ export function useFormMaskedField<Value extends string | number>(
   const {
     // direct
     required,
+    prefix,
+    suffix,
     // @domonda/form
     path,
     validate,
@@ -116,12 +120,21 @@ export function useFormMaskedField<Value extends string | number>(
   //   }
   // }, [formField.value]);
 
+  // add prefix and/or sufix
+  let defaultValue = maskRef.current.value;
+  if (prefix && defaultValue) {
+    defaultValue = prefix + defaultValue;
+  }
+  if (suffix && defaultValue) {
+    defaultValue = defaultValue + suffix;
+  }
+
   return {
     ...formField,
     inputProps: {
       type: 'text',
       name: path,
-      defaultValue: maskRef.current.value,
+      defaultValue,
       required,
       disabled: formField.state.disabled,
       readOnly: formField.state.readOnly,

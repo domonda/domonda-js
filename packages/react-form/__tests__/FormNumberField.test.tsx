@@ -108,6 +108,48 @@ it.each([
     type: '123,100',
     expected: '123.10', // default scale is `2`
   }),
+  // 12
+  createCase({
+    props: {
+      prefix: '$',
+    },
+    type: '12,34',
+    expected: '$12.34',
+  }),
+  // 13
+  createCase({
+    props: {
+      prefix: '$',
+    },
+    type: '  ',
+    expected: '',
+  }),
+  // 14
+  createCase({
+    props: {
+      suffix: '%',
+    },
+    type: '12,34',
+    expected: '12.34%',
+  }),
+  // 15
+  createCase({
+    props: {
+      suffix: '%',
+    },
+    type: '  ',
+    expected: '',
+  }),
+  // 16
+  createCase({
+    props: {
+      prefix: '$',
+      suffix: '%',
+      padFractionalZeros: true,
+    },
+    type: '  1 ',
+    expected: '$1.00%',
+  }),
 ])(
   "should have '%s' when %o with props %o (case index %#)",
   async (expected, { type, allAtOnce }, props) => {
