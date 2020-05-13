@@ -22,6 +22,7 @@ export function useFormNumberField<Value extends string | number>(
   props: UseFormNumberFieldProps<Value>,
 ): FormNumberFieldAPI<Value> {
   return useFormMaskedField<Value>({
+    signed: true, // default is `false`
     radix: '.', // fractional delimiter
     mapToRadix: [','], // symbols to process as radix
     ...props,
