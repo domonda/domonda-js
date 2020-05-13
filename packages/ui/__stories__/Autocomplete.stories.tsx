@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { storiesOf } from '@storybook/react';
-import { Autocomplete } from '../../src/Autocomplete';
+import { Autocomplete } from '../src/Autocomplete';
 
 // treat
 import * as stylesRef from './Autocomplete.treat';

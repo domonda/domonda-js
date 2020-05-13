@@ -1,5 +1,5 @@
-import { input, endSvg } from '../../src/Input/Input.treat';
-import { highlighted, selected } from '../../src/Menu/MenuItem/MenuItem.treat';
+import { input, endSvg } from '../src/Input/Input.treat';
+import { highlighted, selected } from '../src/Menu/MenuItem/MenuItem.treat';
 import { style, globalStyle } from 'treat';
 
 export const lightPaper = style(() => ({
