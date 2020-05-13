@@ -109,7 +109,7 @@ it.each([
     expected: '123.10', // default scale is `2`
   }),
 ])(
-  'should have "%s" when typing %p with props %o (case index %#)',
+  "should have '%s' when %o with props %o (case index %#)",
   async (expected, { type, allAtOnce }, props) => {
     const { getByRole } = render(
       <FormNumberField {...props} path="void">
