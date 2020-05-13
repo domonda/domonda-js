@@ -4,7 +4,7 @@
  *
  */
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { useFormField, UseFormFieldProps, FormFieldAPI, FormFieldValidate } from '../FormField';
 import { useForceUpdate } from '@domonda/react-plumb/useForceUpdate';
 import IMask from 'imask';
@@ -79,7 +79,7 @@ export function useFormMaskedField<Value extends string | number>(
 
   // prepare input mask
   const inputMaskRef = useRef<IMask.InputMask<typeof maskedOptions> | null>(null);
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (inputEl) {
       inputMaskRef.current = IMask<typeof maskedOptions>(inputEl, maskRef.current).on(
         'complete',
