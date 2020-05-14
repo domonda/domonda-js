@@ -137,3 +137,23 @@ it('should cast the masked value to the correct type', () => {
 
   expect(fieldValue).toBe(512);
 });
+
+it('should update mask when options change', () => {
+  const wrapper = makeForm({ name: 'John' });
+  const { getByRole, rerender } = render(
+    <FormMaskedField mask="{Dr. }****" path="name">
+      {({ inputProps }) => <input {...inputProps} />}
+    </FormMaskedField>,
+    { wrapper },
+  );
+
+  expect(getByRole('textbox')).toHaveAttribute('value', 'Dr. John');
+
+  rerender(
+    <FormMaskedField mask="{Mr. }****" path="name">
+      {({ inputProps }) => <input {...inputProps} />}
+    </FormMaskedField>,
+  );
+
+  expect(getByRole('textbox')).toHaveAttribute('value', 'Mr. John');
+});

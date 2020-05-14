@@ -8,6 +8,7 @@ import { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { useFormField, UseFormFieldProps, FormFieldAPI, FormFieldValidate } from '../FormField';
 import { useForceUpdate } from '@domonda/react-plumb/useForceUpdate';
 import { Mask } from './mask';
+import { useDeepMemoOnValue } from '@domonda/react-plumb/useMemoOnValue';
 
 export type FormMaskedFieldValue<O extends Mask.AnyMaskedOptions> = Mask.MaskedTypedValue<
   O['mask']
@@ -77,13 +78,12 @@ export function useFormMaskedField<Options extends Mask.AnyMaskedOptions>(
   }, [validityMessage || '']);
 
   // create mask for value manipulation
-  const maskRef = useRef(Mask.createMask((maskOptions as unknown) as Options)); // TS goes bonkers does not work here...
-  // TODO-db-200512 update mask options on options change
-  // useEffect(() => {
-  //   if (maskRef.current && maskRef.current.el === inputEl) {
-  //     maskRef.current.updateOptions(maskOptions);
-  //   }
-  // }, []);
+  const memoMaskOptions = useDeepMemoOnValue((maskOptions as unknown) as Options); // why TS, why? 😑
+  const prevMemoMaskOptions = usePrevious(memoMaskOptions);
+  const maskRef = useRef(Mask.createMask(memoMaskOptions));
+  if (prevMemoMaskOptions !== memoMaskOptions) {
+    maskRef.current.updateOptions(memoMaskOptions as any); // damn TS... 😩
+  }
   if (maskRef.current.typedValue !== formField.value) {
     maskRef.current.typedValue = formField.value ?? '';
   }
@@ -142,4 +142,12 @@ export function useFormMaskedField<Options extends Mask.AnyMaskedOptions>(
       ref: setInputEl,
     },
   };
+}
+
+function usePrevious<V>(value: V) {
+  const ref = useRef<V>(value);
+  useEffect(() => {
+    ref.current = value;
+  }, [value]);
+  return ref.current;
 }
