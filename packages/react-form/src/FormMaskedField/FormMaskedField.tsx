@@ -10,15 +10,18 @@ import {
   UseFormMaskedFieldProps,
   FormMaskedFieldAPI,
 } from './useFormMaskedField';
+import { Mask } from './mask';
 
-export type FormMaskedFieldProps<V extends string | number> = UseFormMaskedFieldProps<V> & {
-  children: (api: FormMaskedFieldAPI<V>) => React.ReactElement | null;
+export type FormMaskedFieldProps<
+  O extends Mask.AnyMaskedOptions = Mask.MaskedOptions<Mask.MaskedRegExp>
+> = UseFormMaskedFieldProps<O> & {
+  children: (api: FormMaskedFieldAPI<O>) => React.ReactElement | null;
 };
 
-export function FormMaskedField<Value extends string | number>(
-  props: FormMaskedFieldProps<Value>,
-): React.ReactElement | null {
+export function FormMaskedField<
+  O extends Mask.AnyMaskedOptions = Mask.MaskedOptions<Mask.MaskedRegExp>
+>(props: FormMaskedFieldProps<O>): React.ReactElement | null {
   const { children, ...rest } = props;
-  const api = useFormMaskedField<Value>(rest);
+  const api = useFormMaskedField<O>(rest as any);
   return children(api);
 }

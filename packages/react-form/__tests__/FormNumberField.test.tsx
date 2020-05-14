@@ -12,7 +12,7 @@ import { Form } from '../src/Form';
 import { FormNumberField, FormNumberFieldProps } from '../src/FormNumberField';
 
 interface Case {
-  props?: Omit<FormNumberFieldProps<any>, 'path' | 'children'>;
+  props?: Omit<FormNumberFieldProps, 'path' | 'children'>;
   allAtOnce?: boolean;
   type: string;
   expected: string;

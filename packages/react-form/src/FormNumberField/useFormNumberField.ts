@@ -6,22 +6,20 @@
 
 import {
   useFormMaskedField,
-  FormMaskedFieldAPI,
   UseFormMaskedFieldProps,
+  FormMaskedFieldAPI,
 } from '../FormMaskedField/useFormMaskedField';
-import IMask from 'imask';
+import { Mask } from '../FormMaskedField/mask';
 
-export type UseFormNumberFieldProps<V extends string | number> = Omit<
-  UseFormMaskedFieldProps<V> & IMask.MaskedNumberOptions,
+export type UseFormNumberFieldProps = Omit<
+  UseFormMaskedFieldProps<Mask.MaskedNumberOptions>,
   'mask' // fixed to `Number`
 >;
 
-export type FormNumberFieldAPI<V extends string | number> = FormMaskedFieldAPI<V>;
+export type FormNumberFieldAPI = FormMaskedFieldAPI<Mask.MaskedNumberOptions>;
 
-export function useFormNumberField<Value extends string | number>(
-  props: UseFormNumberFieldProps<Value>,
-): FormNumberFieldAPI<Value> {
-  return useFormMaskedField<Value>({
+export function useFormNumberField(props: UseFormNumberFieldProps): FormNumberFieldAPI {
+  return useFormMaskedField({
     signed: true, // default is `false`
     radix: '.', // fractional delimiter
     mapToRadix: [','], // symbols to process as radix
