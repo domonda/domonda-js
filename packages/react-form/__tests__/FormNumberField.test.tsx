@@ -150,6 +150,46 @@ it.each([
     type: '  1 ',
     expected: '$1.00%',
   }),
+  // 17
+  createCase({
+    props: {
+      thousandsSeparator: ',',
+    },
+    type: '1000.01',
+    expected: '1,000.01',
+  }),
+  // 18
+  createCase({
+    props: {
+      radix: ',',
+      mapToRadix: ['.'],
+      thousandsSeparator: '.',
+    },
+    type: '1000,01',
+    expected: '1.000,01',
+  }),
+  // 19
+  createCase({
+    props: {
+      radix: ',',
+      mapToRadix: ['.'],
+      thousandsSeparator: '.',
+    },
+    allAtOnce: true,
+    type: '12345.123',
+    expected: '12.345,12',
+  }),
+  // 20
+  createCase({
+    props: {
+      radix: ',',
+      mapToRadix: ['.'],
+      thousandsSeparator: '.',
+    },
+    allAtOnce: true,
+    type: '54321,54',
+    expected: '54.321,54',
+  }),
 ])(
   "should have '%s' when %o with props %j (case index %#)",
   async (expected, { type, allAtOnce }, props) => {
