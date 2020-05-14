@@ -25,7 +25,7 @@ jobs:
           git config --global user.name 'domondabot'
           git config --global user.email 'bot@domonda.com'
       - name: Test tagging
-        run: git tag testtag -m "testtag" && git push --followTags # checking if the tag gets dropped when not pushed
+        run: git tag testtag -m "testtag" && git push --follow-tags # checking if the tag gets dropped when not pushed
       # - name: Release
       #   env:
       #     GH_TOKEN: ${{ secrets.BOT_PAT }}
