@@ -67,6 +67,13 @@ export function useQueryParams<T, S = T>(
   const replacingRef = useRef(false); // prevents triggering the listener recursively when replacing the URL
   const updateQueryParams = useCallback(
     (location: Location) => {
+      if (
+        replacingRef.current ||
+        (onPathnameRef.current && onPathnameRef.current !== location.pathname)
+      ) {
+        return;
+      }
+
       const nextQueryParms = parseQueryParams(location.search, model);
       if (!deepEqual(queryParamsRef.current, nextQueryParms)) {
         queryParamsRef.current = nextQueryParms;
@@ -94,28 +101,19 @@ export function useQueryParams<T, S = T>(
         }
       }
     },
-    [selector, model, disableReplace],
+    [selector, model, disableReplace, onPathnameRef.current],
   );
 
   useLayoutEffect(() => {
-    function filteredLocationUpdate(location: Location) {
-      if (
-        !replacingRef.current &&
-        (!onPathnameRef.current || onPathnameRef.current === location.pathname)
-      ) {
-        updateQueryParams(location);
-      }
-    }
-
     // guarantee history location consistency. sometimes
     // history gets updated before the effect is even
     // called, this results in stale location state.
     // to avoid having such states, we compare the location
     // on every effect call and update local state
-    filteredLocationUpdate(history.location);
+    updateQueryParams(history.location);
 
     if (!once) {
-      const unlisten = history.listen(filteredLocationUpdate);
+      const unlisten = history.listen(updateQueryParams);
       return unlisten;
     }
   }, [updateQueryParams, once]);
