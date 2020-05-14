@@ -393,7 +393,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-proposal-class-properties@npm:^7.7.0":
+"@babel/plugin-proposal-class-properties@npm:^7.7.0, @babel/plugin-proposal-class-properties@npm:^7.8.3":
   version: 7.8.3
   resolution: "@babel/plugin-proposal-class-properties@npm:7.8.3"
   dependencies:
@@ -1398,7 +1398,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@domonda/react-form@workspace:packages/react-form"
   dependencies:
-    "@babel/core": ^7.9.6
     "@domonda/form": ^2.3.2
     "@domonda/plumb": ^2.2.6
     "@domonda/react-plumb": ^2.0.13
@@ -1421,10 +1420,8 @@ __metadata:
     lodash.unset: ^4.5.2
     react: ^16.13.1
     react-datepicker: ^2.14.0
-    react-docgen-typescript-loader: ^3.7.1
     react-dom: ^16.13.1
     react-test-renderer: ^16.13.0
-    ts-loader: ^7.0.2
     typescript: ^3.8.3
     webpack: ^4.43.0
   peerDependencies:
@@ -15727,6 +15724,10 @@ fsevents@^2.1.2:
   dependencies:
     "@babel/cli": ^7.8.4
     "@babel/core": ^7.9.6
+    "@babel/plugin-proposal-class-properties": ^7.8.3
+    "@babel/plugin-proposal-nullish-coalescing-operator": ^7.8.3
+    "@babel/plugin-proposal-object-rest-spread": ^7.9.6
+    "@babel/plugin-proposal-optional-chaining": ^7.9.0
     "@babel/preset-env": ^7.9.6
     "@babel/preset-react": ^7.9.4
     "@babel/preset-typescript": ^7.9.0
