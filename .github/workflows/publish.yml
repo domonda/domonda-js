@@ -1,7 +1,8 @@
 name: Publish
 
-on: repository_dispatch
-  types: [publish]
+on:
+  repository_dispatch:
+    types: [publish]
 
 jobs:
   release-and-publish:
