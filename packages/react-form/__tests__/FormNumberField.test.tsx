@@ -148,6 +148,48 @@ it.each([
     type: '54321,54',
     expected: '54.321,54',
   }),
+  // 16
+  createCase({
+    props: {
+      prefix: '$',
+    },
+    type: '12,34',
+    expected: '$12.34',
+  }),
+  // 17
+  createCase({
+    props: {
+      prefix: '$',
+    },
+    type: '  ',
+    expected: '',
+  }),
+  // 18
+  createCase({
+    props: {
+      suffix: '%',
+    },
+    type: '12,34',
+    expected: '12.34%',
+  }),
+  // 19
+  createCase({
+    props: {
+      suffix: '%',
+    },
+    type: '  ',
+    expected: '',
+  }),
+  // 20
+  createCase({
+    props: {
+      prefix: '$',
+      suffix: '%',
+      padFractionalZeros: true,
+    },
+    type: '  1 ',
+    expected: '$1.00%',
+  }),
 ])(
   "should have '%s' when %o with props %j (case index %#)",
   async (expected, { type, allAtOnce }, props) => {
