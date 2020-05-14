@@ -37,7 +37,7 @@ export interface FormMaskedFieldAPI<O extends Mask.AnyMaskedOptions>
   };
 }
 
-export function useFormMaskedField<Options extends Mask.AnyMaskedOptions = Mask.AnyMaskedOptions>(
+export function useFormMaskedField<Options extends Mask.AnyMaskedOptions>(
   props: UseFormMaskedFieldProps<Options>,
 ): FormMaskedFieldAPI<Options> {
   const {
