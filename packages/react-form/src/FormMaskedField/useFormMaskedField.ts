@@ -84,6 +84,9 @@ export function useFormMaskedField<Options extends Mask.AnyMaskedOptions>(
   //     maskRef.current.updateOptions(maskOptions);
   //   }
   // }, []);
+  if (maskRef.current.typedValue !== formField.value) {
+    maskRef.current.typedValue = formField.value ?? '';
+  }
 
   // useful for when the actual typed value did not change, but the
   // masked value did change. forcing an update synchronises the UI
@@ -117,13 +120,6 @@ export function useFormMaskedField<Options extends Mask.AnyMaskedOptions>(
       return () => inputMaskRef.current?.destroy();
     }
   }, [inputEl]);
-
-  // TODO-db-200513 sync mask with form value, is it necessary?
-  // useEffect(() => {
-  //   if (inputMaskRef.current) {
-  //     inputMaskRef.current.value === formField.value ?? '';
-  //   }
-  // }, [formField.value]);
 
   // add prefix and/or sufix
   let defaultValue = maskRef.current.value;
