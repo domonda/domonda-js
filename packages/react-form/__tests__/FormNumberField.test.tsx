@@ -111,54 +111,12 @@ it.each([
   // 12
   createCase({
     props: {
-      prefix: '$',
-    },
-    type: '12,34',
-    expected: '$12.34',
-  }),
-  // 13
-  createCase({
-    props: {
-      prefix: '$',
-    },
-    type: '  ',
-    expected: '',
-  }),
-  // 14
-  createCase({
-    props: {
-      suffix: '%',
-    },
-    type: '12,34',
-    expected: '12.34%',
-  }),
-  // 15
-  createCase({
-    props: {
-      suffix: '%',
-    },
-    type: '  ',
-    expected: '',
-  }),
-  // 16
-  createCase({
-    props: {
-      prefix: '$',
-      suffix: '%',
-      padFractionalZeros: true,
-    },
-    type: '  1 ',
-    expected: '$1.00%',
-  }),
-  // 17
-  createCase({
-    props: {
       thousandsSeparator: ',',
     },
     type: '1000.01',
     expected: '1,000.01',
   }),
-  // 18
+  // 13
   createCase({
     props: {
       radix: ',',
@@ -168,7 +126,7 @@ it.each([
     type: '1000,01',
     expected: '1.000,01',
   }),
-  // 19
+  // 14
   createCase({
     props: {
       radix: ',',
@@ -179,7 +137,7 @@ it.each([
     type: '12345.123',
     expected: '12.345,12',
   }),
-  // 20
+  // 15
   createCase({
     props: {
       radix: ',',

@@ -21,8 +21,6 @@ export type FormMaskedFieldValidate<O extends Mask.AnyMaskedOptions> = FormField
 export type UseFormMaskedFieldProps<O extends Mask.AnyMaskedOptions> = O &
   UseFormFieldProps<FormMaskedFieldValue<O>> & {
     required?: boolean;
-    prefix?: string;
-    suffix?: string;
   };
 
 export interface FormMaskedFieldAPI<O extends Mask.AnyMaskedOptions>
@@ -44,8 +42,6 @@ export function useFormMaskedField<Options extends Mask.AnyMaskedOptions>(
   const {
     // direct
     required,
-    prefix,
-    suffix,
     // form
     path,
     validate,
@@ -121,21 +117,12 @@ export function useFormMaskedField<Options extends Mask.AnyMaskedOptions>(
     }
   }, [inputEl]);
 
-  // add prefix and/or sufix
-  let defaultValue = maskRef.current.value;
-  if (prefix && defaultValue) {
-    defaultValue = prefix + defaultValue;
-  }
-  if (suffix && defaultValue) {
-    defaultValue = defaultValue + suffix;
-  }
-
   return {
     ...formField,
     inputProps: {
       type: 'text',
       name: path,
-      defaultValue,
+      defaultValue: maskRef.current.value,
       required,
       disabled: formField.state.disabled,
       readOnly: formField.state.readOnly,
