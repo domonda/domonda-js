@@ -7,13 +7,13 @@
 import { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { useFormField, UseFormFieldProps, FormFieldAPI, FormFieldValidate } from '../FormField';
 import { useForceUpdate } from '@domonda/react-plumb/useForceUpdate';
-import IMask from 'imask';
+import { Mask } from './mask';
 
 export type FormMaskedFieldValidate<V extends string | null> = FormFieldValidate<V | null>;
 
 export type FormMaskedFieldMaskOptions =
-  | IMask.MaskedOptions<IMask.MaskedRegExp>
-  | IMask.MaskedNumberOptions;
+  | Mask.MaskedOptions<Mask.MaskedRegExp>
+  | Mask.MaskedNumberOptions;
 
 export type UseFormMaskedFieldProps<V extends string | number> = UseFormFieldProps<V | null> &
   FormMaskedFieldMaskOptions & {
@@ -69,7 +69,7 @@ export function useFormMaskedField<Value extends string | number>(
   }, [validityMessage || '']);
 
   // create mask for value manipulation
-  const maskRef = useRef(IMask.createMask(maskedOptions));
+  const maskRef = useRef(Mask.createMask(maskedOptions));
   // TODO-db-200512 update mask options on options change
   // useEffect(() => {
   //   if (maskRef.current && maskRef.current.el === inputEl) {
@@ -82,10 +82,10 @@ export function useFormMaskedField<Value extends string | number>(
   const forceUpdate = useForceUpdate();
 
   // prepare input mask
-  const inputMaskRef = useRef<IMask.InputMask<typeof maskedOptions> | null>(null);
+  const inputMaskRef = useRef<Mask.InputMask<typeof maskedOptions> | null>(null);
   useLayoutEffect(() => {
     if (inputEl) {
-      inputMaskRef.current = IMask<typeof maskedOptions>(inputEl, maskRef.current).on(
+      inputMaskRef.current = Mask<typeof maskedOptions>(inputEl, maskRef.current).on(
         'complete',
         () => {
           const typedValue = inputMaskRef.current?.typedValue as Value | undefined;
