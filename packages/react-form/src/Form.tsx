@@ -19,6 +19,8 @@ import deepmerge from 'deepmerge';
 
 export { FormSubmitHandler } from '@domonda/form';
 
+export { FormDefaultValues };
+
 export type FormProps<V extends FormDefaultValues> = FormConfig<V> &
   Omit<
     React.FormHTMLAttributes<HTMLFormElement>,
