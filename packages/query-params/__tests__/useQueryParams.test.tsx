@@ -5,7 +5,7 @@
 import React from 'react';
 import { createMemoryHistory } from 'history';
 import { QueryModel, stringify, defaultQueryParams } from '../src/queryParams';
-import { useQueryParams } from '../src/useQueryParams';
+import { useQueryParams, UseQueryParamsProps } from '../src/useQueryParams';
 import { QueryParamsProvider } from '../src/QueryParamsContext';
 
 // t
@@ -651,4 +651,41 @@ it('should use new model before partially setting the params', () => {
   });
 
   expect(result.current[0]).toEqual({ num: 1, arr: [-1] });
+});
+
+it('should return updated params on pathname change', async () => {
+  const history = createMemoryHistory();
+
+  const model: QueryModel<{ str: string }> = {
+    str: {
+      type: 'string',
+      defaultValue: 'firstValue',
+    },
+  };
+
+  const { result, rerender } = renderHook(
+    (props: UseQueryParamsProps<any, any>) =>
+      useQueryParams(model, { onPathname: props.onPathname }),
+    {
+      initialProps: {
+        onPathname: '/first-path',
+      },
+      wrapper: ({ children }) => (
+        <QueryParamsProvider history={history}>{children}</QueryParamsProvider>
+      ),
+    },
+  );
+
+  expect(result.current[0]).toEqual({ str: 'firstValue' });
+
+  act(() =>
+    history.push({
+      pathname: '/second-path',
+      search: stringify({ str: 'secondValue' }),
+    }),
+  );
+
+  rerender({ onPathname: '/second-path' });
+
+  expect(result.current[0]).toEqual({ str: 'secondValue' });
 });
