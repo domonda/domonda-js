@@ -151,7 +151,7 @@ it.each([
     expected: '$1.00%',
   }),
 ])(
-  "should have '%s' when %o with props %o (case index %#)",
+  "should have '%s' when %o with props %j (case index %#)",
   async (expected, { type, allAtOnce }, props) => {
     const { getByRole } = render(
       <FormNumberField {...props} path="void">
