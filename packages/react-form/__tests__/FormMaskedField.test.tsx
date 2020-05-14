@@ -23,6 +23,6 @@ it('should set the default form value on the input value', () => {
       wrapper: makeForm({ name: 'John' }),
     },
   );
-  const input = getByRole('textbox');
-  expect(input).toHaveAttribute('value', 'John');
+  expect(getByRole('textbox')).toHaveAttribute('value', 'John');
+});
 });
