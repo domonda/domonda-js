@@ -393,7 +393,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-proposal-class-properties@npm:^7.7.0":
+"@babel/plugin-proposal-class-properties@npm:^7.7.0, @babel/plugin-proposal-class-properties@npm:^7.8.3":
   version: 7.8.3
   resolution: "@babel/plugin-proposal-class-properties@npm:7.8.3"
   dependencies:
@@ -1398,15 +1398,16 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@domonda/react-form@workspace:packages/react-form"
   dependencies:
-    "@babel/core": ^7.9.6
     "@domonda/form": ^2.3.2
     "@domonda/plumb": ^2.2.6
     "@domonda/react-plumb": ^2.0.13
     "@domonda/ui": ^8.5.0
     "@storybook/addon-info": ^5.3.17
     "@storybook/react": ^5.3.17
+    "@testing-library/jest-dom": ^5.7.0
     "@testing-library/react": ^10.0.4
     "@testing-library/react-hooks": ^3.2.1
+    "@testing-library/user-event": ^10.1.2
     "@types/lodash": ^4.14.150
     "@types/node": 12.12.36
     "@types/react-datepicker": ^2.11.0
@@ -1414,15 +1415,13 @@ __metadata:
     clsx: ^1.1.0
     deepmerge: ^4.2.2
     fast-equals: ^2.0.0
+    imask: ^6.0.3
     lodash.get: ^4.4.2
     lodash.unset: ^4.5.2
     react: ^16.13.1
     react-datepicker: ^2.14.0
-    react-docgen-typescript-loader: ^3.7.1
     react-dom: ^16.13.1
     react-test-renderer: ^16.13.0
-    text-mask-core: ^5.1.2
-    ts-loader: ^7.0.2
     typescript: ^3.8.3
     webpack: ^4.43.0
   peerDependencies:
@@ -3513,6 +3512,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@testing-library/jest-dom@npm:^5.7.0":
+  version: 5.7.0
+  resolution: "@testing-library/jest-dom@npm:5.7.0"
+  dependencies:
+    "@babel/runtime": ^7.9.2
+    "@types/testing-library__jest-dom": ^5.0.2
+    chalk: ^3.0.0
+    css: ^2.2.4
+    css.escape: ^1.5.1
+    jest-diff: ^25.1.0
+    jest-matcher-utils: ^25.1.0
+    lodash: ^4.17.15
+    redent: ^3.0.0
+  checksum: 3/d2bb2e7728c6370f526ef6debeb0acf8e2cf7385d8c59d44dd824260699d22437288f70350e2da0076b287aa4f02ad46069e80cda059e58594b9342f916d9b04
+  languageName: node
+  linkType: hard
+
 "@testing-library/react-hooks@npm:^3.2.1":
   version: 3.2.1
   resolution: "@testing-library/react-hooks@npm:3.2.1"
@@ -3537,6 +3553,15 @@ __metadata:
     react: "*"
     react-dom: "*"
   checksum: 3/a806425d3c7d2d4a8949da89f0c7d6b5f34057a9a5bbcfa4ad12e8a507e3b9b370ade17b8440eabea279e9c436d073b0923fc58dd807fdc77b18cc7738d7dfb4
+  languageName: node
+  linkType: hard
+
+"@testing-library/user-event@npm:^10.1.2":
+  version: 10.1.2
+  resolution: "@testing-library/user-event@npm:10.1.2"
+  peerDependencies:
+    "@testing-library/dom": ">=5"
+  checksum: 3/6f950226ba854b78dd02b1a84d192f2ad7c0e7ad4b49d0c2d76994b814d185926b2eed8fa43f9692ec7ed45d474d72650c87a64890a0283c99852fe5f9adabc0
   languageName: node
   linkType: hard
 
@@ -3702,7 +3727,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:^25.1.4":
+"@types/jest@npm:*, @types/jest@npm:^25.1.4":
   version: 25.2.1
   resolution: "@types/jest@npm:25.2.1"
   dependencies:
@@ -3928,6 +3953,15 @@ __metadata:
   dependencies:
     pretty-format: ^25.1.0
   checksum: 3/aa1193d45f9527ca7b04b946e6ea2a497a0eb4102c7e344ad17ce8b6fc632c569670df9436962e09cca6f569af8ca8da601b38e1417d8057968bfe0c9fd34223
+  languageName: node
+  linkType: hard
+
+"@types/testing-library__jest-dom@npm:^5.0.2":
+  version: 5.6.0
+  resolution: "@types/testing-library__jest-dom@npm:5.6.0"
+  dependencies:
+    "@types/jest": "*"
+  checksum: 3/6d2e8c27bb47cdcd63c1bb95b9030a842bc38656971c833f1e4bbddfecd0c833e78ed3af9fe00b77e965aeb6362b1593ca8741ebb6c167c24fcc7ccb766d09e6
   languageName: node
   linkType: hard
 
@@ -7045,6 +7079,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"css.escape@npm:^1.5.1":
+  version: 1.5.1
+  resolution: "css.escape@npm:1.5.1"
+  checksum: 3/44fe5e93fee46fe60dbd0cdd078b14ef75697ee93519a7157f976b655463dd66eba598b0df16c16a897ac884c97845d2a3819cb8d370cbf91bc59bb557ebe826
+  languageName: node
+  linkType: hard
+
+"css@npm:^2.2.4":
+  version: 2.2.4
+  resolution: "css@npm:2.2.4"
+  dependencies:
+    inherits: ^2.0.3
+    source-map: ^0.6.1
+    source-map-resolve: ^0.5.2
+    urix: ^0.1.0
+  checksum: 3/b94365b3c07c35529beab95f679102c66d1027774c2e80f5179a6ee11ccc440046aeb7771df33569334bbdfd8ea753dd132197040dc079fcd881141348a1886f
+  languageName: node
+  linkType: hard
+
 "cssesc@npm:^3.0.0":
   version: 3.0.0
   resolution: "cssesc@npm:3.0.0"
@@ -9982,6 +10035,13 @@ fsevents@^2.1.2:
   languageName: node
   linkType: hard
 
+"imask@npm:^6.0.3":
+  version: 6.0.3
+  resolution: "imask@npm:6.0.3"
+  checksum: 3/737c3c48430e03a194485b376cc896cd4d943d2e5b6081a9967d5a7dce0bd3d1e0136f87447da7b11523b6620f2790475e4b77ab59e2499912f92327391bedf8
+  languageName: node
+  linkType: hard
+
 "immer@npm:1.10.0":
   version: 1.10.0
   resolution: "immer@npm:1.10.0"
@@ -10878,7 +10938,7 @@ fsevents@^2.1.2:
   languageName: node
   linkType: hard
 
-"jest-diff@npm:^25.2.1":
+"jest-diff@npm:^25.1.0, jest-diff@npm:^25.2.1, jest-diff@npm:^25.5.0":
   version: 25.5.0
   resolution: "jest-diff@npm:25.5.0"
   dependencies:
@@ -11021,6 +11081,18 @@ fsevents@^2.1.2:
     jest-get-type: ^26.0.0
     pretty-format: ^26.0.1
   checksum: 3/50965f39dc23a3945aafa2399a0cc68b50e1a0a685c256ff5a84c6416474d3d174983a44b2cac87c5779898a1d95bbd25681b9a3d18f0f2ae39963451242cca6
+  languageName: node
+  linkType: hard
+
+"jest-matcher-utils@npm:^25.1.0":
+  version: 25.5.0
+  resolution: "jest-matcher-utils@npm:25.5.0"
+  dependencies:
+    chalk: ^3.0.0
+    jest-diff: ^25.5.0
+    jest-get-type: ^25.2.6
+    pretty-format: ^25.5.0
+  checksum: 3/f60504e34b39b41e1cf3973e380c4cf338e55ad465d62cf64220a263b53ce2f72566f211f0d36eb27bd11b3f42df636956fbe06d60113e1060dd1f1f79001ee6
   languageName: node
   linkType: hard
 
@@ -15225,6 +15297,16 @@ fsevents@^2.1.2:
   languageName: node
   linkType: hard
 
+"redent@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "redent@npm:3.0.0"
+  dependencies:
+    indent-string: ^4.0.0
+    strip-indent: ^3.0.0
+  checksum: 3/78c8aa0a1076f47e0e198bfc8a9aa7d4ae3163c6951bd5de1015e47661bba62ea36573337bbeb4b309b48cc71954edbe43ae4aa3163db1996a781b757c5c47d7
+  languageName: node
+  linkType: hard
+
 "refractor@npm:^2.4.1":
   version: 2.10.1
   resolution: "refractor@npm:2.10.1"
@@ -15642,6 +15724,10 @@ fsevents@^2.1.2:
   dependencies:
     "@babel/cli": ^7.8.4
     "@babel/core": ^7.9.6
+    "@babel/plugin-proposal-class-properties": ^7.8.3
+    "@babel/plugin-proposal-nullish-coalescing-operator": ^7.8.3
+    "@babel/plugin-proposal-object-rest-spread": ^7.9.6
+    "@babel/plugin-proposal-optional-chaining": ^7.9.0
     "@babel/preset-env": ^7.9.6
     "@babel/preset-react": ^7.9.4
     "@babel/preset-typescript": ^7.9.0
@@ -16240,7 +16326,7 @@ fsevents@^2.1.2:
   languageName: node
   linkType: hard
 
-"source-map-resolve@npm:^0.5.0":
+"source-map-resolve@npm:^0.5.0, source-map-resolve@npm:^0.5.2":
   version: 0.5.3
   resolution: "source-map-resolve@npm:0.5.3"
   dependencies:
@@ -17072,13 +17158,6 @@ fsevents@^2.1.2:
   version: 1.9.0
   resolution: "text-extensions@npm:1.9.0"
   checksum: 3/fecf1f4962209f8309cd90b045305c417016c4afa34d9df58b0885b7031da57acdef0771512eb031dbc795759972089ff099ba944b0437576d0012eb20db7825
-  languageName: node
-  linkType: hard
-
-"text-mask-core@npm:^5.1.2":
-  version: 5.1.2
-  resolution: "text-mask-core@npm:5.1.2"
-  checksum: 3/5f1bc2040001b8cb63f6c0630ac78fbb09d2db88ff5ee11bdc3f5756afa33b2103dedd6298a55add846bb5603837a5b7f2b82973121046aa0a50217c03383be9
   languageName: node
   linkType: hard
 

@@ -5,7 +5,7 @@ import {
   FormState,
   FormInputField,
   FormRadioField,
-  FormDateField,
+  // FormDateField,
   FormNumberField,
   FormArrayField,
   FormLockedState,
@@ -74,7 +74,8 @@ const Basic: React.FC = () => {
           )}
         </FormRadioField>
       </p>
-      <div>
+      {/* TODO-db-200514 contextless styling does not work */}
+      {/* <div>
         <FormDateField path="birthday">
           {({ DateInput }) => (
             <>
@@ -85,9 +86,9 @@ const Basic: React.FC = () => {
             </>
           )}
         </FormDateField>
-      </div>
+      </div> */}
       <p>
-        <FormNumberField path="num" thousandsSeparatorSymbol="." decimalSymbol=",">
+        <FormNumberField path="num" thousandsSeparator=",">
           {({ inputProps }) => (
             <>
               <label>Num:</label>
@@ -97,16 +98,7 @@ const Basic: React.FC = () => {
         </FormNumberField>
       </p>
       <p>
-        <FormNumberField
-          path="perc"
-          thousandsSeparatorSymbol="."
-          decimalSymbol=","
-          suffix="%"
-          allowDecimal
-          isAllowed={(val) => {
-            return val === null || val <= 100;
-          }}
-        >
+        <FormNumberField path="perc" thousandsSeparator="," suffix="%">
           {({ inputProps }) => (
             <>
               <label>Percentage:</label>

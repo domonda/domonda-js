@@ -4,103 +4,65 @@
  *
  */
 
-import React, { useCallback, useState, useMemo, useEffect } from 'react';
-import { useFormField, UseFormFieldProps, FormFieldAPI } from '../FormField';
-import {
-  CreateTextMaskInputProps,
-  createTextMaskInput,
-  unmask,
-  Mask,
-  conformToMask,
-} from './textMask';
+import { useState, useEffect, useLayoutEffect, useRef } from 'react';
+import { useFormField, UseFormFieldProps, FormFieldAPI, FormFieldValidate } from '../FormField';
+import { useForceUpdate } from '@domonda/react-plumb/useForceUpdate';
+import { Mask } from './mask';
+import { useDeepMemoOnValue } from '@domonda/react-plumb/useMemoOnValue';
 
-export type UseFormMaskedFieldProps<V extends string | number> = UseFormFieldProps<V | null> &
-  Pick<CreateTextMaskInputProps, Exclude<keyof CreateTextMaskInputProps, 'inputElement'>> & {
-    /** Tells the changle handler to store the raw (conformed) value in the form. */
-    disableUnmask?: boolean;
-    /** Parse the value to a number. */
-    parseNumber?: boolean;
-    /** What decimal separator to use when parsing the unmasked value to a number. */
-    numberDecimalSymbol?: string;
-    /** Whether the field is required. */
+export type FormMaskedFieldValue<O extends Mask.AnyMaskedOptions> = Mask.MaskedTypedValue<
+  O['mask']
+> | null;
+
+export type FormMaskedFieldValidate<O extends Mask.AnyMaskedOptions> = FormFieldValidate<
+  FormMaskedFieldValue<O>
+>;
+
+export type UseFormMaskedFieldProps<O extends Mask.AnyMaskedOptions> = O &
+  UseFormFieldProps<FormMaskedFieldValue<O>> & {
     required?: boolean;
-    /** Allows the user to decide if the arriving value is allowed. */
-    isAllowed?: (value: V | null) => boolean;
   };
 
-export interface FormMaskedFieldAPI<V extends string | number> extends FormFieldAPI<V | null> {
+export interface FormMaskedFieldAPI<O extends Mask.AnyMaskedOptions>
+  extends FormFieldAPI<FormMaskedFieldValue<O>> {
   inputProps: {
     type: 'text';
-    value: string;
+    name: string;
+    defaultValue: string;
     required: boolean | undefined;
     disabled: boolean;
     readOnly: boolean;
-    ref: (input: HTMLInputElement | null) => void;
-    onChange: React.ChangeEventHandler<HTMLInputElement>;
+    ref: (element: HTMLInputElement | null) => void;
   };
 }
 
-function valueToString(value: unknown, decimalSymbol: string | undefined): string {
-  if (decimalSymbol && typeof value === 'number') {
-    return String(value).replace('.', decimalSymbol);
-  }
-  return !value && value !== 0 ? '' : String(value);
-}
-
-function getConformedValue(
-  mask: Mask,
-  value: unknown,
-  decimalSymbol?: string,
-  guide?: boolean,
-  placeholderChar?: string,
-  previousConformedValue?: string,
-) {
-  return !value && value !== 0
-    ? ''
-    : conformToMask(mask, valueToString(value, decimalSymbol), {
-        guide,
-        placeholderChar,
-        previousConformedValue,
-      });
-}
-
-function removeCharByIndex(str: string, index: number): string {
-  return str.substring(0, index) + str.substring(index + 1, str.length);
-}
-
-export function useFormMaskedField<Value extends string | number>(
-  props: UseFormMaskedFieldProps<Value>,
-): FormMaskedFieldAPI<Value> {
+export function useFormMaskedField<Options extends Mask.AnyMaskedOptions>(
+  props: UseFormMaskedFieldProps<Options>,
+): FormMaskedFieldAPI<Options> {
   const {
-    mask,
-    guide,
-    placeholderChar,
-    keepCharPositions,
-    showMask,
-    disableUnmask,
-    parseNumber,
-    numberDecimalSymbol,
+    // direct
     required,
-    isAllowed,
-    ...formFieldProps
+    // form
+    path,
+    validate,
+    immediateValidate,
+    transformer,
+    // mask
+    ...maskOptions
   } = props;
 
-  const formField = useFormField<Value | null>(formFieldProps);
+  // initialize form field
+  const formField = useFormField<FormMaskedFieldValue<Options>>({
+    path,
+    validate,
+    immediateValidate,
+    transformer,
+  });
 
-  const [conformedValue, setConformedValue] = useState<string>(() =>
-    getConformedValue(mask, formField.value, numberDecimalSymbol, guide, placeholderChar),
-  );
-
+  // prepare input
   const [inputEl, setInputEl] = useState<HTMLInputElement | null>(null);
-  const updateInputEl = useCallback(
-    (el: HTMLInputElement | null) => {
-      if (el !== inputEl) {
-        setInputEl(el);
-      }
-    },
-    [inputEl],
-  );
 
+  // synchronize validity
   const { validityMessage } = formField.state;
   useEffect(() => {
     if (inputEl) {
@@ -111,112 +73,68 @@ export function useFormMaskedField<Value extends string | number>(
     }
   }, [validityMessage || '']);
 
-  const textMaskInput = useMemo<{ update: (value: string) => void } | null>(() => {
+  // create mask for value manipulation
+  const memoMaskOptions = useDeepMemoOnValue((maskOptions as unknown) as Options); // why TS, why? 😑
+  const prevMemoMaskOptions = usePrevious(memoMaskOptions);
+  const maskRef = useRef(Mask.createMask(memoMaskOptions));
+  if (prevMemoMaskOptions !== memoMaskOptions) {
+    maskRef.current.updateOptions(memoMaskOptions as any); // damn TS... 😩
+  }
+  if (maskRef.current.typedValue !== formField.value) {
+    maskRef.current.typedValue = formField.value ?? '';
+  }
+
+  // useful for when the actual typed value did not change, but the
+  // masked value did change. forcing an update synchronises the UI
+  const forceUpdate = useForceUpdate();
+
+  // prepare input mask
+  const inputMaskRef = useRef<Mask.InputMask<typeof maskRef.current> | null>(null);
+  useLayoutEffect(() => {
     if (inputEl) {
-      const instance = createTextMaskInput({
-        inputElement: inputEl,
-        mask,
-        guide,
-        placeholderChar,
-        keepCharPositions,
-        showMask,
+      inputMaskRef.current = new Mask.InputMask(inputEl, maskRef.current).on('complete', () => {
+        const typedValue = inputMaskRef.current?.typedValue;
+        const nextFieldValue = !typedValue && typedValue !== 0 ? null : typedValue;
+
+        // we access the underlying plumb because it holds
+        // the reference to the orignal object, giving us
+        // always the most current value. if value didn't
+        // change, do a force update to keep the UI in sync
+        if (formField.plumb.state.value !== nextFieldValue) {
+          formField.setValue(nextFieldValue);
+        } else {
+          forceUpdate();
+        }
+
+        // we want this asynchronously called because some browsers (safari) decide to hide the validity box on input
+        const { validity } = inputEl;
+        if (!validity.valid) {
+          const reportValidity = () => inputEl.reportValidity();
+          setTimeout(reportValidity, 0);
+        }
       });
-
-      instance.update(inputEl.value);
-
-      return instance;
+      return () => inputMaskRef.current?.destroy();
     }
-
-    return null;
-  }, [inputEl, mask, guide, placeholderChar, keepCharPositions, showMask]);
-
-  // check if the value changed by an outside effect, if so update the text mask input
-  useEffect(() => {
-    if (textMaskInput) {
-      let currConformedValue = conformedValue;
-
-      // find out the suffix
-      let suffix;
-      const maskItems = typeof mask === 'function' ? mask(currConformedValue) : mask;
-      const lastMaskItem = maskItems[maskItems.length - 1];
-      if (typeof lastMaskItem === 'string' && lastMaskItem) {
-        suffix = lastMaskItem;
-      }
-
-      // remove the last character if it is the `numberDecimalSymbol`
-      let possibleDecimalIndex = currConformedValue.length - 1;
-      if (suffix && currConformedValue[possibleDecimalIndex] === suffix) {
-        possibleDecimalIndex--;
-      }
-      if (currConformedValue[possibleDecimalIndex] === numberDecimalSymbol) {
-        currConformedValue = removeCharByIndex(currConformedValue, possibleDecimalIndex);
-      }
-
-      const nextConformedValue = getConformedValue(
-        mask,
-        formField.value,
-        numberDecimalSymbol,
-        guide,
-        placeholderChar,
-        currConformedValue,
-      );
-
-      if (currConformedValue !== nextConformedValue) {
-        textMaskInput.update(valueToString(formField.value, numberDecimalSymbol));
-        setConformedValue(nextConformedValue);
-      }
-    }
-  }, [textMaskInput, formField.value, conformedValue, numberDecimalSymbol]);
-
-  const handleChange = useCallback<React.ChangeEventHandler<HTMLInputElement>>(
-    ({ currentTarget }) => {
-      if (textMaskInput) {
-        textMaskInput.update(currentTarget.value);
-      }
-
-      let nextValue: Value | null;
-      if (disableUnmask) {
-        nextValue = currentTarget.value
-          ? parseNumber
-            ? (parseFloat(currentTarget.value) as Value)
-            : (currentTarget.value as Value)
-          : null;
-      } else {
-        const unmaskedValue = unmask(mask, currentTarget.value, numberDecimalSymbol);
-        nextValue = unmaskedValue
-          ? parseNumber
-            ? (parseFloat(unmaskedValue) as Value)
-            : (unmaskedValue as Value)
-          : null;
-      }
-
-      // update field value only if it is allowed
-      if (!isAllowed || isAllowed(nextValue)) {
-        formField.setValue(nextValue);
-      }
-
-      // we want this asynchronously called because some browsers (safari) decide to hide the validity box on input
-      const { validity } = currentTarget;
-      if (!validity.valid) {
-        const reportValidity = () => currentTarget.reportValidity();
-        setTimeout(reportValidity, 0);
-      }
-
-      setConformedValue(currentTarget.value);
-    },
-    [formField.setValue, textMaskInput, disableUnmask, parseNumber, numberDecimalSymbol, isAllowed],
-  );
+  }, [inputEl]);
 
   return {
     ...formField,
     inputProps: {
       type: 'text',
-      value: conformedValue,
+      name: path,
+      defaultValue: maskRef.current.value,
       required,
       disabled: formField.state.disabled,
       readOnly: formField.state.readOnly,
-      ref: updateInputEl,
-      onChange: handleChange,
+      ref: setInputEl,
     },
   };
+}
+
+function usePrevious<V>(value: V) {
+  const ref = useRef<V>(value);
+  useEffect(() => {
+    ref.current = value;
+  }, [value]);
+  return ref.current;
 }

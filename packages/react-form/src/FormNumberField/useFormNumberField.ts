@@ -4,77 +4,26 @@
  *
  */
 
-import { useMemo } from 'react';
 import {
   useFormMaskedField,
-  FormMaskedFieldAPI,
   UseFormMaskedFieldProps,
+  FormMaskedFieldAPI,
 } from '../FormMaskedField/useFormMaskedField';
-import { CreateNumberMaskProps, createNumberMask, defaultDecimalSymbol } from './createNumberMask';
+import { Mask } from '../FormMaskedField/mask';
 
-export type UseFormNumberFieldProps<V extends string | number> = Pick<
-  UseFormMaskedFieldProps<V>,
-  Exclude<keyof UseFormMaskedFieldProps<V>, 'mask' | 'numberDecimalSymbol'>
-> &
-  CreateNumberMaskProps;
+export type UseFormNumberFieldProps = Omit<
+  UseFormMaskedFieldProps<Mask.MaskedNumberOptions>,
+  'mask' // fixed to `Number`
+>;
 
-export type FormNumberFieldAPI<V extends string | number> = FormMaskedFieldAPI<V>;
+export type FormNumberFieldAPI = FormMaskedFieldAPI<Mask.MaskedNumberOptions>;
 
-export function useFormNumberField<Value extends string | number>(
-  props: UseFormNumberFieldProps<Value>,
-): FormNumberFieldAPI<Value> {
-  const {
-    prefix,
-    suffix,
-    includeThousandsSeparator,
-    thousandsSeparatorSymbol,
-    allowDecimal,
-    decimalSymbol,
-    decimalLimit,
-    requireDecimal,
-    allowNegative,
-    allowLeadingZeroes,
-    integerLimit,
-    parseNumber,
-    ...formMaskedFieldProps
-  } = props;
-
-  const mask = useMemo(
-    () =>
-      createNumberMask({
-        prefix,
-        suffix,
-        includeThousandsSeparator,
-        thousandsSeparatorSymbol,
-        allowDecimal,
-        decimalSymbol,
-        decimalLimit,
-        requireDecimal,
-        allowNegative,
-        allowLeadingZeroes,
-        integerLimit,
-      }),
-    [
-      prefix,
-      suffix,
-      includeThousandsSeparator,
-      thousandsSeparatorSymbol,
-      allowDecimal,
-      decimalSymbol,
-      decimalLimit,
-      requireDecimal,
-      allowNegative,
-      allowLeadingZeroes,
-      integerLimit,
-    ],
-  );
-
-  const formMaskedField = useFormMaskedField<Value>({
-    numberDecimalSymbol: decimalSymbol || defaultDecimalSymbol,
-    mask,
-    parseNumber: parseNumber === undefined ? true : parseNumber,
-    ...formMaskedFieldProps,
+export function useFormNumberField(props: UseFormNumberFieldProps): FormNumberFieldAPI {
+  return useFormMaskedField({
+    signed: true, // default is `false`
+    radix: '.', // fractional delimiter
+    mapToRadix: [','], // symbols to process as radix
+    ...props,
+    mask: Number,
   });
-
-  return formMaskedField;
 }
