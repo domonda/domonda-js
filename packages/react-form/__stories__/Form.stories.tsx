@@ -98,7 +98,7 @@ const Basic: React.FC = () => {
         </FormNumberField>
       </p>
       <p>
-        <FormNumberField path="perc" thousandsSeparator="," suffix="%">
+        <FormNumberField path="perc" thousandsSeparator=",">
           {({ inputProps }) => (
             <>
               <label>Percentage:</label>
@@ -110,7 +110,7 @@ const Basic: React.FC = () => {
       <div>
         <label>Alternative names:</label>
         <FormArrayField path="alternativeNames">
-          {({ items, add, remove }) => (
+          {({ items, insert, remove }) => (
             <>
               {items &&
                 items.map((_, index) => (
@@ -122,10 +122,10 @@ const Basic: React.FC = () => {
                 ))}
 
               <div>
-                <button type="button" onClick={remove}>
+                <button type="button" onClick={() => remove()}>
                   -
                 </button>
-                <button type="button" onClick={add}>
+                <button type="button" onClick={() => insert(null)}>
                   +
                 </button>
               </div>
