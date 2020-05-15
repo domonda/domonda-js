@@ -11,6 +11,7 @@
     "lint": "eslint 'packages/**/{src,__tests__}/**/*.{ts,tsx}'",
     "test": "jest",
     "type-check": "lerna run type-check --parallel",
+    "build": "lerna run build --parallel",
     "release": "lerna version --allow-branch master --message release --conventional-commits",
     "publish": "lerna publish from-git --contents lib"
   },

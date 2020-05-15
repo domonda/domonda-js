@@ -16,19 +16,17 @@ jobs:
         with:
           node-version: '12'
           registry-url: 'https://registry.npmjs.org'
-      - name: Whoami?
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm whoami
       - name: Configure git user
         run: |
           git config --global user.name 'domondabot'
           git config --global user.email 'bot@domonda.com'
-      - name: Test tagging
-        run: git tag testtag -m "testtag" && git push --follow-tags # checking if the tag gets dropped when not pushed
-      # - name: Release
-      #   env:
-      #     GH_TOKEN: ${{ secrets.BOT_PAT }}
-      #   run: yarn release --create-release github --yes
-      # - name: Publish
-      #   run: yarn publish --yes
+      - name: Build
+        run: yarn build
+      - name: Release
+        env:
+          GH_TOKEN: ${{ secrets.BOT_PAT }}
+        run: yarn release --create-release github --yes
+      - name: Publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: yarn publish --yes

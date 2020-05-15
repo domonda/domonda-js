@@ -18,8 +18,7 @@
   "scripts": {
     "type-check": "tsc -p tsconfig.test.json --noEmit",
     "build": "tsc --outDir lib",
-    "prepare": "yarn build",
-    "prepack": "node ../../scripts/copyFiles.js lib",
+    "prepare": "node ../../scripts/copyFiles.js lib",
     "storybook": "start-storybook --ci",
     "start": "yarn storybook"
   },
