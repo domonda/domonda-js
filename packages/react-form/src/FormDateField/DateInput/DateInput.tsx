@@ -4,7 +4,7 @@
  *
  */
 
-import React from 'react';
+import React, { RefAttributes } from 'react';
 import clsx from 'clsx';
 import ReactDatePicker from 'react-datepicker';
 
@@ -13,10 +13,32 @@ import { Portal } from '@domonda/ui/Portal';
 
 // decorate
 import 'react-datepicker/dist/react-datepicker.min.css';
-import { decorate, Decorate } from './decorate';
+import { createStyles, withStyles, WithStyles } from '@domonda/ui/styles';
+const styles = createStyles(({ zIndex }) => ({
+  root: {
+    '& > div, & .react-datepicker-wrapper, & .react-datepicker__input-container': {
+      display: 'inherit',
+      '& input': {
+        width: '100%',
+      },
+    },
+  },
+  popper: {
+    // NOTE: here we use `!important` because the default `react-datepicker` stylesheet is prioritized
+    zIndex: `${zIndex.tooltip} !important` as any,
+    '& .react-datepicker__triangle': {
+      left: '50%',
+    },
+  },
+  calendar: {
+    '& .react-datepicker__navigation': {
+      boxSizing: 'border-box',
+    },
+  },
+}));
 
 export interface DateInputProps {
-  classes?: Partial<Decorate['classes']>;
+  classes?: Partial<WithStyles<typeof styles>['classes']>;
   adjustDateOnChange?: boolean;
   allowSameDay?: boolean;
   autoComplete?: string;
@@ -148,35 +170,35 @@ const DateInputPopperPortal: React.FC<{ children: React.ReactNode | undefined }>
   );
 };
 
-const DateInput = React.forwardRef<ReactDatePicker, DateInputProps & Decorate>(function DateField(
-  props,
-  ref,
-) {
-  const { children, classes, className, popperClassName, calendarClassName, ...rest } = props;
-
-  return (
-    <div className={clsx(classes.root, className)}>
-      <ReactDatePicker
-        dateFormat="dd.MM.yyyy"
-        popperContainer={DateInputPopperPortal}
-        popperPlacement="bottom"
-        popperModifiers={{
-          preventOverflow: {
-            enabled: true,
-          },
-        }}
-        {...rest}
-        ref={ref}
-        popperClassName={clsx(classes.popper, popperClassName)}
-        calendarClassName={clsx(classes.calendar, calendarClassName)}
-      />
-    </div>
-  );
-});
+const DateInput = React.forwardRef<ReactDatePicker, DateInputProps & WithStyles<typeof styles>>(
+  function DateField(props, ref) {
+    const { children, classes, className, popperClassName, calendarClassName, ...rest } = props;
+    return (
+      <div className={clsx(classes.root, className)}>
+        <ReactDatePicker
+          dateFormat="dd.MM.yyyy"
+          popperContainer={DateInputPopperPortal}
+          popperPlacement="bottom"
+          popperModifiers={{
+            preventOverflow: {
+              enabled: true,
+            },
+          }}
+          {...rest}
+          ref={ref}
+          popperClassName={clsx(classes.popper, popperClassName)}
+          calendarClassName={clsx(classes.calendar, calendarClassName)}
+        />
+      </div>
+    );
+  },
+);
 
 if (process.env.NODE_ENV !== 'production') {
   DateInput.displayName = 'DateInput';
 }
 
-const StyledDateInput = decorate(DateInput);
+const StyledDateInput: React.ComponentType<
+  DateInputProps & RefAttributes<ReactDatePicker>
+> = withStyles(styles)(DateInput);
 export { StyledDateInput as DateInput };
