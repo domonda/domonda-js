@@ -31,8 +31,15 @@ jobs:
       - name: Release
         env:
           GH_TOKEN: ${{ secrets.BOT_PAT }}
-        run: yarn release --create-release github --yes
+        run: yarn release --create-release github --no-push --yes
+      - name: Update lockfile
+        run: |
+          yarn
+          git add yarn.lock
+          git commit --amend --no-edit
       - name: Publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: yarn publish --yes
+      - name: Push
+        run: git push --follow-tags --no-verify
