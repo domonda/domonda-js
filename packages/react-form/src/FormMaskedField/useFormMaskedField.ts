@@ -95,8 +95,11 @@ export function useFormMaskedField<Options extends Mask.AnyMaskedOptions>(
   useLayoutEffect(() => {
     if (inputEl) {
       inputMaskRef.current = new Mask.InputMask(inputEl, maskRef.current).on('complete', () => {
-        const typedValue = inputMaskRef.current?.typedValue;
-        const nextFieldValue = !typedValue && typedValue !== 0 ? null : typedValue;
+        const nextFieldValue =
+          // when input value is '', the typed value is 0
+          (inputMaskRef.current?.value ?? '') !== ''
+            ? inputMaskRef.current?.typedValue ?? null
+            : null;
 
         // we access the underlying plumb because it holds
         // the reference to the orignal object, giving us

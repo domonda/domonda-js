@@ -226,3 +226,28 @@ it('should change input value when form sets it to the zero value or null', () =
   );
   expect(getByRole('textbox')).toHaveAttribute('value', '0');
 });
+
+it('should leave input empty when its cleared', () => {
+  const { getByRole } = render(
+    <FormNumberField path="num">{({ inputProps }) => <input {...inputProps} />}</FormNumberField>,
+    {
+      wrapper: ({ children }) => (
+        <Form defaultValues={{ num: 999 }}>
+          <>{children}</>
+        </Form>
+      ),
+    },
+  );
+
+  const input = getByRole('textbox');
+
+  expect(input).toHaveAttribute('value', '999');
+
+  act(() => {
+    input.focus();
+    userEvent.clear(input);
+    input.blur();
+  });
+
+  expect(input).toHaveAttribute('value', '');
+});
