@@ -37,9 +37,9 @@ jobs:
           yarn
           git add yarn.lock
           git commit --amend --no-edit
+      - name: Push
+        run: git push --follow-tags --no-verify
       - name: Publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: yarn publish --yes
-      - name: Push
-        run: git push --follow-tags --no-verify
