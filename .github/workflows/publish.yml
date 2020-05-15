@@ -32,10 +32,10 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.BOT_PAT }}
         run: yarn version --message "release [skip ci]" --create-release github --yes
-      # - name: Publish
-      #   env:
-      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      #   run: yarn publish --yes
+      - name: Publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: yarn publish --yes
       - name: Update lockfile
         run: |
           yarn
