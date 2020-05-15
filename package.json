@@ -12,7 +12,7 @@
     "test": "jest",
     "type-check": "lerna run type-check --parallel",
     "build": "lerna run build --parallel",
-    "release": "lerna version --allow-branch master --message release --conventional-commits",
+    "version": "lerna version --allow-branch master --conventional-commits",
     "publish": "lerna publish from-git --contents lib"
   },
   "devDependencies": {

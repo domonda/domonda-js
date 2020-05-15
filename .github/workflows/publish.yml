@@ -28,18 +28,18 @@ jobs:
         run: yarn install --immutable
       - name: Build
         run: yarn build
-      - name: Release
-        env:
-          GH_TOKEN: ${{ secrets.BOT_PAT }}
-        run: yarn release --create-release github --no-push --yes
+      - name: Version
+        run: yarn version --message release --no-push --yes
       - name: Update lockfile
         run: |
           yarn
           git add yarn.lock
           git commit --amend --no-edit
-      - name: Push
-        run: git push --follow-tags --no-verify
-      - name: Publish
+      - name: Create release
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: yarn publish --yes
+          GH_TOKEN: ${{ secrets.BOT_PAT }}
+        run: yarn version --amend --create-release github --yes
+      # - name: Publish
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      #   run: yarn publish --yes
