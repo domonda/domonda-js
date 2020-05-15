@@ -32,11 +32,11 @@ jobs:
         run: yarn install --immutable
       - name: Build
         run: yarn build
-      # - name: Release
-      #   env:
-      #     GH_TOKEN: ${{ secrets.BOT_PAT }}
-      #   run: yarn release --create-release github --yes
-      # - name: Publish
-      #   env:
-      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      #   run: yarn publish --yes
+      - name: Release
+        env:
+          GH_TOKEN: ${{ secrets.BOT_PAT }}
+        run: yarn release --create-release github --yes
+      - name: Publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: yarn publish --yes
