@@ -80,7 +80,9 @@ export function useFormMaskedField<Options extends Mask.AnyMaskedOptions>(
   if (prevMemoMaskOptions !== memoMaskOptions) {
     maskRef.current.updateOptions(memoMaskOptions as any); // damn TS... 😩
   }
-  if (maskRef.current.typedValue !== formField.value) {
+  if (formField.value === 0) {
+    maskRef.current.typedValue = 0; // guarantee zero (0) presence
+  } else if (maskRef.current.typedValue !== formField.value) {
     maskRef.current.typedValue = formField.value ?? '';
   }
 

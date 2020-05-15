@@ -168,3 +168,61 @@ it.each([
     expect(input).toHaveAttribute('value', expected);
   },
 );
+
+it("should display '0' when receiving it from the form", () => {
+  const { getByRole } = render(
+    <FormNumberField path="zero">{({ inputProps }) => <input {...inputProps} />}</FormNumberField>,
+    {
+      wrapper: ({ children }) => (
+        <Form defaultValues={{ zero: 0 }}>
+          <>{children}</>
+        </Form>
+      ),
+    },
+  );
+  expect(getByRole('textbox')).toHaveAttribute('value', '0');
+});
+
+it('should display nothing when receiving null from the form', () => {
+  const { getByRole } = render(
+    <FormNumberField path="nil">{({ inputProps }) => <input {...inputProps} />}</FormNumberField>,
+    {
+      wrapper: ({ children }) => (
+        <Form defaultValues={{ nil: null }}>
+          <>{children}</>
+        </Form>
+      ),
+    },
+  );
+  expect(getByRole('textbox')).toHaveAttribute('value', '');
+});
+
+it('should change input value when form sets it to the zero value or null', () => {
+  const { getByRole, rerender } = render(
+    <Form defaultValues={{ num: 0 }}>
+      <FormNumberField path="num">{({ inputProps }) => <input {...inputProps} />}</FormNumberField>
+    </Form>,
+  );
+  expect(getByRole('textbox')).toHaveAttribute('value', '0');
+
+  rerender(
+    <Form defaultValues={{ num: null }}>
+      <FormNumberField path="num">{({ inputProps }) => <input {...inputProps} />}</FormNumberField>
+    </Form>,
+  );
+  expect(getByRole('textbox')).toHaveAttribute('value', '');
+
+  rerender(
+    <Form defaultValues={{ num: 1 }}>
+      <FormNumberField path="num">{({ inputProps }) => <input {...inputProps} />}</FormNumberField>
+    </Form>,
+  );
+  expect(getByRole('textbox')).toHaveAttribute('value', '1');
+
+  rerender(
+    <Form defaultValues={{ num: 0 }}>
+      <FormNumberField path="num">{({ inputProps }) => <input {...inputProps} />}</FormNumberField>
+    </Form>,
+  );
+  expect(getByRole('textbox')).toHaveAttribute('value', '0');
+});
