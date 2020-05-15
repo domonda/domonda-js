@@ -1,6 +1,6 @@
 {
   "name": "@domonda/plumb",
-  "version": "2.2.7",
+  "version": "2.2.8",
   "license": "ISC",
   "description": "Simple state management inspired by Observables.",
   "homepage": "https://github.com/domonda/domonda-js#readme",

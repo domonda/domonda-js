@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.8.2](https://github.com/domonda/domonda-js/compare/@domonda/react-form@2.8.1...@domonda/react-form@2.8.2) (2020-05-15)
+
+
+### Bug Fixes
+
+* **FormMaskedInput:** value is null when raw input value is an empty string ([91a3c13](https://github.com/domonda/domonda-js/commit/91a3c137beaf00873a5db6973bbb0afd5c270971))
+
+
+
+
+
 ## 2.8.1 (2020-05-15)
 
 
