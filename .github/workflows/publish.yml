@@ -8,7 +8,7 @@ jobs:
   release-and-publish:
     name: Release and publish
     runs-on: ubuntu-latest
-    if: github.actor == 'domondabot'
+    if: github.actor == 'domondabot' || github.actor == 'enisdenjo'
     steps:
       - name: Checkout
         uses: actions/checkout@v2
