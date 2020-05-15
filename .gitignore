@@ -6,6 +6,7 @@ lerna-debug.log*
 npm-debug.log*
 .vscode
 .pnp*
+*.tsbuildinfo
 
 .yarn/*
 !.yarn/releases

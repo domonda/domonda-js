@@ -7,7 +7,7 @@
     "yarn": ">=2"
   },
   "scripts": {
-    "clean": "lerna exec 'rm -rf lib node_modules'",
+    "clean": "lerna exec 'rm -rf lib node_modules *.tsbuildinfo'",
     "lint": "eslint 'packages/**/{src,__tests__}/**/*.{ts,tsx}'",
     "test": "jest",
     "type-check": "lerna run type-check --parallel",

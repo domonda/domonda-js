@@ -12,6 +12,8 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "declaration": true,
+    "noErrorTruncation": true,
+    "forceConsistentCasingInFileNames": true,
     "baseUrl": "./packages",
     "paths": {
       "@domonda/form/*": ["form/src/*"],
@@ -23,5 +25,5 @@
       "@domonda/*": ["*/src/"]
     }
   },
-  "exclude": ["node_modules", "packages/**/node_modules"]
+  "exclude": ["node_modules", "packages/**/node_modules", "packages/**/lib"]
 }

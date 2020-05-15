@@ -1,0 +1,23 @@
+{
+  "extends": "../../tsconfig.json",
+  "include": ["src"],
+  "compilerOptions": {
+    "composite": true,
+    "rootDir": "src",
+    "outDir": "lib"
+  },
+  "references": [
+    {
+      "path": "../form/tsconfig.build.json"
+    },
+    {
+      "path": "../plumb/tsconfig.build.json"
+    },
+    {
+      "path": "../react-plumb/tsconfig.build.json"
+    },
+    {
+      "path": "../ui/tsconfig.build.json"
+    }
+  ]
+}

@@ -15,8 +15,8 @@
     "url": "git+https://github.com/domonda/domonda-js.git"
   },
   "scripts": {
-    "type-check": "tsc -p tsconfig.test.json --noEmit",
-    "build": "tsc --outDir lib",
+    "type-check": "tsc --noEmit",
+    "build": "tsc -b tsconfig.build.json",
     "prepare": "node ../../scripts/copyFiles.js lib",
     "start": "yarn build --watch"
   },
