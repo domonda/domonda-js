@@ -8,6 +8,7 @@ jobs:
   release-and-publish:
     name: Release and publish
     runs-on: ubuntu-latest
+    if: github.actor == 'domondabot'
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -22,11 +23,11 @@ jobs:
           git config --global user.email 'bot@domonda.com'
       - name: Build
         run: yarn build
-      - name: Release
-        env:
-          GH_TOKEN: ${{ secrets.BOT_PAT }}
-        run: yarn release --create-release github --yes
-      - name: Publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: yarn publish --yes
+      # - name: Release
+      #   env:
+      #     GH_TOKEN: ${{ secrets.BOT_PAT }}
+      #   run: yarn release --create-release github --yes
+      # - name: Publish
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      #   run: yarn publish --yes
