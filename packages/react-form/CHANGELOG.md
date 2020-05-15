@@ -5,7 +5,16 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## 2.8.1 (2020-05-15)
 
-**Note:** Version bump only for package @domonda/react-form
+
+### Features
+
+* **FormMaskedField:** use `imask` ([#48](https://github.com/domonda/domonda-js/issues/48)) ([3cc0e62](https://github.com/domonda/domonda-js/commit/3cc0e6258265aa00b76ec4576b742ada58b5e341))
+* **workspace:** rework ([#46](https://github.com/domonda/domonda-js/issues/46)) ([ed7279f](https://github.com/domonda/domonda-js/commit/ed7279f7c26255208d4f303002d087d66c51b252))
+
+
+### BREAKING CHANGES
+
+* **FormMaskedField:** Drop prefix/suffix support for `FormNumberInput`. This feature will return in the future.
 
 
 

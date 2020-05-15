@@ -5,7 +5,9 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## 1.5.5 (2020-05-15)
 
-**Note:** Version bump only for package @domonda/query-params
+### Bug Fixes
+
+* **useQueryParams:** update params when `onPathname` changes ([#50](https://github.com/domonda/domonda-js/issues/50)) ([e53778c](https://github.com/domonda/domonda-js/commit/e53778cfe85e3fb318018bef81f6dde7853cea01))
 
 
 
