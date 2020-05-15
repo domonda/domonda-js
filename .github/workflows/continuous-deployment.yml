@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - master
-    tags-ignore:
-      - '@domonda/**' # ignore releases
   pull_request:
     types: [opened, synchronize, reopened]
     branches:
@@ -15,6 +13,7 @@ jobs:
   lint:
     name: Lint
     runs-on: ubuntu-latest
+    if: github.actor != 'domondabot'
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -38,6 +37,7 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    if: github.actor != 'domondabot'
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -60,6 +60,7 @@ jobs:
   type-check:
     name: Type check
     runs-on: ubuntu-latest
+    if: github.actor != 'domondabot'
     steps:
       - name: Checkout
         uses: actions/checkout@v2
