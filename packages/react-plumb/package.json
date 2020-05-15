@@ -1,6 +1,6 @@
 {
   "name": "@domonda/react-plumb",
-  "version": "2.0.13",
+  "version": "2.0.14",
   "description": "Simple state management and utilities for React inspired by Observables.",
   "license": "ISC",
   "homepage": "https://github.com/domonda/domonda-js#readme",
@@ -29,7 +29,7 @@
     "react-dom": "^16.9.0"
   },
   "dependencies": {
-    "@domonda/plumb": "^2.2.6",
+    "@domonda/plumb": "^2.2.7",
     "fast-equals": "^2.0.0"
   },
   "devDependencies": {
