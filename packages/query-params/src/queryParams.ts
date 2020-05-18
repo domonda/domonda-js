@@ -13,7 +13,7 @@ const ARRAY_FORMAT: 'bracket' | 'index' | 'comma' | 'none' = 'bracket';
 
 // consists of numbers, optional floating point, does not begin with zero
 // (valid, native, `Number`s in JS never start with zero)
-const NUMBER_REGEX = /^(?!0)([0-9]+)(\.[0-9]+)?$/;
+const NUMBER_REGEX = /^(?!0)([-0-9]+)(\.[0-9]+)?$/;
 
 function isNaN(num: number) {
   // only NaN is not equal to itself
