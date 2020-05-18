@@ -147,6 +147,19 @@ it('should parse an array of string numbers which begin with zero', () => {
   expect(values).toEqual({ strs: ['0123'] });
 });
 
+it('should parse an array of number-like strings', () => {
+  const model: QueryModel<{ strs: string[] }> = {
+    strs: {
+      type: 'array',
+      defaultValue: [''],
+    },
+  };
+
+  const values = parseQueryParams('?strs[]=90ddde2b', model);
+
+  expect(values).toEqual({ strs: ['90ddde2b'] });
+});
+
 it('should parse an array of numbers', () => {
   const model: QueryModel<{ nums: number[] }> = {
     nums: {

@@ -11,6 +11,10 @@ import { parseISOToDate, stripTime } from './date';
 
 const ARRAY_FORMAT: 'bracket' | 'index' | 'comma' | 'none' = 'bracket';
 
+// consists of numbers, optional floating point, does not begin with zero
+// (valid, native, `Number`s in JS never start with zero)
+const NUMBER_REGEX = /^(?!0)([0-9]+)(\.[0-9]+)?$/;
+
 function isNaN(num: number) {
   // only NaN is not equal to itself
   return num !== num;
@@ -106,9 +110,11 @@ export function parseQueryParams<V>(queryString: string, model: QueryModel<V>): 
             } else {
               // parse numbers, wherever possible
               parsedQueryValue = (parsedQueryValue as string[]).map((val) => {
-                const maybeNum = parseFloat(val);
-                if (!isNaN(maybeNum) && val[0] !== '0') {
-                  return maybeNum;
+                if (NUMBER_REGEX.test(val)) {
+                  const maybeNum = parseFloat(val);
+                  if (!isNaN(maybeNum)) {
+                    return maybeNum;
+                  }
                 }
                 return val;
               });
