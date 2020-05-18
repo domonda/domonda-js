@@ -1460,7 +1460,7 @@ __metadata:
     "@types/node": 12.12.39
     "@types/react": ^16.9.35
     "@types/react-dom": ^16.9.8
-    "@types/react-transition-group": 4.2.4
+    "@types/react-transition-group": 4.2.3
     "@types/react-virtualized-auto-sizer": ^1.0.0
     "@types/react-window": ^1.8.2
     "@yarnpkg/pnpify": ^2.0.0-rc.22
@@ -3906,12 +3906,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-transition-group@npm:4.2.4":
-  version: 4.2.4
-  resolution: "@types/react-transition-group@npm:4.2.4"
+"@types/react-transition-group@npm:4.2.3":
+  version: 4.2.3
+  resolution: "@types/react-transition-group@npm:4.2.3"
   dependencies:
     "@types/react": "*"
-  checksum: 3/6aedc6e16ad0eba99e76b9a93420fa0059d65f17433693cadcb10958262e1c7a524d270b180ecbbcc46b73a4eac62fc212abaf547b293ca7ba58be4ef9cb3e65
+  checksum: 3/d61133394d1b92b6d0e5edebab8528c70c1a00ba121e195fc4fa7e50ab0e6a6c0d1f9502bf5d42c88103fbbca1ba45d6dc924697f43440029eea516de9de75c4
   languageName: node
   linkType: hard
 
