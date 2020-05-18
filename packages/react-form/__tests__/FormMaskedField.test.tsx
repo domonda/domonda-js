@@ -23,7 +23,7 @@ it('should set the default form value on the input value', () => {
       wrapper: makeForm({ name: 'John' }),
     },
   );
-  expect(getByRole('textbox')).toHaveAttribute('value', 'John');
+  expect(getByRole('textbox')).toHaveValue('John');
 });
 
 it('should sync the input on outside value updates', () => {
@@ -43,7 +43,7 @@ it('should sync the input on outside value updates', () => {
     </Form>,
   );
 
-  expect(getByRole('textbox')).toHaveAttribute('value', 'Jane');
+  expect(getByRole('textbox')).toHaveValue('Jane');
 });
 
 it('should apply mask on outside value updates', () => {
@@ -57,7 +57,7 @@ it('should apply mask on outside value updates', () => {
     </Form>,
   );
 
-  expect(getByRole('textbox')).toHaveAttribute('value', 'Dr. John');
+  expect(getByRole('textbox')).toHaveValue('Dr. John');
 
   rerender(
     <Form defaultValues={{ name: 'Jane' }}>
@@ -67,7 +67,7 @@ it('should apply mask on outside value updates', () => {
     </Form>,
   );
 
-  expect(getByRole('textbox')).toHaveAttribute('value', 'Dr. Jane');
+  expect(getByRole('textbox')).toHaveValue('Dr. Jane');
 });
 
 it('should sync the input and mask on field value updates', () => {
@@ -94,13 +94,13 @@ it('should sync the input and mask on field value updates', () => {
     setter('John');
   });
 
-  expect(getByRole('textbox')).toHaveAttribute('value', 'Dr. John');
+  expect(getByRole('textbox')).toHaveValue('Dr. John');
 
   act(() => {
     setter('Jane');
   });
 
-  expect(getByRole('textbox')).toHaveAttribute('value', 'Dr. Jane');
+  expect(getByRole('textbox')).toHaveValue('Dr. Jane');
 });
 
 it('should cast the masked value to the correct type', () => {
@@ -147,7 +147,7 @@ it('should update mask when options change', () => {
     { wrapper },
   );
 
-  expect(getByRole('textbox')).toHaveAttribute('value', 'Dr. John');
+  expect(getByRole('textbox')).toHaveValue('Dr. John');
 
   rerender(
     <FormMaskedField mask="{Mr. }****" path="name">
@@ -155,5 +155,5 @@ it('should update mask when options change', () => {
     </FormMaskedField>,
   );
 
-  expect(getByRole('textbox')).toHaveAttribute('value', 'Mr. John');
+  expect(getByRole('textbox')).toHaveValue('Mr. John');
 });
