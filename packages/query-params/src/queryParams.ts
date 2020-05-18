@@ -103,7 +103,6 @@ export function parseQueryParams<V>(queryString: string, model: QueryModel<V>): 
           case 'array': {
             if (parsedQueryValue.length === 1 && parsedQueryValue[0] == null) {
               parsedQueryValue = [];
-              break;
             } else {
               // parse numbers, wherever possible
               parsedQueryValue = (parsedQueryValue as string[]).map((val) => {
