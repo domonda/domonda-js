@@ -22,7 +22,6 @@ jobs:
         with:
           node-version: '12'
       - name: Cache
-
         uses: actions/cache@v1.1.2
         with:
           path: .yarn/cache
