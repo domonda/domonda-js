@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.8.3](https://github.com/domonda/domonda-js/compare/@domonda/react-form@2.8.2...@domonda/react-form@2.8.3) (2020-05-18)
+
+
+### Bug Fixes
+
+* **FormMaskedField:** value is in sync with form ([2e633be](https://github.com/domonda/domonda-js/commit/2e633be10a914d37ebecaa7c9b927911b59668d8)), closes [#54](https://github.com/domonda/domonda-js/issues/54)
+
+
+
+
+
 ## [2.8.2](https://github.com/domonda/domonda-js/compare/@domonda/react-form@2.8.1...@domonda/react-form@2.8.2) (2020-05-15)
 
 

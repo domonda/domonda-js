@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.8](https://github.com/domonda/domonda-js/compare/@domonda/query-params@1.5.7...@domonda/query-params@1.5.8) (2020-05-18)
+
+
+### Bug Fixes
+
+* **parseQueryParams:** numbers can be negative too ([89cbbb0](https://github.com/domonda/domonda-js/commit/89cbbb08d6bda38866d814284d2a66acb77fe480))
+* **parseQueryParams:** parse array of number-like strings to string ([53e259c](https://github.com/domonda/domonda-js/commit/53e259c6c3f6def72decca160d6cc7b86e380353))
+
+
+
+
+
 ## [1.5.7](https://github.com/domonda/domonda-js/compare/@domonda/query-params@1.5.6...@domonda/query-params@1.5.7) (2020-05-18)
 
 
