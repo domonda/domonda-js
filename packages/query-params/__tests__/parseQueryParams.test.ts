@@ -26,6 +26,19 @@ it('should parse strings with plain numbers', () => {
   expect(values).toEqual({ str: '123' });
 });
 
+it('should parse strings with plain numbers beginning with zero', () => {
+  const model: QueryModel<{ str: string }> = {
+    str: {
+      type: 'string',
+      defaultValue: '',
+    },
+  };
+
+  const values = parseQueryParams('?str=0123', model);
+
+  expect(values).toEqual({ str: '0123' });
+});
+
 it('should parse numbers', () => {
   const model: QueryModel<{ num: number }> = {
     num: {
@@ -119,6 +132,19 @@ it('should parse an array of strings', () => {
   const values = parseQueryParams('?strs[]=test', model);
 
   expect(values).toEqual({ strs: ['test'] });
+});
+
+it('should parse an array of string numbers which begin with zero', () => {
+  const model: QueryModel<{ strs: string[] }> = {
+    strs: {
+      type: 'array',
+      defaultValue: [''],
+    },
+  };
+
+  const values = parseQueryParams('?strs[]=0123', model);
+
+  expect(values).toEqual({ strs: ['0123'] });
 });
 
 it('should parse an array of numbers', () => {

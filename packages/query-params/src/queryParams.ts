@@ -78,8 +78,6 @@ export type QueryModel<V> = {
 export function parseQueryParams<V>(queryString: string, model: QueryModel<V>): V {
   const parsedQuery = qsParse(queryString, {
     arrayFormat: ARRAY_FORMAT,
-    parseBooleans: true,
-    parseNumbers: true,
   }) as {
     [K in keyof V]: any;
   };
@@ -89,27 +87,47 @@ export function parseQueryParams<V>(queryString: string, model: QueryModel<V>): 
 
     const parsedAndValidatedQueryValue = (() => {
       let parsedQueryValue = parsedQuery[key];
-
-      if (
-        type === 'string' &&
-        (typeof parsedQueryValue === 'number' || typeof parsedQueryValue === 'boolean')
-      ) {
-        parsedQueryValue = parsedQueryValue.toString();
-      } else if (
-        type === 'array' &&
-        parsedQueryValue &&
-        parsedQueryValue.length === 1 &&
-        parsedQueryValue[0] == null
-      ) {
-        parsedQueryValue = [];
-      } else if (type === 'date' && parsedQueryValue) {
-        parsedQueryValue = stripTime(parseISOToDate(parsedQueryValue));
-        if (isNaN((parsedQueryValue as Date).getTime())) {
-          return undefined;
+      if (parsedQueryValue) {
+        switch (type) {
+          case 'boolean':
+            const maybeBool = String(parsedQueryValue).toLowerCase();
+            if (maybeBool === 't' || maybeBool === 'true' || maybeBool === '1') {
+              parsedQueryValue = true;
+            } else {
+              parsedQueryValue = false;
+            }
+            break;
+          case 'number':
+            parsedQueryValue = parseFloat(parsedQueryValue);
+            break;
+          case 'array': {
+            if (parsedQueryValue.length === 1 && parsedQueryValue[0] == null) {
+              parsedQueryValue = [];
+              break;
+            } else {
+              // parse numbers, wherever possible
+              parsedQueryValue = (parsedQueryValue as string[]).map((val) => {
+                const maybeNum = parseFloat(val);
+                if (!isNaN(maybeNum) && val[0] !== '0') {
+                  return maybeNum;
+                }
+                return val;
+              });
+            }
+            break;
+          }
+          case 'date':
+            if (parsedQueryValue) {
+              parsedQueryValue = stripTime(parseISOToDate(parsedQueryValue));
+              if (isNaN((parsedQueryValue as Date).getTime())) {
+                return undefined;
+              }
+            }
+            break;
         }
       }
 
-      if (validate && parsedQueryValue !== undefined && !validate(parsedQueryValue as any)) {
+      if (parsedQueryValue !== undefined && validate && !validate(parsedQueryValue as any)) {
         return undefined;
       }
       return parsedQueryValue;
