@@ -213,7 +213,7 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
             />
             {!hideClearButton && (
               <Button
-                disabled={!selectedItem}
+                disabled={disabled || !selectedItem}
                 className={clsx(
                   classes.clearButton,
                   label && classes.hasLabel,
