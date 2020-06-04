@@ -1401,7 +1401,7 @@ __metadata:
     "@domonda/form": ^2.3.4
     "@domonda/plumb": ^2.2.8
     "@domonda/react-plumb": ^2.0.15
-    "@domonda/ui": ^8.5.3
+    "@domonda/ui": ^8.5.4
     "@storybook/addon-info": ^5.3.18
     "@storybook/react": ^5.3.18
     "@testing-library/jest-dom": ^5.7.0
@@ -1448,7 +1448,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@domonda/ui@^8.5.3, @domonda/ui@workspace:packages/ui":
+"@domonda/ui@^8.5.4, @domonda/ui@workspace:packages/ui":
   version: 0.0.0-use.local
   resolution: "@domonda/ui@workspace:packages/ui"
   dependencies:
