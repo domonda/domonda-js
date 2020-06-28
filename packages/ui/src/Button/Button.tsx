@@ -6,19 +6,18 @@
 
 import React from 'react';
 import clsx from 'clsx';
-
-import { useStyles } from '../styles/treat';
 import { Color } from '../styles/palette';
-import { TypographySize } from '../styles/typography';
-
-import * as styles from './Button.treat';
+import { Size } from '../styles/sizes';
+import { useStyles } from 'react-treat';
+import * as classesRef from './Button.treat';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  color?: Color; // default: `accent`
   component?: string | React.ComponentType<React.HTMLAttributes<HTMLElement>>;
+  variant?: keyof typeof classesRef.variants; // default: `secondary`
+  size?: Size; // default: `regular`
+  color?: Color; // default: `accent`
+  dense?: boolean;
   disabled?: boolean;
-  size?: TypographySize; // default: `small`
-  variant?: 'text' | 'link' | 'primary' | 'secondary'; // default: `secondary`
 }
 
 export const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
@@ -26,15 +25,15 @@ export const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Bu
     const {
       children,
       className,
-      color = 'accent',
       component: Component = 'button' as React.ElementType<React.ComponentPropsWithRef<'button'>>,
-      disabled,
-      size = 'small',
       variant = 'secondary',
+      size = 'regular',
+      color = 'accent',
+      dense,
+      disabled,
       ...rest
     } = props;
-
-    const classes = useStyles(styles);
+    const classes = useStyles(classesRef);
 
     return (
       <Component
@@ -42,8 +41,9 @@ export const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Bu
         ref={ref as any}
         className={clsx(
           classes.root,
-          classes[variant],
+          classes.variants[variant],
           disabled && classes.disabled,
+          dense && classes.dense,
           classes.colors[color],
           classes.sizes[size],
           className,
@@ -51,7 +51,9 @@ export const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Bu
         disabled={disabled}
         type="button"
       >
-        <span className={clsx(classes.label)}>{children}</span>
+        <span className={clsx(classes.label, dense && classes.dense, classes.sizes[size])}>
+          {children}
+        </span>
       </Component>
     );
   },

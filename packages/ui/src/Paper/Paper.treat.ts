@@ -1,4 +1,4 @@
-import { style, styleMap, Style } from '../styles/treat';
+import { style, styleMap, Style } from 'treat';
 import { SHADOWS } from '../styles/shadows';
 
 export const root = style(({ palette }) => ({

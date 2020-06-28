@@ -8,7 +8,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { TransitionProps } from 'react-transition-group/Transition';
 
-import { useStyles } from '../styles/treat';
+import { useStyles } from 'react-treat';
 import { defaultDuration, TransitionHandlerProps } from '../styles/transition';
 import { capitalize } from '../utils';
 

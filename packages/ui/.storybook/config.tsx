@@ -7,11 +7,14 @@
 import React, { StrictMode } from 'react';
 import { configure, addDecorator } from '@storybook/react';
 
-import { ThemeProvider } from '../src/styles';
-import { ThemeProvider as TreatThemeProvider } from '../src/styles/treat';
-import { Baseline } from '../src/Baseline';
-import { Text } from '../src/Text';
+import { Small } from '../src/Typography';
 import { Button } from '../src/Button';
+
+// theme
+import { ThemeProvider, createTheme } from '../src/styles/theme';
+import { themeRef } from './theme.treat';
+import { TreatProvider } from 'react-treat';
+import '../src/styles/baseline.treat';
 
 const req = require.context('../__stories__', true, /\.stories\.tsx$/);
 
@@ -19,14 +22,10 @@ function loadStories() {
   req.keys().forEach(req);
 }
 
-import { theme } from './theme';
-import { themeRef } from './theme.treat';
-
 addDecorator((story) => (
   <StrictMode>
-    <ThemeProvider theme={theme}>
-      <TreatThemeProvider themeRef={themeRef} theme={theme}>
-        <Baseline />
+    <ThemeProvider theme={createTheme()}>
+      <TreatProvider theme={themeRef}>
         <div
           style={{
             position: 'relative',
@@ -39,10 +38,9 @@ addDecorator((story) => (
         >
           <div style={{ flex: 1 }}>{story()}</div>
           <div style={{ opacity: 0.4, margin: '2em 0 1em 0' }}>
-            <Text size="tiny">
+            <Small>
               Design by:&nbsp;
               <Button
-                size="tiny"
                 variant="link"
                 component={({ children, ...rest }) => (
                   <a {...rest} href="http://saismo.at/" target="_blank">
@@ -52,10 +50,10 @@ addDecorator((story) => (
               >
                 saismo
               </Button>
-            </Text>
+            </Small>
           </div>
         </div>
-      </TreatThemeProvider>
+      </TreatProvider>
     </ThemeProvider>
   </StrictMode>
 ));

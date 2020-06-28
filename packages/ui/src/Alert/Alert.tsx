@@ -7,7 +7,7 @@
 import React from 'react';
 import clsx from 'clsx';
 
-import { useStyles } from '../styles/treat';
+import { useStyles } from 'react-treat';
 import { Color } from '../styles/palette';
 
 import * as styles from './Alert.treat';

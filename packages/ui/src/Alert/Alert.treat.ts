@@ -1,10 +1,10 @@
-import { style, styleMap, Style } from '../styles/treat';
+import { style, styleMap, Style } from 'treat';
 import { COLORS } from '../styles/palette';
 
-export const root = style(({ shadows, shape, spacing }) => ({
+export const root = style(({ shadows, shape, sizing }) => ({
   alignItems: 'center',
   display: 'flex',
-  padding: spacing('small', 'medium'),
+  padding: sizing('small', 'regular'),
   borderRadius: shape.borderRadius.small,
   boxShadow: shadows.line,
 }));
@@ -21,8 +21,8 @@ export const message = style(({ typography }) => ({
   fontWeight: typography.weights.medium,
 }));
 
-export const rightMargin = style(({ spacing }) => ({
-  marginRight: spacing('small'),
+export const rightMargin = style(({ sizing }) => ({
+  marginRight: sizing('small'),
 }));
 
 export const colors = styleMap(({ palette }) => ({

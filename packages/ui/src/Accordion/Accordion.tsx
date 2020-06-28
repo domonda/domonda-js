@@ -7,7 +7,7 @@
 import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 
-import { useStyles } from '../styles/treat';
+import { useStyles } from 'react-treat';
 
 import { Svg } from '../Svg';
 

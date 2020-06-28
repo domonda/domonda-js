@@ -21,7 +21,6 @@ module.exports = ({ config }) => {
 
   config.plugins = [
     new TreatPlugin({
-      verbose: true,
       outputLoaders: [MiniCssExtractPlugin.loader],
     }),
     new MiniCssExtractPlugin(),

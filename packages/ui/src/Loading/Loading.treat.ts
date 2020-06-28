@@ -1,4 +1,4 @@
-import { style } from '../styles/treat';
+import { style } from 'treat';
 
 export const loadingContainer = style(({ palette }) => ({
   '@keyframes': {

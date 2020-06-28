@@ -1,158 +1,105 @@
-import { style, globalStyle } from '../styles/treat';
+import { style, styleMap, globalStyle } from 'treat';
 
 export const root = style({
-  display: 'flex',
-  textAlign: 'left',
   position: 'relative',
-  flexDirection: 'column-reverse', // because we select the `label` using the CSS `+` adjacent sibling selector
+  display: 'flex',
+  flexDirection: 'column',
 });
 
-export const naked = style({});
+export const label = style(() => ({}));
 
-export const dense = style({});
-
-export const disabled = style({});
-
-export const input = style(({ palette, shadows, shape, spacing, typography }) => ({
-  display: 'inherit',
-  boxSizing: 'border-box',
-  border: 0,
-  outline: 0,
-  margin: 0,
-  backgroundColor: 'transparent',
-  backgroundClip: 'padding-box',
-  color: palette.textDark,
-  ...typography.variant('small'),
-  textAlign: 'inherit',
-  textOverflow: 'ellipsis',
-  whiteSpace: 'nowrap',
-  WebkitAppearance: 'none',
-  '::placeholder': {
-    color: palette.light('textDark'),
+export const input = styleMap(({ palette, sizing, shape, typography }) => ({
+  container: {
+    display: 'flex',
+    flexWrap: 'nowrap',
+    alignItems: 'center',
+    backgroundColor: palette.surface,
+    borderRadius: shape.borderRadius.small,
+    border: `1px solid ${palette.border}`,
   },
+  root: {
+    flex: 1,
+    border: 0,
+    outline: 0,
+    margin: 0,
+    backgroundColor: 'transparent',
+    backgroundClip: 'padding-box',
+    color: palette.text,
+    padding: `calc(${sizing('regular')} / 2)`,
+    ...typography.variant('regular'),
+    textAlign: 'inherit',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    '--webkit-appearance': 'none',
+    '::placeholder': {
+      color: palette.light('text'),
+    },
+  },
+  startAdornment: {
+    display: 'flex',
+    padding: sizing('none', 'tiny'),
+  },
+  endAdornment: {
+    display: 'flex',
+    padding: sizing('none', 'tiny'),
+  },
+}));
+
+globalStyle(`${input.startAdornment} > svg, ${input.endAdornment} > svg`, ({ sizing }) => ({
+  height: sizing('regular'),
+}));
+
+export const naked = style(({ sizing }) => ({
   selectors: {
-    [`&:not(${naked})`]: {
-      padding: spacing('tiny') - 2.5,
-      border: `1px solid ${palette.border}`,
-      borderRadius: shape.borderRadius.tiny,
-      boxShadow: shadows.line,
-      backgroundColor: palette.white,
+    [`${input.container}&`]: {
+      backgroundColor: 'transparent',
+      border: 0,
     },
-    [`&:invalid`]: {
-      borderColor: palette.warning,
+    [`${input.root}&`]: {
+      padding: sizing('regular'),
     },
-    [`&:hover:not(${disabled}), &:focus`]: {
-      borderColor: palette.dark('border'),
+  },
+}));
+
+export const dense = style(({ sizing }) => ({
+  selectors: {
+    [`${label}&`]: {
+      lineHeight: 1.125,
     },
-    [`&:hover:invalid, &:focus:invalid`]: {
-      borderColor: palette.dark('warning'),
+    [`${input.root}&`]: {
+      padding: sizing('tiny'),
     },
-    [`${dense}&`]: {
-      padding: spacing('tiny') / 2 + 0.5,
-      fontSize: typography.sizes.tiny,
+  },
+}));
+
+export const disabled = style(({ palette }) => ({
+  selectors: {
+    [`${label}&`]: {
+      color: palette.warning,
     },
-    [`${disabled}&`]: {
-      boxShadow: 'none',
-      color: palette.lighten('textDark', 0.68),
+    [`${input.container}&`]: {
       cursor: 'not-allowed',
-    },
-    [`${disabled}&:not(${naked})`]: {
       backgroundColor: palette.disabled,
     },
   },
 }));
 
-export const svg = style(({ palette, typography }) => ({
+export const invalid = style(({ palette }) => ({
   selectors: {
-    [`${input} ~ &`]: {
-      position: 'absolute',
-      bottom: typography.sizes['small'] / 2 + 1,
-      alignItems: 'flex-start',
-      display: 'flex',
-      color: palette.gray30,
-      pointerEvents: 'none',
+    [`${input.container}&`]: {
+      borderColor: palette.warning,
     },
-    [`${input}${naked} ~ &`]: {
-      bottom: typography.sizes['tiny'] / 4,
-    },
-    [`${input}${dense} ~ &`]: {
-      bottom: typography.sizes['tiny'] / 2 + 1,
-    },
-    [`${input}${naked}${dense} ~ &`]: {
-      bottom: typography.sizes['tiny'] / 2,
+    [`${input.root}&`]: {
+      borderColor: palette.warning,
     },
   },
 }));
 
-export const startSvg = style(({ spacing, typography }) => ({
+export const focused = style(({ palette, shadows }) => ({
   selectors: {
-    [`${input}&`]: {
-      paddingLeft: typography.sizes['small'] + spacing('small'),
-    },
-    [`${input}${naked}&`]: {
-      paddingLeft: typography.sizes['small'] + 2,
-    },
-    [`${input}${dense}&`]: {
-      paddingLeft: typography.sizes['tiny'] + spacing('tiny'),
-    },
-    [`${input} ~ &`]: {
-      left: spacing('tiny') + 0.5,
-    },
-    [`${input}${naked} ~ &`]: {
-      left: 0,
-    },
-    [`${input}${dense} ~ &`]: {
-      left: spacing('tiny') / 2 + 0.5,
+    [`${input.container}&`]: {
+      boxShadow: shadows.line,
+      outline: `${palette.focus} auto 5px`,
     },
   },
 }));
-
-export const endSvg = style(({ spacing, typography }) => ({
-  selectors: {
-    [`${input}&`]: {
-      paddingRight: typography.sizes['small'] + spacing('small'),
-    },
-    [`${input}${naked}&`]: {
-      paddingRight: typography.sizes['small'] + 2,
-    },
-    [`${input}${dense}&`]: {
-      paddingRight: typography.sizes['tiny'] + spacing('tiny'),
-    },
-    [`${input} ~ &`]: {
-      right: spacing('tiny') + 0.5,
-    },
-    [`${input}${naked} ~ &`]: {
-      right: 0,
-    },
-    [`${input}${dense} ~ &`]: {
-      right: spacing('tiny') / 2 + 0.5,
-    },
-  },
-}));
-
-export const label = style(({ palette }) => ({
-  selectors: {
-    [`${input}:invalid + &`]: {
-      color: palette.warning,
-    },
-  },
-}));
-
-// svgs
-globalStyle(`${input} ~ ${startSvg} > svg, ${input} ~ ${endSvg} > svg`, ({ typography }) => ({
-  width: typography.sizes['small'],
-}));
-
-globalStyle(
-  `${input}${naked} ~ ${startSvg} > svg, ${input}${naked} ~ ${endSvg} > svg`,
-  ({ typography }) => ({
-    width: typography.sizes['tiny'],
-  }),
-);
-
-globalStyle(
-  `${input}${dense} ~ ${startSvg} > svg, ${input}${dense} ~ ${endSvg} > svg`,
-  ({ typography }) => ({
-    width: typography.sizes['tiny'],
-  }),
-);

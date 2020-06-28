@@ -7,15 +7,15 @@
 import React from 'react';
 import clsx from 'clsx';
 
-import { useStyles } from '../styles/treat';
+import { useStyles } from 'react-treat';
 import { Color } from '../styles/palette';
-import { TypographySize } from '../styles/typography';
+import { Size } from '../styles/sizes';
 
 import * as styles from './Avatar.treat';
 
 export interface AvatarProps extends React.HTMLAttributes<HTMLDivElement> {
   color?: Color; // default: `accent`
-  size?: TypographySize; // default: `medium`
+  size?: Size; // default: `regular`
 }
 
 export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(function Avatar(props, ref) {

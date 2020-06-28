@@ -1,4 +1,4 @@
-import { style, globalStyle } from '../styles/treat';
+import { style, globalStyle } from 'treat';
 
 export const root = style({
   position: 'relative',
@@ -7,7 +7,7 @@ export const root = style({
   textAlign: 'left',
 });
 
-export const textArea = style(({ palette, spacing, shadows, shape, typography }) => ({
+export const textArea = style(({ palette, sizing, shadows, shape, typography }) => ({
   // reset
   display: 'inherit',
   margin: 0,
@@ -15,14 +15,14 @@ export const textArea = style(({ palette, spacing, shadows, shape, typography })
   boxSizing: 'border-box',
   backgroundClip: 'padding-box',
   whiteSpace: 'nowrap',
-  WebkitAppearance: 'none',
+  '--webkit-appearance': 'none',
   // ./reset
   boxShadow: shadows.line,
   border: `1px solid ${palette.border}`,
   borderRadius: shape.borderRadius.tiny,
   minWidth: 256,
-  minHeight: spacing('tiny') * 6,
-  padding: spacing('tiny') - 2.5,
+  minHeight: sizing('tiny') * 6,
+  padding: sizing('tiny') - 2.5,
   backgroundColor: palette.white,
   ...typography.variant('small'),
   textAlign: 'inherit',
@@ -43,10 +43,10 @@ export const label = style(({ palette }) => ({
   },
 }));
 
-export const dense = style(({ spacing }) => ({
+export const dense = style(({ sizing }) => ({
   selectors: {
     [`${textArea}&`]: {
-      padding: spacing('tiny') / 2 + 0.5,
+      padding: sizing('tiny') / 2 + 0.5,
     },
   },
 }));

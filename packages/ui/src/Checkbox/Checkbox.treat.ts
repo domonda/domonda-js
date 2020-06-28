@@ -1,6 +1,6 @@
-import { style, styleMap, globalStyle, Style } from '../styles/treat';
+import { style, styleMap, globalStyle, Style } from 'treat';
 import { COLORS, Color } from '../styles/palette';
-import { TYPOGRAPHY_SIZES, TypographySize } from '../styles/typography';
+import { SIZES, Size } from '../styles/sizes';
 
 export const checked = style({});
 
@@ -56,8 +56,8 @@ export const checkedIcon = style({
   },
 });
 
-export const label = style(({ spacing }) => ({
-  marginLeft: spacing('tiny'),
+export const label = style(({ sizing }) => ({
+  marginLeft: sizing('tiny'),
   color: 'inherit',
   fontSize: 'inherit',
 }));
@@ -83,7 +83,7 @@ export const colors = styleMap(({ palette }) => ({
 }));
 
 export const sizes = styleMap(({ typography }) => ({
-  ...TYPOGRAPHY_SIZES.reduce<Record<string, Style>>(
+  ...SIZES.reduce<Record<string, Style>>(
     (acc, size) => ({
       ...acc,
       [size]: {
@@ -115,7 +115,7 @@ Object.keys(colors).forEach((key) => {
 // sizes
 Object.keys(sizes).forEach((key) => {
   const className = sizes[key as keyof typeof sizes];
-  const size = key as TypographySize;
+  const size = key as Size;
 
   globalStyle(`${className} > ${input}`, ({ typography }) => ({
     width: typography.sizes[size],

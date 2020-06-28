@@ -7,7 +7,7 @@
 import React, { useMemo } from 'react';
 import clsx from 'clsx';
 
-import { useStyles, useTheme } from '../styles/treat';
+import { useStyles, useTheme } from 'treat';
 import { Space } from '../styles/spacing';
 
 import * as styles from './Box.treat';

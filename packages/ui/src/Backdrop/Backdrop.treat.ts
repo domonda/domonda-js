@@ -1,4 +1,4 @@
-import { style } from '../styles/treat';
+import { style } from 'treat';
 
 export const root = style({
   position: 'fixed',
@@ -14,7 +14,8 @@ export const root = style({
   // Disable scroll capabilities.
   touchAction: 'none',
   // Remove grey highlight
-  WebkitTapHighlightColor: 'transparent',
+  // @ts-expect-error: does indeed exist
+  '--webkit-tap-highlight-color': 'transparent',
 });
 
 /* Styles applied to the root element if `invisible={true}`. */

@@ -1,10 +1,10 @@
 import { Theme } from '../styles/theme';
 
-const sharedStyles = ({ palette, spacing, typography }: Theme) => ({
+const sharedStyles = ({ palette, sizing, typography }: Theme) => ({
   row: {
     position: 'relative' as const,
     display: 'flex',
-    padding: spacing('tiny'),
+    padding: sizing('tiny'),
   },
   cell: {
     overflow: 'hidden',
@@ -17,7 +17,7 @@ const sharedStyles = ({ palette, spacing, typography }: Theme) => ({
         color: palette.light('textDark'),
       },
       '&:not(:last-child)': {
-        marginRight: spacing('tiny'),
+        marginRight: sizing('tiny'),
       },
     },
   },

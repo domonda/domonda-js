@@ -6,7 +6,7 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import { useStyles } from '../styles/treat';
+import { useStyles } from 'react-treat';
 
 import * as styles from './Label.treat';
 

@@ -1,11 +1,11 @@
-import { style } from '../../styles/treat';
+import { style } from 'treat';
 
-export const root = style(({ spacing }) => ({
+export const root = style(({ sizing }) => ({
   flexDirection: 'column',
   display: 'flex',
-  paddingTop: spacing('tiny') / 2,
+  paddingTop: sizing('tiny') / 2,
   paddingRight: 0,
-  paddingBottom: spacing('tiny') / 2,
+  paddingBottom: sizing('tiny') / 2,
   paddingLeft: 0,
   margin: 0,
   listStyle: 'none',

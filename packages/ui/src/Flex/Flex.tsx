@@ -6,11 +6,10 @@
 
 import React, { useMemo } from 'react';
 import clsx from 'clsx';
-
-import { useStyles, useTheme } from '../styles/treat';
-import { Space } from '../styles/spacing';
-
-import * as styles from './Flex.treat';
+import { useTheme } from '../styles/theme';
+import { Size } from '../styles/sizes';
+import { useStyles } from 'react-treat';
+import * as classesRef from './Flex.treat';
 
 export interface FlexProps extends React.HTMLAttributes<HTMLElement> {
   align?: React.CSSProperties['alignItems'];
@@ -27,7 +26,7 @@ export interface FlexProps extends React.HTMLAttributes<HTMLElement> {
   maxWidth?: number | string;
   minWidth?: number | string;
   overflowing?: boolean;
-  spacing?: Exclude<Space, 'none'>;
+  spacing?: Exclude<Size, 'none'>;
   wrap?: boolean;
   zeroMinWidth?: boolean;
 }
@@ -55,8 +54,7 @@ export const Flex = React.forwardRef<HTMLElement, FlexProps>(function Flex(props
     zeroMinWidth,
     ...rest
   } = props;
-
-  const classes = useStyles(styles);
+  const classes = useStyles(classesRef);
   const theme = useTheme();
 
   const derivedStyle = useMemo(() => {
@@ -78,14 +76,14 @@ export const Flex = React.forwardRef<HTMLElement, FlexProps>(function Flex(props
     return {
       alignItems: align,
       alignSelf,
-      height: fill ? (spacing ? `calc(100% + ${theme.spacing(spacing)}px)` : '100%') : undefined,
+      height: fill ? (spacing ? `calc(100% + ${theme.sizing(spacing)})` : '100%') : undefined,
       justifyContent: justify,
       justifySelf,
       flex,
       flexDirection: direction,
       maxWidth,
       minWidth,
-      width: fill ? (spacing ? `calc(100% + ${theme.spacing(spacing)}px)` : '100%') : undefined,
+      width: fill ? (spacing ? `calc(100% + ${theme.sizing(spacing)})` : '100%') : undefined,
       ...style,
     };
   }, [

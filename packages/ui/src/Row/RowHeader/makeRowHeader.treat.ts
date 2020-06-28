@@ -1,4 +1,4 @@
-import { style } from '../../styles/treat';
+import { style } from 'treat';
 
 import sharedStyles from '../sharedStyles';
 
@@ -19,6 +19,6 @@ export const cell = style((theme) => {
 
   return {
     ...cell,
-    ...theme.typography.variant('small', 'semiBold'),
+    ...theme.typography.variant('small', 'bold'),
   };
 });

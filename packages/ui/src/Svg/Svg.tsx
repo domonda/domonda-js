@@ -4,59 +4,25 @@
  *
  */
 
-import React, { useMemo } from 'react';
+import React from 'react';
 import clsx from 'clsx';
+import { Color } from '../styles/palette';
+import { Size } from '../styles/sizes';
+import { useStyles } from 'react-treat';
+import * as classesRef from './Svg.treat';
 
-import { useStyles, useTheme } from '../styles/treat';
-import { Color, ColorVariant } from '../styles/palette';
-import { TypographySize } from '../styles/typography';
-
-import * as styles from './Svg.treat';
-
-export interface SvgProps extends React.HTMLAttributes<HTMLElement> {
-  component?: keyof React.ReactHTML;
-  color?: 'inherit' | Color; // default: `textDark`
-  colorVariant?: ColorVariant;
-  size?: TypographySize; // default: `small`
+export interface SvgProps extends React.SVGProps<SVGSVGElement> {
+  color?: 'inherit' | Color; // default: `inherit`
+  size?: Size; // default: `regular`
 }
 
-export const Svg = React.forwardRef<HTMLElement, SvgProps>(function Svg(props, ref) {
-  const {
-    children,
-    component: PropComponent,
-    className,
-    color = 'textDark',
-    colorVariant,
-    size = 'small',
-    style,
-    ...rest
-  } = props;
-
-  const classes = useStyles(styles);
-  const theme = useTheme();
-
-  const Component = useMemo(() => {
-    if (PropComponent) {
-      return PropComponent as any;
-    }
-    return 'span';
-  }, [PropComponent]);
-
-  const derivedStyle = useMemo(() => {
-    const manipulator = colorVariant
-      ? theme.palette[colorVariant]
-      : (color: Color) => theme.palette[color];
-    return { color: color === 'inherit' ? 'inherit' : manipulator(color), ...style };
-  }, [theme, color, colorVariant, style]);
+export const Svg = React.forwardRef<SVGSVGElement, SvgProps>(function Svg(props, ref) {
+  const { children, className, color = 'inherit', size = 'regular', style, ...rest } = props;
+  const classes = useStyles(classesRef);
 
   return (
-    <Component
-      {...rest}
-      ref={ref}
-      className={clsx(classes.root, classes.sizes[size], className)}
-      style={derivedStyle}
-    >
+    <svg {...rest} ref={ref} className={clsx(classes.root, classes.sizes[size], className)}>
       {children}
-    </Component>
+    </svg>
   );
 });

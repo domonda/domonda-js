@@ -7,7 +7,7 @@
 import React, { useMemo } from 'react';
 import clsx from 'clsx';
 
-import { useStyles } from '../../styles/treat';
+import { useStyles } from 'react-treat';
 
 import { Config } from '../makeRow';
 

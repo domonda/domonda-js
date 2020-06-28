@@ -17,7 +17,7 @@ import { Paper, PaperProps } from '../Paper';
 import { MenuList, MenuListProps, MenuItem, MenuItemProps } from '../Menu';
 
 // styles
-import { useStyles } from '../styles/treat';
+import { useStyles } from 'react-treat';
 import * as styles from './Autocomplete.treat';
 
 const ITEM_SIZE = 36;

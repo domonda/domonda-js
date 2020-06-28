@@ -1,10 +1,12 @@
-import {
-  ThemeProvider as JSSThemeProvider,
-  withTheme as jssWithTheme,
-  useTheme as jssUseTheme,
-} from 'react-jss';
+/**
+ *
+ * theme
+ *
+ */
+
+import React, { createContext, useContext } from 'react';
 import deepmerge from 'deepmerge';
-import { createSpacing, Spacing } from './spacing';
+import { Sizing, createSizing, Sizes } from './sizes';
 import { createShadows, Shadows } from './shadows';
 import { createShape, Shape } from './shape';
 import { createPalette, Palette } from './palette';
@@ -13,57 +15,52 @@ import { defaultTransition, Transition } from './transition';
 import { ZIndex, defaultZIndex } from './zIndex';
 
 export interface Theme {
+  sizing: Sizing;
   palette: Palette;
   typography: Typography;
-  spacing: Spacing;
   shadows: Shadows;
   shape: Shape;
   transition: Transition;
   zIndex: ZIndex;
 }
 
-export const DEFAULT_SPACING_BASE = 8;
+const DEFAULT_SIZES: Sizes = {
+  none: '0',
+  tiny: '0.25rem', // 4
+  small: '0.5rem', // 8
+  regular: '1rem', // 16
+  large: '2rem', // 32
+};
 
 export const defaultTheme: Theme = {
-  spacing: createSpacing({
-    none: 0,
-    tiny: DEFAULT_SPACING_BASE, // 8
-    small: DEFAULT_SPACING_BASE * 2, // 16
-    medium: DEFAULT_SPACING_BASE * 3, // 24
-    large: DEFAULT_SPACING_BASE * 5, // 40
-  }),
+  sizing: createSizing(DEFAULT_SIZES),
   palette: createPalette({
     primary: '#F44336', // domonda red
     secondary: '#607D8B', // domonda blue-gray
     accent: '#183C63',
-    white: '#FFFFFF',
-    gray04: '#F5F6F7',
+    success: '#44A00C',
+    warning: '#DF7818',
+    danger: '#FF0000',
+    background: '#F5F6F7',
+    foreground: '#21353E',
+    surface: '#FFFFFF',
+    focus: '#005fCC',
     gray08: '#E8EBED',
     gray18: '#D3D9DB',
     gray30: '#B0BABF',
     gray40: '#93A5AE',
-    gray60: '#5A6B73',
     gray80: '#21353E',
     gray100: '#012638',
-    success: '#44A00C',
-    warning: '#DF7818',
-    danger: '#FF0000',
   }),
-  typography: createTypography({
+  typography: createTypography(DEFAULT_SIZES)({
     fonts: {
       header: SYSTEM_FONT,
       body: SYSTEM_FONT,
     },
     weights: {
       regular: 400,
-      medium: 500,
-      semiBold: 600,
-    },
-    sizes: {
-      tiny: 12,
-      small: 14,
-      medium: 16,
-      large: 20, // or 18 because of increments by `2`?
+      medium: 600,
+      bold: 800,
     },
   }),
   shadows: createShadows({
@@ -86,9 +83,9 @@ export const defaultTheme: Theme = {
 
 export const createTheme = (
   theme: Partial<{
+    sizing: Partial<Sizing>;
     palette: Partial<Palette>;
-    typography: Partial<Typography>;
-    spacing: Partial<Spacing>;
+    typography: Typography;
     shadows: Partial<Shadows>;
     shape: Partial<Shape>;
     transition: Partial<Transition>;
@@ -96,23 +93,14 @@ export const createTheme = (
   }> = defaultTheme,
 ) => deepmerge(defaultTheme, theme) as Theme;
 
-export interface ThemeProviderProps {
-  theme: Theme;
-  children: React.ReactNode;
-}
+const ThemeContext = createContext<Theme>(createTheme());
 
-export const ThemeProvider: React.ComponentType<ThemeProviderProps> = JSSThemeProvider as any;
+/** ThemeProvider provides the itself and the treat context. */
+export const ThemeProvider: React.FC<{ theme: Theme }> = (props) => {
+  const { children, theme } = props;
+  return <ThemeContext.Provider value={theme}>{children}</ThemeContext.Provider>;
+};
 
-export interface WithTheme {
-  theme: Theme;
-}
-
-export function withTheme<P extends WithTheme>(
-  Component: React.ComponentType<P>,
-): React.ComponentType<P & { theme?: Theme }> {
-  return jssWithTheme<P, React.ComponentType<P>, P & { theme?: Theme }>(Component);
-}
-
-export function useTheme(): Theme {
-  return jssUseTheme() as Theme;
+export function useTheme() {
+  return useContext(ThemeContext);
 }

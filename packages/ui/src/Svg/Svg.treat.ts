@@ -1,23 +1,18 @@
-import { style, styleMap, globalStyle, Style } from '../styles/treat';
+import { style, styleMap, Style } from 'treat';
+import { SIZES, Size } from '../styles/sizes';
 
 export const root = style({
-  display: 'flex',
-});
-
-export const sizes = styleMap(({ typography: { sizes } }) => ({
-  ...Object.keys(sizes).reduce<Record<string, Style>>(
-    (acc, size) => ({
-      ...acc,
-      [size]: {
-        height: sizes[size as keyof typeof sizes],
-      },
-    }),
-    {},
-  ),
-}));
-
-globalStyle(`${root} > svg`, {
-  height: 'inherit',
-  color: 'inherit',
+  display: 'inline-flex',
   fill: 'currentColor',
 });
+
+export const sizes = styleMap(({ sizing }) => ({
+  ...SIZES.reduce((acc, size) => {
+    return {
+      ...acc,
+      [size]: {
+        height: sizing(size as Size),
+      },
+    };
+  }, {} as Record<Size, Style>),
+}));

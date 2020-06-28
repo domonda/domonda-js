@@ -37,7 +37,7 @@ stories.add('No bank connections', () => (
       </Avatar>
     </Flex>
     <Flex item style={{ textAlign: 'center' }}>
-      <Text size="large" weight="semiBold" color="accent" gutterBottom>
+      <Text size="large" weight="bold" color="accent" gutterBottom>
         You haven’t connected any accounts yet.
       </Text>
       <Text size="medium" color="secondary">

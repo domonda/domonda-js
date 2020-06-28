@@ -39,14 +39,14 @@ globalStyle(`${lightMenuItem}${selected}`, ({ palette }) => ({
 // input
 export const inlineAutocompleteInput = style(() => ({}));
 
-globalStyle(`${inlineAutocompleteInput} ${input}`, ({ palette, spacing, typography }) => ({
-  padding: spacing('tiny'),
+globalStyle(`${inlineAutocompleteInput} ${input}`, ({ palette, sizing, typography }) => ({
+  padding: sizing('tiny'),
   color: palette.white,
-  fontWeight: typography.weights.semiBold,
+  fontWeight: typography.weights.bold,
   backgroundColor: palette.lighten('gray100', 0.2),
 }));
 
-globalStyle(`${inlineAutocompleteInput} ${endSvg}`, ({ spacing }) => ({
-  bottom: `${spacing('tiny') + 1}px !important`,
-  right: `${spacing('tiny')}px !important`,
+globalStyle(`${inlineAutocompleteInput} ${endSvg}`, ({ sizing }) => ({
+  bottom: `${sizing('tiny') + 1}px !important`,
+  right: `${sizing('tiny')}px !important`,
 }));

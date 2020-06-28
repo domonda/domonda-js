@@ -1,4 +1,4 @@
-import { style, globalStyle } from '../styles/treat';
+import { style, globalStyle } from 'treat';
 import { input } from '../Input/Input.treat';
 
 export const dense = style({});
@@ -9,31 +9,31 @@ export const root = style({
   position: 'relative',
 });
 
-export const clearButton = style(({ spacing }) => ({
+export const clearButton = style(({ sizing }) => ({
   zIndex: 1,
   position: 'absolute',
-  top: spacing('tiny'),
-  right: spacing('tiny'),
+  top: sizing('tiny'),
+  right: sizing('tiny'),
   selectors: {
     [`${hasLabel}&`]: {
-      top: spacing('tiny') * 3,
+      top: sizing('tiny') * 3,
     },
     [`${dense}&`]: {
-      top: spacing('tiny') - 1,
-      right: spacing('tiny') - 1,
+      top: sizing('tiny') - 1,
+      right: sizing('tiny') - 1,
     },
     [`${dense}${hasLabel}`]: {
-      top: spacing('tiny') * 3 - 2,
+      top: sizing('tiny') * 3 - 2,
     },
   },
 }));
 
 export const inputWithClearButton = style({});
 
-globalStyle(`${inputWithClearButton} > ${input}`, ({ spacing }) => ({
-  paddingRight: `${spacing('tiny') * 4 - 4}px !important`,
+globalStyle(`${inputWithClearButton} > ${input}`, ({ sizing }) => ({
+  paddingRight: `${sizing('tiny') * 4 - 4}px !important`,
 }));
 
-globalStyle(`${inputWithClearButton}${dense} > ${input}`, ({ spacing }) => ({
-  paddingRight: `${spacing('tiny') * 3}px !important`,
+globalStyle(`${inputWithClearButton}${dense} > ${input}`, ({ sizing }) => ({
+  paddingRight: `${sizing('tiny') * 3}px !important`,
 }));

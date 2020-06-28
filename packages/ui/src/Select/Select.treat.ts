@@ -1,4 +1,4 @@
-import { style, globalStyle } from '../styles/treat';
+import { style, globalStyle } from 'treat';
 
 export const root = style({
   position: 'relative',
@@ -11,11 +11,11 @@ export const dense = style({});
 
 export const disabled = style({});
 
-export const select = style(({ palette, shadows, shape, spacing, typography }) => ({
+export const select = style(({ palette, shadows, shape, sizing, typography }) => ({
   display: 'inherit',
   boxSizing: 'border-box',
-  padding: spacing('tiny') - 2.5,
-  paddingRight: spacing('tiny') + 16, // accommodate the icon
+  padding: sizing('tiny') - 2.5,
+  paddingRight: sizing('tiny') + 16, // accommodate the icon
   border: `1px solid ${palette.border}`,
   borderRadius: shape.borderRadius.tiny,
   boxShadow: shadows.line,
@@ -26,7 +26,7 @@ export const select = style(({ palette, shadows, shape, spacing, typography }) =
   textAlign: 'inherit',
   whiteSpace: 'nowrap',
   cursor: 'pointer',
-  WebkitAppearance: 'none',
+  '--webkit-appearance': 'none',
   MozAppearance: 'none',
   selectors: {
     '&:invalid': {
@@ -39,8 +39,8 @@ export const select = style(({ palette, shadows, shape, spacing, typography }) =
       borderColor: palette.dark('warning'),
     },
     [`${dense}&`]: {
-      padding: spacing('tiny') / 2 + 0.5,
-      paddingRight: spacing('tiny') / 2 + 16, // accommodate the icon
+      padding: sizing('tiny') / 2 + 0.5,
+      paddingRight: sizing('tiny') / 2 + 16, // accommodate the icon
       fontSize: typography.sizes.tiny,
     },
     [`${disabled}&`]: {
@@ -60,18 +60,18 @@ export const label = style(({ palette }) => ({
   },
 }));
 
-export const icon = style(({ palette, spacing }) => ({
+export const icon = style(({ palette, sizing }) => ({
   position: 'absolute',
   zIndex: 1,
-  bottom: spacing('tiny'),
-  right: spacing('tiny') + 2,
+  bottom: sizing('tiny'),
+  right: sizing('tiny') + 2,
   alignItems: 'center',
   display: 'flex',
   pointerEvents: 'none',
   selectors: {
     [`${dense}&`]: {
-      bottom: spacing('tiny') / 2 + 2,
-      right: spacing('tiny') / 2 + 2,
+      bottom: sizing('tiny') / 2 + 2,
+      right: sizing('tiny') / 2 + 2,
     },
     [`${select}:invalid + ${label} + &`]: {
       color: palette.warning,

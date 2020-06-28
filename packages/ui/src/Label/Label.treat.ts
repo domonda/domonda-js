@@ -1,4 +1,4 @@
-import { style } from '../styles/treat';
+import { style } from 'treat';
 
 export const root = style(({ palette, typography }) => ({
   color: palette.secondary,

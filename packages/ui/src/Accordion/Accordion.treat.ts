@@ -1,4 +1,4 @@
-import { style } from '../styles/treat';
+import { style } from 'treat';
 
 export const root = style({
   display: 'flex',
@@ -13,12 +13,12 @@ export const open = style(({ palette }) => ({
   },
 }));
 
-export const button = style(({ palette, spacing }) => ({
+export const button = style(({ palette, sizing }) => ({
   alignItems: 'center',
   display: 'flex',
   overflow: 'visible',
   width: 'auto',
-  padding: spacing('small'),
+  padding: sizing('small'),
   border: 0,
   outline: 'none',
   margin: 0,
@@ -46,10 +46,10 @@ export const labelContent = style({
   flex: 1,
 });
 
-export const labelIcon = style(({ spacing }) => ({
-  marginLeft: spacing('tiny'),
+export const labelIcon = style(({ sizing }) => ({
+  marginLeft: sizing('tiny'),
 }));
 
-export const content = style(({ spacing }) => ({
-  padding: spacing('tiny', 'small', 'small', 'small'),
+export const content = style(({ sizing }) => ({
+  padding: sizing('tiny', 'small', 'small', 'small'),
 }));

@@ -1,8 +1,8 @@
-import { style } from '../styles/treat';
+import { style } from 'treat';
 
-export const root = style(({ spacing }) => ({
+export const root = style(({ sizing }) => ({
   opacity: 0.6,
   borderBottom: 0,
   borderStyle: 'solid',
-  margin: spacing('tiny', 'none'),
+  margin: sizing('tiny', 'none'),
 }));

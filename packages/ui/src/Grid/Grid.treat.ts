@@ -1,4 +1,4 @@
-import { style } from '../styles/treat';
+import { style } from 'treat';
 
 export const container = style({
   display: 'grid',
@@ -14,5 +14,6 @@ export const overflowing = style({
   overflow: 'auto',
   backfaceVisibility: 'hidden',
   willChange: 'scroll-position',
-  WebkitOverflowScrolling: 'touch',
+  // @ts-expect-error: does indeed exist
+  '--webkit-overflow-scrolling': 'touch',
 });

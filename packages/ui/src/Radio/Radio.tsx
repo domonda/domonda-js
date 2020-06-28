@@ -7,16 +7,16 @@
 import React from 'react';
 import clsx from 'clsx';
 
-import { useStyles } from '../styles/treat';
+import { useStyles } from 'react-treat';
 import { Color } from '../styles/palette';
-import { TypographySize } from '../styles/typography';
+import { Size } from '../styles/sizes';
 
 import * as styles from './Readio.treat';
 
 export interface RadioProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
   label?: React.ReactNode;
   color?: Color; // default: `accent`
-  size?: TypographySize; // default: `small`
+  size?: Size; // default: `small`
   disabled?: boolean;
 }
 

@@ -1,9 +1,9 @@
-import { style, styleMap, Style } from '../styles/treat';
+import { style, styleMap, Style } from 'treat';
 import { COLORS } from '../styles/palette';
 
-export const root = style(({ shape, spacing }) => ({
+export const root = style(({ shape, sizing }) => ({
   display: 'inline-flex',
-  padding: `${spacing('tiny') / 2}px ${spacing('tiny')}px`,
+  padding: `${sizing('tiny') / 2}px ${sizing('tiny')}px`,
   borderRadius: shape.borderRadius.pill,
 }));
 

@@ -1,4 +1,4 @@
-import { theme } from './theme';
-import { createTheme as createThemeRef } from '../src/styles/treat';
-
+import { createTheme } from '../src/styles/theme';
+const theme = createTheme();
+import { createTheme as createThemeRef } from 'treat';
 export const themeRef = createThemeRef(theme);

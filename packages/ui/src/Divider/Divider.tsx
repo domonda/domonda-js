@@ -7,7 +7,7 @@
 import React, { useMemo } from 'react';
 import clsx from 'clsx';
 
-import { useStyles, useTheme } from '../styles/treat';
+import { useStyles, useTheme } from 'treat';
 import { Color } from '../styles/palette';
 
 import * as styles from './Divider.treat';

@@ -1,10 +1,10 @@
-import { style } from '../../styles/treat';
+import { style } from 'treat';
 
-export const root = style(({ palette, spacing, transition, typography }) => ({
+export const root = style(({ palette, sizing, transition, typography }) => ({
   alignItems: 'center',
   display: 'inline-flex',
   width: '100%',
-  padding: spacing('tiny'),
+  padding: sizing('tiny'),
   borderBottom: '3px solid transparent',
   color: palette.textDark,
   ...typography.variant('small'),

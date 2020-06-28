@@ -1,6 +1,6 @@
-import { style, styleMap, globalStyle, Style } from '../styles/treat';
+import { style, styleMap, globalStyle, Style } from 'treat';
 import { COLORS, Color } from '../styles/palette';
-import { TYPOGRAPHY_SIZES, TypographySize } from '../styles/typography';
+import { SIZES, Size } from '../styles/sizes';
 
 export const disabled = style({});
 
@@ -52,8 +52,8 @@ export const checked = style({
   },
 });
 
-export const label = style(({ spacing }) => ({
-  marginLeft: spacing('tiny'),
+export const label = style(({ sizing }) => ({
+  marginLeft: sizing('tiny'),
   color: 'inherit',
   fontSize: 'inherit',
 }));
@@ -78,12 +78,12 @@ export const colors = styleMap(({ palette }) => ({
   ),
 }));
 
-export const sizes = styleMap(({ typography }) => ({
-  ...TYPOGRAPHY_SIZES.reduce<Record<string, Style>>(
+export const sizes = styleMap(({ sizing }) => ({
+  ...SIZES.reduce<Record<string, Style>>(
     (acc, size) => ({
       ...acc,
       [size]: {
-        fontSize: typography.sizes[size],
+        fontSize: sizing(size),
       },
     }),
     {},
@@ -111,17 +111,17 @@ Object.keys(colors).forEach((key) => {
 // sizes
 Object.keys(sizes).forEach((key) => {
   const className = sizes[key as keyof typeof sizes];
-  const size = key as TypographySize;
+  const size = key as Size;
 
-  globalStyle(`${className} > ${input}`, ({ typography }) => ({
-    width: typography.sizes[size],
-    height: typography.sizes[size],
+  globalStyle(`${className} > ${input}`, ({ sizing }) => ({
+    width: sizing(size),
+    height: sizing(size),
   }));
 
   globalStyle(
     `${className} > ${unchecked} > svg, ${className} > ${checked} > svg`,
-    ({ typography }) => ({
-      width: typography.sizes[size],
+    ({ sizing }) => ({
+      width: sizing(size),
     }),
   );
 });

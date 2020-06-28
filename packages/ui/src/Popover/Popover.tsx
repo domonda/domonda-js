@@ -8,18 +8,12 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import { TransitionProps, EnterHandler } from 'react-transition-group/Transition';
-
-import { ownerDocument, ownerWindow, createChainedFunction, debounce } from '../utils';
-
-import { useStyles } from '../styles/treat';
+import { ownerDocument, ownerWindow, debounce } from '../utils';
 import { Shadow } from '../styles/shadows';
-import { TransitionHandlerProps } from '../styles/transition';
-import { Grow } from '../Grow';
 import { Modal, ModalProps } from '../Modal';
 import { Paper, PaperProps } from '../Paper';
-
-import * as styles from './Popover.treat';
+import { useStyles } from 'react-treat';
+import * as classesRef from './Popover.treat';
 
 function getOffsetTop(rect: any, vertical: any) {
   let offset = 0;
@@ -116,30 +110,18 @@ export const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(function P
     anchorPosition,
     anchorReference = 'anchorEl',
     children,
-    container: containerProp,
     shadow = 'small',
     getContentAnchorEl,
     marginThreshold = 16,
-    onEnter,
-    onEntered,
-    onEntering,
-    onExit,
-    onExited,
-    onExiting,
     open,
     PaperProps = {},
     transformOrigin = {
       vertical: 'top',
       horizontal: 'left',
     },
-    TransitionComponent = Grow,
-    transitionDuration: transitionDurationProp = 'auto',
-    TransitionProps = {} as TransitionProps,
     ...other
   } = props;
-
-  const classes = useStyles(styles);
-
+  const classes = useStyles(classesRef);
   const paperRef = React.useRef<any>();
 
   // Returns the top/left offset of the position
@@ -324,18 +306,8 @@ export const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(function P
     [getPositioningStyle],
   );
 
-  const handleEntering: EnterHandler = (element, isAppearing) => {
-    if (onEntering) {
-      onEntering(element, isAppearing);
-    }
-
-    setPositioningStyles(element);
-  };
-
   const handlePaperRef = React.useCallback((instance) => {
-    // #StrictMode ready
-    // eslint-disable-next-line react/no-find-dom-node
-    paperRef.current = ReactDOM.findDOMNode(instance);
+    paperRef.current = instance;
   }, []);
 
   const updatePosition = React.useMemo(() => {
@@ -365,42 +337,36 @@ export const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(function P
     };
   }, [updatePosition]);
 
+  React.useLayoutEffect(() => {
+    if (open && paperRef.current) {
+      setPositioningStyles(paperRef.current);
+    }
+  }, [open]);
+
   // If the container prop is provided, use that
   // If the anchorEl prop is provided, use its parent body element as the container
   // If neither are provided let the Modal take care of choosing the container
-  const container =
-    containerProp || (anchorEl ? ownerDocument(getAnchorEl(anchorEl)).body : undefined);
+  const container = anchorEl ? ownerDocument(getAnchorEl(anchorEl)).body : undefined;
 
   return (
     <Modal
-      ref={ref}
       container={container}
       open={open}
+      ref={ref}
       BackdropProps={{ invisible: true }}
       {...(other as any)}
     >
-      <TransitionComponent
-        appear
-        in={open}
-        timeout={transitionDurationProp}
-        onEnter={onEnter}
-        onEntered={onEntered}
-        onExit={onExit}
-        onExited={onExited}
-        onExiting={onExiting}
-        {...(TransitionProps as any)}
-        onEntering={createChainedFunction(handleEntering, TransitionProps.onEntering)}
-      >
+      {open && (
         <Paper
-          ref={handlePaperRef}
           bordered
           shadow={shadow}
+          ref={handlePaperRef}
           {...PaperProps}
           className={clsx(classes.paper, PaperProps.className)}
         >
           {children}
         </Paper>
-      </TransitionComponent>
+      )}
     </Modal>
   );
 });

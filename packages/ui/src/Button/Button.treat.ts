@@ -1,11 +1,11 @@
-import { style, styleMap, globalStyle, Style } from '../styles/treat';
+import { style, styleMap, globalStyle, Style } from 'treat';
 import { fade } from '../styles/colorManipulator';
 import { COLORS, Color } from '../styles/palette';
-import { TYPOGRAPHY_SIZES, TypographySize } from '../styles/typography';
+import { SIZES, Size } from '../styles/sizes';
+import { root as svgRoot } from '../Svg/Svg.treat';
 
-export const root = style(({ transition }) => ({
+export const root = style(({ transition, palette }) => ({
   alignItems: 'center',
-  justifyContent: 'center',
   display: 'inline-flex',
   overflow: 'visible',
   width: 'auto',
@@ -14,61 +14,70 @@ export const root = style(({ transition }) => ({
   outline: 'none',
   margin: 0,
   background: 'transparent',
-  lineHeight: '1em',
+  lineHeight: 1,
   textAlign: 'inherit',
   textDecoration: 'none',
   cursor: 'pointer',
+  fontSize: '1em',
+  whiteSpace: 'nowrap',
   transition: transition.create(['background-color', 'color']),
-  webkitAppearance: 'none',
-  webkitFontSmoothing: 'inherit',
-  mozOsxFontSmoothing: 'inherit',
-}));
-
-export const primary = style(({ shadows, shape }) => ({
-  borderRadius: shape.borderRadius.tiny,
-  boxShadow: shadows.line,
-}));
-
-export const secondary = style(({ palette, shadows, shape }) => ({
-  border: `1px solid ${palette.border}`,
-  borderRadius: shape.borderRadius.tiny,
-  boxShadow: shadows.line,
-  backgroundColor: palette.background,
-  ':active': {
-    backgroundColor: palette.darken('background', 0.04),
+  '--webkit-appearance': 'none',
+  ':focus': {
+    outline: `${palette.focus} auto 5px`,
   },
-  selectors: {
-    '&:hover, &:focus': {
-      backgroundColor: palette.darken('background', 0.02),
+}));
+
+export const variants = styleMap(({ shape, shadows, palette }) => ({
+  primary: {
+    borderRadius: shape.borderRadius.small,
+    boxShadow: shadows.line,
+  },
+
+  secondary: {
+    border: `1px solid ${palette.border}`,
+    borderRadius: shape.borderRadius.small,
+    boxShadow: shadows.line,
+    backgroundColor: palette.surface,
+    selectors: {
+      '&:hover, &:focus': {
+        backgroundColor: palette.darken('surface', 0.03),
+      },
+      '&:active': {
+        backgroundColor: palette.darken('surface', 0.1),
+      },
     },
   },
-}));
 
-export const text = style(() => ({
-  selectors: {
-    '&:hover, &:focus': {
-      textDecoration: 'underline',
+  naked: {
+    borderRadius: shape.borderRadius.small,
+  },
+
+  text: {
+    selectors: {
+      '&:hover, &:focus': {
+        textDecoration: 'underline',
+      },
     },
   },
-}));
 
-export const link = style(() => ({
-  textDecoration: 'underline',
+  link: {
+    textDecoration: 'underline',
+  },
 }));
 
 export const disabled = style(({ palette }) => ({
   selectors: {
-    [`${primary}&`]: {
+    [`${variants.primary}&`]: {
       boxShadow: 'none',
       cursor: 'not-allowed',
     },
-    [`${secondary}&`]: {
+    [`${variants.secondary}&`]: {
       border: `1px solid ${palette.darken('background', 0.2)}`,
       boxShadow: 'none',
       backgroundColor: palette.darken('background', 0.1),
       cursor: 'not-allowed',
     },
-    [`${text}&`]: {
+    [`${variants.text}&`]: {
       textDecoration: 'none',
       cursor: 'not-allowed',
     },
@@ -76,81 +85,100 @@ export const disabled = style(({ palette }) => ({
 }));
 
 export const label = style(() => ({
+  display: 'inherit',
+  position: 'relative',
   alignItems: 'inherit',
   justifyContent: 'inherit',
-  display: 'inherit',
   width: '100%',
   textDecoration: 'inherit',
+  letterSpacing: 0.5,
+  lineHeight: 1.125,
 }));
 
 export const colors = styleMap(({ palette }) => ({
-  ...COLORS.reduce<Record<string, Style>>(
+  ...COLORS.reduce(
     (acc, color) => ({
       ...acc,
       [color]: {
         selectors: {
-          [`${primary}&`]: {
+          [`${variants.primary}&`]: {
             border: `1px solid ${palette.dark(color)}`,
             backgroundColor: palette[color],
-            color: palette.contrastText(color),
+            color: palette.getContrastText(palette[color]),
           },
-          [`${primary}&:hover`]: {
-            backgroundColor: palette.darken(color, 0.05),
+          [`${variants.primary}&:hover`]: {
+            backgroundColor: palette.lighten(color, 0.1),
           },
-          [`${primary}&:active`]: {
-            backgroundColor: palette.darken(color, 0.1),
+          [`${variants.primary}&:active`]: {
+            backgroundColor: palette.lighten(color, 0.3),
           },
-          [`${primary}${disabled}&`]: {
+          [`${variants.primary}${disabled}&`]: {
             border: `1px solid ${palette.lighten(color, 0.4)}`,
             backgroundColor: palette.light(color),
-            color: fade(palette.contrastText(color), 0.6),
+            color: fade(palette.getContrastText(palette[color]), 0.6),
           },
-          [`${secondary}&`]: {
+          [`${variants.secondary}&`]: {
             color: palette[color],
           },
-          [`${secondary}${disabled}&`]: {
+          [`${variants.secondary}${disabled}&`]: {
             color: palette.fade(color, 0.4),
           },
-          [`${text}&`]: {
+          [`${variants.text}&`]: {
             color: palette[color],
           },
-          [`${text}&:hover`]: {
+          [`${variants.text}&:hover`]: {
             color: palette.darken(color, 0.05),
           },
-          [`${text}&:active`]: {
+          [`${variants.text}&:active`]: {
             color: palette.darken(color, 0.1),
           },
-          [`${text}${disabled}&`]: {
+          [`${variants.naked}&`]: {
+            color: palette[color],
+          },
+          [`${variants.naked}&:hover`]: {
+            backgroundColor: palette.fade(color, 0.2),
+          },
+          [`${variants.naked}&:active`]: {
+            backgroundColor: palette.fade(color, 0.3),
+          },
+          [`${variants.text}${disabled}&`]: {
             color: palette.fade(color, 0.4),
           },
-          [`${link}&`]: {
+          [`${variants.link}&`]: {
             color: palette[color],
           },
-          [`${link}&:hover`]: {
+          [`${variants.link}&:hover`]: {
             color: palette.darken(color, 0.05),
           },
-          [`${link}&:active`]: {
+          [`${variants.link}&:active`]: {
             color: palette.darken(color, 0.1),
           },
-          [`${link}${disabled}&`]: {
+          [`${variants.link}${disabled}&`]: {
             color: palette.fade(color, 0.4),
           },
         },
       },
     }),
-    {},
+    {} as Record<Color, Style>,
   ),
 }));
 
-export const sizes = styleMap(({ typography }) => ({
-  ...TYPOGRAPHY_SIZES.reduce<Record<string, Style>>(
+export const sizes = styleMap(({ typography, sizing }) => ({
+  ...SIZES.reduce<Record<string, Style>>(
     (acc, size) => ({
       ...acc,
       [size]: {
-        ...typography.variant(size, 'semiBold'),
+        fontWeight: typography.weights.medium,
         selectors: {
-          [`${primary}&, ${secondary}&`]: {
-            padding: `${typography.sizes[size] / 2}px` + ' ' + `${typography.sizes[size]}px`,
+          [`${variants.primary}&, ${variants.secondary}&, ${variants.naked}&`]: {
+            padding: `calc(${sizing(size)} / 2) 0`,
+          },
+          [`${label}&`]: {
+            padding: sizing('none', size),
+            fontSize: sizing(size),
+          },
+          [`${variants.text} > ${label}&, ${variants.link} > ${label}&`]: {
+            padding: 0,
           },
         },
       },
@@ -159,84 +187,58 @@ export const sizes = styleMap(({ typography }) => ({
   ),
 }));
 
-// label
-globalStyle(`${label} svg`, () => ({
-  display: 'inherit',
-  color: 'inherit',
-  fill: 'currentColor',
+export const dense = style(({ sizing }) => ({
+  selectors: {
+    [`${root}&`]: {
+      padding: sizing('tiny'),
+    },
+    [`${label}&`]: {
+      padding: sizing('none', 'tiny'),
+    },
+  },
 }));
 
-// colors
-Object.keys(colors).forEach((key) => {
-  const className = colors[key as keyof typeof colors];
-  const color = key as Color;
+// label
+globalStyle(`${label} > span`, () => ({
+  display: 'inline-flex',
+}));
 
-  globalStyle(`${className}${primary} > ${label} svg:not(:only-child)`, ({ palette }) => ({
-    color: palette.lighten(color, 0.6),
-  }));
+globalStyle(`${label} > span:not(:only-child):first-child`, ({ sizing }) => ({
+  marginRight: sizing('small'),
+}));
 
-  globalStyle(`${className}${secondary} > ${label} svg:not(:only-child)`, ({ palette }) => ({
-    color: palette.fade(color, 0.6),
-  }));
+globalStyle(`${label} > span:not(:only-child):last-child`, ({ sizing }) => ({
+  marginLeft: sizing('small'),
+}));
 
-  globalStyle(
-    `${className}${secondary}${disabled} > ${label} svg:not(:only-child)`,
-    ({ palette }) => ({
-      color: palette.fade(color, 0.2),
-    }),
-  );
+// label svg auto-style
+globalStyle(`${label} > ${svgRoot}`, () => ({
+  display: 'inline-flex',
+  height: '100%',
+}));
 
-  globalStyle(`${className}${text} > ${label} svg:not(:only-child)`, ({ palette }) => ({
-    color: palette.fade(color, 0.6),
-  }));
-
-  globalStyle(`${className}${text}${disabled} > ${label} svg:not(:only-child)`, ({ palette }) => ({
-    color: palette.fade(color, 0.2),
-  }));
-
-  globalStyle(`${className}${link} > ${label} svg:not(:only-child)`, ({ palette }) => ({
-    color: palette.fade(color, 0.6),
-  }));
-
-  globalStyle(`${className}${link}${disabled} > ${label} svg:not(:only-child)`, ({ palette }) => ({
-    color: palette.fade(color, 0.2),
+Object.entries(sizes).forEach(([size, sizeClass]) => {
+  globalStyle(`${label}${sizeClass} > ${svgRoot}`, ({ sizing }) => ({
+    height: sizing(size as Size),
   }));
 });
 
-// sizes
-Object.keys(sizes).forEach((key) => {
-  const className = sizes[key as keyof typeof sizes];
-  const size = key as TypographySize;
-
-  globalStyle(`${className} > ${label} svg`, ({ typography }) => ({
-    height: typography.sizes[size],
+Object.entries(colors).forEach(([color, colorClass]) => {
+  globalStyle(`${root}${colorClass} > ${label} > ${svgRoot}:not(:only-child)`, ({ palette }) => ({
+    color: palette.fade(color as Color, 0.6),
   }));
 
   globalStyle(
-    `${className}${primary} > ${label} svg:not(:only-child):first-child, ${className}${secondary} > ${label} svg:not(:only-child):first-child`,
-    ({ typography }) => ({
-      marginRight: typography.sizes[size],
+    `${root}${variants.primary}${colorClass} > ${label} > ${svgRoot}:not(:only-child)`,
+    ({ palette }) => ({
+      color: palette.light(color as Color),
     }),
   );
 
   globalStyle(
-    `${className}${primary} > ${label} svg:not(:only-child):last-child, ${className}${secondary} > ${label} svg:not(:only-child):last-child`,
-    ({ typography }) => ({
-      marginLeft: typography.sizes[size],
-    }),
-  );
-
-  globalStyle(
-    `${className}${text} > ${label} svg:not(:only-child):first-child, ${className}${link} > ${label} svg:not(:only-child):first-child`,
-    ({ typography }) => ({
-      marginRight: `calc(${typography.sizes.tiny}px / 2)`,
-    }),
-  );
-
-  globalStyle(
-    `${className}${text} > ${label} svg:not(:only-child):last-child, ${className}${link} > ${label} svg:not(:only-child):last-child`,
-    ({ typography }) => ({
-      marginLeft: `calc(${typography.sizes.tiny}px / 2)`,
+    `${root}${colorClass}${disabled} > ${label} > ${svgRoot}:not(:only-child)`,
+    ({ palette }) => ({
+      color: palette.fade(color as Color, 0.2),
     }),
   );
 });

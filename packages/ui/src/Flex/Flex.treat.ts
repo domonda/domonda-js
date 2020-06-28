@@ -1,36 +1,36 @@
-import { style, styleMap, globalStyle, Style } from '../styles/treat';
-import { SPACES, Space } from '../styles/spacing';
+import { style, styleMap, globalStyle, Style } from 'treat';
+import { SIZES, Size } from '../styles/sizes';
 
-export const container = style({
+export const container = style(() => ({
   flexWrap: 'nowrap',
   display: 'flex',
   width: '100%',
-});
+}));
 
-export const item = style({});
+export const item = style(() => ({}));
 
-export const wrap = style({
+export const wrap = style(() => ({
   flexWrap: 'wrap',
-});
+}));
 
-export const overflowing = style({
+export const overflowing = style(() => ({
   overflow: 'auto',
-  WebkitOverflowScrolling: 'touch',
+  '--webkit-overflow-scrolling': 'touch',
   willChange: 'scroll-position',
   backfaceVisibility: 'hidden',
-});
+}));
 
-export const zeroMinWidth = style({
+export const zeroMinWidth = style(() => ({
   minWidth: 0,
-});
+}));
 
-export const spaces = styleMap(({ spacing }) => ({
-  ...SPACES.reduce<Record<string, Style>>(
+export const spaces = styleMap(({ sizing }) => ({
+  ...SIZES.reduce<Record<string, Style>>(
     (acc, space) => ({
       ...acc,
       [space]: {
-        width: `calc(100% + ${spacing(space)}px)`,
-        margin: (spacing(space) / 2) * -1,
+        width: `calc(100% + ${sizing(space)})`,
+        margin: `calc(${sizing(space)} / 2 * -1)`,
       },
     }),
     {},
@@ -39,9 +39,8 @@ export const spaces = styleMap(({ spacing }) => ({
 
 Object.keys(spaces).forEach((key) => {
   const className = spaces[key as keyof typeof spaces];
-  const space = key as Space;
-
-  globalStyle(`${className} > ${item}:not(:empty)`, ({ spacing }) => ({
-    padding: spacing(space) / 2,
+  const space = key as Size;
+  globalStyle(`${className} > ${item}:not(:empty)`, ({ sizing }) => ({
+    padding: `calc(${sizing(space)} / 2)`,
   }));
 });

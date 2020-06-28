@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { useStyles } from '../styles/treat';
+import { useStyles } from 'react-treat';
 
 import { Flex, FlexProps } from '../Flex';
 import { Text } from '../Text';
@@ -23,7 +23,7 @@ export const Loading = React.forwardRef<HTMLElement, LoadingProps>(function Load
   return (
     <Flex ref={ref} container align="center" justify="center" {...rest}>
       <Flex item className={classes.loadingContainer}>
-        <Text inherit size="medium">
+        <Text inherit size="regular">
           Loading...
         </Text>
       </Flex>

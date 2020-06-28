@@ -1,6 +1,6 @@
-import { style, styleMap, globalStyle, Style } from '../styles/treat';
+import { style, styleMap, globalStyle, Style } from 'treat';
 import { COLORS } from '../styles/palette';
-import { TYPOGRAPHY_SIZES } from '../styles/typography';
+import { SIZES } from '../styles/sizes';
 
 export const root = style({
   alignItems: 'center',
@@ -37,20 +37,20 @@ export const colors = styleMap(({ palette }) => ({
   ),
 }));
 
-export const sizes = styleMap(({ typography }) => ({
-  ...TYPOGRAPHY_SIZES.reduce<Record<string, Style>>(
+export const sizes = styleMap(({ sizing }) => ({
+  ...SIZES.reduce<Record<string, Style>>(
     (acc, size) => ({
       ...acc,
       [size]: {
         selectors: {
           [`${root}&`]: {
-            width: typography.sizes[size] * 2,
-            height: typography.sizes[size] * 2,
+            width: `calc(${sizing(size)} * 2)`,
+            height: `calc(${sizing(size)} * 2)`,
           },
           [`${inner}&`]: {
-            width: typography.sizes[size] * 1.4,
-            height: typography.sizes[size] * 1.4,
-            fontSize: typography.sizes[size] - 4,
+            width: `calc(${sizing(size)} * 1.4)`,
+            height: `calc(${sizing(size)} * 1.4)`,
+            fontSize: `calc(${sizing(size)} - 4)`,
           },
         },
       },
