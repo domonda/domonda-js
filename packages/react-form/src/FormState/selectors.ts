@@ -7,14 +7,16 @@
 import { FormState as DomondaFormState } from '@domonda/form';
 import get from 'lodash/get';
 
-export const defaultValuesSelector = <DV extends object>({ defaultValues }: DomondaFormState<DV>) =>
-  defaultValues;
+export const defaultValuesSelector = <DV extends Record<string, any>>({
+  defaultValues,
+}: DomondaFormState<DV>) => defaultValues;
 
 export const makeDefaultValueSelector = <V>(path: string) => ({
   defaultValues,
 }: DomondaFormState<any>): V => get(defaultValues, path);
 
-export const valuesSelector = <DV extends object>({ values }: DomondaFormState<DV>) => values;
+export const valuesSelector = <DV extends Record<string, any>>({ values }: DomondaFormState<DV>) =>
+  values;
 
 export const makeValueSelector = <V>(path: string) => ({
   values,

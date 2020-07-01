@@ -107,7 +107,7 @@ export interface DateInputProps {
   popperContainer?(props: { children: React.ReactNode | undefined }): React.ReactNode;
   popperModifiers?: any;
   popperPlacement?: string;
-  popperProps?: {};
+  popperProps?: Record<string, any>;
   preventOpenOnFocus?: boolean;
   previousMonthButtonLabel?: string;
   readOnly?: boolean;

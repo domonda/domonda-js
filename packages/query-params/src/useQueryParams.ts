@@ -80,8 +80,7 @@ export function useQueryParams<T, S = T>(
 
         const selectedNextQueryParams = selector(nextQueryParms);
         if (
-          // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-          // @ts-ignore because the default selector just passes the T back
+          // @ts-expect-error: because the default selector just passes the T back
           selectedNextQueryParams === nextQueryParms || // <- optimization to avoid double deep equal check when defaultSelector is used
           !deepEqual(selectedQueryParamsRef.current, selectedNextQueryParams)
         ) {

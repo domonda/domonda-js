@@ -80,7 +80,7 @@ describe('Selectors', () => {
         current: [value],
       },
     } = renderHook(useFormState, {
-      initialProps: makeDefaultValueSelector<object>(path),
+      initialProps: makeDefaultValueSelector<Record<string, any>>(path),
       wrapper,
     });
 
@@ -110,7 +110,7 @@ describe('Selectors', () => {
         current: [value],
       },
     } = renderHook(useFormState, {
-      initialProps: makeValueSelector<object>(path),
+      initialProps: makeValueSelector<Record<string, any>>(path),
       wrapper,
     });
 
@@ -173,7 +173,7 @@ describe('Updating', () => {
 
     const [field] = form.makeFormField(path);
 
-    const valueSelector = makeValueSelector<object>(path);
+    const valueSelector = makeValueSelector<Record<string, any>>(path);
     const { result } = renderHook(useFormState, {
       initialProps: valueSelector,
       wrapper,
@@ -193,7 +193,7 @@ describe('Updating', () => {
     const [form, wrapper] = makeForm();
 
     const [field] = form.makeFormField(path);
-    const valueSelector = makeValueSelector<object>(path);
+    const valueSelector = makeValueSelector<Record<string, any>>(path);
 
     const spy = jest.fn(() => <div />);
 
@@ -227,7 +227,7 @@ describe('Updating', () => {
       </Form>,
     );
 
-    // @ts-ignore because form should indeed be set here
+    // @ts-expect-error: because form should indeed be set here
     if (!form) {
       throw new Error('form instance should be set here!');
     }
@@ -237,7 +237,7 @@ describe('Updating', () => {
       [field] = form.makeFormField('some.path');
     });
 
-    // @ts-ignore because field should indeed be set here
+    // @ts-expect-error: because field should indeed be set here
     if (!field) {
       throw new Error('field instance should be set here!');
     }
@@ -270,7 +270,7 @@ describe('Updating', () => {
       </Form>,
     );
 
-    // @ts-ignore because form should indeed be set here
+    // @ts-expect-error: because form should indeed be set here
     if (!form) {
       throw new Error('form instance should be set here!');
     }
@@ -280,7 +280,7 @@ describe('Updating', () => {
       [field] = form.makeFormField(path);
     });
 
-    // @ts-ignore because field should indeed be set here
+    // @ts-expect-error: because field should indeed be set here
     if (!field) {
       throw new Error('field instance should be set here!');
     }
@@ -320,7 +320,7 @@ describe('Updating', () => {
       </Form>,
     );
 
-    // @ts-ignore because form should indeed be set here
+    // @ts-expect-error: because form should indeed be set here
     if (!form) {
       throw new Error('form instance should be set here!');
     }
@@ -330,7 +330,7 @@ describe('Updating', () => {
       [field] = form.makeFormField(path);
     });
 
-    // @ts-ignore because field should indeed be set here
+    // @ts-expect-error: because field should indeed be set here
     if (!field) {
       throw new Error('field instance should be set here!');
     }
@@ -382,7 +382,7 @@ describe('Updating', () => {
       </Form>,
     );
 
-    // @ts-ignore because form should indeed be set here
+    // @ts-expect-error: because form should indeed be set here
     if (!form) {
       throw new Error('form instance should be set here!');
     }
@@ -392,7 +392,7 @@ describe('Updating', () => {
       [field] = form.makeFormField(path);
     });
 
-    // @ts-ignore because field should indeed be set here
+    // @ts-expect-error: because field should indeed be set here
     if (!field) {
       throw new Error('field instance should be set here!');
     }
@@ -458,7 +458,7 @@ describe('Updating', () => {
     expect(spy).toBeCalledTimes(1);
     expect(spy.mock.calls[0][0]).toBeTruthy();
 
-    // @ts-ignore because form should indeed be set here
+    // @ts-expect-error: because form should indeed be set here
     if (!form) {
       throw new Error('form instance should be set here!');
     }
@@ -468,7 +468,7 @@ describe('Updating', () => {
       [field] = form.makeFormField(path);
     });
 
-    // @ts-ignore because field should indeed be set here
+    // @ts-expect-error: because field should indeed be set here
     if (!field) {
       throw new Error('field instance should be set here!');
     }
@@ -549,7 +549,7 @@ describe('Updating', () => {
       </Form>,
     );
 
-    // @ts-ignore because form should indeed be set here
+    // @ts-expect-error: because form should indeed be set here
     if (!form) {
       throw new Error('form instance should be set here!');
     }
@@ -559,7 +559,7 @@ describe('Updating', () => {
       [field] = form.makeFormField(path);
     });
 
-    // @ts-ignore because field should indeed be set here
+    // @ts-expect-error: because field should indeed be set here
     if (!field) {
       throw new Error('field instance should be set here!');
     }

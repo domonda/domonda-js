@@ -34,7 +34,7 @@ describe('Creation', () => {
 
     form.makeFormField(path);
 
-    // @ts-ignore
+    // @ts-expect-error: in favor of the test
     expect(form.state.fields[path].value).toBeUndefined();
   });
 
@@ -108,9 +108,9 @@ describe('Change', () => {
     expect(field.state.changed).toBe(true);
     expect(get(form.state.defaultValues, path)).toBe(field.state.defaultValue);
     expect(get(form.values, path)).toBe(next);
-    // @ts-ignore in favor of the test
+    // @ts-expect-error: in favor of the test
     expect(form.state.fields[path].value).toBeUndefined();
-    // @ts-ignore in favor of the test
+    // @ts-expect-error: in favor of the test
     expect(form.state.fields[path].defaultValue).toBeUndefined();
     expect(form.state.fields[path]).toEqual({
       changed: field.state.changed,

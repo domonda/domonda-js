@@ -2,7 +2,7 @@ import { Theme } from '../styles';
 
 const sharedStyles = (theme: Theme) => ({
   row: {
-    position: 'relative' as 'relative',
+    position: 'relative' as const,
     display: 'flex',
     padding: theme.spacing('tiny'),
   },
@@ -10,7 +10,7 @@ const sharedStyles = (theme: Theme) => ({
     ...theme.typography.variant('small'),
     overflow: 'hidden',
     textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap' as 'nowrap',
+    whiteSpace: 'nowrap' as const,
     '&:not(:last-child)': {
       marginRight: theme.spacing('tiny'),
     },

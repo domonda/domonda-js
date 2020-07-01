@@ -17,7 +17,7 @@ function getScale(value: number) {
   return `scale(${value}, ${value ** 2})`;
 }
 
-const styles: { [key: string]: object } = {
+const styles: { [key: string]: Record<string, any> } = {
   entering: {
     opacity: 1,
     transform: getScale(1),

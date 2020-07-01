@@ -68,7 +68,7 @@ export interface PopperProps extends React.HTMLAttributes<HTMLDivElement> {
   container?: PortalProps['container'];
   disablePortal?: PortalProps['disablePortal'];
   keepMounted?: boolean;
-  modifiers?: object;
+  modifiers?: Record<string, any>;
   open: boolean;
   placement?: PopperPlacement;
   popperOptions?: PopperOptions;

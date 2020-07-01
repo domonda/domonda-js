@@ -25,11 +25,10 @@ export function createChainedFunction(...funcs: ChainedFunction[]): (...args: an
       }
 
       return function chainedFunction(...args: any[]) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-        // @ts-ignore because of `this`
+        // @ts-expect-error: because of `this`
         acc.apply(this, args);
-        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-        // @ts-ignore because of `this`
+
+        // @ts-expect-error: because of `this`
         func.apply(this, args);
       };
     },
@@ -83,13 +82,14 @@ export const useEnhancedEffect =
  *
  * @param {function} fn
  */
+// eslint-disable-next-line @typescript-eslint/ban-types
 export function useEventCallback<T extends Function>(fn: T): T {
   const ref = React.useRef(fn);
   useEnhancedEffect(() => {
     ref.current = fn;
   });
-  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-  // @ts-ignore
+
+  // @ts-expect-error: dont know why
   return React.useCallback((event) => (0, ref.current)(event), []);
 }
 
@@ -120,11 +120,11 @@ export function capitalize(string: string): string {
 
 // Corresponds to 10 frames at 60 Hz.
 // A few bytes payload overhead when lodash/debounce is ~3 kB and debounce ~300 B.
+// eslint-disable-next-line @typescript-eslint/ban-types
 export function debounce<F extends Function>(func: F, wait = 166): F {
   let timeout: any;
   function debounced(...args: any[]) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-    // @ts-ignore
+    // @ts-expect-error: dont know why
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const that = this;
     const later = () => {

@@ -65,8 +65,7 @@ export function setRef<T>(
   if (typeof ref === 'function') {
     ref(value);
   } else if (ref) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-    // @ts-ignore because the `current` object is flagged as readonly
+    // @ts-expect-error: because the `current` object is flagged as readonly
     ref.current = value;
   }
 }
@@ -91,7 +90,7 @@ export function useForkRef<T>(
   }, [refA, refB]);
 }
 
-export function useMemoRenderer<P = {}>(
+export function useMemoRenderer<P = Record<string, any>>(
   props: P,
   render: (props: P) => ReactElement | null,
   propsAreEqual: (prev: P, next: P) => boolean = shallowEqual,

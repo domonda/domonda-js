@@ -85,7 +85,7 @@ it('should sync the input and mask on field value updates', () => {
     </Form>,
   );
 
-  // @ts-ignore because setter should indeed be set here
+  // @ts-expect-error: because setter should indeed be set here
   if (!setter) {
     throw new Error('setter should be set here!');
   }
@@ -117,7 +117,7 @@ it('should cast the masked value to the correct type', () => {
     </Form>,
   );
 
-  // @ts-ignore because fieldValue should indeed be set here
+  // @ts-expect-error: because fieldValue should indeed be set here
   if (fieldValue === undefined) {
     throw new Error('fieldValue should be set here!');
   }

@@ -116,12 +116,12 @@ describe('Update', () => {
       </Form>,
     );
 
-    // @ts-ignore because form should indeed be set here
+    // @ts-expect-error: because form should indeed be set here
     if (!form) {
       throw new Error('form instance should be set here!');
     }
 
-    // @ts-ignore because form should indeed be set here
+    // @ts-expect-error: because form should indeed be set here
     if (!insert) {
       throw new Error('insert should be set here!');
     }
@@ -223,12 +223,12 @@ describe('Update', () => {
       </Form>,
     );
 
-    // @ts-ignore because form should indeed be set here
+    // @ts-expect-error: because form should indeed be set here
     if (!form) {
       throw new Error('form instance should be set here!');
     }
 
-    // @ts-ignore because form should indeed be set here
+    // @ts-expect-error: because form should indeed be set here
     if (!remove) {
       throw new Error('remove should be set here!');
     }
@@ -269,12 +269,12 @@ describe('Update', () => {
       </Form>,
     );
 
-    // @ts-ignore because form should indeed be set here
+    // @ts-expect-error: because form should indeed be set here
     if (!form) {
       throw new Error('form instance should be set here!');
     }
 
-    // @ts-ignore because form should indeed be set here
+    // @ts-expect-error: because form should indeed be set here
     if (!remove) {
       throw new Error('remove should be set here!');
     }

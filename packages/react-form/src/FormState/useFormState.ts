@@ -8,11 +8,13 @@ import { Form as DomondaForm, FormState as DomondaFormState } from '@domonda/for
 import { UsePlumbStateProps, useMappedPlumbState } from '@domonda/react-plumb';
 import { useFormContext } from '../FormContext';
 
-export type UseFormStateSelector<DV extends object, V> = (state: DomondaFormState<DV>) => V;
+export type UseFormStateSelector<DV extends Record<string, any>, V> = (
+  state: DomondaFormState<DV>,
+) => V;
 
 export type UseFormStateProps<V> = Omit<UsePlumbStateProps<V, any>, 'plumb'>;
 
-export function useFormState<DefaultValues extends object, V>(
+export function useFormState<DefaultValues extends Record<string, any>, V>(
   selector: UseFormStateSelector<DefaultValues, V>,
   props?: UseFormStateProps<V>,
 ): [V, DomondaForm<DefaultValues>] {

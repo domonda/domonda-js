@@ -26,7 +26,7 @@ it('should obey the custom `propsAreEqual` function', () => {
   const render = jest.fn(() => null);
 
   const { rerender } = renderHook((props) => useMemoRenderer(props, render, () => true), {
-    initialProps: { '1': 2 } as {},
+    initialProps: { '1': 2 } as Record<string, any>,
   });
 
   // same

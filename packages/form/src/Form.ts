@@ -42,7 +42,7 @@ export class FormConfigRef<DefaultValues extends FormDefaultValues> {
   }
 }
 
-export type FormDefaultValues = object | Array<any>;
+export type FormDefaultValues = Record<string, any> | Array<any>;
 
 export type FormSubmitHandler<T extends FormDefaultValues> = (
   values: T,

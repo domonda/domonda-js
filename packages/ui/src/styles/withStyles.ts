@@ -18,11 +18,14 @@ export interface WithStylesOptions {
 export type WithStyles<
   S extends Styles<any, any>,
   WithTheme extends boolean | undefined = false
-> = (WithTheme extends true ? { theme: Theme } : {}) & {
+> = (WithTheme extends true ? { theme: Theme } : Record<string, any>) & {
   classes: ClassNameMap<ClassKeyOfStyles<S>>;
 };
 
-export function withStyles<S extends Styles<any, any>, Options extends WithStylesOptions = {}>(
+export function withStyles<
+  S extends Styles<any, any>,
+  Options extends WithStylesOptions = Record<string, any>
+>(
   styles: S,
   options?: Options,
 ): <P extends WithStyles<S, Options['injectTheme']> & PropsOfStyles<S>>(

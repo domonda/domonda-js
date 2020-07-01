@@ -112,8 +112,8 @@ export function recomposeColor(color: ColorObject): string {
 
   if (type.indexOf('rgb') !== -1) {
     // Only convert the first 3 values to int (i.e. not alpha)
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-    // @ts-ignore
+
+    // @ts-expect-error: dont know why
     values = values.map((n, i) => (i < 3 ? parseInt(n, 10) : n));
   }
 

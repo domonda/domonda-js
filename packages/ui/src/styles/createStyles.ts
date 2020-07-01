@@ -14,23 +14,24 @@ export interface CSSProperties extends React.CSSProperties {
  *
  * if only `CSSProperties` are matched `Props` are inferred to `any`
  */
-export type StyleRules<Props extends {}, ClassKey extends string = string> = Record<
-  ClassKey,
-  CSSProperties | ((props: Props) => CSSProperties)
->;
+export type StyleRules<
+  Props extends Record<string, any>,
+  ClassKey extends string = string
+> = Record<ClassKey, CSSProperties | ((props: Props) => CSSProperties)>;
 
-export type ThemedStyleRules<Props extends {}, ClassKey extends string = string> = (
-  theme: Theme,
-) => StyleRules<Props, ClassKey>;
+export type ThemedStyleRules<
+  Props extends Record<string, any>,
+  ClassKey extends string = string
+> = (theme: Theme) => StyleRules<Props, ClassKey>;
 
-export type Styles<Props extends {}, ClassKey extends string = string> =
+export type Styles<Props extends Record<string, any>, ClassKey extends string = string> =
   | StyleRules<Props, ClassKey>
   | ThemedStyleRules<Props, ClassKey>;
 
 /**
  * infers the type of the theme used in the styles
  */
-export type PropsOfStyles<S> = S extends Styles<infer Props> ? Props : {};
+export type PropsOfStyles<S> = S extends Styles<infer Props> ? Props : Record<string, any>;
 
 export type ClassKeyOfStyles<S> = S extends string
   ? S
@@ -50,7 +51,7 @@ export type ClassNameMap<ClassKey extends string = string> = Record<ClassKey, st
  * @param styles a set of style mappings
  * @returns the same styles that were passed in
  */
-export function createStyles<P extends {}, C extends string = string>(
+export function createStyles<P extends Record<string, any>, C extends string = string>(
   styles: StyleRules<P, C> | ThemedStyleRules<P, C>,
 ): StyleRules<P, C> | ThemedStyleRules<P, C> {
   return styles;
@@ -63,7 +64,7 @@ export function createStyles<P extends {}, C extends string = string>(
  * @param styles a set of style mappings
  * @returns the same styles that were passed in
  */
-export function makeCreateStyles<P extends {}>(): <C extends string>(
+export function makeCreateStyles<P extends Record<string, any>>(): <C extends string>(
   styles: StyleRules<P, C> | ThemedStyleRules<P, C>,
 ) => StyleRules<P, C> | ThemedStyleRules<P, C> {
   return createStyles;

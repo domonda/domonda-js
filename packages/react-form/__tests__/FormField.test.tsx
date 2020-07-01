@@ -80,7 +80,7 @@ describe('Creation', () => {
       </Form>,
     );
 
-    // @ts-ignore because form should indeed be set here
+    // @ts-expect-error: because form should indeed be set here
     if (!form) {
       throw new Error('form instance should be set here!');
     }
@@ -99,7 +99,7 @@ describe('Creation', () => {
       </Form>,
     );
 
-    // @ts-ignore because form should indeed be set here
+    // @ts-expect-error: because form should indeed be set here
     if (!form) {
       throw new Error('form instance should be set here!');
     }
@@ -285,7 +285,7 @@ describe('Update', () => {
       </Form>,
     );
 
-    // @ts-ignore because form should indeed be set here
+    // @ts-expect-error: because form should indeed be set here
     if (!form) {
       throw new Error('form instance should be set here!');
     }
@@ -355,7 +355,7 @@ describe('Update', () => {
       </Form>,
     );
 
-    // @ts-ignore because form should indeed be set here
+    // @ts-expect-error: because form should indeed be set here
     if (!form) {
       throw new Error('form instance should be set here!');
     }
@@ -412,11 +412,11 @@ describe('Update', () => {
       </Form>,
     );
 
-    // @ts-ignore because form should indeed be set here
+    // @ts-expect-error: because form should indeed be set here
     if (!form) {
       throw new Error('form instance should be set here!');
     }
-    // @ts-ignore because add should indeed be set here
+    // @ts-expect-error: because add should indeed be set here
     if (!add) {
       throw new Error('add instance should be set here!');
     }
@@ -562,17 +562,17 @@ describe('Update', () => {
       </Form>,
     );
 
-    // @ts-ignore because form should indeed be set here
+    // @ts-expect-error: because form should indeed be set here
     if (!form) {
       throw new Error('form instance should be set here!');
     }
 
-    // @ts-ignore because form should indeed be set here
+    // @ts-expect-error: because form should indeed be set here
     if (!add) {
       throw new Error('add should be set here!');
     }
 
-    // @ts-ignore because form should indeed be set here
+    // @ts-expect-error: because form should indeed be set here
     if (!remove) {
       throw new Error('remove should be set here!');
     }
@@ -616,7 +616,7 @@ describe('Update', () => {
 });
 
 describe('Cleanup', () => {
-  function makeForm<T extends object>(dv: T): [DomondaForm<T>, React.FC] {
+  function makeForm<T extends Record<string, any>>(dv: T): [DomondaForm<T>, React.FC] {
     const [form] = createForm(dv);
     return [
       form,

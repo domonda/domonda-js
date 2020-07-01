@@ -64,11 +64,11 @@ export interface ModalProps extends React.HTMLAttributes<HTMLDivElement> {
   hideBackdrop?: boolean;
   keepMounted?: boolean;
   manager?: ModalManager;
-  onBackdropClick?: React.ReactEventHandler<{}>;
+  onBackdropClick?: React.ReactEventHandler<Record<string, any>>;
   onClose?: {
-    bivarianceHack(event: {}, reason: 'backdropClick' | 'escapeKeyDown'): void;
+    bivarianceHack(event: Record<string, any>, reason: 'backdropClick' | 'escapeKeyDown'): void;
   }['bivarianceHack'];
-  onEscapeKeyDown?: React.ReactEventHandler<{}>;
+  onEscapeKeyDown?: React.ReactEventHandler<Record<string, any>>;
   onRendered?: PortalProps['onRendered'];
   open: boolean;
 }
