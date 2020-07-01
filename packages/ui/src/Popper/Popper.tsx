@@ -142,7 +142,9 @@ export const Popper = React.forwardRef<Element | null, PopperProps>(function Pop
         popperOptions ? popperOptions.onUpdate : undefined,
       ),
     });
-    handlePopperRefRef.current!(popper);
+    if (handlePopperRefRef.current) {
+      handlePopperRefRef.current(popper);
+    }
   }, [anchorEl, modifiers, open, placement, placementProps, popperOptions]);
 
   const handleClose = () => {
