@@ -40,5 +40,5 @@ jobs:
         run: |
           yarn
           git add yarn.lock
-          git commit -m "chore(lockfile): update [skip ci]"
+          git commit -m "chore(lockfile): update [skip ci]" || true
           git push
