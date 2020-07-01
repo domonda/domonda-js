@@ -200,5 +200,5 @@ if (process.env.NODE_ENV !== 'production') {
 
 const StyledDateInput: React.ComponentType<
   DateInputProps & RefAttributes<ReactDatePicker>
-> = withStyles(styles)(DateInput);
+> = withStyles(styles)(DateInput) as any;
 export { StyledDateInput as DateInput };

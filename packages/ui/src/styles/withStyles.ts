@@ -18,14 +18,13 @@ export interface WithStylesOptions {
 export type WithStyles<
   S extends Styles<any, any>,
   WithTheme extends boolean | undefined = false
-> = (WithTheme extends true ? { theme: Theme } : Record<string, any>) & {
+  // eslint-disable-next-line @typescript-eslint/ban-types
+> = (WithTheme extends true ? { theme: Theme } : {}) & {
   classes: ClassNameMap<ClassKeyOfStyles<S>>;
 };
 
-export function withStyles<
-  S extends Styles<any, any>,
-  Options extends WithStylesOptions = Record<string, any>
->(
+// eslint-disable-next-line @typescript-eslint/ban-types
+export function withStyles<S extends Styles<any, any>, Options extends WithStylesOptions = {}>(
   styles: S,
   options?: Options,
 ): <P extends WithStyles<S, Options['injectTheme']> & PropsOfStyles<S>>(
