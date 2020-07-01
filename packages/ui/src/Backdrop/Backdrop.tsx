@@ -9,8 +9,6 @@
 import React from 'react';
 import clsx from 'clsx';
 import { createStyles, withStyles, WithStyles } from '../styles';
-import { TransitionProps } from 'react-transition-group/Transition';
-import { Fade } from '../Fade';
 
 const styles = createStyles({
   /* Styles applied to the root element. */
@@ -49,41 +47,30 @@ export interface BackdropProps extends React.HTMLAttributes<HTMLDivElement> {
    * If `true`, the backdrop is open.
    */
   open: boolean;
-  /**
-   * The duration for the transition, in milliseconds.
-   * You may specify a single timeout for all transitions, or individually with an object.
-   */
-  transitionDuration?: TransitionProps['timeout'];
 }
 
 const Backdrop = React.forwardRef<HTMLDivElement, BackdropProps & WithStyles<typeof styles>>(
   function Backdrop(props, ref) {
-    const {
-      children,
-      classes,
-      className,
-      invisible = false,
-      open,
-      transitionDuration,
-      ...other
-    } = props;
+    const { children, classes, className, invisible = false, open } = props;
+
+    if (!open) {
+      return null;
+    }
 
     return (
-      <Fade in={open} timeout={transitionDuration} {...(other as any)}>
-        <div
-          className={clsx(
-            classes.root,
-            {
-              [classes.invisible]: invisible,
-            },
-            className,
-          )}
-          aria-hidden
-          ref={ref}
-        >
-          {children}
-        </div>
-      </Fade>
+      <div
+        className={clsx(
+          classes.root,
+          {
+            [classes.invisible]: invisible,
+          },
+          className,
+        )}
+        aria-hidden
+        ref={ref}
+      >
+        {children}
+      </div>
     );
   },
 );

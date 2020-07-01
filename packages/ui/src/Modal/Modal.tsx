@@ -7,7 +7,6 @@
  */
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { useTheme, Theme } from '../styles/theme';
 import { defaultZIndex as zIndex } from '../styles/zIndex';
 import { ownerDocument, createChainedFunction, useForkRef, useEventCallback } from '../utils';
@@ -16,12 +15,6 @@ import { ModalManager, ariaHidden } from './ModalManager';
 import { TrapFocus } from './TrapFocus';
 import { SimpleBackdrop } from './SimpleBackdrop';
 import { BackdropProps } from '../Backdrop';
-
-function getContainer(container: any) {
-  container = typeof container === 'function' ? container() : container;
-  // eslint-disable-next-line react/no-find-dom-node
-  return ReactDOM.findDOMNode(container);
-}
 
 function getHasTransition(props: any): boolean {
   // eslint-disable-next-line no-prototype-builtins
@@ -53,12 +46,10 @@ export interface ModalProps extends React.HTMLAttributes<HTMLDivElement> {
   BackdropProps?: Partial<BackdropProps>;
   children: React.ReactElement;
   closeAfterTransition?: boolean;
-  container?: PortalProps['container'];
   disableAutoFocus?: boolean;
   disableBackdropClick?: boolean;
   disableEnforceFocus?: boolean;
   disableEscapeKeyDown?: boolean;
-  disablePortal?: PortalProps['disablePortal'];
   disableRestoreFocus?: boolean;
   disableScrollLock?: boolean;
   hideBackdrop?: boolean;
@@ -79,12 +70,10 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(function Modal
     BackdropProps,
     children,
     closeAfterTransition = false,
-    container,
     disableAutoFocus = false,
     disableBackdropClick = false,
     disableEnforceFocus = false,
     disableEscapeKeyDown = false,
-    disablePortal = false,
     disableRestoreFocus = false,
     disableScrollLock = false,
     hideBackdrop = false,
@@ -121,7 +110,7 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(function Modal
   };
 
   const handleOpen = useEventCallback(() => {
-    const resolvedContainer = getContainer(container) || getDoc().body;
+    const resolvedContainer = getDoc().body;
 
     manager.add(getModal(), resolvedContainer);
 
@@ -245,7 +234,7 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(function Modal
       is not meant for humans to interact with directly.
       https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/no-static-element-interactions.md
     */
-    <Portal ref={handlePortalRef} container={container} disablePortal={disablePortal}>
+    <Portal ref={handlePortalRef}>
       <div
         ref={handleRef}
         onKeyDown={handleKeyDown}

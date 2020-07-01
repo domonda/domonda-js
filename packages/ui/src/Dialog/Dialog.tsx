@@ -10,10 +10,7 @@ import { createStyles, withStyles, WithStyles } from '../styles';
 import { capitalize } from '../utils';
 import { Modal, ModalProps } from '../Modal';
 import { Backdrop } from '../Backdrop';
-import { Fade } from '../Fade';
-import { defaultDuration, TransitionHandlerProps } from '../styles/transition';
 import { Paper, PaperProps } from '../Paper';
-import { TransitionProps } from 'react-transition-group/Transition';
 
 const styles = createStyles({
   /* Styles applied to the root element. */
@@ -96,12 +93,7 @@ const styles = createStyles({
   },
 });
 
-const defaultTransitionDuration = {
-  enter: defaultDuration.enteringScreen,
-  exit: defaultDuration.leavingScreen,
-};
-
-type ExtendingProps = Omit<ModalProps, 'children'> & Partial<TransitionHandlerProps>;
+type ExtendingProps = Omit<ModalProps, 'children'>;
 
 export interface DialogProps extends ExtendingProps {
   classes?: Partial<WithStyles<typeof styles>['classes']>;
@@ -112,9 +104,6 @@ export interface DialogProps extends ExtendingProps {
   PaperComponent?: React.ComponentType<PaperProps>;
   PaperProps?: Partial<PaperProps>;
   scroll?: 'body' | 'paper';
-  TransitionComponent?: React.ComponentType<TransitionProps>;
-  transitionDuration?: TransitionProps['timeout'];
-  TransitionProps?: TransitionProps;
 }
 
 /**
@@ -134,20 +123,11 @@ const Dialog = React.forwardRef<HTMLDivElement, DialogProps & WithStyles<typeof 
       maxWidth = 'sm',
       onBackdropClick,
       onClose,
-      onEnter,
-      onEntered,
-      onEntering,
       onEscapeKeyDown,
-      onExit,
-      onExited,
-      onExiting,
       open,
       PaperComponent = Paper,
       PaperProps = {},
       scroll = 'paper',
-      TransitionComponent = Fade,
-      transitionDuration = defaultTransitionDuration,
-      TransitionProps,
       ...other
     } = props;
 
@@ -182,10 +162,7 @@ const Dialog = React.forwardRef<HTMLDivElement, DialogProps & WithStyles<typeof 
       <Modal
         className={clsx(classes.root, className)}
         BackdropComponent={Backdrop}
-        BackdropProps={{
-          transitionDuration,
-          ...BackdropProps,
-        }}
+        BackdropProps={BackdropProps}
         closeAfterTransition
         disableBackdropClick={disableBackdropClick}
         disableEscapeKeyDown={disableEscapeKeyDown}
@@ -195,48 +172,32 @@ const Dialog = React.forwardRef<HTMLDivElement, DialogProps & WithStyles<typeof 
         ref={ref}
         {...other}
       >
-        <TransitionComponent
-          appear
-          in={open}
-          timeout={transitionDuration}
-          onEnter={onEnter}
-          onEntering={onEntering}
-          onEntered={onEntered}
-          onExit={onExit}
-          onExiting={onExiting}
-          onExited={onExited}
-          role="none presentation"
-          {...TransitionProps}
+        <div
+          className={clsx(
+            classes.container,
+            classes[`scroll${capitalize(scroll)}` as keyof typeof classes],
+          )}
+          onClick={handleBackdropClick}
+          onMouseDown={handleMouseDown}
         >
-          {/* roles are applied via cloneElement from TransitionComponent */}
-          {/* roles needs to be applied on the immediate child of Modal or it'll inject one */}
-          <div
+          <PaperComponent
+            shadow="large"
+            role="dialog"
+            {...PaperProps}
             className={clsx(
-              classes.container,
-              classes[`scroll${capitalize(scroll)}` as keyof typeof classes],
+              classes.paper,
+              classes[`paperScroll${capitalize(scroll)}` as keyof typeof classes],
+              classes[`paperWidth${capitalize(String(maxWidth))}` as keyof typeof classes],
+              {
+                [classes.paperFullScreen]: fullScreen,
+                [classes.paperFullWidth]: fullWidth,
+              },
+              PaperProps.className,
             )}
-            onClick={handleBackdropClick}
-            onMouseDown={handleMouseDown}
           >
-            <PaperComponent
-              shadow="large"
-              role="dialog"
-              {...PaperProps}
-              className={clsx(
-                classes.paper,
-                classes[`paperScroll${capitalize(scroll)}` as keyof typeof classes],
-                classes[`paperWidth${capitalize(String(maxWidth))}` as keyof typeof classes],
-                {
-                  [classes.paperFullScreen]: fullScreen,
-                  [classes.paperFullWidth]: fullWidth,
-                },
-                PaperProps.className,
-              )}
-            >
-              {children}
-            </PaperComponent>
-          </div>
-        </TransitionComponent>
+            {children}
+          </PaperComponent>
+        </div>
       </Modal>
     );
   },

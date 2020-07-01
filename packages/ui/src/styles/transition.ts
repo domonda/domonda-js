@@ -4,35 +4,6 @@
  *
  */
 
-import {
-  TransitionProps as _TransitionProps,
-  TransitionActions,
-} from 'react-transition-group/Transition';
-import { CSSProperties } from 'react';
-
-export type TransitionHandlerKeys =
-  | 'onEnter'
-  | 'onEntering'
-  | 'onEntered'
-  | 'onExit'
-  | 'onExiting'
-  | 'onExited';
-export type TransitionHandlerProps = Pick<_TransitionProps, TransitionHandlerKeys>;
-
-export type TransitionKeys =
-  | 'in'
-  | 'mountOnEnter'
-  | 'unmountOnExit'
-  | 'timeout'
-  | 'addEndListener'
-  | TransitionHandlerKeys;
-
-export interface TransitionProps
-  extends TransitionActions,
-    Partial<Pick<_TransitionProps, TransitionKeys>> {
-  style?: CSSProperties;
-}
-
 // Follow https://material.google.com/motion/duration-easing.html#duration-easing-natural-easing-curves
 // to learn the context in which each easing should be used.
 export interface Easing {
@@ -128,18 +99,3 @@ export const defaultTransition: Transition = {
 };
 
 export const reflow = (node: HTMLElement) => node.scrollTop;
-
-export function getTransitionProps(
-  props: TransitionProps,
-  options: { mode: 'appear' | 'enter' | 'exit' },
-) {
-  const { timeout = {}, style = {} } = props;
-
-  return {
-    duration:
-      style.transitionDuration || typeof timeout === 'number'
-        ? (timeout as number)
-        : timeout[options.mode] || 0,
-    delay: style.transitionDelay,
-  };
-}

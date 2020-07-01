@@ -15,7 +15,7 @@ import React, {
   useImperativeHandle,
   useState,
 } from 'react';
-import { Portal, PortalProps } from '../Portal';
+import { Portal } from '../Portal';
 import PopperJS, { PopperOptions, ReferenceObject } from 'popper.js';
 import { useForkRef } from '../hooks';
 import { createChainedFunction } from '../utils';
@@ -65,8 +65,6 @@ export type PopperPlacement =
 
 export interface PopperProps extends React.HTMLAttributes<HTMLDivElement> {
   anchorEl?: null | Element | ReferenceObject | (() => Element | ReferenceObject);
-  container?: PortalProps['container'];
-  disablePortal?: PortalProps['disablePortal'];
   keepMounted?: boolean;
   modifiers?: Record<string, any>;
   open: boolean;
@@ -82,8 +80,6 @@ export const Popper = React.forwardRef<Element | null, PopperProps>(function Pop
   const {
     anchorEl,
     children,
-    container,
-    disablePortal = false,
     keepMounted = false,
     modifiers,
     open,
@@ -128,14 +124,10 @@ export const Popper = React.forwardRef<Element | null, PopperProps>(function Pop
       placement: flipPlacement(placementProps),
       ...popperOptions,
       modifiers: {
-        ...(disablePortal
-          ? {}
-          : {
-              // It's using scrollParent by default, we can use the viewport when using a portal.
-              preventOverflow: {
-                boundariesElement: 'window',
-              },
-            }),
+        // It's using scrollParent by default, we can use the viewport when using a portal.
+        preventOverflow: {
+          boundariesElement: 'window',
+        },
         ...modifiers,
         ...(popperOptions ? popperOptions.modifiers : undefined),
       },
@@ -151,7 +143,7 @@ export const Popper = React.forwardRef<Element | null, PopperProps>(function Pop
       ),
     });
     handlePopperRefRef.current!(popper);
-  }, [anchorEl, disablePortal, modifiers, open, placement, placementProps, popperOptions]);
+  }, [anchorEl, modifiers, open, placement, placementProps, popperOptions]);
 
   const handleClose = () => {
     if (!popperRef.current) {
@@ -187,7 +179,7 @@ export const Popper = React.forwardRef<Element | null, PopperProps>(function Pop
   }
 
   return (
-    <Portal onRendered={handleOpen} disablePortal={disablePortal} container={container}>
+    <Portal onRendered={handleOpen}>
       <div
         ref={handleRef}
         role="tooltip"

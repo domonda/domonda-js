@@ -7,7 +7,6 @@
  */
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { useForkRef, ownerDocument } from '../utils';
 
 export interface TrapFocusProps {
@@ -71,7 +70,7 @@ export function TrapFocus(props: TrapFocusProps) {
   const handleOwnRef = React.useCallback((instance) => {
     // #StrictMode ready
     // eslint-disable-next-line react/no-find-dom-node
-    rootRef.current = ReactDOM.findDOMNode(instance) as HTMLElement | null;
+    rootRef.current = instance;
   }, []);
   const handleRef = useForkRef(children.ref, handleOwnRef);
 
