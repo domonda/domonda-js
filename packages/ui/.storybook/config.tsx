@@ -4,7 +4,7 @@
  *
  */
 
-import React from 'react';
+import React, { StrictMode } from 'react';
 import { configure, addDecorator } from '@storybook/react';
 
 import { createTheme, ThemeProvider } from '../src/styles';
@@ -21,37 +21,39 @@ function loadStories() {
 const theme = createTheme();
 
 addDecorator((story) => (
-  <ThemeProvider theme={theme}>
-    <Baseline />
-    <div
-      style={{
-        position: 'relative',
-        display: 'flex',
-        flexDirection: 'column',
-        flexWrap: 'nowrap',
-        height: '100vh',
-        padding: '1em 1em 0 1em',
-      }}
-    >
-      <div style={{ flex: 1 }}>{story()}</div>
-      <div style={{ opacity: 0.4, margin: '2em 0 1em 0' }}>
-        <Text size="tiny">
-          Design by:&nbsp;
-          <Button
-            size="tiny"
-            variant="link"
-            component={({ children, ...rest }) => (
-              <a {...rest} href="http://saismo.at/" target="_blank">
-                {children}
-              </a>
-            )}
-          >
-            saismo
-          </Button>
-        </Text>
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <Baseline />
+      <div
+        style={{
+          position: 'relative',
+          display: 'flex',
+          flexDirection: 'column',
+          flexWrap: 'nowrap',
+          height: '100vh',
+          padding: '1em 1em 0 1em',
+        }}
+      >
+        <div style={{ flex: 1 }}>{story()}</div>
+        <div style={{ opacity: 0.4, margin: '2em 0 1em 0' }}>
+          <Text size="tiny">
+            Design by:&nbsp;
+            <Button
+              size="tiny"
+              variant="link"
+              component={({ children, ...rest }) => (
+                <a {...rest} href="http://saismo.at/" target="_blank">
+                  {children}
+                </a>
+              )}
+            >
+              saismo
+            </Button>
+          </Text>
+        </div>
       </div>
-    </div>
-  </ThemeProvider>
+    </ThemeProvider>
+  </StrictMode>
 ));
 
 configure(loadStories, module);

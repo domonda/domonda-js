@@ -151,7 +151,7 @@ export interface DateInputProps {
   weekLabel?: string;
   yearDropdownItemNumber?: number;
   timeInputLabel?: string;
-  inlineFocusSelectedMonth?: boolean;
+  focusSelectedMonth?: boolean;
   onDayMouseEnter?: (date: Date) => void;
   onMonthMouseLeave?: () => void;
 }
