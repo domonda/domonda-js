@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.0.0](https://github.com/domonda/domonda-js/compare/@domonda/ui@8.5.4...@domonda/ui@9.0.0) (2020-07-01)
+
+
+### Features
+
+* Strict Mode compliant ([ca58966](https://github.com/domonda/domonda-js/commit/ca58966457934af82ee629b6a6d9f2bb87b9e02a))
+
+
+### BREAKING CHANGES
+
+* No more Transition component.
+No more setting a custom container for Popper, Portal or Popover.
+No more disabling the Portal if the Portal component is used.
+Slimmed down on animations because of react-transition-group not supporting Strict Mode. (Animations will be back in upcoming versions)
+
+
+
+
+
 ## [8.5.4](https://github.com/domonda/domonda-js/compare/@domonda/ui@8.5.3...@domonda/ui@8.5.4) (2020-06-04)
 
 

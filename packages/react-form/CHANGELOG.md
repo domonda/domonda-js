@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.8.5](https://github.com/domonda/domonda-js/compare/@domonda/react-form@2.8.4...@domonda/react-form@2.8.5) (2020-07-01)
+
+**Note:** Version bump only for package @domonda/react-form
+
+
+
+
+
 ## [2.8.4](https://github.com/domonda/domonda-js/compare/@domonda/react-form@2.8.3...@domonda/react-form@2.8.4) (2020-06-04)
 
 **Note:** Version bump only for package @domonda/react-form

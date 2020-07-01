@@ -1,6 +1,6 @@
 {
   "name": "@domonda/react-form",
-  "version": "2.8.4",
+  "version": "2.8.5",
   "description": "Implementation of @domonda/form for React.",
   "license": "ISC",
   "homepage": "https://github.com/domonda/domonda-js#readme",
@@ -29,10 +29,10 @@
     "react-dom": "^16.9.0"
   },
   "dependencies": {
-    "@domonda/form": "^2.3.4",
-    "@domonda/plumb": "^2.2.8",
-    "@domonda/react-plumb": "^2.0.15",
-    "@domonda/ui": "^8.5.4",
+    "@domonda/form": "^2.3.5",
+    "@domonda/plumb": "^2.2.9",
+    "@domonda/react-plumb": "^2.0.16",
+    "@domonda/ui": "^9.0.0",
     "clsx": "^1.1.1",
     "deepmerge": "^4.2.2",
     "fast-equals": "^2.0.0",
