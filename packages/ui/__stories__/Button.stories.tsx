@@ -32,11 +32,6 @@ stories.add('Overview', () => (
         </Button>
       </p>
       <p>
-        <Button variant="primary" size="regular">
-          Medium
-        </Button>
-      </p>
-      <p>
         <Button variant="primary" size="large">
           <Svg
             aria-hidden="true"
@@ -74,9 +69,6 @@ stories.add('Overview', () => (
       </p>
       <p>
         <Button size="small">Small</Button>
-      </p>
-      <p>
-        <Button size="regular">Medium</Button>
       </p>
       <p>
         <Button size="large">Large</Button>

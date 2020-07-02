@@ -25,7 +25,7 @@ export const input = styleMap(({ palette, sizing, shape, typography }) => ({
     backgroundColor: 'transparent',
     backgroundClip: 'padding-box',
     color: palette.text,
-    padding: `calc(${sizing('regular')} / 2)`,
+    padding: sizing('small'),
     ...typography.variant('regular'),
     textAlign: 'inherit',
     textOverflow: 'ellipsis',
@@ -37,11 +37,11 @@ export const input = styleMap(({ palette, sizing, shape, typography }) => ({
   },
   startAdornment: {
     display: 'flex',
-    padding: sizing('none', 'tiny'),
+    paddingLeft: sizing('small'),
   },
   endAdornment: {
     display: 'flex',
-    padding: sizing('none', 'tiny'),
+    paddingRight: sizing('small'),
   },
 }));
 
@@ -74,9 +74,6 @@ export const dense = style(({ sizing }) => ({
 
 export const disabled = style(({ palette }) => ({
   selectors: {
-    [`${label}&`]: {
-      color: palette.warning,
-    },
     [`${input.container}&`]: {
       cursor: 'not-allowed',
       backgroundColor: palette.disabled,
