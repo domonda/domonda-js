@@ -6,24 +6,27 @@
 
 import React from 'react';
 import clsx from 'clsx';
-
-import { useStyles } from 'react-treat';
+import { Typography, TypographyProps } from '../Typography';
 import { Color } from '../styles/palette';
+import { useStyles } from 'react-treat';
+import * as classesRef from './Badge.treat';
 
-import * as styles from './Badge.treat';
-
-export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
+export interface BadgeProps extends TypographyProps {
   color?: Color; // default: `accent`
 }
 
-export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(function Badge(props, ref) {
+export const Badge = React.forwardRef<HTMLElement, BadgeProps>(function Badge(props, ref) {
   const { children, className, color = 'accent', ...rest } = props;
-
-  const classes = useStyles(styles);
+  const classes = useStyles(classesRef);
 
   return (
-    <span {...rest} ref={ref} className={clsx(classes.root, classes.colors[color], className)}>
+    <Typography
+      {...rest}
+      variant="small"
+      ref={ref}
+      className={clsx(classes.root, classes.colors[color], className)}
+    >
       {children}
-    </span>
+    </Typography>
   );
 });

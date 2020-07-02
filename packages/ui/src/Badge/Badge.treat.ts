@@ -1,27 +1,26 @@
 import { style, styleMap, Style } from 'treat';
-import { COLORS } from '../styles/palette';
+import { COLORS, Color } from '../styles/palette';
 
 export const root = style(({ palette, shape, sizing, typography }) => ({
   alignItems: 'center',
   justifyContent: 'center',
   display: 'inline-flex',
-  padding: sizing('tiny') - 2,
+  padding: sizing('small'),
   borderRadius: shape.borderRadius.pill,
   backgroundColor: palette.accent,
-  fontSize: typography.sizes.tiny,
   lineHeight: '50%',
-  fontWeight: typography.weights.bold,
+  fontWeight: typography.weights.medium,
 }));
 
 export const colors = styleMap(({ palette }) => ({
-  ...COLORS.reduce<Record<string, Style>>(
+  ...COLORS.reduce(
     (acc, color) => ({
       ...acc,
       [color]: {
         backgroundColor: palette[color],
-        color: palette.contrastText(color),
+        color: palette.getContrastText(palette[color]),
       },
     }),
-    {},
+    {} as Record<Color, Style>,
   ),
 }));
