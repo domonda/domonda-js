@@ -1,73 +1,80 @@
-import { style, globalStyle } from 'treat';
+import { style, styleMap } from 'treat';
 
 export const root = style({
   position: 'relative',
-  flexDirection: 'column-reverse', // because we select the `label` using the CSS `+` adjacent sibling selector
   display: 'flex',
-  textAlign: 'left',
+  flexDirection: 'column',
 });
 
-export const textArea = style(({ palette, sizing, shadows, shape, typography }) => ({
-  // reset
-  display: 'inherit',
-  margin: 0,
-  outline: 0,
-  boxSizing: 'border-box',
-  backgroundClip: 'padding-box',
-  whiteSpace: 'nowrap',
-  '--webkit-appearance': 'none',
-  // ./reset
-  boxShadow: shadows.line,
-  border: `1px solid ${palette.border}`,
-  borderRadius: shape.borderRadius.tiny,
-  minWidth: 256,
-  minHeight: sizing('tiny') * 6,
-  padding: sizing('tiny') - 2.5,
-  backgroundColor: palette.white,
-  ...typography.variant('small'),
-  textAlign: 'inherit',
-  color: palette.textDark,
-  ':invalid': {
-    borderColor: palette.warning,
-  },
-  '::placeholder': {
-    color: palette.light('textDark'),
-  },
-}));
+export const label = style(() => ({}));
 
-export const label = style(({ palette }) => ({
-  selectors: {
-    [`${textArea}:invalid + &`]: {
-      color: palette.warning,
+export const textArea = styleMap(({ palette, sizing, shape, typography }) => ({
+  container: {
+    display: 'flex',
+    flexWrap: 'nowrap',
+    alignItems: 'center',
+    backgroundColor: palette.surface,
+    borderRadius: shape.borderRadius.small,
+    border: `1px solid ${palette.border}`,
+  },
+  root: {
+    flex: 1,
+    border: 0,
+    outline: 0,
+    margin: 0,
+    backgroundColor: 'transparent',
+    backgroundClip: 'padding-box',
+    color: palette.text,
+    padding: sizing('small'),
+    ...typography.variant('regular'),
+    textAlign: 'inherit',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    '--webkit-appearance': 'none',
+    '::placeholder': {
+      color: palette.light('text'),
     },
+    minWidth: 256,
+    minHeight: sizing('large'),
   },
 }));
 
 export const dense = style(({ sizing }) => ({
   selectors: {
-    [`${textArea}&`]: {
-      padding: sizing('tiny') / 2 + 0.5,
+    [`${label}&`]: {
+      lineHeight: 1.125,
+    },
+    [`${textArea.root}&`]: {
+      padding: sizing('tiny'),
     },
   },
 }));
 
 export const disabled = style(({ palette }) => ({
   selectors: {
-    [`${textArea}&`]: {
-      boxShadow: 'none',
+    [`${textArea.container}&`]: {
       cursor: 'not-allowed',
-      color: palette.lighten('textDark', 0.68),
+      backgroundColor: palette.disabled,
     },
   },
 }));
 
-globalStyle(`${textArea}:hover:not(${disabled}), ${textArea}:focus`, ({ palette }) => ({
-  borderColor: palette.dark('border'),
+export const invalid = style(({ palette }) => ({
+  selectors: {
+    [`${textArea.container}&`]: {
+      borderColor: palette.warning,
+    },
+    [`${textArea.root}&`]: {
+      borderColor: palette.warning,
+    },
+  },
 }));
 
-globalStyle(
-  `${textArea}:hover:not(${disabled}):invalid, ${textArea}:focus:invalid`,
-  ({ palette }) => ({
-    borderColor: palette.dark('warning'),
-  }),
-);
+export const focused = style(({ palette, shadows }) => ({
+  selectors: {
+    [`${textArea.container}&`]: {
+      boxShadow: shadows.line,
+      outline: `${palette.focus} auto 5px`,
+    },
+  },
+}));
