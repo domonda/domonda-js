@@ -6,11 +6,10 @@
 
 import React from 'react';
 import clsx from 'clsx';
-
-import { useStyles } from 'react-treat';
 import { Color } from '../styles/palette';
-
-import * as styles from './Alert.treat';
+import { useStyles } from 'react-treat';
+import * as classesRef from './Alert.treat';
+import { P } from '../Typography';
 
 export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
   actions?: React.ReactNode;
@@ -28,8 +27,7 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert
     flat,
     ...rest
   } = props;
-
-  const classes = useStyles(styles);
+  const classes = useStyles(classesRef);
 
   return (
     <div
@@ -38,10 +36,9 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert
       className={clsx(classes.root, flat && classes.flat, classes.colors[color], className)}
       role="alert"
     >
-      <div className={clsx(classes.message, actions && classes.rightMargin)}>
+      <P className={clsx(classes.message, classes.colors[color], actions && classes.rightMargin)}>
         {message instanceof Error ? message.message : message}
-      </div>
-
+      </P>
       {actions}
     </div>
   );

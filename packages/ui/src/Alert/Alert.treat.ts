@@ -17,7 +17,6 @@ export const flat = style(() => ({
 export const message = style(({ typography }) => ({
   flex: 1,
   margin: 0,
-  fontSize: typography.sizes.small,
   fontWeight: typography.weights.medium,
 }));
 
@@ -33,7 +32,9 @@ export const colors = styleMap(({ palette }) => ({
         selectors: {
           [`${root}&`]: {
             backgroundColor: palette[color],
-            color: palette.contrastText(color),
+          },
+          [`${message}&`]: {
+            color: palette.getContrastText(palette[color]),
           },
         },
       },
