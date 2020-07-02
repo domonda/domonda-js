@@ -8,7 +8,7 @@ import React from 'react';
 
 import { Button } from '../Button';
 import { Flex, FlexProps } from '../Flex';
-import { Text } from '../Text';
+import { Pre } from '../Typography';
 
 export interface ErrProps extends FlexProps {
   error: Error;
@@ -30,7 +30,7 @@ export const Err = React.forwardRef<HTMLElement, ErrProps>(function Err(props, r
       {...rest}
     >
       <Flex item style={{ textAlign: 'center' }}>
-        <Text color="danger">{error.message}</Text>
+        <Pre color="danger">{error.message}</Pre>
       </Flex>
 
       {onRetry && (
