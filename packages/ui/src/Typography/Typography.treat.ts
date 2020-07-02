@@ -118,6 +118,18 @@ export const bottomGutter = styleMap(({ sizing }) =>
   ),
 );
 
+export const sizes = styleMap(({ sizing }) =>
+  SIZES.reduce(
+    (acc, size) => ({
+      ...acc,
+      [size]: {
+        fontSize: sizing(size),
+      },
+    }),
+    {} as Record<Size, Style>,
+  ),
+);
+
 export const colors = styleMap(({ palette }) =>
   COLORS.reduce(
     (acc, color) => ({

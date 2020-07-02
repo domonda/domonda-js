@@ -14,6 +14,7 @@ import * as classesRef from './Typography.treat';
 export interface TypographyProps extends React.HTMLAttributes<HTMLElement> {
   variant?: keyof typeof classesRef['variants']; // default: p
   inline?: boolean;
+  size?: Size;
   bottomGutter?: Size;
   withPlaceholder?: boolean;
   wrap?: boolean;
@@ -38,6 +39,7 @@ export const Typography = React.forwardRef<HTMLElement, TypographyProps>(functio
     wrap,
     contained,
     inherit,
+    size,
     ...rest
   } = props;
   const classes = useStyles(classesRef);
@@ -50,6 +52,7 @@ export const Typography = React.forwardRef<HTMLElement, TypographyProps>(functio
         classes.root,
         classes.variants[Component],
         color && classes.colors[color],
+        size && classes.sizes[size],
         inline ? classes.inline : classes.block,
         bottomGutter && classes.bottomGutter[bottomGutter],
         wrap && classes.wrap,
