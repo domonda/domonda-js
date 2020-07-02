@@ -6,7 +6,7 @@ export * from './Select';
 export * from './Err';
 export * from './ErrBoundary';
 export * from './Alert';
-export * from './Loading';
+export * from './Loader';
 export * from './Grid';
 export * from './Flex';
 export * from './Portal';
