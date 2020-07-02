@@ -1,6 +1,7 @@
 import { style, styleMap, globalStyle, Style } from 'treat';
 import { COLORS } from '../styles/palette';
 import { SIZES } from '../styles/sizes';
+import { root as svgRoot } from '../Svg/Svg.treat';
 
 export const root = style({
   alignItems: 'center',
@@ -28,7 +29,7 @@ export const colors = styleMap(({ palette }) => ({
           },
           [`${inner}&`]: {
             backgroundColor: palette[color],
-            color: palette.contrastText(color),
+            color: palette.getContrastText(palette[color]),
           },
         },
       },
@@ -44,13 +45,12 @@ export const sizes = styleMap(({ sizing }) => ({
       [size]: {
         selectors: {
           [`${root}&`]: {
-            width: `calc(${sizing(size)} * 2)`,
-            height: `calc(${sizing(size)} * 2)`,
+            width: `calc(${sizing(size)} * 1.5)`,
+            height: `calc(${sizing(size)} * 1.5)`,
           },
           [`${inner}&`]: {
-            width: `calc(${sizing(size)} * 1.4)`,
-            height: `calc(${sizing(size)} * 1.4)`,
-            fontSize: `calc(${sizing(size)} - 4)`,
+            width: '75%',
+            height: '75%',
           },
         },
       },
@@ -60,8 +60,8 @@ export const sizes = styleMap(({ sizing }) => ({
 }));
 
 // inner
-globalStyle(`${inner} svg`, {
+globalStyle(`${inner} > ${svgRoot}`, {
   color: 'inherit',
   fill: 'currentColor',
-  width: `calc(100% / 1.4 - 4px)`, // 100% inherits the parent width which is set above
+  height: '65%',
 });

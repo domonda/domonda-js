@@ -19,8 +19,7 @@ export interface AvatarProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(function Avatar(props, ref) {
-  const { children, className, color = 'accent', size = 'small', ...rest } = props;
-
+  const { children, className, color = 'accent', size = 'regular', ...rest } = props;
   const classes = useStyles(styles);
 
   return (

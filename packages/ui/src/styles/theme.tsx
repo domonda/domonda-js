@@ -30,6 +30,7 @@ const DEFAULT_SIZES: Sizes = {
   small: '0.5rem', // 8
   regular: '1rem', // 16
   large: '2rem', // 32
+  huge: '3rem', // 48
 };
 
 export const defaultTheme: Theme = {

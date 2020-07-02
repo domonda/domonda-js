@@ -6,9 +6,9 @@
 
 export type REM = string;
 
-export type Size = 'none' | 'tiny' | 'small' | 'regular' | 'large';
+export type Size = 'none' | 'tiny' | 'small' | 'regular' | 'large' | 'huge';
 export type Sizes = { [sizing in Size]: REM };
-export const SIZES: Size[] = ['none', 'tiny', 'small', 'regular', 'large'];
+export const SIZES: Size[] = ['none', 'tiny', 'small', 'regular', 'large', 'huge'];
 
 export interface Sizing {
   (topRightBottomLeft: Size): string;
