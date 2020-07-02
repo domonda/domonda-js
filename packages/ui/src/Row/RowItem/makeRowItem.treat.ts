@@ -22,10 +22,10 @@ export const root = style(({ palette, shadows, transition }) => ({
     'a&:hover, a&:focus': {
       zIndex: 1,
       boxShadow: shadows.line,
-      backgroundColor: palette.white,
+      backgroundColor: palette.surface,
     },
     'a&:focus': {
-      outline: `3px solid ${palette.light('primary')}`,
+      outline: `${palette.focus} auto 5px`,
     },
     'a&:active': {
       outline: 'none',
@@ -50,10 +50,10 @@ export const clickable = style(({ palette, shadows, transition }) => ({
     '&:hover, &:focus': {
       zIndex: 1,
       boxShadow: shadows.line,
-      backgroundColor: palette.white,
+      backgroundColor: palette.surface,
     },
     '&:focus': {
-      outline: `3px solid ${palette.light('primary')}`,
+      outline: `${palette.focus} auto 5px`,
     },
     '&:active': {
       outline: 'none',

@@ -4,20 +4,20 @@ const sharedStyles = ({ palette, sizing, typography }: Theme) => ({
   row: {
     position: 'relative' as const,
     display: 'flex',
-    padding: sizing('tiny'),
+    padding: sizing('small'),
   },
   cell: {
     overflow: 'hidden',
-    ...typography.variant('small'),
     textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap' as 'nowrap',
+    whiteSpace: 'nowrap' as const,
+    fontFamily: typography.fonts.body,
     selectors: {
       '&:empty::before': {
         content: '"\\2014"', // &mdash;
-        color: palette.light('textDark'),
+        color: palette.light('text'),
       },
       '&:not(:last-child)': {
-        marginRight: sizing('tiny'),
+        marginRight: sizing('small'),
       },
     },
   },
