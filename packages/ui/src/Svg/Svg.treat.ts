@@ -1,5 +1,6 @@
 import { style, styleMap, Style } from 'treat';
 import { SIZES, Size } from '../styles/sizes';
+import { COLORS, Color } from '../styles/palette';
 
 export const root = style({
   display: 'inline-flex',
@@ -16,3 +17,15 @@ export const sizes = styleMap(({ sizing }) => ({
     };
   }, {} as Record<Size, Style>),
 }));
+
+export const colors = styleMap(({ palette }) =>
+  COLORS.reduce(
+    (acc, color) => ({
+      ...acc,
+      [color]: {
+        color: palette[color],
+      },
+    }),
+    {} as Record<Color, Style>,
+  ),
+);

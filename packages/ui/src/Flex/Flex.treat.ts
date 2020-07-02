@@ -2,9 +2,9 @@ import { style, styleMap, globalStyle, Style } from 'treat';
 import { SIZES, Size } from '../styles/sizes';
 
 export const container = style(() => ({
-  flexWrap: 'nowrap',
   display: 'flex',
   width: '100%',
+  flexWrap: 'nowrap',
 }));
 
 export const item = style(() => ({}));

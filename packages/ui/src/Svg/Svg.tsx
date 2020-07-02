@@ -12,16 +12,20 @@ import { useStyles } from 'react-treat';
 import * as classesRef from './Svg.treat';
 
 export interface SvgProps extends React.SVGProps<SVGSVGElement> {
-  color?: 'inherit' | Color; // default: `inherit`
+  color?: Color; // default: `inherit`
   size?: Size; // default: `regular`
 }
 
 export const Svg = React.forwardRef<SVGSVGElement, SvgProps>(function Svg(props, ref) {
-  const { children, className, color = 'inherit', size = 'regular', style, ...rest } = props;
+  const { children, className, color, size = 'regular', style, ...rest } = props;
   const classes = useStyles(classesRef);
 
   return (
-    <svg {...rest} ref={ref} className={clsx(classes.root, classes.sizes[size], className)}>
+    <svg
+      {...rest}
+      ref={ref}
+      className={clsx(classes.root, classes.sizes[size], color && classes.colors[color], className)}
+    >
       {children}
     </svg>
   );
