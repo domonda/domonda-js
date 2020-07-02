@@ -64,8 +64,7 @@ export const defaultTheme: Theme = {
     },
   }),
   shadows: createShadows({
-    line: '0 1px 1px rgba(1, 38, 56, 0.2)',
-    doubleLine: '0 2px 2px rgba(1, 38, 56, 0.2)',
+    line: '0 1px 4px 0px rgba(1, 38, 56, 0.2)',
     small: '0 10px 15px rgba(0, 0, 0, 0.05)',
     large:
       '0 25px 50px rgba(0, 0, 50, 0.1), 0 8px 20px rgba(0, 0, 50, 0.15), 0 5px 7px rgba(0, 0, 0, 0.05)',
