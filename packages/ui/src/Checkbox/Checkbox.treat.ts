@@ -1,24 +1,15 @@
 import { style, styleMap, globalStyle, Style } from 'treat';
-import { COLORS, Color } from '../styles/palette';
+import { COLORS } from '../styles/palette';
+import { root as rootSvg } from '../Svg/Svg.treat';
 import { SIZES, Size } from '../styles/sizes';
 
-export const checked = style({});
-
-export const controlled = style({});
-
-export const disabled = style({});
-
-export const root = style(({ transition }) => ({
+export const root = style(({ transition, sizing }) => ({
   position: 'relative',
-  alignItems: 'center',
   display: 'inline-flex',
   transition: transition.create(['color']),
+  alignItems: 'center',
   cursor: 'pointer',
-  selectors: {
-    [`${disabled}&`]: {
-      cursor: 'not-allowed',
-    },
-  },
+  padding: sizing('tiny'),
 }));
 
 export const input = style({
@@ -26,15 +17,15 @@ export const input = style({
   opacity: 0,
   padding: 0,
   margin: 0,
+  outline: 0,
   cursor: 'pointer',
-  selectors: {
-    [`${disabled} > &`]: {
-      cursor: 'not-allowed',
-    },
-  },
 });
 
-export const uncheckedIcon = style({
+export const checked = style(() => ({}));
+
+export const controlled = style(() => ({}));
+
+export const uncheckedIcon = style(() => ({
   alignItems: 'flex-start',
   display: 'flex',
   color: 'inherit',
@@ -43,9 +34,9 @@ export const uncheckedIcon = style({
       display: 'none',
     },
   },
-});
+}));
 
-export const checkedIcon = style({
+export const checkedIcon = style(() => ({
   alignItems: 'flex-start',
   display: 'flex',
   color: 'inherit',
@@ -54,12 +45,54 @@ export const checkedIcon = style({
       display: 'none',
     },
   },
-});
+}));
 
-export const label = style(({ sizing }) => ({
-  marginLeft: sizing('tiny'),
-  color: 'inherit',
-  fontSize: 'inherit',
+export const label = style(({ sizing, typography }) => ({
+  marginLeft: sizing('small'),
+  fontFamily: typography.fonts.body,
+}));
+
+export const focused = style(({ palette }) => ({
+  outline: `${palette.focus} auto 5px`,
+}));
+
+export const disabled = style(() => ({
+  selectors: {
+    [`${root}&, ${input}&, ${checkedIcon}&, ${uncheckedIcon}&`]: {
+      cursor: 'not-allowed',
+    },
+  },
+}));
+
+export const wrap = styleMap(() => ({
+  wrap: {},
+  hover: {
+    selectors: {
+      [`${root}&`]: {
+        maxWidth: '100%',
+      },
+      [`${label}&`]: {
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+      },
+      [`${label}&:hover`]: {
+        whiteSpace: 'pre-wrap',
+      },
+    },
+  },
+  nowrap: {
+    selectors: {
+      [`${root}&`]: {
+        maxWidth: '100%',
+      },
+      [`${label}&`]: {
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+      },
+    },
+  },
 }));
 
 export const colors = styleMap(({ palette }) => ({
@@ -67,8 +100,10 @@ export const colors = styleMap(({ palette }) => ({
     (acc, color) => ({
       ...acc,
       [color]: {
-        color: palette[color],
         selectors: {
+          [`${root}&`]: {
+            color: palette[color],
+          },
           [`&:not(${disabled}):hover`]: {
             color: palette.dark(color),
           },
@@ -82,50 +117,40 @@ export const colors = styleMap(({ palette }) => ({
   ),
 }));
 
-export const sizes = styleMap(({ typography }) => ({
+export const sizes = styleMap(({ sizing }) => ({
   ...SIZES.reduce<Record<string, Style>>(
     (acc, size) => ({
       ...acc,
       [size]: {
-        fontSize: typography.sizes[size],
+        fontSize: sizing(size),
+        selectors: {
+          [`${uncheckedIcon}&`]: {
+            height: sizing(size),
+          },
+          [`${checkedIcon}&`]: {
+            height: sizing(size),
+          },
+        },
       },
     }),
     {},
   ),
 }));
 
-// colors
-Object.keys(colors).forEach((key) => {
-  const className = colors[key as keyof typeof colors];
-  const color = key as Color;
-
-  globalStyle(
-    `${className}:not(${disabled}) > ${input}:focus ~ ${uncheckedIcon}, ${className} > ${input}:focus ~ ${checkedIcon}`,
-    ({ palette }) => ({
-      outline: `2px solid ${palette.light('primary')}`,
-      color: palette.dark(color),
-    }),
-  );
-
-  globalStyle(`${className}:not(${disabled}) > ${input}:focus ~ ${label}`, ({ palette }) => ({
-    color: palette.dark(color),
-  }));
-});
-
 // sizes
 Object.keys(sizes).forEach((key) => {
   const className = sizes[key as keyof typeof sizes];
   const size = key as Size;
 
-  globalStyle(`${className} > ${input}`, ({ typography }) => ({
-    width: typography.sizes[size],
-    height: typography.sizes[size],
+  globalStyle(`${className} > ${input}`, ({ sizing }) => ({
+    width: sizing(size),
+    height: sizing(size),
   }));
 
   globalStyle(
-    `${className} > ${uncheckedIcon} > svg, ${className} > ${checkedIcon} > svg`,
-    ({ typography }) => ({
-      width: typography.sizes[size],
+    `${className} > ${uncheckedIcon} > ${rootSvg}, ${className} > ${checkedIcon} > ${rootSvg}`,
+    ({ sizing }) => ({
+      height: sizing(size),
     }),
   );
 });
