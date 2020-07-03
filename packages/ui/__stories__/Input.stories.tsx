@@ -107,7 +107,7 @@ stories.add('Overview', () => (
     </div>
     <br />
     <div>
-      <Input naked required label="Naked invalid" placeholder="Your first name is required..." />
+      <Input naked required label="Naked required" placeholder="Your first name is required..." />
     </div>
     <br />
     <Flex container>

@@ -75,7 +75,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
             if (onInvalid) onInvalid(event);
           }}
           onInput={(event) => {
-            if (event.currentTarget.checkValidity()) setInvalid(false);
+            if (event.currentTarget.reportValidity()) setInvalid(false);
             if (onInput) onInput(event);
           }}
           className={clsx(classes.input.root, dense && classes.dense, disabled && classes.disabled)}
