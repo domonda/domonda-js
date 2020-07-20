@@ -103,7 +103,7 @@ it('should handle empty dates', () => {
     },
   };
 
-  const values = parseQueryParams('?', model);
+  const values = parseQueryParams('?date', model);
 
   expect(values).toEqual({ date: null });
 });
@@ -186,17 +186,38 @@ it('should parse an empty array', () => {
   expect(values).toEqual({ emptarr: [] });
 });
 
-it('should use default value when undefined', () => {
-  const model: QueryModel<{ str: string }> = {
+it('should use null for params without values and undefined for missing params', () => {
+  const model: QueryModel<{ num: number | null; str: string | undefined }> = {
+    num: {
+      type: 'number',
+      defaultValue: -1,
+    },
+    str: {
+      type: 'string',
+      defaultValue: 'undefo',
+    },
+  };
+
+  const values = parseQueryParams('?num', model);
+
+  expect(values).toEqual({ num: null, str: 'undefo' });
+});
+
+it('should use default value exclusively when undefined', () => {
+  const model: QueryModel<{ str: string; num: number | null }> = {
     str: {
       type: 'string',
       defaultValue: 'default',
     },
+    num: {
+      type: 'number',
+      defaultValue: -1,
+    },
   };
 
-  const values = parseQueryParams('?num=1', model);
+  const values = parseQueryParams('?num', model);
 
-  expect(values).toEqual({ str: 'default' });
+  expect(values).toEqual({ str: 'default', num: null });
 });
 
 it('should use default value when invalid', () => {
@@ -341,6 +362,10 @@ describe('defaultQueryParams', () => {
         type: 'number',
         defaultValue: -1,
       },
+      bool: {
+        type: 'boolean',
+        defaultValue: false,
+      },
       strs: {
         type: 'array',
         defaultValue: [''],
@@ -355,6 +380,7 @@ describe('defaultQueryParams', () => {
 
     expect(defaultParams).toEqual({
       str: 'default',
+      bool: false,
       num: -1,
       strs: [''],
       nums: [-1],

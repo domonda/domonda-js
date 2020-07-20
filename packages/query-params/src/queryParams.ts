@@ -5,8 +5,6 @@
  */
 
 import { stringify as qsStringify, parse as qsParse } from 'query-string';
-import pickBy from 'lodash/pickBy';
-import cloneDeepWith from 'lodash/cloneDeepWith';
 import { parseISOToDate, stripTime } from './date';
 
 const ARRAY_FORMAT: 'bracket' | 'index' | 'comma' | 'none' = 'bracket';
@@ -27,7 +25,7 @@ export function strictUriEncode(str: string) {
   );
 }
 
-/** Stringify function which omits `undefined`, `null`, and empty arrays. */
+/** Stringify function which omits `undefined` values and persists empty arrays. */
 export function stringify(
   value: { [key: string]: any },
   props: { prependQuestionMark?: boolean } = {},
@@ -35,22 +33,25 @@ export function stringify(
   const { prependQuestionMark } = props;
 
   const str = qsStringify(
-    pickBy(
-      cloneDeepWith(value, (val) => {
-        // persist empty arrays
-        if (Array.isArray(val) && val.length === 0) {
-          return [null];
+    Object.entries(value).reduce((acc, [key, val]) => {
+      // omit `undefined`s
+      if (val === undefined) {
+        return acc;
+      }
+      // convert valid dates to iso strings, omit invalid dates
+      if (val instanceof Date) {
+        if (isNaN(val.getDate())) {
+          return acc;
         }
-        // convert valid dates to iso strings
-        if (val instanceof Date) {
-          if (isNaN(val.getDate())) {
-            return null;
-          }
-          return val.toISOString();
-        }
-      }),
-      (part) => part != null,
-    ),
+        return { ...acc, [key]: val.toISOString() };
+      }
+      // persist empty arrays
+      if (Array.isArray(val) && val.length === 0) {
+        return { ...acc, [key]: [null] };
+      }
+      // everything else is just passed through
+      return { ...acc, [key]: val };
+    }, {}),
     { arrayFormat: ARRAY_FORMAT },
   );
 

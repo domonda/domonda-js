@@ -1435,8 +1435,6 @@ __metadata:
     "@types/react-dom": ^16.9.8
     fast-equals: ^2.0.0
     history: ^4.10.1
-    lodash.clonedeepwith: ^4.5.0
-    lodash.pickby: ^4.6.0
     query-string: ^6.13.1
     react-test-renderer: ^16.13.1
     typescript: ^3.9.5
@@ -11675,13 +11673,6 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"lodash.clonedeepwith@npm:^4.5.0":
-  version: 4.5.0
-  resolution: "lodash.clonedeepwith@npm:4.5.0"
-  checksum: d2da3658e432a8716d800d1a6591893acb832deba61808e96487b0573e3748809227eded06d6cc6efcdfce596c6e3b277cd138a24119c14b7511005a040cb28e
-  languageName: node
-  linkType: hard
-
 "lodash.debounce@npm:^4.0.8":
   version: 4.0.8
   resolution: "lodash.debounce@npm:4.0.8"
@@ -11707,13 +11698,6 @@ fsevents@^1.2.7:
   version: 4.1.2
   resolution: "lodash.memoize@npm:4.1.2"
   checksum: 080c1095b7795b293a06078737550dc0c8138192cadbafb4e4b1303357d367ac589a1a570fad8de154175b008ca7b2b48d6a7f1755a143e13b764e20a7104080
-  languageName: node
-  linkType: hard
-
-"lodash.pickby@npm:^4.6.0":
-  version: 4.6.0
-  resolution: "lodash.pickby@npm:4.6.0"
-  checksum: 4be8dc90315a03aa002d9c3899a5803f8ba22739442a187de2258a332666d51a0800db8b87875543ebc05bdc6919d12a0d8b6d8ab2e0fcdd20fe1cf908f15c31
   languageName: node
   linkType: hard
 

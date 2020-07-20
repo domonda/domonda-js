@@ -44,8 +44,6 @@
   "dependencies": {
     "fast-equals": "^2.0.0",
     "history": "^4.10.1",
-    "lodash.clonedeepwith": "^4.5.0",
-    "lodash.pickby": "^4.6.0",
     "query-string": "^6.13.1"
   }
 }

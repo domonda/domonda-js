@@ -19,17 +19,17 @@ it('should return empty string on empty object', () => {
   expect(queryString).toBe('');
 });
 
-it('should omit null and undefined values', () => {
+it('should persist nulls but omit undefined values', () => {
   const queryString = stringify({
     nl: null,
     undf: undefined,
     str: 'test',
   });
 
-  expect(queryString).toBe('str=test');
+  expect(queryString).toBe('nl&str=test');
 });
 
-it('should correctly handle empty arrays', () => {
+it('should persist empty arrays', () => {
   const queryString = stringify({
     emptarr: [],
   });
