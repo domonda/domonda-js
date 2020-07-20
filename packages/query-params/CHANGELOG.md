@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/domonda/domonda-js/compare/@domonda/query-params@1.5.9...@domonda/query-params@2.0.0) (2020-07-20)
+
+
+### Features
+
+* null for params without values and undefined for missing params ([67e4e5a](https://github.com/domonda/domonda-js/commit/67e4e5a9922cfd2bb1c769993c9a1420c64287ed))
+
+
+### BREAKING CHANGES
+
+* Query params now treat null and undefined differently. If there is a parameter in the URL but no value - its treated as `null`; however, if the paramter is completely missing from the URL - then its `undefined`. BEWARE: because of this, the `defaultValue` will be used exclusively if the value is `undefined` (since `null` is treated as a set value).
+
+
+
+
+
 ## [1.5.9](https://github.com/domonda/domonda-js/compare/@domonda/query-params@1.5.8...@domonda/query-params@1.5.9) (2020-07-01)
 
 **Note:** Version bump only for package @domonda/query-params
