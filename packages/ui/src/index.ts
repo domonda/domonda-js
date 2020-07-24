@@ -5,7 +5,7 @@ export * from './Menu';
 export * from './Input';
 export * from './Select';
 export * from './Err';
-export * from './ErrBoundry';
+export * from './ErrBoundary';
 export * from './Alert';
 export * from './Loading';
 export * from './Grid';

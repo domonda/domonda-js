@@ -1,19 +1,19 @@
 /**
  *
- * ErrBoundry
+ * ErrBoundary
  *
  */
 
 import React from 'react';
 import { Err, ErrProps } from '../Err';
 
-export type ErrBoundryProps = Pick<ErrProps, Exclude<keyof ErrProps, 'error' | 'onRetry'>>;
+export type ErrBoundaryProps = Pick<ErrProps, Exclude<keyof ErrProps, 'error' | 'onRetry'>>;
 
 interface State {
   error: Error | null;
 }
 
-export class ErrBoundry extends React.PureComponent<ErrBoundryProps, State> {
+export class ErrBoundary extends React.PureComponent<ErrBoundaryProps, State> {
   public state: State = {
     error: null,
   };
