@@ -84,7 +84,7 @@ export const disabled = style(({ palette }) => ({
   },
 }));
 
-export const label = style(() => ({
+export const label = style(({ typography }) => ({
   display: 'inherit',
   position: 'relative',
   alignItems: 'inherit',
@@ -93,6 +93,7 @@ export const label = style(() => ({
   textDecoration: 'inherit',
   letterSpacing: 0.5,
   lineHeight: 1.125,
+  fontWeight: typography.weights.medium,
 }));
 
 export const colors = styleMap(({ palette }) => ({
@@ -163,12 +164,21 @@ export const colors = styleMap(({ palette }) => ({
   ),
 }));
 
-export const sizes = styleMap(({ typography, sizing }) => ({
-  ...SIZES.reduce<Record<string, Style>>(
+export const sizes = styleMap(({ sizing }) => ({
+  inherit: {
+    selectors: {
+      [`${label}&`]: {
+        fontSize: 'inherit',
+      },
+      [`${variants.text} > ${label}&, ${variants.link} > ${label}&`]: {
+        padding: 0,
+      },
+    },
+  },
+  ...SIZES.reduce(
     (acc, size) => ({
       ...acc,
       [size]: {
-        fontWeight: typography.weights.medium,
         selectors: {
           [`${variants.primary}&, ${variants.secondary}&, ${variants.naked}&`]: {
             padding: `calc(${sizing(size)} / 2) 0`,
@@ -183,7 +193,7 @@ export const sizes = styleMap(({ typography, sizing }) => ({
         },
       },
     }),
-    {},
+    {} as Record<Size, Style>,
   ),
 }));
 
@@ -219,7 +229,7 @@ globalStyle(`${label} > ${svgRoot}`, () => ({
 
 Object.entries(sizes).forEach(([size, sizeClass]) => {
   globalStyle(`${label}${sizeClass} > ${svgRoot}`, ({ sizing }) => ({
-    height: sizing(size as Size),
+    height: size === 'inherit' ? 'inherit' : sizing(size as Size),
   }));
 });
 

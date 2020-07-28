@@ -41,6 +41,7 @@ addDecorator((story) => (
             <Small>
               Design by:&nbsp;
               <Button
+                size="inherit"
                 variant="link"
                 component={({ children, ...rest }) => (
                   <a {...rest} href="http://saismo.at/" target="_blank">

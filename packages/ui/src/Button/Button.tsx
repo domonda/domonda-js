@@ -14,7 +14,7 @@ import * as classesRef from './Button.treat';
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   component?: string | React.ComponentType<React.HTMLAttributes<HTMLElement>>;
   variant?: keyof typeof classesRef.variants; // default: `secondary`
-  size?: Size; // default: `regular`
+  size?: 'inherit' | Size; // default: `regular`
   color?: Color; // default: `accent`
   dense?: boolean;
   disabled?: boolean;
