@@ -14,10 +14,9 @@ export const flat = style(() => ({
   borderRadius: 0,
 }));
 
-export const message = style(({ typography }) => ({
+export const message = style(() => ({
   flex: 1,
   margin: 0,
-  fontWeight: typography.weights.medium,
 }));
 
 export const rightMargin = style(({ sizing }) => ({
