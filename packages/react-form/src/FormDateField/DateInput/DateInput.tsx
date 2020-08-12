@@ -172,7 +172,15 @@ const DateInputPopperPortal: React.FC<{ children: React.ReactNode | undefined }>
 
 const DateInput = React.forwardRef<ReactDatePicker, DateInputProps & WithStyles<typeof styles>>(
   function DateField(props, ref) {
-    const { children, classes, className, popperClassName, calendarClassName, ...rest } = props;
+    const {
+      children,
+      classes,
+      className,
+      popperClassName,
+      calendarClassName,
+      onKeyDown,
+      ...rest
+    } = props;
 
     const reactDatePickerRef = useRef<ReactDatePicker | null>(null);
     useImperativeHandle(ref, () => reactDatePickerRef.current!, []);
@@ -195,6 +203,10 @@ const DateInput = React.forwardRef<ReactDatePicker, DateInputProps & WithStyles<
           onKeyDown={(event) => {
             if (event.key === 'Tab') {
               reactDatePickerRef.current?.setOpen(false);
+            }
+
+            if (onKeyDown) {
+              onKeyDown(event);
             }
           }}
         />
