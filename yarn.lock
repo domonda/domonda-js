@@ -1469,7 +1469,7 @@ __metadata:
     lodash.get: ^4.4.2
     lodash.unset: ^4.5.2
     react: ^16.13.1
-    react-datepicker: ^3.0.0
+    react-datepicker: ^3.1.3
     react-dom: ^16.13.1
     react-test-renderer: ^16.13.1
     typescript: ^3.9.5
@@ -14298,9 +14298,9 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"react-datepicker@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "react-datepicker@npm:3.0.0"
+"react-datepicker@npm:^3.1.3":
+  version: 3.1.3
+  resolution: "react-datepicker@npm:3.1.3"
   dependencies:
     classnames: ^2.2.6
     date-fns: ^2.0.1
@@ -14310,7 +14310,7 @@ fsevents@^1.2.7:
   peerDependencies:
     react: ^16.9.0
     react-dom: ^16.9.0
-  checksum: bb663efe502b59bf60ea85c1f3ee7e5165fc69ba02e169ac387855bd3883641e479dff1fd41c75645f2fbd95a0c9d72ff7abbdf6cd204eb547192339c00d76ed
+  checksum: b3c3b4cd76a20e1b545ad14667583c0e687eec3a0e7c4be08a96febc509166b8501c83116590366517f63aba9f66aa5491e13b4bea76cb3ef6349ce465f7b6ec
   languageName: node
   linkType: hard
 

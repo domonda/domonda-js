@@ -4,7 +4,7 @@
  *
  */
 
-import React, { RefAttributes } from 'react';
+import React, { useRef, useImperativeHandle, RefAttributes } from 'react';
 import clsx from 'clsx';
 import ReactDatePicker from 'react-datepicker';
 
@@ -172,7 +172,19 @@ const DateInputPopperPortal: React.FC<{ children: React.ReactNode | undefined }>
 
 const DateInput = React.forwardRef<ReactDatePicker, DateInputProps & WithStyles<typeof styles>>(
   function DateField(props, ref) {
-    const { children, classes, className, popperClassName, calendarClassName, ...rest } = props;
+    const {
+      children,
+      classes,
+      className,
+      popperClassName,
+      calendarClassName,
+      onKeyDown,
+      ...rest
+    } = props;
+
+    const reactDatePickerRef = useRef<ReactDatePicker | null>(null);
+    useImperativeHandle(ref, () => reactDatePickerRef.current!, []);
+
     return (
       <div className={clsx(classes.root, className)}>
         <ReactDatePicker
@@ -185,9 +197,18 @@ const DateInput = React.forwardRef<ReactDatePicker, DateInputProps & WithStyles<
             },
           }}
           {...rest}
-          ref={ref}
+          ref={reactDatePickerRef}
           popperClassName={clsx(classes.popper, popperClassName)}
           calendarClassName={clsx(classes.calendar, calendarClassName)}
+          onKeyDown={(event) => {
+            if (event.key === 'Tab') {
+              reactDatePickerRef.current?.setOpen(false);
+            }
+
+            if (onKeyDown) {
+              onKeyDown(event);
+            }
+          }}
         />
       </div>
     );
