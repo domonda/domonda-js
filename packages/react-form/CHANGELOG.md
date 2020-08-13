@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.8.6](https://github.com/domonda/domonda-js/compare/@domonda/react-form@2.8.5...@domonda/react-form@2.8.6) (2020-08-13)
+
+
+### Bug Fixes
+
+* **DateInput:** close date picker on tab out ([#58](https://github.com/domonda/domonda-js/issues/58)) ([6be5c8d](https://github.com/domonda/domonda-js/commit/6be5c8d9a31addd49bccbc4be664276eea133b40))
+
+
+
+
+
 ## [2.8.5](https://github.com/domonda/domonda-js/compare/@domonda/react-form@2.8.4...@domonda/react-form@2.8.5) (2020-07-01)
 
 **Note:** Version bump only for package @domonda/react-form
