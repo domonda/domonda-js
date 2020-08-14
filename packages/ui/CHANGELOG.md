@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.0.2](https://github.com/domonda/domonda-js/compare/@domonda/ui@9.0.1...@domonda/ui@9.0.2) (2020-08-14)
+
+
+### Bug Fixes
+
+* **Autocomplete:** disabled clear button when read-only ([b6c97b3](https://github.com/domonda/domonda-js/commit/b6c97b3675547fe0c7cb405f532488c73c510b82))
+
+
+
+
+
 ## [9.0.1](https://github.com/domonda/domonda-js/compare/@domonda/ui@9.0.0...@domonda/ui@9.0.1) (2020-08-13)
 
 **Note:** Version bump only for package @domonda/ui
