@@ -240,7 +240,7 @@ describe('Submitting', () => {
     }, 0);
   });
 
-  it('should auto-submit even if currently submitting', (done) => {
+  it('should auto-submit even if currently submitting by default', (done) => {
     const spy = jest.fn((_0) => new Promise((resolve) => setTimeout(resolve, 0)));
 
     const [form] = createForm(defaultValues, {
