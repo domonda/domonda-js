@@ -81,6 +81,11 @@ export interface FormConfig<T extends FormDefaultValues> {
    * Transforms values before dispatching notifications to subscribers.
    */
   transformer?: Transformer<T, FormTag>;
+  /**
+  * Prevents multiple submissions from happening in parallel while one
+  * submit is in-flight.
+  */
+  ignoreSubmitWhileSubmitting?: boolean;
 }
 
 export interface FormFieldState {
