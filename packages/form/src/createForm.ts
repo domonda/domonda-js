@@ -131,11 +131,22 @@ export function createForm<DefaultValues extends FormDefaultValues>(
       resetOnFailedSubmit,
       onSubmit,
       disableOnSubmit,
+      autoSubmit,
+      allowSubmitWhileSubmitting,
     } = configRef.current;
 
     if (onSubmit) {
       if (event) {
         event.preventDefault();
+      }
+
+      if (
+        // allow parallel submissions when `autoSubmit` is enabled by default
+        (allowSubmitWhileSubmitting === undefined && !autoSubmit && plumb.state.submitting) ||
+        // when explicitly set, never allow parallel submissions
+        (allowSubmitWhileSubmitting === false && plumb.state.submitting)
+      ) {
+        return;
       }
 
       plumb.next(

@@ -240,7 +240,7 @@ describe('Submitting', () => {
     }, 0);
   });
 
-  it('should auto-submit even if currently submitting', (done) => {
+  it('should auto-submit even if currently submitting by default', (done) => {
     const spy = jest.fn((_0) => new Promise((resolve) => setTimeout(resolve, 0)));
 
     const [form] = createForm(defaultValues, {
@@ -349,6 +349,23 @@ describe('Submitting', () => {
     // submit is a promise, thats why we wrap with timeout
     setTimeout(() => {
       expect(spy).toBeCalledTimes(0);
+      done();
+    }, 0);
+  });
+
+  it('should prevent multiple parallel submissions by default', async (done) => {
+    const spy = jest.fn((_0) => new Promise((resolve) => setTimeout(resolve, 0)));
+
+    const [form] = createForm(defaultValues, {
+      onSubmit: spy,
+    });
+
+    form.submit();
+    expect(form.state.submitting).toBeTruthy();
+    form.submit();
+
+    setTimeout(() => {
+      expect(spy).toBeCalledTimes(1);
       done();
     }, 0);
   });

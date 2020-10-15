@@ -60,7 +60,11 @@ export interface FormConfig<T extends FormDefaultValues> {
    * It is also called with `await`, so the `onSubmit` can be async too!
    */
   onSubmit?: FormSubmitHandler<T>;
-  /** Automatically submit the form when changes happen. */
+  /**
+   * Automatically submit the form when changes happen. Note that
+   * allowing multiple parallel submissions will be enabled by
+   * default when the form is in `autoSubmit` mode.
+   */
   autoSubmit?: boolean;
   /**
    * The debounce time which triggers the submit event after
@@ -81,6 +85,15 @@ export interface FormConfig<T extends FormDefaultValues> {
    * Transforms values before dispatching notifications to subscribers.
    */
   transformer?: Transformer<T, FormTag>;
+  /**
+   * The form by default prevents multiple parallel submissions, submitting
+   * is only possible if there is no submit in-flight. BEWARE: when the form is
+   * in `autoSubmit` mode, parallel submissions will be enabled by default.
+   *
+   * Set this prop to `true` to allow parallel submissions *always*. Set to `false`
+   * to prevent parallel submissions *always*.
+   */
+  allowSubmitWhileSubmitting?: boolean;
 }
 
 export interface FormFieldState {
