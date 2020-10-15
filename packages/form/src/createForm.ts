@@ -131,7 +131,7 @@ export function createForm<DefaultValues extends FormDefaultValues>(
       resetOnFailedSubmit,
       onSubmit,
       disableOnSubmit,
-      ignoreSubmitWhileSubmitting,
+      allowSubmitWhileSubmitting,
     } = configRef.current;
 
     if (onSubmit) {
@@ -139,7 +139,7 @@ export function createForm<DefaultValues extends FormDefaultValues>(
         event.preventDefault();
       }
 
-      if (ignoreSubmitWhileSubmitting && plumb.state.submitting) {
+      if (!allowSubmitWhileSubmitting && plumb.state.submitting) {
         return;
       }
 

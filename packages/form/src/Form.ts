@@ -82,10 +82,11 @@ export interface FormConfig<T extends FormDefaultValues> {
    */
   transformer?: Transformer<T, FormTag>;
   /**
-  * Prevents multiple submissions from happening in parallel while one
-  * submit is in-flight.
-  */
-  ignoreSubmitWhileSubmitting?: boolean;
+   * The form by default prevents multiple parallel submissions, submitting
+   * is only possible if there is no submit in-flight. Set this prop to
+   * `true` to disable this behaviour.
+   */
+  allowSubmitWhileSubmitting?: boolean;
 }
 
 export interface FormFieldState {
