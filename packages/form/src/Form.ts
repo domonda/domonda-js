@@ -89,7 +89,9 @@ export interface FormConfig<T extends FormDefaultValues> {
    * The form by default prevents multiple parallel submissions, submitting
    * is only possible if there is no submit in-flight. BEWARE: when the form is
    * in `autoSubmit` mode, parallel submissions will be enabled by default.
-   * Set this prop to `true` to disable this behaviour completely.
+   *
+   * Set this prop to `true` to allow parallel submissions *always*. Set to `false`
+   * to prevent parallel submissions *always*.
    */
   allowSubmitWhileSubmitting?: boolean;
 }
