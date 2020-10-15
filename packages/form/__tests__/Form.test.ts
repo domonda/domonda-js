@@ -353,6 +353,23 @@ describe('Submitting', () => {
     }, 0);
   });
 
+  it('should prevent multiple parallel submissions by default', async (done) => {
+    const spy = jest.fn((_0) => new Promise((resolve) => setTimeout(resolve, 0)));
+
+    const [form] = createForm(defaultValues, {
+      onSubmit: spy,
+    });
+
+    form.submit();
+    expect(form.state.submitting).toBeTruthy();
+    form.submit();
+
+    setTimeout(() => {
+      expect(spy).toBeCalledTimes(1);
+      done();
+    }, 0);
+  });
+
   describe('Error handling', () => {
     const err = new Error();
 
