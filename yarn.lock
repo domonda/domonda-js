@@ -1401,7 +1401,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@domonda/form@^2.3.5, @domonda/form@workspace:packages/form":
+"@domonda/form@^2.3.6, @domonda/form@workspace:packages/form":
   version: 0.0.0-use.local
   resolution: "@domonda/form@workspace:packages/form"
   dependencies:
@@ -1448,7 +1448,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@domonda/react-form@workspace:packages/react-form"
   dependencies:
-    "@domonda/form": ^2.3.5
+    "@domonda/form": ^2.3.6
     "@domonda/plumb": ^2.2.9
     "@domonda/react-plumb": ^2.0.16
     "@domonda/ui": ^9.0.2
