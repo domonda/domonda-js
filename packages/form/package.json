@@ -1,6 +1,6 @@
 {
   "name": "@domonda/form",
-  "version": "2.3.5",
+  "version": "2.3.6",
   "license": "ISC",
   "description": "Powerful yet simple form library built using @domonda/plumb.",
   "homepage": "https://github.com/domonda/domonda-js#readme",

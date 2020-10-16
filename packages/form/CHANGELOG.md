@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.6](https://github.com/domonda/domonda-js/compare/@domonda/form@2.3.5...@domonda/form@2.3.6) (2020-10-16)
+
+
+### Bug Fixes
+
+* **form:** Prevent multiple parallel submissions ([#61](https://github.com/domonda/domonda-js/issues/61)) ([d5bbc79](https://github.com/domonda/domonda-js/commit/d5bbc796fffc97f5f85ed9f356645f0bdbcd0d63))
+
+
+
+
+
 ## [2.3.5](https://github.com/domonda/domonda-js/compare/@domonda/form@2.3.4...@domonda/form@2.3.5) (2020-07-01)
 
 **Note:** Version bump only for package @domonda/form
