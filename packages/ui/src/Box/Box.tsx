@@ -6,10 +6,11 @@
 
 import React, { useMemo } from 'react';
 import clsx from 'clsx';
+
+import { useStyles, useTheme } from 'treat';
 import { Space } from '../styles/spacing';
 
-// decorate
-import { decorate, Decorate } from './decorate';
+import * as styles from './Box.treat';
 
 type Spacing =
   | Exclude<Space, 'none'> // top
@@ -18,28 +19,28 @@ type Spacing =
   | [Space, Space, Space, Space]; // top right bottom left
 
 export interface BoxProps extends React.HTMLAttributes<HTMLElement> {
-  classes?: Partial<Decorate['classes']>;
   component?: string | React.ComponentType<React.HTMLAttributes<HTMLElement>>;
-  padding?: Spacing;
-  margin?: Spacing;
   fill?: boolean;
+  margin?: Spacing;
   overflowing?: boolean;
+  padding?: Spacing;
 }
 
-const Box = React.forwardRef<HTMLElement, BoxProps & Decorate>(function Box(props, ref) {
+export const Box = React.forwardRef<HTMLElement, BoxProps>(function Box(props, ref) {
   const {
-    component: Component = 'div' as React.ElementType<React.ComponentPropsWithRef<'div'>>,
     children,
-    theme,
-    classes,
     className,
-    padding,
-    margin,
+    component: Component = 'div' as React.ElementType<React.ComponentPropsWithRef<'div'>>,
     fill,
+    margin,
     overflowing,
+    padding,
     style,
     ...rest
   } = props;
+
+  const classes = useStyles(styles);
+  const theme = useTheme();
 
   const derivedStyle = useMemo(() => {
     if (padding == null && margin == null && !style) {
@@ -61,11 +62,10 @@ const Box = React.forwardRef<HTMLElement, BoxProps & Decorate>(function Box(prop
           : undefined,
       ...style,
     };
-  }, [theme, padding, margin, style]);
+  }, [margin, padding, style, theme]);
 
   return (
     <Component
-      {...rest}
       ref={ref as any}
       className={clsx(
         classes.root,
@@ -74,15 +74,9 @@ const Box = React.forwardRef<HTMLElement, BoxProps & Decorate>(function Box(prop
         className,
       )}
       style={derivedStyle}
+      {...rest}
     >
       {children}
     </Component>
   );
 });
-
-if (process.env.NODE_ENV !== 'production') {
-  Box.displayName = 'Box';
-}
-
-const StyledBox = decorate(Box);
-export { StyledBox as Box };

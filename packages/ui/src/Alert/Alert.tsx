@@ -7,52 +7,39 @@
 import React from 'react';
 import clsx from 'clsx';
 import { Color } from '../styles/palette';
-
-// decorate
-import { decorate, Decorate } from './decorate';
+import { useStyles } from 'react-treat';
+import * as classesRef from './Alert.treat';
+import { P } from '../Typography';
 
 export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
-  classes?: Partial<Decorate['classes']>;
-  message: React.ReactNode | Error;
-  color?: Color; // if `message instanceof Error` then default is: `danger`, otherwize: `secondary`
   actions?: React.ReactNode;
+  color?: Color; // if `message instanceof Error` then default is: `danger`, otherwize: `secondary`
   flat?: boolean;
+  message: React.ReactNode | Error;
 }
 
-const Alert = React.forwardRef<HTMLDivElement, AlertProps & Decorate>(function Alert(props, ref) {
+export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
   const {
-    classes,
     className,
+    actions,
     message,
     color = message instanceof Error ? 'danger' : 'secondary',
-    actions,
     flat,
     ...rest
   } = props;
+  const classes = useStyles(classesRef);
 
   return (
     <div
-      role="alert"
       {...rest}
-      className={clsx(
-        classes.root,
-        classes[color as keyof typeof classes],
-        flat && classes.flat,
-        className,
-      )}
       ref={ref}
+      className={clsx(classes.root, flat && classes.flat, classes.colors[color], className)}
+      role="alert"
     >
-      <div className={clsx(classes.message, actions && classes.rightMargin)}>
+      <P className={clsx(classes.message, classes.colors[color], actions && classes.rightMargin)}>
         {message instanceof Error ? message.message : message}
-      </div>
+      </P>
       {actions}
     </div>
   );
 });
-
-if (process.env.NODE_ENV !== 'production') {
-  Alert.displayName = 'Alert';
-}
-
-const StyledAlert = decorate(Alert);
-export { StyledAlert as Alert };

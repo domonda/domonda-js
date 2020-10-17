@@ -6,50 +6,24 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import { createStyles, withStyles, WithStyles, Color, COLORS } from '../styles';
 
-const styles = createStyles(({ palette, shape, spacing }) => ({
-  root: {
-    display: 'inline-flex',
-    borderRadius: shape.borderRadius.pill,
-    padding: `${spacing('tiny') / 2}px ${spacing('tiny')}px`,
-  },
-  ...COLORS.reduce(
-    (acc, color) => ({
-      ...acc,
-      [color]: {
-        color: palette[color],
-        backgroundColor: palette.lightest(color),
-      },
-    }),
-    {},
-  ),
-}));
+import { useStyles } from 'react-treat';
+import { Color } from '../styles/palette';
+
+import * as styles from './Pill.treat';
 
 export interface PillProps extends React.HTMLAttributes<HTMLSpanElement> {
-  classes?: WithStyles<typeof styles>['classes'];
   color?: Color; // default: `secondary`
 }
 
-const Pill = React.forwardRef<HTMLSpanElement, PillProps & WithStyles<typeof styles>>(function Pill(
-  props,
-  ref,
-) {
-  const { children, classes, className, color = 'secondary', ...rest } = props;
+export const Pill = React.forwardRef<HTMLSpanElement, PillProps>(function Pill(props, ref) {
+  const { children, className, color = 'secondary', ...rest } = props;
+
+  const classes = useStyles(styles);
+
   return (
-    <span
-      {...rest}
-      className={clsx(classes.root, classes[color as keyof typeof classes], className)}
-      ref={ref}
-    >
+    <span {...rest} ref={ref} className={clsx(classes.root, classes.colors[color], className)}>
       {children}
     </span>
   );
 });
-
-if (process.env.NODE_ENV !== 'production') {
-  Pill.displayName = 'Pill';
-}
-
-const StyledPill = withStyles(styles)(Pill);
-export { StyledPill as Pill };

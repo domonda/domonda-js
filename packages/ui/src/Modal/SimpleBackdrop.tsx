@@ -19,7 +19,7 @@ export const styles = {
     left: 0,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     // Remove grey highlight
-    WebkitTapHighlightColor: 'transparent',
+    '--webkit-tap-highlight-color': 'transparent',
     // Disable scroll capabilities.
     touchAction: 'none',
   },

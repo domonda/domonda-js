@@ -7,17 +7,18 @@
 import React, { useRef, useCallback } from 'react';
 import Downshift, { DownshiftProps } from 'downshift';
 import { FixedSizeList } from 'react-window';
+import clsx from 'clsx';
 
 // ui
 import { Input, InputProps } from '../Input';
 import { Button } from '../Button';
 import { Popper, PopperProps } from '../Popper';
-import { MenuList, MenuListProps, MenuItem, MenuItemProps } from '../Menu';
 import { Paper, PaperProps } from '../Paper';
+import { MenuList, MenuListProps, MenuItem, MenuItemProps } from '../Menu';
 
-// decorate
-import { useDecorate, Decorate } from './decorate';
-import clsx from 'clsx';
+// styles
+import { useStyles } from 'react-treat';
+import * as styles from './Autocomplete.treat';
 
 const ITEM_SIZE = 36;
 const ITEMS_FIT = 8; // how many items should fit the open list
@@ -29,7 +30,6 @@ export type AutocompleteItemToString<T> = (item: T | null) => string;
 export interface AutocompleteProps<T>
   extends Omit<DownshiftProps<T>, 'onInputValueChange' | 'getItemId' | 'children'> {
   readonly items: readonly T[];
-  classes?: Partial<Decorate['classes']>;
   getItemId?: (item: T | null) => string;
   onInputValueChange?: (value: string | null) => void;
   listWidth?: number;
@@ -57,7 +57,6 @@ export interface AutocompleteProps<T>
 
 export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement | null {
   const {
-    classes: outerClasses,
     items,
     getItemId = (item: T) => (typeof item === 'string' ? item : JSON.stringify(item)),
     onInputValueChange,
@@ -85,7 +84,7 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
     ...rest
   } = props;
 
-  const classes = useDecorate({ classes: outerClasses });
+  const classes = useStyles(styles);
 
   const handleInputValueChange = useCallback(
     (value: string) => {
@@ -197,14 +196,11 @@ export function Autocomplete<T>(props: AutocompleteProps<T>): React.ReactElement
               placeholder={placeholder}
               dense={dense}
               {...InputProps}
-              classes={{
-                ...InputProps.classes,
-                input: clsx(
-                  InputProps.classes?.input,
-                  !hideClearButton && classes.inputWithClearButton,
-                  !hideClearButton && dense && classes.dense,
-                ),
-              }}
+              className={clsx(
+                InputProps.className,
+                !hideClearButton && classes.inputWithClearButton,
+                !hideClearButton && dense && classes.dense,
+              )}
               {...restInputProps}
               required={required}
               disabled={disabled}

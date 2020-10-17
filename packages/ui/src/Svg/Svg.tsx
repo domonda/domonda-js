@@ -4,64 +4,29 @@
  *
  */
 
-import React, { useMemo } from 'react';
+import React from 'react';
 import clsx from 'clsx';
-import { Color, ColorVariant, TypographySize } from '../styles';
+import { Color } from '../styles/palette';
+import { Size } from '../styles/sizes';
+import { useStyles } from 'react-treat';
+import * as classesRef from './Svg.treat';
 
-// decorate
-import { decorate, Decorate } from './decorate';
-
-export interface SvgProps extends React.HTMLAttributes<HTMLElement> {
-  classes?: Partial<Decorate['classes']>;
-  color?: 'inherit' | Color; // default: `textDark`
-  colorVariant?: ColorVariant;
-  size?: TypographySize; // default: `small`
-  component?: keyof React.ReactHTML;
+export interface SvgProps extends React.SVGProps<SVGSVGElement> {
+  color?: Color; // default: `inherit`
+  size?: Size; // default: `regular`
 }
 
-const Svg = React.forwardRef<HTMLElement, SvgProps & Decorate>(function Svg(props, ref) {
-  const {
-    children,
-    theme,
-    classes,
-    className,
-    color = 'textDark',
-    colorVariant,
-    size = 'small',
-    style,
-    component: PropComponent,
-    ...rest
-  } = props;
-
-  const Component = useMemo(() => {
-    if (PropComponent) {
-      return PropComponent as any;
-    }
-    return 'span';
-  }, [PropComponent]);
-
-  const derivedStyle = useMemo(() => {
-    const manipulator = colorVariant
-      ? theme.palette[colorVariant]
-      : (color: Color) => theme.palette[color];
-    return { color: color === 'inherit' ? 'inherit' : manipulator(color), ...style };
-  }, [theme, color, colorVariant, style]);
+export const Svg = React.forwardRef<SVGSVGElement, SvgProps>(function Svg(props, ref) {
+  const { children, className, color, size = 'regular', style, ...rest } = props;
+  const classes = useStyles(classesRef);
 
   return (
-    <Component
+    <svg
       {...rest}
       ref={ref}
-      className={clsx(classes.root, classes[`size-${size}` as keyof typeof classes], className)}
-      style={derivedStyle}
+      className={clsx(classes.root, classes.sizes[size], color && classes.colors[color], className)}
     >
       {children}
-    </Component>
+    </svg>
   );
 });
-
-if (process.env.NODE_ENV !== 'production') {
-  Svg.displayName = 'Svg';
-}
-
-const StyledSvg = decorate(Svg);
-export { StyledSvg as Svg };

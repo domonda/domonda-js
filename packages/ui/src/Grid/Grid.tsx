@@ -6,42 +6,43 @@
 
 import React, { useMemo } from 'react';
 import clsx from 'clsx';
-import { Theme } from '../styles';
 
-// decorate
-import { decorate, Decorate } from './decorate';
+import { useStyles, useTheme } from 'treat';
+import { Theme } from '../styles/theme';
+
+import * as styles from './Grid.treat';
 
 export interface GridProps extends React.HTMLAttributes<HTMLElement> {
-  classes?: Partial<Decorate['classes']>;
+  /** A container can also be in an area of another container. */
+  area?: string;
   component?: string | React.ComponentType<React.HTMLAttributes<HTMLElement>>;
   /** Makes the current component a container. (display: grid;) */
   container?: boolean;
-  /** Equivalent of `gridTemplate`. Its important to define the grid `areas` because the grid items use it! */
-  template?: string | ((theme: Theme) => string);
-  /** A container can also be in an area of another container. */
-  area?: string;
+  fill?: boolean;
   /** Equivalent of `gridGap`. (The gap between grid rows and columns) */
   gap?: string | ((theme: Theme) => string);
-  fill?: boolean;
   overflowing?: boolean;
+  /** Equivalent of `gridTemplate`. Its important to define the grid `areas` because the grid items use it! */
+  template?: string | ((theme: Theme) => string);
 }
 
-const Grid = React.forwardRef<HTMLElement, GridProps & Decorate>(function Grid(props, ref) {
+export const Grid = React.forwardRef<HTMLElement, GridProps>(function Grid(props, ref) {
   const {
     children,
-    theme,
-    classes,
     className,
     component: Component = 'div' as React.ElementType<React.ComponentPropsWithRef<'div'>>,
     container,
-    template,
     area,
-    gap,
     fill,
+    gap,
     overflowing,
     style,
+    template,
     ...rest
   } = props;
+
+  const classes = useStyles(styles);
+  const theme = useTheme();
 
   const derivedStyle = useMemo(() => {
     if (!template && !area && !gap && !style) {
@@ -62,7 +63,6 @@ const Grid = React.forwardRef<HTMLElement, GridProps & Decorate>(function Grid(p
 
   return (
     <Component
-      {...rest}
       ref={ref as any}
       className={
         clsx(
@@ -73,15 +73,9 @@ const Grid = React.forwardRef<HTMLElement, GridProps & Decorate>(function Grid(p
         ) || undefined
       }
       style={derivedStyle}
+      {...rest}
     >
       {children}
     </Component>
   );
 });
-
-if (process.env.NODE_ENV !== 'production') {
-  Grid.displayName = 'Grid';
-}
-
-const StyledGrid = decorate(Grid);
-export { StyledGrid as Grid };

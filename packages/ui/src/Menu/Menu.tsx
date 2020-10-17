@@ -6,28 +6,23 @@
 
 import React from 'react';
 import clsx from 'clsx';
+
+import { useStyles } from 'react-treat';
 import { Popover, PopoverProps, PopoverOrigin } from '../Popover';
 
-// decorate
-import { decorate, Decorate } from './decorate';
+import * as styles from './Menu.treat';
 
 // parts
 import { MenuList, MenuListProps } from './MenuList';
 
-type ExtendingProps = Omit<PopoverProps, 'classes'>;
-
-export interface MenuProps extends ExtendingProps {
-  classes?: Partial<Decorate['classes']>;
-  PopoverClasses?: PopoverProps['classes'];
+export interface MenuProps extends PopoverProps {
   MenuListProps?: MenuListProps;
 }
 
-const Menu = React.forwardRef<HTMLDivElement, MenuProps & Decorate>(function Menu(props, ref) {
+export const Menu = React.forwardRef<HTMLDivElement, MenuProps>(function Menu(props, ref) {
   const {
     children,
-    classes,
-    anchorOrigin = { vertical: 'bottom', horizontal: 'center' } as PopoverOrigin,
-    PopoverClasses,
+    anchorOrigin = { horizontal: 'center', vertical: 'bottom' } as PopoverOrigin,
     PaperProps = {},
     transformOrigin = {
       vertical: 'top',
@@ -37,29 +32,20 @@ const Menu = React.forwardRef<HTMLDivElement, MenuProps & Decorate>(function Men
     ...rest
   } = props;
 
+  const classes = useStyles(styles);
+
   return (
     <Popover
+      {...rest}
       ref={ref}
       anchorOrigin={anchorOrigin}
-      classes={PopoverClasses}
       PaperProps={{
         ...PaperProps,
-        classes: {
-          ...PaperProps.classes,
-          root: clsx(classes.root, PaperProps.classes && PaperProps.classes.root),
-        },
+        className: clsx(classes.root, PaperProps.className),
       }}
       transformOrigin={transformOrigin}
-      {...rest}
     >
       <MenuList {...MenuListProps}>{children}</MenuList>
     </Popover>
   );
 });
-
-if (process.env.NODE_ENV !== 'production') {
-  Menu.displayName = 'Menu';
-}
-
-const StyledMenu = decorate(Menu);
-export { StyledMenu as Menu };

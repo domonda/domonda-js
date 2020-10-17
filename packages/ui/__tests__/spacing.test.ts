@@ -4,7 +4,7 @@ const spaces = {
   none: 0,
   tiny: 1,
   small: 2,
-  medium: 3,
+  regular: 3,
   large: 4,
 };
 
@@ -23,11 +23,11 @@ it('returns the spacing for the passed space as a number', () => {
 it('returns multiple spacings for given spaces', () => {
   const spacing = createSpacing(spaces);
 
-  expect(spacing('large', 'medium')).toBe(spaces.large + 'px ' + spaces.medium + 'px');
-  expect(spacing('medium', 'medium', 'none')).toBe(
-    spaces.medium + 'px ' + spaces.medium + 'px ' + spaces.none + 'px',
+  expect(spacing('large', 'regular')).toBe(spaces.large + 'px ' + spaces.regular + 'px');
+  expect(spacing('regular', 'regular', 'none')).toBe(
+    spaces.regular + 'px ' + spaces.regular + 'px ' + spaces.none + 'px',
   );
-  expect(spacing('tiny', 'small', 'medium', 'large')).toBe(
-    spaces.tiny + 'px ' + spaces.small + 'px ' + spaces.medium + 'px ' + spaces.large + 'px',
+  expect(spacing('tiny', 'small', 'regular', 'large')).toBe(
+    spaces.tiny + 'px ' + spaces.small + 'px ' + spaces.regular + 'px ' + spaces.large + 'px',
   );
 });

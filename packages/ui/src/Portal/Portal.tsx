@@ -40,7 +40,3 @@ export const Portal = React.forwardRef<Element | null, PortalProps>(function Por
 
   return ReactDOM.createPortal(children, document.body);
 });
-
-if (process.env.NODE_ENV !== 'production') {
-  Portal.displayName = 'Portal';
-}

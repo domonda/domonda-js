@@ -5,59 +5,46 @@
  */
 
 // font
-
 export const SYSTEM_FONT =
-  '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"';
+  'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
 
 export type TypographyFont = 'header' | 'body';
 export type TypographyFonts = { [font in TypographyFont]: string };
 export const TYPOGRAPHY_FONTS: TypographyFont[] = ['header', 'body'];
 
 // weight
-
-export type TypographyWeight = 'regular' | 'medium' | 'semiBold';
+export type TypographyWeight = 'regular' | 'medium' | 'bold';
 export type TypographyWeights = { [weight in TypographyWeight]: number };
-export const TYPOGRAPHY_WEIGHTS: TypographyWeight[] = ['regular', 'medium', 'semiBold'];
+export const TYPOGRAPHY_WEIGHTS: TypographyWeight[] = ['regular', 'medium', 'bold'];
 
 // size
-
-export type TypographySize = 'tiny' | 'small' | 'medium' | 'large';
-export type TypographySizes = { [size in TypographySize]: number };
-export const TYPOGRAPHY_SIZES: TypographySize[] = ['tiny', 'small', 'medium', 'large'];
+import { Size, Sizes } from './sizes';
 
 // variant
-
 export type TypographyVariant = (
-  size: TypographySize,
+  size: Size,
   weight?: TypographyWeight, // default: `regular`
   font?: TypographyFont, // default: `body`
 ) => {
   fontFamily: string;
-  fontSize: number;
+  fontSize: string;
   fontWeight: number;
 };
 
-export type Typography = { fonts: TypographyFonts } & { sizes: TypographySizes } & {
+export type Typography = { fonts: TypographyFonts } & {
   weights: TypographyWeights;
 } & { variant: TypographyVariant };
 
-export function createTypography({
-  fonts,
-  weights,
-  sizes,
-}: {
-  fonts: TypographyFonts;
-  weights: TypographyWeights;
-  sizes: TypographySizes;
-}): Typography {
-  return {
+export function createTypography(
+  sizes: Sizes,
+): ({ fonts, weights }: { fonts: TypographyFonts; weights: TypographyWeights }) => Typography {
+  return ({ fonts, weights }) => ({
     fonts,
-    sizes,
     weights,
     variant: (size, weight = 'regular', font = 'body') => ({
       fontSize: sizes[size],
       fontWeight: weights[weight],
       fontFamily: fonts[font],
     }),
-  };
+  });
 }

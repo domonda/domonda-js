@@ -7,28 +7,23 @@
 import React from 'react';
 import clsx from 'clsx';
 
-// decorate
-import { decorate, Decorate } from './decorate';
+import { useStyles } from 'react-treat';
 
-export interface MenuListProps extends React.HTMLAttributes<HTMLUListElement> {
-  classes?: Partial<Decorate['classes']>;
-}
+import * as styles from './MenuList.treat';
 
-const MenuList = React.forwardRef<HTMLUListElement, MenuListProps & Decorate>(function MenuList(
+export interface MenuListProps extends React.HTMLAttributes<HTMLUListElement> {}
+
+export const MenuList = React.forwardRef<HTMLUListElement, MenuListProps>(function MenuList(
   props,
   ref,
 ) {
-  const { children, classes, className, ...rest } = props;
+  const { children, className, ...rest } = props;
+
+  const classes = useStyles(styles);
+
   return (
     <ul {...rest} ref={ref} className={clsx(classes.root, className)}>
       {children}
     </ul>
   );
 });
-
-if (process.env.NODE_ENV !== 'production') {
-  MenuList.displayName = 'MenuList';
-}
-
-const StyledMenuList = decorate(MenuList);
-export { StyledMenuList as MenuList };

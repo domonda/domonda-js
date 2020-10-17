@@ -1,37 +1,34 @@
 /**
  *
- * RowSticky
+ * Row/RowSticky
  *
  */
 
 import React from 'react';
 import clsx from 'clsx';
+
+import { useStyles } from 'react-treat';
+
 import { Config } from '../makeRow';
 
-// decorate
-import decorate, { Decorate } from './decorate';
+import * as styles from './makeRowSticky.treat';
 
 export interface RowStickyProps extends React.HTMLAttributes<HTMLElement> {
-  classes?: Partial<Decorate['classes']>;
   component?: React.ComponentType<{ className: string; role: string }>;
 }
 
 export function makeRowSticky<Item>(_0: Config<Item>) {
-  const RowSticky = React.forwardRef<HTMLElement, RowStickyProps & Decorate>(function RowSticky(
-    props,
-    ref,
-  ) {
-    const { children, classes, className, component: Component = 'div', ...rest } = props;
+  const RowSticky = React.forwardRef<HTMLElement, RowStickyProps>(function RowSticky(props, ref) {
+    const { children, className, component: Component = 'div', ...rest } = props;
+
+    const classes = useStyles(styles);
+
     return (
-      <Component {...rest} className={clsx(classes.root, className)} role="row" ref={ref as any}>
+      <Component {...rest} ref={ref as any} className={clsx(classes.root, className)} role="row">
         {children}
       </Component>
     );
   });
 
-  if (process.env.NODE_ENV !== 'production') {
-    RowSticky.displayName = 'RowSticky';
-  }
-
-  return React.memo(decorate(RowSticky));
+  return React.memo(RowSticky);
 }

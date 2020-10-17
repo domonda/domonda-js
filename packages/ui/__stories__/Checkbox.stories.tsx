@@ -9,7 +9,7 @@ stories.add('Overview', () => {
   return (
     <>
       <div>
-        <Checkbox label="Filter incoming invoices" size="tiny" />
+        <Checkbox label="Filter incoming invoices" size="small" />
       </div>
       <br />
       <div>
@@ -33,14 +33,15 @@ stories.add('Overview', () => {
       <br />
       <div>
         <Checkbox
+          wrap="hover"
           label="I acknowledge that this action cannot be undone"
           color="warning"
-          size="medium"
+          size="large"
         />
       </div>
       <br />
       <div>
-        <Checkbox size="large" />
+        <Checkbox size="huge" />
       </div>
     </>
   );

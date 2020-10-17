@@ -1,52 +1,14 @@
 import React, { useMemo, useState } from 'react';
 import { storiesOf } from '@storybook/react';
 import { Autocomplete } from '../src/Autocomplete';
-import { createStyles, withStyles, WithStyles } from '../src/styles';
+
+// treat
+import * as stylesRef from './Autocomplete.treat';
+import { useStyles } from 'react-treat';
 
 const stories = storiesOf('Autocomplete', module);
 
-const styles = createStyles(({ spacing, palette, typography, shape }) => ({
-  inlineAutocompleteContainer: {
-    backgroundColor: palette.gray100,
-    width: 256,
-    borderRadius: shape.borderRadius.small,
-    overflow: 'hidden',
-  },
-  lightInput: {
-    padding: spacing('tiny'),
-    color: palette.white,
-    fontWeight: typography.weights.semiBold,
-    backgroundColor: palette.lighten('gray100', 0.2),
-  },
-  lightInputEndSvg: {
-    bottom: `${spacing('tiny') + 1}px !important`,
-    right: `${spacing('tiny')}px !important`,
-  },
-  lightPaper: {
-    border: 0,
-    backgroundColor: 'transparent',
-  },
-  lightMenuItem: {
-    color: palette.gray08,
-    fontWeight: typography.weights.medium,
-    '&:hover': {
-      color: palette.white,
-      backgroundColor: palette.lighten('gray100', 0.1),
-    },
-  },
-  lightMenuItemSelected: {
-    color: palette.white,
-    backgroundColor: palette.darken('gray100', 0.4),
-  },
-  lightMenuItemHighlighted: {
-    color: palette.white,
-    backgroundColor: palette.lighten('gray100', 0.1),
-  },
-}));
-
-const Overview: React.FC<WithStyles<typeof styles>> = (props) => {
-  const { classes } = props;
-
+const Overview: React.FC = () => {
   const passwords = useMemo(
     () =>
       Array(1000)
@@ -56,6 +18,8 @@ const Overview: React.FC<WithStyles<typeof styles>> = (props) => {
   );
 
   const [refinedPasswords, setRefinedPasswords] = useState(passwords);
+
+  const classes = useStyles(stylesRef);
 
   return (
     <>
@@ -84,15 +48,11 @@ const Overview: React.FC<WithStyles<typeof styles>> = (props) => {
             className: classes.lightPaper,
           }}
           MenuItemProps={{
-            classes: {
-              root: classes.lightMenuItem,
-              highlighted: classes.lightMenuItemHighlighted,
-              selected: classes.lightMenuItemSelected,
-            },
+            className: classes.lightMenuItem,
           }}
           InputProps={{
             naked: true,
-            classes: { input: classes.lightInput, endSvg: classes.lightInputEndSvg },
+            className: classes.inlineAutocompleteInput,
             endSvg: (
               <svg
                 aria-hidden="true"
@@ -124,6 +84,4 @@ const Overview: React.FC<WithStyles<typeof styles>> = (props) => {
   );
 };
 
-const StyledOverview = withStyles(styles)(Overview);
-
-stories.add('Overview', () => <StyledOverview />);
+stories.add('Overview', () => <Overview />);

@@ -7,37 +7,37 @@
 import React from 'react';
 import clsx from 'clsx';
 
-// decorate
-import { decorate, Decorate } from './decorate';
+import { useStyles } from 'react-treat';
+
+import * as styles from './MenuItem.treat';
 
 export interface MenuItemProps extends React.HTMLAttributes<HTMLLIElement> {
-  classes?: Partial<Decorate['classes']>;
   component?: string | React.ComponentType<React.HTMLAttributes<HTMLElement>>;
   highlighted?: boolean;
   selected?: boolean;
   disabled?: boolean;
 }
 
-const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps & Decorate>(function MenuItem(
+export const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(function MenuItem(
   props,
   ref,
 ) {
   const {
-    component: Component = 'li' as React.ElementType<React.ComponentPropsWithRef<'li'>>,
     children,
-    classes,
     className,
+    component: Component = 'li' as React.ElementType<React.ComponentPropsWithRef<'li'>>,
     highlighted,
-    onClick,
-    tabIndex,
     selected,
     disabled,
+    tabIndex,
+    onClick,
     ...rest
   } = props;
 
+  const classes = useStyles(styles);
+
   return (
     <Component
-      role={onClick ? 'button' : undefined}
       {...rest}
       ref={ref}
       className={clsx(
@@ -48,17 +48,11 @@ const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps & Decorate>(funct
         disabled && classes.disabled,
         className,
       )}
-      onClick={onClick}
+      role={onClick ? 'button' : undefined}
       tabIndex={onClick && !tabIndex ? 0 : tabIndex}
+      onClick={onClick}
     >
       <span className={classes.text}>{children}</span>
     </Component>
   );
 });
-
-if (process.env.NODE_ENV !== 'production') {
-  MenuItem.displayName = 'MenuItem';
-}
-
-const StyledMenuItem = decorate(MenuItem);
-export { StyledMenuItem as MenuItem };
