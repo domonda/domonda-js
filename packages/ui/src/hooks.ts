@@ -4,9 +4,8 @@
  *
  */
 
-import React, { ReactElement, useState, useRef, useCallback, useEffect, useMemo } from 'react';
+import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import ResizeObserver from 'resize-observer-polyfill';
-import { shallowEqual } from 'fast-equals';
 
 function useForceUpdate() {
   const [, setCounter] = useState(0);
@@ -88,21 +87,4 @@ export function useForkRef<T>(
       setRef(refB, refValue);
     };
   }, [refA, refB]);
-}
-
-export function useMemoRenderer<P = Record<string, any>>(
-  props: P,
-  render: (props: P) => ReactElement | null,
-  propsAreEqual: (prev: P, next: P) => boolean = shallowEqual,
-) {
-  const propsRef = useRef<P>();
-  const elementRef = useRef<ReactElement | null>();
-
-  if (!propsRef.current || !propsAreEqual(propsRef.current, props)) {
-    elementRef.current = render(props);
-  }
-
-  propsRef.current = props;
-
-  return elementRef.current as ReactElement | null;
 }
