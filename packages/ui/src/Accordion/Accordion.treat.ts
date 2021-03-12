@@ -13,12 +13,12 @@ export const open = style(({ palette }) => ({
   },
 }));
 
-export const button = style(({ palette, sizing }) => ({
+export const button = style(({ palette, sizing, transition }) => ({
   alignItems: 'center',
   display: 'flex',
   overflow: 'visible',
   width: 'auto',
-  padding: sizing('small'),
+  padding: sizing('regular'),
   border: 0,
   outline: 'none',
   margin: 0,
@@ -31,11 +31,12 @@ export const button = style(({ palette, sizing }) => ({
   webkitFontSmoothing: 'inherit',
   mozOsxFontSmoothing: 'inherit',
   webkitAppearance: 'none',
+  transition: transition.create(['background-color']),
   ':hover': {
-    backgroundColor: palette.lightest('gray08'),
+    backgroundColor: palette.lightest('accent'),
   },
   ':focus': {
-    outline: `2px solid ${palette.light('primary')}`,
+    outline: `${palette.focus} auto 5px`,
   },
   ':active': {
     outline: 'none',
@@ -47,9 +48,10 @@ export const labelContent = style({
 });
 
 export const labelIcon = style(({ sizing }) => ({
-  marginLeft: sizing('tiny'),
+  display: 'inline-flex',
+  marginLeft: sizing('small'),
 }));
 
 export const content = style(({ sizing }) => ({
-  padding: sizing('tiny', 'small', 'small', 'small'),
+  padding: sizing('small', 'regular', 'regular', 'regular'),
 }));
