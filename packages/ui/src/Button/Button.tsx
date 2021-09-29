@@ -10,6 +10,7 @@ import { Color } from '../styles/palette';
 import { Size } from '../styles/sizes';
 import { useStyles } from 'react-treat';
 import * as classesRef from './Button.treat';
+import * as buttonGroupClassesRef from './ButtonGroup.treat';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   component?: string | React.ComponentType<React.HTMLAttributes<HTMLElement>>;
@@ -34,6 +35,7 @@ export const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Bu
       ...rest
     } = props;
     const classes = useStyles(classesRef);
+    const buttonGroupClasses = useStyles(buttonGroupClassesRef);
 
     return (
       <Component
@@ -41,6 +43,7 @@ export const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Bu
         ref={ref as any}
         className={clsx(
           classes.root,
+          buttonGroupClasses.Button,
           classes.variants[variant],
           disabled && classes.disabled,
           dense && classes.dense,

@@ -1,5 +1,5 @@
 import { style, globalStyle } from 'treat';
-import { root as buttonRoot } from './Button.treat';
+import { root as buttonRoot } from '../Button/Button.treat';
 
 export const root = style(({ shadows, shape }) => ({
   flexWrap: 'nowrap',

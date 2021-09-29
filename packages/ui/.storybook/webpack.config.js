@@ -1,5 +1,5 @@
 const path = require('path');
-const TreatPlugin = require('treat/webpack-plugin');
+const { TreatPlugin } = require('treat/webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = ({ config }) => {

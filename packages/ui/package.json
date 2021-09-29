@@ -32,9 +32,9 @@
   "dependencies": {
     "clsx": "^1.1.1",
     "deepmerge": "^4.2.2",
-    "react-treat": "^1.2.4",
+    "react-treat": "^2.0.1",
     "resize-observer-polyfill": "^1.5.1",
-    "treat": "^1.2.2"
+    "treat": "^2.0.2"
   },
   "devDependencies": {
     "@storybook/addon-info": "^5.3.19",
